@@ -1,0 +1,31 @@
+[package]
+name = "utf8fx"
+version = "0.1.0"
+edition = "2021"
+authors = ["Blackwell Systems"]
+description = "Unicode text effects for markdown and beyond"
+repository = "https://github.com/utf8fx/utf8fx-rs"
+license = "MIT"
+keywords = ["unicode", "markdown", "text", "styling", "converter"]
+categories = ["text-processing", "command-line-utilities"]
+readme = "README.md"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+regex = "1.10"
+thiserror = "1.0"
+lazy_static = "1.4"
+
+[dev-dependencies]
+criterion = "0.5"
+tempfile = "3.8"
+
+[lib]
+name = "utf8fx"
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
