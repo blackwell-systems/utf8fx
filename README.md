@@ -116,28 +116,6 @@ Add to your `Cargo.toml`:
 utf8fx = "0.1"
 ```
 
-## Development Status
-
-**Phase 1: Core Library** - ✓ Complete
-- Character mappings for 19 styles
-- Comprehensive test suite
-- Full documentation
-
-**Phase 2: CLI Tool** - In Progress
-- Command-line interface for text conversion
-- Markdown file processing
-- Template syntax support
-
-**Phase 3: WASM Bindings** - Planned
-- Browser-based usage
-- npm package
-- Web demo
-
-**Phase 4: Ecosystem** - Planned
-- Python bindings
-- Hugo/Jekyll integrations
-- VS Code extension
-
 ## Project Structure
 
 ```
@@ -180,13 +158,6 @@ Contributions are welcome! Please read our contributing guidelines (coming soon)
 ## License
 
 MIT License - see LICENSE file for details
-
-## Acknowledgments
-
-- Unicode Consortium for character specifications
-- Mathematical Alphanumeric Symbols (U+1D400–U+1D7FF)
-- Enclosed Alphanumerics (U+2460–U+24FF, U+1F100–U+1F1FF)
-- Halfwidth and Fullwidth Forms (U+FF00–U+FFEF)
 
 ## Links
 
