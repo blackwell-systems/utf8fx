@@ -170,7 +170,7 @@ mod tests {
     fn test_list_styles() {
         let converter = Converter::new().unwrap();
         let styles = converter.list_styles();
-        assert_eq!(styles.len(), 11);
+        assert_eq!(styles.len(), 19);
     }
 
     #[test]

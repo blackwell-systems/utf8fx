@@ -47,12 +47,20 @@ diff <(utf8fx process examples/demo-input.md) examples/demo-output.md
 - `negative-squared` (alias: `neg-sq`)
 - `negative-circled` (alias: `neg-circle`)
 - `squared-latin` (alias: `sq-latin`)
+- `circled-latin` (alias: `circled`, `circle`)
 - `small-caps` (alias: `sc`)
 - `monospace` (alias: `mono`)
 - `double-struck` (alias: `ds`)
+- `sans-serif` (alias: `ss`, `sans`)
 - `sans-serif-bold` (alias: `ssb`)
+- `sans-serif-italic` (alias: `ssi`, `sans-italic`)
+- `sans-serif-bold-italic` (alias: `ssbi`, `sans-bold-italic`)
 - `italic` (alias: `it`)
 - `bold-italic` (alias: `bi`)
+- `script` (alias: `scr`, `cursive`, `calligraphic`)
+- `bold-script` (alias: `bscr`, `bold-cursive`)
+- `fraktur` (alias: `fr`, `gothic`, `blackletter`)
+- `bold-fraktur` (alias: `bfr`, `bold-gothic`)
 
 ## Integration Examples
 

@@ -6,7 +6,7 @@ Transform text into various Unicode styles (mathematical bold, full-width, negat
 
 ## Features
 
-- Convert text to 11 different Unicode styles
+- Convert text to 19 different Unicode styles
 - Style aliases for shorter names (e.g., `mb` for `mathbold`)
 - Preserves whitespace, punctuation, and unsupported characters
 - Zero-copy operations for maximum performance
@@ -15,19 +15,40 @@ Transform text into various Unicode styles (mathematical bold, full-width, negat
 
 ## Available Styles
 
+### Bold & Emphasis
 | Style | Example | Use Case |
 |-------|---------|----------|
 | `mathbold` | 𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓 | Professional headers |
 | `fullwidth` | ＢＬＡＣＫＤＯＴ | Substantial emphasis |
+| `sans-serif-bold` | 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧 | Modern, strong |
+| `sans-serif-bold-italic` | 𝘽𝙇𝘼𝘾𝙆𝘿𝙊𝙏 | Maximum emphasis |
+
+### Boxed Styles
+| Style | Example | Use Case |
+|-------|---------|----------|
 | `negative-squared` | 🅱🅻🅰🅲🅺🅳🅾🆃 | Maximum contrast |
 | `negative-circled` | 🅑🅛🅐🅒🅚🅓🅞🅣 | Bold, rounded |
 | `squared-latin` | 🄱🄻🄰🄲🄺🄳🄾🅃 | Elegant boxes |
-| `small-caps` | ʙʟᴀᴄᴋᴅᴏᴛ | Subtle elegance |
-| `monospace` | 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝 | Code-like |
-| `double-struck` | 𝔹𝕃𝔸ℂ𝕂𝔻𝕆𝕋 | Outline style |
-| `sans-serif-bold` | 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧 | Modern, strong |
+| `circled-latin` | Ⓑⓛⓐⓒⓚⓓⓞⓣ | Playful circles |
+
+### Elegant & Script
+| Style | Example | Use Case |
+|-------|---------|----------|
+| `script` | 𝐵𝐿𝒜𝒞𝒦𝒟𝒪𝒯 | Elegant cursive |
+| `bold-script` | 𝓑𝓛𝓐𝓒𝓚𝓓𝓞𝓣 | Heavy cursive |
+| `fraktur` | 𝔅𝔏𝔄ℭ𝔎𝔇𝔒𝔗 | Gothic/blackletter |
+| `bold-fraktur` | 𝕭𝕷𝕬𝕮𝕶𝕯𝕺𝕿 | Heavy Gothic |
 | `italic` | 𝐵𝐿𝐴𝐶𝐾𝐷𝑂𝑇 | Flowing emphasis |
 | `bold-italic` | 𝑩𝑳𝑨𝑪𝑲𝑫𝑶𝑻 | Strong + flow |
+| `small-caps` | ʙʟᴀᴄᴋᴅᴏᴛ | Subtle elegance |
+
+### Technical
+| Style | Example | Use Case |
+|-------|---------|----------|
+| `monospace` | 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝 | Code-like |
+| `double-struck` | 𝔹𝕃𝔸ℂ𝕂𝔻𝕆𝕋 | Outline style |
+| `sans-serif` | 𝖡𝖫𝖠𝖢𝖪𝖣𝖮𝖳 | Clean, modern |
+| `sans-serif-italic` | 𝘉𝘓𝘈𝘊𝘒𝘋𝘖𝘛 | Modern slant |
 
 ## Quick Start
 
@@ -68,7 +89,7 @@ utf8fx = "0.1"
 ## Development Status
 
 **Phase 1: Core Library** - ✓ Complete
-- Character mappings for 11 styles
+- Character mappings for 19 styles
 - Comprehensive test suite
 - Full documentation
 
