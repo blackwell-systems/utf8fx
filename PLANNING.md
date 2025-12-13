@@ -1,7 +1,7 @@
 # utf8fx - Project Planning Document
 
-**Version:** 1.2.0
-**Status:** Active Development
+**Version:** 1.0.0
+**Status:** Production Ready
 **Last Updated:** 2025-12-12
 
 ---
@@ -27,29 +27,28 @@
 
 ---
 
-## Recent Updates
+## v1.0.0 - Initial Release
 
-### v1.2.0 - Character Spacing Feature
-- Added `:spacing=N` template parameter for artistic text layouts
-- CLI flag `--spacing N` for direct conversion
-- Library API: `convert_with_spacing(text, style, spacing)`
-- Perfect for spaced headers, design elements, and distinctive markers
-- 11 new tests added (49 total passing)
-
-### v1.1.0 - Expanded Style Library
-- Increased from 11 to 19 Unicode styles
-- Added: script, bold-script, fraktur, bold-fraktur
-- Added: sans-serif family (regular, italic, bold-italic)
-- Added: circled-latin
-- Complete style categories: Bold, Boxed, Elegant/Script, Technical
-
-### v1.0.0 - Core Release
+**Core Features:**
+- 19 Unicode styles with comprehensive aliases
+- Character spacing support (`:spacing=N` template parameter)
 - State machine template parser (no regex dependencies)
 - CLI tool with convert, list, and process commands
-- 19 Unicode styles with comprehensive aliases
 - Code block and inline code preservation
 - Stdin/stdout support for piping
 - In-place file modification
+- 49 tests passing
+
+**Styles Included:**
+- Bold & Emphasis: mathbold, fullwidth, sans-serif-bold, sans-serif-bold-italic
+- Boxed: negative-squared, negative-circled, squared-latin, circled-latin
+- Elegant & Script: script, bold-script, fraktur, bold-fraktur, italic, bold-italic, small-caps
+- Technical: monospace, double-struck, sans-serif, sans-serif-italic
+
+**Template Syntax:**
+- Basic: `{{style}}text{{/style}}`
+- With spacing: `{{style:spacing=N}}text{{/style}}`
+- CLI: `utf8fx convert --style mathbold --spacing 1 "TEXT"`
 
 ---
 
@@ -116,7 +115,7 @@ utf8fx/
 
 ### Phase 1: Core Library ✅ COMPLETE
 
-**Status:** v1.1.0 - Expanded to 19 styles
+**Status:** v1.0.0 - Production Ready
 
 **Features:**
 - [x] Load styles.json at compile time (via `include_str!`)
@@ -158,7 +157,7 @@ assert_eq!(result, "𝐇 𝐄 𝐀 𝐃 𝐄 𝐑");
 
 ### Phase 2: CLI Tool & Template Parser ✅ COMPLETE
 
-**Status:** v1.2.0 - Fully functional with spacing support
+**Status:** v1.0.0 - Fully functional with spacing support
 
 **Features:**
 - [x] `utf8fx convert` - Convert text directly with spacing support
