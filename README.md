@@ -545,7 +545,7 @@ Colon-separated key=value pairs:
 
 ## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐚𝐭𝐮𝐬
 
-**Current Version:** v1.0.0 (Stable) → v1.1.0 (GitHub Blocks)
+**Current Version:** v1.0.0
 
 **Shipped:**
 - 19 Unicode text styles with aliases

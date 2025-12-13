@@ -752,7 +752,7 @@ if file_exists && content_hash_matches {
 
 ## GitHub Blocks
 
-**Version:** 1.1.0 (shipped as of v1.1)
+**Version:** 1.0.0
 **Module:** `components.rs` (post-processing), `components.json` (definitions)
 
 ### Overview

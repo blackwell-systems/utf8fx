@@ -50,34 +50,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 }
 ```
 
-#### GitHub Blocks
-
-- **Three new components** optimized for GitHub READMEs:
-  - **`section`** - Section header with automatic divider (`{{ui:section:Title/}}`)
-  - **`callout-github`** - Blockquote-style callouts with status indicators (`{{ui:callout-github:TYPE}}CONTENT{{/ui}}`)
-  - **`statusitem`** - Inline status badges (`{{ui:statusitem:Label:Level:Text/}}`)
-- **Blockquote post-processor** - New `PostProcess` enum with `Blockquote` variant
-- **Multiline blockquote support** - Automatically prefixes every line with `"> "` for GitHub compatibility
-- **Empty line handling** - Empty lines in callouts rendered as `">"` (no trailing space)
-- **Composable status rows** - Manually compose multiple status items with ` · ` separator
-- **Four callout types** - `success` (green), `info` (blue), `warning` (yellow), `error` (red)
-- **Example gallery** - `examples/github-blocks.md` demonstrating all GitHub block components
-- **Golden tests** - 11 comprehensive integration tests for GitHub blocks
-- **Whitespace preservation tests** - 10 tests ensuring document structure integrity
-
-**Usage:**
-```markdown
-{{ui:section:Features/}}
-
-{{ui:callout-github:warning}}
-Breaking changes in v2.0!
-{{/ui}}
-
-{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
-```
-
-**Rationale:** GitHub's Markdown renderer has strict constraints (no custom HTML/CSS). These components work within those constraints by using blockquotes and shields.io badges, ensuring READMEs look professional while remaining portable.
-
 #### Documentation
 
 - **SECURITY.md** - Vulnerability reporting process, security best practices, coordinated disclosure policy
@@ -107,12 +79,40 @@ Breaking changes in v2.0!
 
 ### Added
 
+#### GitHub Blocks
+
+- **Three new components** optimized for GitHub READMEs:
+  - **`section`** - Section header with automatic divider (`{{ui:section:Title/}}`)
+  - **`callout-github`** - Blockquote-style callouts with status indicators (`{{ui:callout-github:TYPE}}CONTENT{{/ui}}`)
+  - **`statusitem`** - Inline status badges (`{{ui:statusitem:Label:Level:Text/}}`)
+- **Blockquote post-processor** - New `PostProcess` enum with `Blockquote` variant
+- **Multiline blockquote support** - Automatically prefixes every line with `"> "` for GitHub compatibility
+- **Empty line handling** - Empty lines in callouts rendered as `">"` (no trailing space)
+- **Composable status rows** - Manually compose multiple status items with ` · ` separator
+- **Four callout types** - `success` (green), `info` (blue), `warning` (yellow), `error` (red)
+- **Example gallery** - `examples/github-blocks.md` demonstrating all GitHub block components
+- **Golden tests** - 11 comprehensive integration tests for GitHub blocks
+- **Whitespace preservation tests** - 10 tests ensuring document structure integrity
+
+**Usage:**
+```markdown
+{{ui:section:Features/}}
+
+{{ui:callout-github:warning}}
+Breaking changes in v2.0!
+{{/ui}}
+
+{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
+```
+
+**Rationale:** GitHub's Markdown renderer has strict constraints (no custom HTML/CSS). These components work within those constraints by using blockquotes and shields.io badges, ensuring READMEs look professional while remaining portable.
+
 #### Component-First Architecture
 
 **Major architectural shift to semantic UI components:**
 
 - **ComponentsRenderer** - New primary API for high-level semantic elements
-  - 6 UI components shipped: `divider`, `swatch`, `tech`, `status`, `header`, `callout`
+  - 9 UI components shipped: `divider`, `swatch`, `tech`, `status`, `header`, `callout`, `section`, `callout-github`, `statusitem`
   - Expansion model: components expand to primitives (data-driven, not code)
   - Design token integration: named colors resolve from palette.json
   - Template syntax: `{{ui:component/}}` (self-closing) or `{{ui:component}}content{{/ui}}` (block)
@@ -154,7 +154,7 @@ Breaking changes in v2.0!
 
 - **ComponentOutput enum** - Dual expansion mode
   - `Primitive` for image-based components (divider, swatch, tech, status)
-  - `Template` for text-effect components (header, callout)
+  - `Template` for text-effect components (header, callout, section, callout-github, statusitem)
   - Parser automatically routes to correct rendering path
 
 - **ShieldsBackend** - Default renderer (shipped in v1.0.0)
