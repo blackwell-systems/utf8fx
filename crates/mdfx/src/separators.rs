@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use unicode_segmentation::UnicodeSegmentation;
 
 /// A separator character with metadata
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -31,12 +32,12 @@ impl SeparatorsData {
         self.separators.iter().find(|s| s.id == id)
     }
 
-    /// Get separator character by ID, or return the input if it's a single char
+    /// Get separator character by ID, or return the input if it's a single grapheme
     ///
     /// # Validation
     /// - Trims whitespace
     /// - Rejects template delimiters (`:`, `/`, `}`)
-    /// - Requires exactly 1 character (TODO: upgrade to 1 grapheme cluster for emoji support)
+    /// - Requires exactly 1 grapheme cluster (supports emoji with variation selectors)
     pub fn resolve(&self, input: &str) -> Result<String, String> {
         // Normalize: trim whitespace
         let normalized = input.trim();
@@ -50,22 +51,23 @@ impl SeparatorsData {
             return Ok(sep.char.clone());
         }
 
-        // If input is a single character, validate and use it directly
-        if normalized.chars().count() == 1 {
-            let ch = normalized.chars().next().unwrap();
+        // If input is a single grapheme cluster, validate and use it directly
+        let graphemes: Vec<&str> = normalized.graphemes(true).collect();
+        if graphemes.len() == 1 {
+            let grapheme = graphemes[0];
 
-            // Reject template delimiters
-            if ch == ':' || ch == '/' || ch == '}' {
+            // Reject template delimiters (single-char check is sufficient)
+            if grapheme == ":" || grapheme == "/" || grapheme == "}" {
                 return Err(format!(
                     "Character '{}' cannot be used as separator (reserved for template syntax)",
-                    ch
+                    grapheme
                 ));
             }
 
-            return Ok(normalized.to_string());
+            return Ok(grapheme.to_string());
         }
 
-        // Not found and not a single char - provide helpful error
+        // Not found and not a single grapheme - provide helpful error
         Err(self.suggest_separator(normalized))
     }
 
@@ -189,6 +191,23 @@ mod tests {
         let err = result.unwrap_err();
         assert!(err.contains("Did you mean"));
         assert!(err.contains("arrow"));
+    }
+
+    #[test]
+    fn test_grapheme_clusters() {
+        let data = SeparatorsData::load().unwrap();
+
+        // Single emoji (1 grapheme, 1 char)
+        let result = data.resolve("⭐");
+        assert_eq!(result, Ok("⭐".to_string()));
+
+        // Emoji with variation selector (1 grapheme, 2+ chars)
+        let result = data.resolve("👨‍💻");  // Man technologist
+        assert_eq!(result, Ok("👨‍💻".to_string()));
+
+        // Flag emoji (1 grapheme, multiple scalars)
+        let result = data.resolve("🇺🇸");
+        assert_eq!(result, Ok("🇺🇸".to_string()));
     }
 
     #[test]
