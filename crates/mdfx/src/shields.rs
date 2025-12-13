@@ -332,8 +332,13 @@ mod tests {
     #[test]
     fn test_style_alias() {
         let renderer = ShieldsRenderer::new().unwrap();
-        let result = renderer.render_block("cobalt", "flat").unwrap();
+        // Test that "square" alias resolves to "flat-square"
+        let result = renderer.render_block("cobalt", "square").unwrap();
         assert!(result.contains("style=flat-square"));
+
+        // Test that "flat" is now its own style (not alias)
+        let result_flat = renderer.render_block("cobalt", "flat").unwrap();
+        assert!(result_flat.contains("style=flat"));
     }
 
     #[test]

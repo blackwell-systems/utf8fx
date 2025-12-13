@@ -185,7 +185,7 @@ impl SvgBackend {
         // Full implementation would require bundling Simple Icons SVGs
         let font_size = if metrics.height > 24 { 16 } else { 12 };
         let y_pos = metrics.height / 2 + font_size / 3;
-        
+
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"80\" height=\"{}\" viewBox=\"0 0 80 {}\">\n\
   <rect width=\"80\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
@@ -339,5 +339,125 @@ mod tests {
 
         // Different color → different filename
         assert_ne!(result1.file_path(), result2.file_path());
+    }
+
+    #[test]
+    fn test_svg_flat_style_rounded_corners() {
+        let backend = SvgBackend::new("assets");
+        let primitive = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "flat".to_string(),
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
+
+        // Should have rounded corners (rx="3")
+        assert!(svg.contains("rx=\"3\""));
+        // Should be standard height
+        assert!(svg.contains("height=\"20\""));
+    }
+
+    #[test]
+    fn test_svg_flat_square_style_sharp_corners() {
+        let backend = SvgBackend::new("assets");
+        let primitive = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "flat-square".to_string(),
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
+
+        // Should have sharp corners (rx="0")
+        assert!(svg.contains("rx=\"0\""));
+    }
+
+    #[test]
+    fn test_svg_for_the_badge_tall_height() {
+        let backend = SvgBackend::new("assets");
+        let primitive = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "for-the-badge".to_string(),
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
+
+        // Should be taller (height="28")
+        assert!(svg.contains("height=\"28\""));
+        assert!(svg.contains("viewBox=\"0 0 20 28\""));
+    }
+
+    #[test]
+    fn test_svg_plastic_style_has_gradient() {
+        let backend = SvgBackend::new("assets");
+        let primitive = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "plastic".to_string(),
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
+
+        // Should have gradient definition
+        assert!(svg.contains("<linearGradient"));
+        assert!(svg.contains("id=\"shine\""));
+        // Should have overlay rect using gradient
+        assert!(svg.contains("fill=\"url(#shine)\""));
+    }
+
+    #[test]
+    fn test_svg_social_style_very_rounded() {
+        let backend = SvgBackend::new("assets");
+        let primitive = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "social".to_string(),
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
+
+        // Should be very rounded (rx="10")
+        assert!(svg.contains("rx=\"10\""));
+    }
+
+    #[test]
+    fn test_svg_divider_with_style() {
+        let backend = SvgBackend::new("assets");
+        let primitive = Primitive::Divider {
+            colors: vec!["FF0000".to_string(), "00FF00".to_string()],
+            style: "for-the-badge".to_string(),
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
+
+        // Should apply tall height to all blocks
+        assert!(svg.contains("height=\"28\""));
+        // Should have multiple blocks
+        assert!(svg.contains("#FF0000"));
+        assert!(svg.contains("#00FF00"));
+    }
+
+    #[test]
+    fn test_svg_style_affects_filename_hash() {
+        let swatch_flat = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "flat".to_string(),
+        };
+        let swatch_square = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "flat-square".to_string(),
+        };
+
+        let filename_flat = SvgBackend::filename_for(&swatch_flat);
+        let filename_square = SvgBackend::filename_for(&swatch_square);
+
+        // Different styles should produce different filenames
+        assert_ne!(filename_flat, filename_square);
+        // Both should start with "swatch_"
+        assert!(filename_flat.starts_with("swatch_"));
+        assert!(filename_square.starts_with("swatch_"));
     }
 }

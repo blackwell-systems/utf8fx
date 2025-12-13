@@ -2027,3 +2027,103 @@ All blocks work with standard Markdown.
         assert!(result.contains("**Tests**"));
     }
 }
+
+#[cfg(test)]
+mod badge_style_tests {
+    use super::*;
+
+    #[test]
+    fn test_swatch_with_flat_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:F41C80:style=flat/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=flat"));
+        assert!(!output.contains("style=flat-square"));
+    }
+
+    #[test]
+    fn test_swatch_with_flat_square_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:F41C80:style=flat-square/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=flat-square"));
+    }
+
+    #[test]
+    fn test_swatch_with_for_the_badge_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:F41C80:style=for-the-badge/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=for-the-badge"));
+    }
+
+    #[test]
+    fn test_swatch_with_plastic_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:F41C80:style=plastic/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=plastic"));
+    }
+
+    #[test]
+    fn test_swatch_with_social_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:F41C80:style=social/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=social"));
+    }
+
+    #[test]
+    fn test_swatch_default_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:F41C80/}}";
+        let output = parser.process(input).unwrap();
+        // Should default to flat-square
+        assert!(output.contains("style=flat-square"));
+    }
+
+    #[test]
+    fn test_divider_with_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:divider:style=for-the-badge/}}";
+        let output = parser.process(input).unwrap();
+        // All divider blocks should have the same style
+        assert!(output.contains("style=for-the-badge"));
+    }
+
+    #[test]
+    fn test_tech_with_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:tech:rust:style=plastic/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=plastic"));
+        assert!(output.contains("logo=rust"));
+    }
+
+    #[test]
+    fn test_status_with_style() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:status:success:style=flat/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=flat"));
+    }
+
+    #[test]
+    fn test_multiple_components_different_styles() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:FF0000:style=flat/}} {{ui:swatch:00FF00:style=for-the-badge/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=flat"));
+        assert!(output.contains("style=for-the-badge"));
+    }
+
+    #[test]
+    fn test_style_with_palette_color() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{ui:swatch:accent:style=plastic/}}";
+        let output = parser.process(input).unwrap();
+        assert!(output.contains("style=plastic"));
+        // Should resolve accent color
+        assert!(output.contains("F41C80"));
+    }
+}
