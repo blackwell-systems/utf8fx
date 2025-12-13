@@ -391,10 +391,11 @@ let parser = TemplateParser::new()?;  // Uses shields.io by default
 let output = parser.process(input)?;
 ```
 
-**Output Example:**
+**Markdown Output:**
 ```markdown
 ![](https://img.shields.io/badge/-22C55E?style=flat-square)
 ```
+This URL renders as: ![](https://img.shields.io/badge/-22C55E?style=flat-square)
 
 **When to use:**
 - GitHub READMEs (renders automatically)
@@ -429,10 +430,11 @@ for asset in assets {
 }
 ```
 
-**Output Example:**
+**Markdown Output:**
 ```markdown
 ![](assets/mdfx/swatch_8490176a786b203c.svg)
 ```
+This markdown reference will render as an embedded SVG when viewed.
 
 **Generated Files:**
 ```
