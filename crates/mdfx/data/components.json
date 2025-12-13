@@ -40,6 +40,28 @@
       "description": "Callout box with status indicator",
       "args": ["level"],
       "template": "{{frame:solid-left}}{{shields:block:color=$1:style=flat-square/}} $content{{/frame}}"
+    },
+    "section": {
+      "type": "expand",
+      "self_closing": true,
+      "description": "Section header with divider (GitHub-optimized)",
+      "args": ["title"],
+      "template": "## $1\n{{ui:divider/}}"
+    },
+    "callout-github": {
+      "type": "expand",
+      "self_closing": false,
+      "description": "GitHub-style blockquote callout with status indicator",
+      "args": ["type"],
+      "template": "{{ui:status:$1/}} **Note**\n$content",
+      "post_process": "blockquote"
+    },
+    "statusitem": {
+      "type": "expand",
+      "self_closing": true,
+      "description": "Inline status indicator with label and text",
+      "args": ["label", "level", "text"],
+      "template": "{{ui:status:$2/}} **$1**: $3"
     }
   }
 }
