@@ -12,6 +12,9 @@
 - [Expansion Model](#expansion-model)
 - [Parser Design](#parser-design)
 - [Multi-Backend Rendering](#multi-backend-rendering) 🆕
+- [Separator System](#separator-system) 🆕
+- [Asset Manifest System](#asset-manifest-system) 🆕
+- [GitHub Blocks](#github-blocks) 🆕
 - [Data Packaging](#data-packaging)
 - [Performance Characteristics](#performance-characteristics)
 - [Key Design Decisions](#key-design-decisions)
@@ -57,7 +60,7 @@ mdfx/
 ### Design Rationale
 
 **Library Crate (`mdfx`):**
-- Minimal dependencies (4 total)
+- Minimal dependencies (7 total: serde, serde_json, thiserror, lazy_static, unicode-segmentation, sha2, chrono)
 - No CLI-specific deps (clap, colored excluded)
 - Can be embedded in other Rust applications
 - Smaller compile times for library users
@@ -744,6 +747,225 @@ if file_exists && content_hash_matches {
 - Only regenerate assets with changed primitives
 - Reuse existing SVGs when possible
 - Track which source files reference which assets
+
+---
+
+## GitHub Blocks
+
+**Version:** 1.1.0 (shipped as of v1.1)
+**Module:** `components.rs` (post-processing), `components.json` (definitions)
+
+### Overview
+
+GitHub Blocks are specialized components optimized for GitHub's Markdown renderer constraints (no custom HTML/CSS). They use blockquotes and shields.io badges to create professional-looking READMEs that remain portable.
+
+### Architecture
+
+```mermaid
+graph TD
+    TEMPLATE[Template Syntax] --> PARSER[Parser]
+    PARSER --> EXPAND[Component Expansion]
+    EXPAND --> POSTPROC{Post-Process?}
+    POSTPROC -->|Blockquote| BQ[Apply Blockquote]
+    POSTPROC -->|None| DIRECT[Direct Output]
+    BQ --> RENDER[Rendered Markdown]
+    DIRECT --> RENDER
+
+    RENDER --> GITHUB[GitHub Renderer]
+    GITHUB --> DISPLAY[Visual Display]
+```
+
+### Component Types
+
+Three GitHub-optimized components:
+
+#### 1. section
+
+**Purpose:** Section headers with visual dividers
+
+**Syntax:** `{{ui:section:TITLE/}}`
+
+**Expansion:**
+```
+## TITLE
+{{ui:divider/}}
+```
+
+**Output:** Markdown header (`##`) followed by divider badge row
+
+**Use Cases:**
+- Organizing long READMEs
+- Creating visual hierarchy
+- Separating major document sections
+
+#### 2. callout-github
+
+**Purpose:** Blockquote callouts with status indicators
+
+**Syntax:** `{{ui:callout-github:TYPE}}CONTENT{{/ui}}`
+
+**Types:** `success`, `info`, `warning`, `error`
+
+**Expansion Process:**
+1. Template substitution: `{{ui:status:TYPE/}} **Note**\nCONTENT`
+2. Post-processing: Apply blockquote to every line
+
+**Output:**
+```markdown
+> ![](https://img.shields.io/badge/-%20-COLOR?style=flat-square) **Note**
+> CONTENT_LINE_1
+> CONTENT_LINE_2
+>
+> CONTENT_LINE_4
+```
+
+**Post-Processing Rules:**
+- Prefix every line with `"> "`
+- Empty lines become `">"`  (no trailing space)
+- Preserves indentation within content
+
+**Color Mapping:**
+| Type | Color Hex | Visual |
+|------|-----------|--------|
+| `success` | `22C55E` | Green (achievements) |
+| `info` | `3B82F6` | Blue (information) |
+| `warning` | `EAB308` | Yellow (cautions) |
+| `error` | `EF4444` | Red (critical issues) |
+
+#### 3. statusitem
+
+**Purpose:** Inline status badges with labels
+
+**Syntax:** `{{ui:statusitem:LABEL:LEVEL:TEXT/}}`
+
+**Expansion:** `{{ui:status:LEVEL/}} **LABEL**: TEXT`
+
+**Output:** `![](badge_url) **LABEL**: TEXT`
+
+**Composition Pattern:**
+```markdown
+{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
+```
+
+Outputs:
+```markdown
+![](badge1) **Build**: passing · ![](badge2) **Tests**: 217
+```
+
+### Post-Processing System
+
+**Implementation:** `components.rs`
+
+```rust
+#[derive(Debug, Clone, Deserialize, PartialEq, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum PostProcess {
+    #[default]
+    None,
+    Blockquote,
+}
+```
+
+**Blockquote Processor:**
+```rust
+fn apply_blockquote(&self, content: &str) -> String {
+    content
+        .lines()
+        .map(|line| {
+            if line.trim().is_empty() {
+                ">".to_string()  // Empty blockquote line
+            } else {
+                format!("> {}", line)
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+```
+
+**Execution Order:**
+1. Template string substitution (`$1`, `$2`, `$content`)
+2. Palette reference resolution
+3. **Post-processing** (blockquote, etc.)
+
+This ensures nested templates (like `{{ui:status:...}}`) are expanded before blockquote formatting is applied.
+
+### Why GitHub Blocks?
+
+**Constraints:**
+- GitHub Markdown doesn't support custom HTML/CSS
+- No JavaScript, no custom styling
+- Must work in rendered markdown view
+
+**Solutions:**
+| Constraint | Solution |
+|------------|----------|
+| No custom boxes | Use blockquotes (`>`) |
+| No colors | Use shields.io badge colors |
+| No icons | Use shield badge placeholders |
+| No click handlers | Static markdown only |
+
+**Benefits:**
+- ✅ Works on GitHub, GitLab, Bitbucket
+- ✅ Renders in email notifications
+- ✅ Accessible (screen readers work)
+- ✅ No dependencies (shields.io CDN)
+- ✅ Graceful degradation
+
+### Usage Examples
+
+**README Header:**
+```markdown
+# MyProject
+
+{{ui:statusitem:Version:info:2.1.0/}} · {{ui:statusitem:License:info:MIT/}}
+
+A blazingly fast markdown processor.
+
+{{ui:section:Features/}}
+
+- Unicode text styling
+- Component-based templates
+```
+
+**Callout with Nested Markdown:**
+```markdown
+{{ui:callout-github:warning}}
+**Breaking Changes**
+
+- API v1 deprecated
+- New syntax required
+
+See [Migration Guide](MIGRATING.md).
+{{/ui}}
+```
+
+**Status Dashboard:**
+```markdown
+{{ui:section:Project Status/}}
+
+{{ui:statusitem:Build:success:✓/}} {{ui:statusitem:Test:success:✓/}} {{ui:statusitem:Deploy:success:✓/}}
+```
+
+### Design Principles
+
+1. **Constraint-First** - Design within GitHub's limitations
+2. **Composable** - Mix and match blocks freely
+3. **Semantic** - Use appropriate types for content
+4. **Portable** - Works across markdown renderers
+5. **Maintainable** - No brittle HTML hacks
+
+### Future Enhancements
+
+**Planned (v1.2):**
+- `grid` component for table generation
+- `statusrow` with automatic joining
+- Custom title support for callouts
+
+**Considered:**
+- Auto-detect callout type from content
+- Nested callouts (blockquote within blockquote)
+- Icon support via Simple Icons integration
 
 ---
 

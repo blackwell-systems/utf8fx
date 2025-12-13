@@ -2,7 +2,7 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-189_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Tests](https://img.shields.io/badge/tests-217_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 
 𝗠𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗲𝗳𝗳𝗲𝗰𝘁𝘀: 𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝘀𝘁𝘆𝗹𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗜 𝗰𝗼𝗺𝗽𝗼𝗻𝗲𝗻𝘁𝘀
 
@@ -108,6 +108,28 @@ Uses [Simple Icons](https://simpleicons.org/) logo library (2000+ logos availabl
 {{ui:callout:warning}}Breaking change in v2.0{{/ui}}
 {{ui:callout:error}}Deprecated{{/ui}}
 ```
+
+### GitHub Blocks 🆕
+
+**Section Headers** - Headers with automatic dividers
+```markdown
+{{ui:section:Installation/}}
+{{ui:section:Features/}}
+```
+
+**GitHub Callouts** - Blockquote-style callouts optimized for GitHub
+```markdown
+{{ui:callout-github:warning}}
+Breaking changes in v2.0!
+{{/ui}}
+```
+
+**Status Items** - Inline status badges for project metadata
+```markdown
+{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
+```
+
+These components work within GitHub's Markdown constraints (no custom HTML/CSS), using blockquotes and shields.io badges. See [examples/github-blocks.md](examples/github-blocks.md) for a complete gallery.
 
 ### Design Tokens
 
@@ -523,24 +545,32 @@ Colon-separated key=value pairs:
 
 ## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐚𝐭𝐮𝐬
 
-**Current Version:** v0.1.0 (Pre-release)
+**Current Version:** v1.0.0 (Stable) → v1.1.0 (GitHub Blocks)
 
 **Shipped:**
 - 19 Unicode text styles with aliases
-- 6 UI components (divider, swatch, tech, status, header, callout)
+- 9 UI components (divider, swatch, tech, status, header, callout, section, callout-github, statusitem)
 - 27 inline frames
 - 6 alphanumeric badge types
-- Custom separators and spacing
+- Data-driven separator system (12 named + direct Unicode)
+- Asset manifest system (SHA-256 verification, cleanup)
+- GitHub Blocks (blockquote callouts, section headers, status rows)
 - Design token system (palette.json)
 - Template composition and nesting
+- Multi-backend rendering (shields.io, SVG)
 - CLI and Rust library
+- 217 passing tests
 
-**Planned:**
-- Additional UI components (progress bars, tables, diagrams)
+**v1.2.0 Roadmap:**
+- Grid component (table generation)
+- StatusRow component (auto-joining)
+- Custom callout titles
+
+**Future:**
+- Pill primitive (message badges)
 - WASM bindings for browser/Node.js
 - VS Code extension with preview
 - Watch mode for live regeneration
-- Component marketplace/gallery
 
 ## 𝐂𝐨𝐧𝐭𝐫𝐢𝐛𝐮𝐭𝐢𝐧𝐠
 

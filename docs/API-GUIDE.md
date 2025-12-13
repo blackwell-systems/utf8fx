@@ -1834,6 +1834,268 @@ Planned features:
 
 ---
 
+## GitHub Blocks
+
+GitHub Blocks are specialized components optimized for GitHub's Markdown renderer, using blockquotes and badges to create professional READMEs within GitHub's constraints.
+
+### Overview
+
+Three components provide GitHub-compatible layouts:
+- **section** - Headers with dividers
+- **callout-github** - Blockquote callouts
+- **statusitem** - Inline status badges
+
+### section Component
+
+Creates section headers with automatic visual dividers.
+
+**Syntax:** `{{ui:section:TITLE/}}`
+
+**Component Type:** Expand (self-closing)
+
+**Template Expansion:**
+```markdown
+## TITLE
+{{ui:divider/}}
+```
+
+**Example:**
+```rust
+use mdfx::TemplateParser;
+
+let parser = TemplateParser::new()?;
+let input = "{{ui:section:Installation/}}";
+let result = parser.process(input)?;
+
+// Outputs:
+// ## Installation
+// ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)...
+```
+
+**Use Cases:**
+- README section organization
+- Documentation structure
+- Visual hierarchy
+
+### callout-github Component
+
+Creates GitHub-compatible blockquote callouts with status indicators.
+
+**Syntax:** `{{ui:callout-github:TYPE}}CONTENT{{/ui}}`
+
+**Component Type:** Expand (block, with blockquote post-processing)
+
+**Types:**
+| Type | Color | Use For |
+|------|-------|---------|
+| `success` | Green (#22C55E) | Achievements, releases |
+| `info` | Blue (#3B82F6) | Information, tips |
+| `warning` | Yellow (#EAB308) | Breaking changes, deprecations |
+| `error` | Red (#EF4444) | Security notices, critical issues |
+
+**Expansion Process:**
+1. Template substitution: `{{ui:status:TYPE/}} **Note**\nCONTENT`
+2. **Post-processing:** Apply blockquote formatter
+
+**Blockquote Post-Processor:**
+```rust
+// Prefixes every line with "> "
+// Empty lines become ">" (no trailing space)
+content.lines()
+    .map(|line| {
+        if line.trim().is_empty() {
+            ">".to_string()
+        } else {
+            format!("> {}", line)
+        }
+    })
+    .join("\n")
+```
+
+**Example:**
+```rust
+use mdfx::TemplateParser;
+
+let parser = TemplateParser::new()?;
+let input = r#"{{ui:callout-github:warning}}
+**Breaking Changes**
+API v1 will be removed in v2.0.
+{{/ui}}"#;
+
+let result = parser.process(input)?;
+
+// Outputs:
+// > ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) **Note**
+// >
+// > **Breaking Changes**
+// > API v1 will be removed in v2.0.
+```
+
+**Multiline Handling:**
+- Preserves empty lines as `">"` in blockquote
+- Supports nested Markdown (lists, bold, links)
+- Maintains indentation within content
+
+### statusitem Component
+
+Creates inline status badges with labels.
+
+**Syntax:** `{{ui:statusitem:LABEL:LEVEL:TEXT/}}`
+
+**Component Type:** Expand (self-closing)
+
+**Args:**
+- `LABEL` - Display label (e.g., "Build", "Tests")
+- `LEVEL` - Status level (`success`, `warning`, `error`, `info`)
+- `TEXT` - Status text (e.g., "passing", "189")
+
+**Template Expansion:**
+```markdown
+{{ui:status:LEVEL/}} **LABEL**: TEXT
+```
+
+**Example:**
+```rust
+use mdfx::TemplateParser;
+
+let parser = TemplateParser::new()?;
+let input = "{{ui:statusitem:Build:success:passing/}}";
+let result = parser.process(input)?;
+
+// Outputs:
+// ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) **Build**: passing
+```
+
+**Composing Status Rows:**
+```rust
+let input = r#"{{ui:statusitem:Build:success:✓/}} · {{ui:statusitem:Tests:success:217/}} · {{ui:statusitem:Coverage:info:94%/}}"#;
+let result = parser.process(input)?;
+
+// Outputs inline row:
+// ![](badge1) **Build**: ✓ · ![](badge2) **Tests**: 217 · ![](badge3) **Coverage**: 94%
+```
+
+### PostProcess API
+
+The post-processing system applies transformations after template expansion.
+
+**Enum Definition:**
+```rust
+use mdfx::PostProcess;
+
+#[derive(Debug, Clone, Deserialize, PartialEq, Default)]
+#[serde(rename_all = "snake_case")]
+pub enum PostProcess {
+    #[default]
+    None,
+    Blockquote,
+}
+```
+
+**Usage in components.json:**
+```json
+{
+  "callout-github": {
+    "type": "expand",
+    "self_closing": false,
+    "template": "{{ui:status:$1/}} **Note**\n$content",
+    "post_process": "blockquote"
+  }
+}
+```
+
+**Adding Custom Post-Processors:**
+
+1. Add variant to `PostProcess` enum
+2. Implement handler in `ComponentsRenderer::expand_template()`
+3. Update component definitions with `"post_process": "your_processor"`
+
+**Example (future):**
+```rust
+pub enum PostProcess {
+    None,
+    Blockquote,
+    JoinWithSeparator(String),  // Future: auto-join items
+    IndentBy(usize),            // Future: add indentation
+}
+```
+
+### GitHub Blocks Examples
+
+**Complete README Section:**
+```rust
+let template = r#"
+{{ui:section:Features/}}
+
+{{ui:callout-github:success}}
+**Production Ready**
+Used by Blackwell Systems in production since 2025.
+{{/ui}}
+
+{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
+"#;
+
+let parser = TemplateParser::new()?;
+let result = parser.process(template)?;
+```
+
+**Output:**
+```markdown
+## Features
+![](divider_badges...)
+
+> ![](green_badge) **Note**
+>
+> **Production Ready**
+> Used by Blackwell Systems in production since 2025.
+
+![](green_badge) **Build**: passing · ![](green_badge) **Tests**: 217
+```
+
+### Design Rationale
+
+**Why blockquotes instead of custom HTML?**
+- Works in GitHub issues, PRs, discussions
+- Renders in email notifications
+- Screen reader compatible
+- No CSP violations
+
+**Why shields.io for status indicators?**
+- Widely cached CDN
+- Standard badge format
+- Customizable colors
+- No maintenance burden
+
+**Why manual composition for status rows?**
+- Keeps initial implementation simple
+- Users can customize separator (` · `, ` | `, emoji)
+- Auto-joining planned for v1.2 (`statusrow` component)
+
+### Best Practices
+
+**Section Headers:**
+- Use for major document breaks
+- Keep titles concise (1-3 words)
+- Use sentence case
+
+**Callouts:**
+- 2-4 lines ideal
+- Match type to content severity
+- Include actionable information
+
+**Status Rows:**
+- Group related metrics
+- Use consistent levels (all success, or mixed intentionally)
+- Keep to 3-5 items per row
+
+### See Also
+
+- [examples/github-blocks.md](../examples/github-blocks.md) - Complete gallery
+- [GITHUB-BLOCKS-PLAN.md](GITHUB-BLOCKS-PLAN.md) - Implementation details
+- [GitHub Blocks section in ARCHITECTURE.md](ARCHITECTURE.md#github-blocks)
+
+---
+
 ## Error Handling
 
 All errors implement `std::error::Error` and use the `thiserror` crate.

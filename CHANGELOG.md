@@ -50,6 +50,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 }
 ```
 
+#### GitHub Blocks
+
+- **Three new components** optimized for GitHub READMEs:
+  - **`section`** - Section header with automatic divider (`{{ui:section:Title/}}`)
+  - **`callout-github`** - Blockquote-style callouts with status indicators (`{{ui:callout-github:TYPE}}CONTENT{{/ui}}`)
+  - **`statusitem`** - Inline status badges (`{{ui:statusitem:Label:Level:Text/}}`)
+- **Blockquote post-processor** - New `PostProcess` enum with `Blockquote` variant
+- **Multiline blockquote support** - Automatically prefixes every line with `"> "` for GitHub compatibility
+- **Empty line handling** - Empty lines in callouts rendered as `">"` (no trailing space)
+- **Composable status rows** - Manually compose multiple status items with ` · ` separator
+- **Four callout types** - `success` (green), `info` (blue), `warning` (yellow), `error` (red)
+- **Example gallery** - `examples/github-blocks.md` demonstrating all GitHub block components
+- **Golden tests** - 11 comprehensive integration tests for GitHub blocks
+- **Whitespace preservation tests** - 10 tests ensuring document structure integrity
+
+**Usage:**
+```markdown
+{{ui:section:Features/}}
+
+{{ui:callout-github:warning}}
+Breaking changes in v2.0!
+{{/ui}}
+
+{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
+```
+
+**Rationale:** GitHub's Markdown renderer has strict constraints (no custom HTML/CSS). These components work within those constraints by using blockquotes and shields.io badges, ensuring READMEs look professional while remaining portable.
+
 #### Documentation
 
 - **SECURITY.md** - Vulnerability reporting process, security best practices, coordinated disclosure policy
@@ -57,6 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CODE_OF_CONDUCT.md** - Contributor Covenant 2.1
 - **ROADMAP.md** - v1.1-v1.3 feature planning with priority matrix
 - **Comprehensive documentation hub** - Restructured docs/README.md with organized navigation similar to dotclaude
+- **examples/github-blocks.md** - Complete gallery of GitHub block components with rendered output
 
 ### Changed
 
@@ -64,11 +93,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dependency count increased** - From 4 to 7: added unicode-segmentation, sha2, chrono
 - **RenderedAsset::File variant** - Now includes `primitive` field for manifest tracking
 - **Documentation theme** - Changed from pink (#f41c80) to blue (#4a9eff) to match Blackwell Systems branding
+- **Test count** - Increased from 189 to 217 tests (21 new tests for GitHub blocks and whitespace handling)
+- **PostProcess enum** - Now derives `Default` (clippy optimization)
 
 ### Fixed
 
 - **Separator resolution** - Now data-driven via separators.json instead of hardcoded match statement
 - **Test coverage** - Fixed obsolete test in renderer/mod.rs for new RenderedAsset structure
+- **Trailing newline preservation** - Parser now correctly preserves trailing newlines after components
+- **Whitespace handling** - Fixed edge cases in component expansion (empty lines, indentation, list contexts)
 
 ## [1.0.0] - 2025-12-13
 
