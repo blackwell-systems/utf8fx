@@ -181,18 +181,18 @@ fn process_file(
             let mut buffer = String::new();
             io::stdin()
                 .read_to_string(&mut buffer)
-                .map_err(|e| Error::IoError(e))?;
+                .map_err(Error::IoError)?;
             buffer
         } else {
             // Read from file
-            fs::read_to_string(path).map_err(|e| Error::IoError(e))?
+            fs::read_to_string(path).map_err(Error::IoError)?
         }
     } else {
         // No input specified, read from stdin
         let mut buffer = String::new();
         io::stdin()
             .read_to_string(&mut buffer)
-            .map_err(|e| Error::IoError(e))?;
+            .map_err(Error::IoError)?;
         buffer
     };
 
@@ -209,7 +209,7 @@ fn process_file(
                     "Cannot use --in-place with stdin",
                 )));
             }
-            fs::write(path, processed).map_err(|e| Error::IoError(e))?;
+            fs::write(path, processed).map_err(Error::IoError)?;
             eprintln!("{} {}", "Processed:".green(), path.display());
         } else {
             return Err(Error::IoError(io::Error::new(
@@ -223,7 +223,7 @@ fn process_file(
             print!("{}", processed);
         } else {
             // Write to file
-            fs::write(path, processed).map_err(|e| Error::IoError(e))?;
+            fs::write(path, processed).map_err(Error::IoError)?;
             eprintln!("{} {}", "Wrote:".green(), path.display());
         }
     } else {
