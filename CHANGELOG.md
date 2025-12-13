@@ -16,10 +16,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - API: `Converter::convert_with_separator(text, style, separator, count)`
 
 - **Decorative Frames** - Wrap text with decorative prefix/suffix elements
-  - 15 frame styles: gradient, solid (left/right/both), lines (light/bold/double/dashed), blocks, arrows, bullets
+  - 27 frame styles: gradient, solid (left/right/both), lines (light/bold/double/dashed), blocks, arrows, bullets, brackets (lenticular, angle, guillemet), symbols (star, diamond, finger), arcs
   - Template syntax: `{{frame:style}}TEXT{{/frame}}`
   - New component: `FrameRenderer` with `apply_frame()` method
   - Data-driven via `data/frames.json` (supports aliases like styles)
+
+- **Badge Component** - Enclosed alphanumeric characters for step indicators and labels
+  - 6 badge types: `circle` (①), `negative-circle` (❶), `double-circle` (⓵), `paren` (⑴), `period` (🄁), `paren-letter` (⒜)
+  - Limited charset: numbers 0-20, lowercase letters a-z
+  - Template syntax: `{{badge:type}}TEXT{{/badge}}`
+  - New component: `BadgeRenderer` with `apply_badge()` method
+  - Data-driven via `data/badges.json` with 200+ character mappings
+  - Use cases: step indicators, priority labels, option lists
 
 - **Full Composition** - Combine styles, separators, and frames naturally
   - Recursive parser processes frames containing styled templates
@@ -33,11 +41,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `FrameRenderer::get_frame()` - Lookup frame by ID or alias
 - `FrameRenderer::has_frame()` - Check if frame exists
 - `FrameRenderer::list_frames()` - Query available frames
+- `BadgeRenderer::new()` - Initialize badge renderer with badges.json
+- `BadgeRenderer::apply_badge()` - Enclose text in badge character
+- `BadgeRenderer::get_badge()` - Lookup badge by ID or alias
+- `BadgeRenderer::has_badge()` - Check if badge exists
+- `BadgeRenderer::list_badges()` - Query available badges
 - Template parser supports `:separator=name` parameter
 - Template parser supports `{{frame:style}}...{{/frame}}` syntax
+- Template parser supports `{{badge:type}}...{{/badge}}` syntax
+- Priority-based parsing: Frames → Badges → Styles (prevents ambiguity)
+
+#### Documentation
+- **NEW: docs/API-GUIDE.md** (1,176 lines) - Comprehensive API reference
+  - Complete method documentation for all components
+  - Code examples for every API call
+  - Error handling patterns and recovery strategies
+  - Advanced usage: caching, batch processing, composition
+  - Performance tips and benchmarks
+  - Real-world examples: README generators, CLI banners, status messages
 
 #### Data Files
-- `data/frames.json` - Frame definitions with prefix/suffix patterns
+- `data/frames.json` - 27 frame definitions with prefix/suffix patterns
+- `data/badges.json` - Badge character mappings (200+ characters)
   - 15 frame styles with descriptive names
   - Alias support (e.g., `grad` → `gradient`)
   - Version metadata for future compatibility
