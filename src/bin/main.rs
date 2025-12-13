@@ -1,4 +1,5 @@
-use clap::{Parser, Subcommand};
+use clap::{CommandFactory, Parser, Subcommand};
+use clap_complete::{generate, Shell};
 use colored::Colorize;
 use std::fs;
 use std::io::{self, Read};
@@ -55,6 +56,13 @@ enum Commands {
         #[arg(short = 'i', long)]
         in_place: bool,
     },
+
+    /// Generate shell completions
+    Completions {
+        /// Shell to generate completions for
+        #[arg(value_enum)]
+        shell: Shell,
+    },
 }
 
 fn main() {
@@ -85,6 +93,11 @@ fn run(cli: Cli) -> Result<(), Error> {
             in_place,
         } => {
             process_file(input, output, in_place)?;
+        }
+
+        Commands::Completions { shell } => {
+            let mut cmd = Cli::command();
+            generate(shell, &mut cmd, "utf8fx", &mut io::stdout());
         }
     }
 
