@@ -56,43 +56,37 @@ On malformed input like `{{mathbold}}...` (no closing tag), this regex can cause
 
 ### Why State Machines Win
 
+**Regex Approach:**
 ```mermaid
 %%{init: {'theme':'dark'}}%%
-graph TD
-    subgraph "Regex Approach"
-        A1[Input Text] --> B1[Regex Engine]
-        B1 --> C1{Match?}
-        C1 -->|Yes| D1[Extract Groups]
-        C1 -->|No| E1[No match error]
-        D1 --> F1[Convert]
+graph LR
+    A[Input] --> B[Regex Engine]
+    B --> C{Match?}
+    C -->|Yes| D[Extract]
+    C -->|No| E[Error]
+    D --> F[Convert]
+    G[Backtracking Risk] -.-> B
 
-        G1[Backtracking] -.->|May occur| B1
-        H1[Context Loss] -.->|Can't preserve| B1
-    end
+    style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
+    style B fill:#2d3748,stroke:#ed8936,stroke-width:2px
+    style E fill:#2d3748,stroke:#e53e3e,stroke-width:2px
+    style G fill:#2d3748,stroke:#e53e3e,stroke-width:2px,stroke-dasharray: 5 5
+```
 
-    subgraph "State Machine Approach"
-        A2[Input Text] --> B2[Char by Char]
-        B2 --> C2[State Transitions]
-        C2 --> D2{Valid?}
-        D2 -->|Yes| E2[Exact Position]
-        D2 -->|No| F2[Precise Error]
-        E2 --> G2[Convert]
+**State Machine Approach:**
+```mermaid
+%%{init: {'theme':'dark'}}%%
+graph LR
+    A[Input] --> B[Scan Chars]
+    B --> C[State Transitions]
+    C --> D{Valid?}
+    D -->|Yes| E[Position Known]
+    D -->|No| F[Precise Error]
+    E --> G[Convert]
 
-        H2[Linear Scan] -.->|Always O n| B2
-        I2[Full Context] -.->|Code blocks| C2
-    end
-
-    style A1 fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style B1 fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style E1 fill:#2d3748,stroke:#e53e3e,stroke-width:2px
-    style G1 fill:#2d3748,stroke:#e53e3e,stroke-width:2px,stroke-dasharray: 5 5
-    style H1 fill:#2d3748,stroke:#e53e3e,stroke-width:2px,stroke-dasharray: 5 5
-
-    style A2 fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style C2 fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style F2 fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style H2 fill:#2d3748,stroke:#48bb78,stroke-width:2px,stroke-dasharray: 5 5
-    style I2 fill:#2d3748,stroke:#48bb78,stroke-width:2px,stroke-dasharray: 5 5
+    style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
+    style C fill:#2d3748,stroke:#48bb78,stroke-width:2px
+    style F fill:#2d3748,stroke:#48bb78,stroke-width:2px
 ```
 
 | Feature | Regex | State Machine |
@@ -107,33 +101,33 @@ graph TD
 
 When regex fails to match, it tries every possible interpretation:
 
+**Regex Backtracking (Exponential):**
 ```mermaid
 %%{init: {'theme':'dark'}}%%
 graph TD
-    A["Input: {{mathbold}}text...no closing"] --> B["Try: (.+?) match 'text...'"]
-    B --> C{Closing tag?}
-    C -->|No| D["Backtrack: try 'text..'"]
-    D --> E{Closing tag?}
-    E -->|No| F["Backtrack: try 'text.'"]
-    F --> G{Closing tag?}
-    G -->|No| H["Backtrack: try 'text'"]
-    H --> I[" more attempts..."]
-    I --> J["Total: 2^n attempts!"]
+    A[Input with no closing tag] --> B[Try match full text]
+    B --> C{Found closing?}
+    C -->|No| D[Backtrack one char]
+    D --> E{Found closing?}
+    E -->|No| F[Backtrack again]
+    F --> G{Found closing?}
+    G -->|No| H[More backtracks]
+    H --> I[Total: Exponential attempts]
 
     style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style C fill:#2d3748,stroke:#e53e3e,stroke-width:2px
     style E fill:#2d3748,stroke:#e53e3e,stroke-width:2px
     style G fill:#2d3748,stroke:#e53e3e,stroke-width:2px
-    style J fill:#2d3748,stroke:#e53e3e,stroke-width:3px
+    style I fill:#2d3748,stroke:#e53e3e,stroke-width:3px
 ```
 
-**With state machine:**
+**State Machine (Linear):**
 ```mermaid
 %%{init: {'theme':'dark'}}%%
 graph LR
-    A["Input: {{mathbold}}text...no closing"] --> B["Read chars"]
-    B --> C["Reach end"]
-    C --> D["Error: Unclosed tag at position 0"]
+    A[Input with no closing tag] --> B[Read all chars once]
+    B --> C[Reach end of input]
+    C --> D[Report error with position]
 
     style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
     style B fill:#2d3748,stroke:#48bb78,stroke-width:2px
