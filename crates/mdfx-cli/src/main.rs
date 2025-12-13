@@ -137,6 +137,38 @@ enum Commands {
         #[arg(value_enum)]
         shell: Shell,
     },
+
+    /// Verify asset integrity against manifest
+    ///
+    /// Check that all assets in manifest.json exist on disk with correct hashes.
+    /// Useful for detecting corruption or verifying CI caches.
+    ///
+    /// Examples:
+    ///   mdfx verify --assets-dir assets/mdfx
+    ///   mdfx verify  # Uses default assets/mdfx
+    Verify {
+        /// Assets directory containing manifest.json
+        #[arg(long, default_value = "assets/mdfx")]
+        assets_dir: String,
+    },
+
+    /// Clean unreferenced assets
+    ///
+    /// Remove asset files that are not referenced in manifest.json.
+    /// Useful for cleaning up old assets after refactoring.
+    ///
+    /// Examples:
+    ///   mdfx clean --assets-dir assets/mdfx
+    ///   mdfx clean --dry-run  # Show what would be deleted
+    Clean {
+        /// Assets directory containing manifest.json
+        #[arg(long, default_value = "assets/mdfx")]
+        assets_dir: String,
+
+        /// Show what would be deleted without actually deleting
+        #[arg(long)]
+        dry_run: bool,
+    },
 }
 
 fn main() {
@@ -182,6 +214,17 @@ fn run(cli: Cli) -> Result<(), Error> {
         Commands::Completions { shell } => {
             let mut cmd = Cli::command();
             generate(shell, &mut cmd, "mdfx", &mut io::stdout());
+        }
+
+        Commands::Verify { assets_dir } => {
+            verify_assets(&assets_dir)?;
+        }
+
+        Commands::Clean {
+            assets_dir,
+            dry_run,
+        } => {
+            clean_assets(&assets_dir, dry_run)?;
         }
     }
 
@@ -449,6 +492,197 @@ fn process_file(
     } else {
         // No output specified, write to stdout
         print!("{}", processed);
+    }
+
+    Ok(())
+}
+
+fn verify_assets(assets_dir: &str) -> Result<(), Error> {
+    let manifest_path = format!("{}/manifest.json", assets_dir);
+
+    println!("{}", "Verifying assets...".bold());
+    println!();
+
+    // Load manifest
+    let manifest = match AssetManifest::load(std::path::Path::new(&manifest_path)) {
+        Ok(m) => m,
+        Err(_) => {
+            eprintln!("{} {}", "Error:".red().bold(), "manifest.json not found");
+            eprintln!("Run with --backend svg to generate a manifest.");
+            process::exit(1);
+        }
+    };
+
+    println!(
+        "Manifest: {} ({})",
+        manifest_path.dimmed(),
+        manifest.created_at.dimmed()
+    );
+    println!("Backend: {}", manifest.backend.cyan());
+    println!("Total assets: {}", manifest.total_assets);
+    println!();
+
+    // Verify each asset
+    let results = manifest.verify(std::path::Path::new("."));
+
+    let mut valid_count = 0;
+    let mut missing_count = 0;
+    let mut mismatch_count = 0;
+    let mut error_count = 0;
+
+    for result in results {
+        match result {
+            mdfx::VerificationResult::Valid { path } => {
+                println!("  {} {}", "✓".green(), path.dimmed());
+                valid_count += 1;
+            }
+            mdfx::VerificationResult::Missing { path } => {
+                println!("  {} {} {}", "✗".red(), path, "(missing)".red());
+                missing_count += 1;
+            }
+            mdfx::VerificationResult::HashMismatch {
+                path,
+                expected,
+                actual,
+            } => {
+                println!("  {} {} {}", "✗".red(), path, "(hash mismatch)".red());
+                println!("    Expected: {}", expected.dimmed());
+                println!("    Actual:   {}", actual.dimmed());
+                mismatch_count += 1;
+            }
+            mdfx::VerificationResult::ReadError { path, error } => {
+                println!(
+                    "  {} {} {} {}",
+                    "✗".red(),
+                    path,
+                    "(read error:".red(),
+                    format!("{})", error).red()
+                );
+                error_count += 1;
+            }
+        }
+    }
+
+    println!();
+    println!("{}", "Summary:".bold());
+    println!("  Valid: {}", valid_count.to_string().green());
+
+    if missing_count > 0 {
+        println!("  Missing: {}", missing_count.to_string().red());
+    }
+    if mismatch_count > 0 {
+        println!("  Hash mismatches: {}", mismatch_count.to_string().red());
+    }
+    if error_count > 0 {
+        println!("  Errors: {}", error_count.to_string().red());
+    }
+
+    // Exit with error if any problems found
+    if missing_count > 0 || mismatch_count > 0 || error_count > 0 {
+        process::exit(1);
+    }
+
+    println!();
+    println!("{}", "✓ All assets verified successfully!".green().bold());
+
+    Ok(())
+}
+
+fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
+    let manifest_path = format!("{}/manifest.json", assets_dir);
+
+    println!(
+        "{}",
+        if dry_run {
+            "Dry run: showing what would be deleted...".bold()
+        } else {
+            "Cleaning unreferenced assets...".bold()
+        }
+    );
+    println!();
+
+    // Load manifest
+    let manifest = match AssetManifest::load(std::path::Path::new(&manifest_path)) {
+        Ok(m) => m,
+        Err(_) => {
+            eprintln!("{} {}", "Error:".red().bold(), "manifest.json not found");
+            eprintln!("Run with --backend svg to generate a manifest.");
+            process::exit(1);
+        }
+    };
+
+    // Get referenced asset paths
+    let referenced: std::collections::HashSet<String> = manifest
+        .asset_paths()
+        .into_iter()
+        .map(|s| s.to_string())
+        .collect();
+
+    // Find all SVG files in assets directory
+    let assets_path = std::path::Path::new(assets_dir);
+    if !assets_path.exists() {
+        println!("{}", "No assets directory found.".yellow());
+        return Ok(());
+    }
+
+    let mut deleted_count = 0;
+    let mut total_bytes = 0;
+
+    for entry in fs::read_dir(assets_path).map_err(Error::IoError)? {
+        let entry = entry.map_err(Error::IoError)?;
+        let path = entry.path();
+
+        // Skip manifest.json itself
+        if path.file_name().and_then(|n| n.to_str()) == Some("manifest.json") {
+            continue;
+        }
+
+        // Only process .svg files
+        if path.extension().and_then(|e| e.to_str()) != Some("svg") {
+            continue;
+        }
+
+        let relative_path = path.to_str().unwrap().to_string();
+
+        // Check if this asset is in the manifest
+        if !referenced.contains(&relative_path) {
+            let metadata = fs::metadata(&path).map_err(Error::IoError)?;
+            let size = metadata.len();
+
+            println!(
+                "  {} {}",
+                if dry_run {
+                    "Would delete:".yellow()
+                } else {
+                    "Deleting:".red()
+                },
+                relative_path
+            );
+
+            if !dry_run {
+                fs::remove_file(&path).map_err(Error::IoError)?;
+            }
+
+            deleted_count += 1;
+            total_bytes += size;
+        }
+    }
+
+    println!();
+    if deleted_count == 0 {
+        println!("{}", "✓ No unreferenced assets found.".green());
+    } else {
+        let size_kb = total_bytes as f64 / 1024.0;
+        println!(
+            "{} {} assets ({:.1} KB)",
+            if dry_run {
+                "Would delete:".yellow()
+            } else {
+                "Deleted:".green()
+            },
+            deleted_count,
+            size_kb
+        );
     }
 
     Ok(())
