@@ -2,31 +2,31 @@
   "version": "1.0.0",
   "components": {
     "divider": {
-      "type": "expand",
+      "type": "native",
       "self_closing": true,
       "description": "Visual divider bar with themed colors",
-      "template": "{{shields:bar:colors=ui.bg,ui.surface,accent,ui.panel:style=flat-square/}}"
+      "template": ""
     },
     "swatch": {
-      "type": "expand",
+      "type": "native",
       "self_closing": true,
       "description": "Single color block",
       "args": ["color"],
-      "template": "{{shields:block:color=$1:style=flat-square/}}"
+      "template": ""
     },
     "tech": {
-      "type": "expand",
+      "type": "native",
       "self_closing": true,
       "description": "Technology logo badge (uses Simple Icons)",
       "args": ["logo"],
-      "template": "{{shields:icon:logo=$1:bg=ui.bg:logoColor=white:style=flat-square/}}"
+      "template": ""
     },
     "status": {
-      "type": "expand",
+      "type": "native",
       "self_closing": true,
       "description": "Status indicator block",
       "args": ["level"],
-      "template": "{{shields:block:color=$1:style=flat-square/}}"
+      "template": ""
     },
     "header": {
       "type": "expand",

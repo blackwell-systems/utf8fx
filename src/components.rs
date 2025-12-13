@@ -104,33 +104,69 @@ impl ComponentsRenderer {
         args: &[String],
         content: Option<&str>,
     ) -> Result<ComponentOutput> {
+        // Get component definition (single source of truth)
+        let comp = self.components.get(component).ok_or_else(|| {
+            Error::ParseError(format!(
+                "Unknown component '{}'. Run `utf8fx components list` to see available components.",
+                component
+            ))
+        })?;
+
+        // Dispatch based on component type from JSON
+        match comp.component_type.as_str() {
+            "native" => {
+                // Native components return Primitives
+                self.expand_native(component, args, content)
+            }
+            "expand" => {
+                // Expand components return Templates
+                let template = self.expand_template(component, args, content)?;
+                Ok(ComponentOutput::Template(template))
+            }
+            unknown => Err(Error::ParseError(format!(
+                "Unknown component type '{}' for component '{}'",
+                unknown, component
+            ))),
+        }
+    }
+
+    /// Expand a native component to a Primitive
+    fn expand_native(
+        &self,
+        component: &str,
+        args: &[String],
+        _content: Option<&str>,
+    ) -> Result<ComponentOutput> {
         let style = Primitive::default_style().to_string();
 
         match component {
             "divider" => {
-                // Divider: bar of themed colors
                 let colors = vec![
                     self.resolve_color("ui.bg"),
                     self.resolve_color("ui.surface"),
                     self.resolve_color("accent"),
                     self.resolve_color("ui.panel"),
                 ];
-                Ok(ComponentOutput::Primitive(Primitive::Divider { colors, style }))
+                Ok(ComponentOutput::Primitive(Primitive::Divider {
+                    colors,
+                    style,
+                }))
             }
 
             "swatch" => {
-                // Swatch: single color block
                 if args.is_empty() {
                     return Err(Error::ParseError(
                         "swatch component requires a color argument".to_string(),
                     ));
                 }
                 let color = self.resolve_color(&args[0]);
-                Ok(ComponentOutput::Primitive(Primitive::Swatch { color, style }))
+                Ok(ComponentOutput::Primitive(Primitive::Swatch {
+                    color,
+                    style,
+                }))
             }
 
             "tech" => {
-                // Tech: logo badge
                 if args.is_empty() {
                     return Err(Error::ParseError(
                         "tech component requires a technology name argument".to_string(),
@@ -148,21 +184,22 @@ impl ComponentsRenderer {
             }
 
             "status" => {
-                // Status: colored indicator
                 if args.is_empty() {
                     return Err(Error::ParseError(
                         "status component requires a level argument".to_string(),
                     ));
                 }
                 let level = self.resolve_color(&args[0]);
-                Ok(ComponentOutput::Primitive(Primitive::Status { level, style }))
+                Ok(ComponentOutput::Primitive(Primitive::Status {
+                    level,
+                    style,
+                }))
             }
 
-            _ => {
-                // All other components (header, callout) use template expansion
-                let template = self.expand_template(component, args, content)?;
-                Ok(ComponentOutput::Template(template))
-            }
+            _ => Err(Error::ParseError(format!(
+                "Native component '{}' has no implementation",
+                component
+            ))),
         }
     }
 
@@ -211,19 +248,63 @@ impl ComponentsRenderer {
     ///
     /// Hex code if found in palette, otherwise the original string
     fn resolve_color(&self, color: &str) -> String {
-        self.palette.get(color).cloned().unwrap_or_else(|| color.to_string())
+        self.palette
+            .get(color)
+            .cloned()
+            .unwrap_or_else(|| color.to_string())
     }
 
     /// Resolve all palette references in a template string
     ///
-    /// Finds patterns like `color=ui.bg` and replaces with `color=292a2d`
+    /// Only replaces palette names in parameter contexts like:
+    /// - color=NAME
+    /// - colors=NAME,NAME
+    /// - bg=NAME
+    /// - logoColor=NAME
+    /// - labelColor=NAME
+    ///
+    /// This prevents accidental replacement in content or other contexts.
     fn resolve_palette_refs(&self, template: &str) -> String {
         let mut result = template.to_string();
 
-        for (name, hex) in &self.palette {
-            // Replace palette references in templates
-            // Handles: colors=ui.bg,ui.surface,accent
-            result = result.replace(name, hex);
+        // Parameter keys that can contain colors
+        let color_params = ["color", "colors", "bg", "logoColor", "labelColor"];
+
+        for param in &color_params {
+            // Find all occurrences of param=value or param=value1,value2,...
+            let mut search_pos = 0;
+            while let Some(start) = result[search_pos..].find(&format!("{}=", param)) {
+                let abs_start = search_pos + start + param.len() + 1; // After "param="
+
+                // Find end of value (next : or / or })
+                let remaining = &result[abs_start..];
+                let end_chars = [':', '/', '}'];
+                let end_pos = remaining
+                    .find(|c| end_chars.contains(&c))
+                    .unwrap_or(remaining.len());
+
+                let value = &remaining[..end_pos];
+
+                // Replace palette names in this value (comma-separated list)
+                let resolved_value = value
+                    .split(',')
+                    .map(|part| {
+                        self.palette
+                            .get(part)
+                            .cloned()
+                            .unwrap_or_else(|| part.to_string())
+                    })
+                    .collect::<Vec<_>>()
+                    .join(",");
+
+                // Replace in result
+                let before = &result[..abs_start];
+                let after = &result[abs_start + value.len()..];
+                result = format!("{}{}{}", before, resolved_value, after);
+
+                // Move search position forward
+                search_pos = abs_start + resolved_value.len();
+            }
         }
 
         result
@@ -283,7 +364,9 @@ mod tests {
     #[test]
     fn test_expand_swatch_with_arg() {
         let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer.expand("swatch", &["accent".to_string()], None).unwrap();
+        let result = renderer
+            .expand("swatch", &["accent".to_string()], None)
+            .unwrap();
 
         // Swatch should return a Primitive::Swatch with resolved color
         match result {
@@ -297,7 +380,9 @@ mod tests {
     #[test]
     fn test_expand_swatch_with_hex() {
         let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer.expand("swatch", &["abc123".to_string()], None).unwrap();
+        let result = renderer
+            .expand("swatch", &["abc123".to_string()], None)
+            .unwrap();
 
         // Swatch should pass through hex as-is
         match result {
@@ -311,7 +396,9 @@ mod tests {
     #[test]
     fn test_expand_tech() {
         let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer.expand("tech", &["rust".to_string()], None).unwrap();
+        let result = renderer
+            .expand("tech", &["rust".to_string()], None)
+            .unwrap();
 
         // Tech should return a Primitive::Tech
         match result {
@@ -326,7 +413,9 @@ mod tests {
     #[test]
     fn test_expand_status() {
         let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer.expand("status", &["success".to_string()], None).unwrap();
+        let result = renderer
+            .expand("status", &["success".to_string()], None)
+            .unwrap();
 
         // Status should return a Primitive::Status with resolved color
         match result {
@@ -340,7 +429,9 @@ mod tests {
     #[test]
     fn test_expand_header_with_content() {
         let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer.expand("header", &[], Some("INSTALLATION")).unwrap();
+        let result = renderer
+            .expand("header", &[], Some("INSTALLATION"))
+            .unwrap();
 
         // Header should return a Template for recursive processing
         match result {
@@ -376,7 +467,10 @@ mod tests {
         let result = renderer.expand("nonexistent", &[], None);
 
         assert!(result.is_err());
-        assert!(result.unwrap_err().to_string().contains("Unknown component"));
+        assert!(result
+            .unwrap_err()
+            .to_string()
+            .contains("Unknown component"));
     }
 
     #[test]

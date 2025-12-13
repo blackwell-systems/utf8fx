@@ -2,7 +2,6 @@
 ///
 /// This backend generates shields.io badge URLs wrapped in Markdown image syntax.
 /// It's the default rendering backend for utf8fx.
-
 use crate::error::Result;
 use crate::primitive::Primitive;
 use crate::renderer::{RenderedAsset, Renderer};
@@ -25,20 +24,18 @@ impl ShieldsBackend {
 impl Renderer for ShieldsBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
         let markdown = match primitive {
-            Primitive::Swatch { color, style } => {
-                self.shields.render_block(color, style)?
-            }
+            Primitive::Swatch { color, style } => self.shields.render_block(color, style)?,
 
-            Primitive::Divider { colors, style } => {
-                self.shields.render_bar(colors, style)?
-            }
+            Primitive::Divider { colors, style } => self.shields.render_bar(colors, style)?,
 
             Primitive::Tech {
                 name,
                 bg_color,
                 logo_color,
                 style,
-            } => self.shields.render_icon(name, bg_color, logo_color, style)?,
+            } => self
+                .shields
+                .render_icon(name, bg_color, logo_color, style)?,
 
             Primitive::Status { level, style } => {
                 // Status uses the level as the color (e.g., "success" → green)

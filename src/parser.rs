@@ -4,7 +4,7 @@ use crate::converter::Converter;
 use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
 use crate::renderer::shields::ShieldsBackend;
-use crate::renderer::Renderer;
+use crate::renderer::{RenderedAsset, Renderer};
 use crate::shields::ShieldsRenderer;
 
 /// Template data extracted from parsing
@@ -50,25 +50,38 @@ struct ShieldData {
     params: std::collections::HashMap<String, String>,
 }
 
+/// Result of processing markdown with file-based assets
+#[derive(Debug, Clone)]
+pub struct ProcessedMarkdown {
+    /// Processed markdown content
+    pub markdown: String,
+    /// File-based assets that need to be written
+    pub assets: Vec<RenderedAsset>,
+}
+
 /// Parser for processing markdown with style templates
 pub struct TemplateParser {
     converter: Converter,
     frame_renderer: FrameRenderer,
     badge_renderer: BadgeRenderer,
     components_renderer: ComponentsRenderer,
-    shields_renderer: ShieldsRenderer,
-    backend: ShieldsBackend,  // Rendering backend for primitives
+    shields_renderer: ShieldsRenderer, // Keep for {{shields:*}} escape hatch
+    backend: Box<dyn Renderer>,        // Pluggable rendering backend
 }
 
 impl TemplateParser {
     /// Create a new template parser with default (shields.io) backend
     pub fn new() -> Result<Self> {
+        Self::with_backend(Box::new(ShieldsBackend::new()?))
+    }
+
+    /// Create a template parser with a custom backend
+    pub fn with_backend(backend: Box<dyn Renderer>) -> Result<Self> {
         let converter = Converter::new()?;
         let frame_renderer = FrameRenderer::new()?;
         let badge_renderer = BadgeRenderer::new()?;
         let components_renderer = ComponentsRenderer::new()?;
         let shields_renderer = ShieldsRenderer::new()?;
-        let backend = ShieldsBackend::new()?;
         Ok(Self {
             converter,
             frame_renderer,
@@ -81,6 +94,9 @@ impl TemplateParser {
 
     /// Process markdown text, converting all style templates
     ///
+    /// Returns only the markdown string. File-based assets are not collected.
+    /// Use `process_with_assets()` if you need to write SVG files.
+    ///
     /// # Example
     ///
     /// ```
@@ -92,9 +108,38 @@ impl TemplateParser {
     /// assert_eq!(result, "# 𝐓𝐈𝐓𝐋𝐄");
     /// ```
     pub fn process(&self, markdown: &str) -> Result<String> {
+        Ok(self.process_with_assets(markdown)?.markdown)
+    }
+
+    /// Process markdown text and collect file-based assets
+    ///
+    /// Returns both the processed markdown and any file assets that need
+    /// to be written to disk (e.g., SVG files when using SvgBackend).
+    ///
+    /// # Example
+    ///
+    /// ```ignore
+    /// use utf8fx::TemplateParser;
+    /// use utf8fx::renderer::svg::SvgBackend;
+    ///
+    /// let backend = Box::new(SvgBackend::new("assets"));
+    /// let parser = TemplateParser::with_backend(backend).unwrap();
+    /// let processed = parser.process_with_assets("{{ui:divider/}}").unwrap();
+    ///
+    /// // Write assets to disk
+    /// for asset in processed.assets {
+    ///     if let Some(path) = asset.file_path() {
+    ///         std::fs::write(path, asset.file_bytes().unwrap()).unwrap();
+    ///     }
+    /// }
+    ///
+    /// println!("{}", processed.markdown);
+    /// ```
+    pub fn process_with_assets(&self, markdown: &str) -> Result<ProcessedMarkdown> {
         // Track if we're in a code block to skip processing
         let mut in_code_block = false;
         let mut result = String::new();
+        let mut all_assets = Vec::new();
 
         for line in markdown.lines() {
             let trimmed = line.trim();
@@ -115,9 +160,10 @@ impl TemplateParser {
             }
 
             // Process the line, handling inline code
-            let processed = self.process_line(line)?;
+            let (processed, assets) = self.process_line_with_assets(line)?;
             result.push_str(&processed);
             result.push('\n');
+            all_assets.extend(assets);
         }
 
         // Remove trailing newline if original didn't have one
@@ -125,15 +171,19 @@ impl TemplateParser {
             result.pop();
         }
 
-        Ok(result)
+        Ok(ProcessedMarkdown {
+            markdown: result,
+            assets: all_assets,
+        })
     }
 
-    /// Process a single line, handling inline code markers
-    fn process_line(&self, line: &str) -> Result<String> {
+    /// Process a single line, handling inline code markers (with asset collection)
+    fn process_line_with_assets(&self, line: &str) -> Result<(String, Vec<RenderedAsset>)> {
         // Split by backticks to separate inline code from regular text
         let parts: Vec<&str> = line.split('`').collect();
 
         let mut result = String::new();
+        let mut all_assets = Vec::new();
 
         for (i, part) in parts.iter().enumerate() {
             if i > 0 {
@@ -144,23 +194,30 @@ impl TemplateParser {
             // Odd indices are inside inline code, even indices are outside
             if i % 2 == 0 {
                 // Outside inline code - process templates
-                let processed = self.process_templates(part)?;
+                let (processed, assets) = self.process_templates_with_assets(part)?;
                 result.push_str(&processed);
+                all_assets.extend(assets);
             } else {
                 // Inside inline code - preserve as-is
                 result.push_str(part);
             }
         }
 
-        Ok(result)
+        Ok((result, all_assets))
     }
 
-    /// Process templates in a text segment using state machine
+    /// Process templates in a text segment using state machine (no asset collection)
     ///
     /// This uses a character-by-character state machine parser instead of regex
     /// for better performance and error messages.
     fn process_templates(&self, text: &str) -> Result<String> {
+        Ok(self.process_templates_with_assets(text)?.0)
+    }
+
+    /// Process templates in a text segment with asset collection
+    fn process_templates_with_assets(&self, text: &str) -> Result<(String, Vec<RenderedAsset>)> {
         let mut result = String::new();
+        let mut assets = Vec::new();
         let chars: Vec<char> = text.chars().collect();
         let mut i = 0;
 
@@ -181,12 +238,19 @@ impl TemplateParser {
                             // Render the primitive using the backend
                             let rendered = self.backend.render(&primitive)?;
                             result.push_str(rendered.to_markdown());
+
+                            // Collect file-based assets
+                            if rendered.is_file_based() {
+                                assets.push(rendered);
+                            }
                         }
                         ComponentOutput::Template(template) => {
                             // Recursively process the template
                             // (it may contain shields, frames, or styles)
-                            let processed = self.process_templates(&template)?;
+                            let (processed, nested_assets) =
+                                self.process_templates_with_assets(&template)?;
                             result.push_str(&processed);
+                            assets.extend(nested_assets);
                         }
                     }
 
@@ -202,8 +266,10 @@ impl TemplateParser {
                         return Err(Error::UnknownFrame(frame_data.frame_style));
                     }
 
-                    // Process content recursively (may contain style templates)
-                    let processed_content = self.process_templates(&frame_data.content)?;
+                    // Process content recursively (may contain style templates and primitives)
+                    let (processed_content, nested_assets) =
+                        self.process_templates_with_assets(&frame_data.content)?;
+                    assets.extend(nested_assets);
 
                     // Apply frame to processed content
                     let framed = self
@@ -239,39 +305,62 @@ impl TemplateParser {
                     // Render based on shield type
                     let rendered = match shield_data.shield_type.as_str() {
                         "block" => {
-                            let color = shield_data.params.get("color")
-                                .ok_or_else(|| Error::MissingShieldParam("color".to_string(), "block".to_string()))?;
-                            let style = shield_data.params.get("style")
-                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "block".to_string()))?;
+                            let color = shield_data.params.get("color").ok_or_else(|| {
+                                Error::MissingShieldParam("color".to_string(), "block".to_string())
+                            })?;
+                            let style = shield_data.params.get("style").ok_or_else(|| {
+                                Error::MissingShieldParam("style".to_string(), "block".to_string())
+                            })?;
                             self.shields_renderer.render_block(color, style)?
                         }
                         "twotone" => {
-                            let left = shield_data.params.get("left")
-                                .ok_or_else(|| Error::MissingShieldParam("left".to_string(), "twotone".to_string()))?;
-                            let right = shield_data.params.get("right")
-                                .ok_or_else(|| Error::MissingShieldParam("right".to_string(), "twotone".to_string()))?;
-                            let style = shield_data.params.get("style")
-                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "twotone".to_string()))?;
+                            let left = shield_data.params.get("left").ok_or_else(|| {
+                                Error::MissingShieldParam("left".to_string(), "twotone".to_string())
+                            })?;
+                            let right = shield_data.params.get("right").ok_or_else(|| {
+                                Error::MissingShieldParam(
+                                    "right".to_string(),
+                                    "twotone".to_string(),
+                                )
+                            })?;
+                            let style = shield_data.params.get("style").ok_or_else(|| {
+                                Error::MissingShieldParam(
+                                    "style".to_string(),
+                                    "twotone".to_string(),
+                                )
+                            })?;
                             self.shields_renderer.render_twotone(left, right, style)?
                         }
                         "bar" => {
-                            let colors_str = shield_data.params.get("colors")
-                                .ok_or_else(|| Error::MissingShieldParam("colors".to_string(), "bar".to_string()))?;
-                            let colors: Vec<String> = colors_str.split(',').map(|s| s.to_string()).collect();
-                            let style = shield_data.params.get("style")
-                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "bar".to_string()))?;
+                            let colors_str = shield_data.params.get("colors").ok_or_else(|| {
+                                Error::MissingShieldParam("colors".to_string(), "bar".to_string())
+                            })?;
+                            let colors: Vec<String> =
+                                colors_str.split(',').map(|s| s.to_string()).collect();
+                            let style = shield_data.params.get("style").ok_or_else(|| {
+                                Error::MissingShieldParam("style".to_string(), "bar".to_string())
+                            })?;
                             self.shields_renderer.render_bar(&colors, style)?
                         }
                         "icon" => {
-                            let logo = shield_data.params.get("logo")
-                                .ok_or_else(|| Error::MissingShieldParam("logo".to_string(), "icon".to_string()))?;
-                            let bg = shield_data.params.get("bg")
-                                .ok_or_else(|| Error::MissingShieldParam("bg".to_string(), "icon".to_string()))?;
-                            let logo_color = shield_data.params.get("logoColor")
-                                .ok_or_else(|| Error::MissingShieldParam("logoColor".to_string(), "icon".to_string()))?;
-                            let style = shield_data.params.get("style")
-                                .ok_or_else(|| Error::MissingShieldParam("style".to_string(), "icon".to_string()))?;
-                            self.shields_renderer.render_icon(logo, bg, logo_color, style)?
+                            let logo = shield_data.params.get("logo").ok_or_else(|| {
+                                Error::MissingShieldParam("logo".to_string(), "icon".to_string())
+                            })?;
+                            let bg = shield_data.params.get("bg").ok_or_else(|| {
+                                Error::MissingShieldParam("bg".to_string(), "icon".to_string())
+                            })?;
+                            let logo_color =
+                                shield_data.params.get("logoColor").ok_or_else(|| {
+                                    Error::MissingShieldParam(
+                                        "logoColor".to_string(),
+                                        "icon".to_string(),
+                                    )
+                                })?;
+                            let style = shield_data.params.get("style").ok_or_else(|| {
+                                Error::MissingShieldParam("style".to_string(), "icon".to_string())
+                            })?;
+                            self.shields_renderer
+                                .render_icon(logo, bg, logo_color, style)?
                         }
                         _ => return Err(Error::UnknownShieldType(shield_data.shield_type)),
                     };
@@ -325,7 +414,7 @@ impl TemplateParser {
             i += 1;
         }
 
-        Ok(result)
+        Ok((result, assets))
     }
 
     /// Try to parse a template starting at position i
@@ -1479,7 +1568,10 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let input = "{{ui:nonexistent/}}";
         let result = parser.process(input);
         assert!(result.is_err());
-        assert!(result.unwrap_err().to_string().contains("Unknown component"));
+        assert!(result
+            .unwrap_err()
+            .to_string()
+            .contains("Unknown component"));
     }
 
     #[test]

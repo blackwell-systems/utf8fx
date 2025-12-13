@@ -55,7 +55,7 @@ pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer};
 pub use converter::Converter;
 pub use error::{Error, Result};
 pub use frames::{FrameRenderer, FrameStyle};
-pub use parser::TemplateParser;
+pub use parser::{ProcessedMarkdown, TemplateParser};
 pub use primitive::Primitive;
 pub use renderer::{RenderedAsset, Renderer};
 pub use shields::{ShieldStyle, ShieldsRenderer};

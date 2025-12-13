@@ -278,7 +278,7 @@ mod tests {
             .render_twotone("111111", "2B6CB0", "flat-square")
             .unwrap();
         assert!(result.contains("labelColor=111111"));
-        assert!(result.contains("-2B6CB0?"));  // Right color appears in badge path
+        assert!(result.contains("-2B6CB0?")); // Right color appears in badge path
     }
 
     #[test]

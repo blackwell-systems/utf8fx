@@ -6,6 +6,8 @@ use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process;
 use utf8fx::{Converter, Error, StyleCategory, TemplateParser};
+use utf8fx::renderer::shields::ShieldsBackend;
+use utf8fx::renderer::svg::SvgBackend;
 
 /// Unicode text effects for markdown and beyond
 #[derive(Parser)]
@@ -99,6 +101,10 @@ enum Commands {
         /// Rendering backend for UI components (shields = shields.io URLs, svg = local SVG files)
         #[arg(short, long, default_value = "shields")]
         backend: String,
+
+        /// Output directory for SVG assets (only used with --backend svg)
+        #[arg(long, default_value = "assets/utf8fx")]
+        assets_dir: String,
     },
 
     /// Generate shell completions
@@ -148,8 +154,9 @@ fn run(cli: Cli) -> Result<(), Error> {
             output,
             in_place,
             backend,
+            assets_dir,
         } => {
-            process_file(input, output, in_place, &backend)?;
+            process_file(input, output, in_place, &backend, &assets_dir)?;
         }
 
         Commands::Completions { shell } => {
@@ -225,26 +232,25 @@ fn process_file(
     output: Option<PathBuf>,
     in_place: bool,
     backend: &str,
+    assets_dir: &str,
 ) -> Result<(), Error> {
-    // Validate backend
-    match backend {
+    // Create the appropriate backend
+    let parser = match backend {
         "shields" => {
-            // Currently only shields.io backend is implemented
+            // Default: shields.io URLs (no files)
+            TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
         }
         "svg" => {
-            return Err(Error::ParseError(
-                "SVG backend not yet implemented. Use --backend shields (default)".to_string(),
-            ));
+            // SVG backend: generates local files
+            TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?
         }
         _ => {
             return Err(Error::ParseError(format!(
-                "Unknown backend '{}'. Available: shields, svg (planned)",
+                "Unknown backend '{}'. Available: shields, svg",
                 backend
             )));
         }
-    }
-
-    let parser = TemplateParser::new()?;
+    };
 
     // Read input
     let content = if let Some(ref path) = input {
@@ -268,8 +274,33 @@ fn process_file(
         buffer
     };
 
-    // Process content
-    let processed = parser.process(&content)?;
+    // Process content with asset collection
+    let processed_result = parser.process_with_assets(&content)?;
+
+    // Write any file-based assets to disk
+    if !processed_result.assets.is_empty() {
+        // Ensure assets directory exists
+        fs::create_dir_all(assets_dir).map_err(Error::IoError)?;
+
+        eprintln!(
+            "{} Writing {} asset(s) to {}",
+            "Info:".cyan(),
+            processed_result.assets.len(),
+            assets_dir
+        );
+
+        for asset in &processed_result.assets {
+            if let Some(path) = asset.file_path() {
+                if let Some(bytes) = asset.file_bytes() {
+                    // Write the asset file
+                    fs::write(path, bytes).map_err(Error::IoError)?;
+                    eprintln!("  {} {}", "Wrote:".green(), path);
+                }
+            }
+        }
+    }
+
+    let processed = processed_result.markdown;
 
     // Write output
     if in_place {

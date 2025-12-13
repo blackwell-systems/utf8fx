@@ -15,16 +15,10 @@
 #[derive(Debug, Clone, PartialEq)]
 pub enum Primitive {
     /// Single colored swatch block
-    Swatch {
-        color: String,
-        style: String,
-    },
+    Swatch { color: String, style: String },
 
     /// Multi-color divider bar for section separation
-    Divider {
-        colors: Vec<String>,
-        style: String,
-    },
+    Divider { colors: Vec<String>, style: String },
 
     /// Technology badge with logo (uses Simple Icons)
     Tech {
@@ -35,10 +29,7 @@ pub enum Primitive {
     },
 
     /// Status indicator (success, warning, error, info)
-    Status {
-        level: String,
-        style: String,
-    },
+    Status { level: String, style: String },
 }
 
 impl Primitive {
@@ -58,16 +49,23 @@ mod tests {
             color: "ff6b35".to_string(),
             style: "flat-square".to_string(),
         };
-        assert_eq!(swatch, Primitive::Swatch {
-            color: "ff6b35".to_string(),
-            style: "flat-square".to_string(),
-        });
+        assert_eq!(
+            swatch,
+            Primitive::Swatch {
+                color: "ff6b35".to_string(),
+                style: "flat-square".to_string(),
+            }
+        );
     }
 
     #[test]
     fn test_primitive_divider() {
         let divider = Primitive::Divider {
-            colors: vec!["ff0000".to_string(), "00ff00".to_string(), "0000ff".to_string()],
+            colors: vec![
+                "ff0000".to_string(),
+                "00ff00".to_string(),
+                "0000ff".to_string(),
+            ],
             style: "flat".to_string(),
         };
 
