@@ -1335,9 +1335,9 @@ let output = parser.process(input)?;
 
 ## Multi-Backend Rendering
 
-mdfx supports multiple rendering backends for generating visual primitives. The current implementation includes:
-- **ShieldsBackend**: Generates shields.io badge URLs (inline Markdown)
-- **SvgBackend**: Generates local SVG files (future enhancement)
+mdfx supports multiple rendering backends for generating visual primitives:
+- **ShieldsBackend**: Generates shields.io badge URLs (inline Markdown) - Default
+- **SvgBackend**: Generates local SVG files with asset manifest - Shipped in v1.0.0
 
 ### Renderer Trait
 
@@ -1405,17 +1405,30 @@ When using the `TemplateParser`, backends are selected via the `--backend` CLI f
 # Use shields.io URLs (default, inline)
 mdfx process input.md --backend shields
 
-# Generate local SVG files (future)
-mdfx process input.md --backend svg
+# Generate local SVG files
+mdfx process input.md --backend svg --assets-dir assets/mdfx
 ```
 
 **API Usage:**
 
-The library currently uses `ShieldsBackend` internally. Future versions will allow runtime backend selection:
+The parser defaults to `ShieldsBackend`, but you can specify a different backend at construction:
 
 ```rust
-// Future API (not yet implemented)
-let parser = TemplateParser::with_backend(Box::new(SvgBackend::new()?))?;
+use mdfx::renderer::SvgBackend;
+
+// Use SVG backend instead of shields.io
+let backend = Box::new(SvgBackend::new("assets/mdfx")?);
+let parser = TemplateParser::with_backend(backend)?;
+
+let (output, assets) = parser.process_with_assets(input)?;
+
+// Write output markdown
+std::fs::write("output.md", output)?;
+
+// Write SVG asset files
+for asset in assets {
+    std::fs::write(&asset.relative_path, asset.bytes)?;
+}
 ```
 
 ### Asset Characteristics

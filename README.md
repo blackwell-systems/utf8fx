@@ -366,6 +366,144 @@ fn main() {
 }
 ```
 
+## 𝐑𝐞𝐧𝐝𝐞𝐫𝐢𝐧𝐠 𝐁𝐚𝐜𝐤𝐞𝐧𝐝𝐬
+
+mdfx supports two rendering backends for UI components (dividers, swatches, tech badges, status indicators):
+
+### Shields.io Backend (Default)
+
+Generates online badge URLs that render when viewed on GitHub or in browsers.
+
+**CLI Usage:**
+```bash
+mdfx process input.md -o output.md
+# or explicitly:
+mdfx process input.md -o output.md --backend shields
+```
+
+**Library Usage:**
+```rust
+use mdfx::TemplateParser;
+
+let parser = TemplateParser::new()?;  // Uses shields.io by default
+let output = parser.process(input)?;
+```
+
+**Output Example:**
+```markdown
+![](https://img.shields.io/badge/-22C55E?style=flat-square)
+```
+
+**When to use:**
+- GitHub READMEs (renders automatically)
+- Online documentation
+- No local file management needed
+- Always up-to-date badges
+
+### SVG Backend
+
+Generates local SVG files with deterministic hash-based filenames. Perfect for offline docs, version control, and reproducible builds.
+
+**CLI Usage:**
+```bash
+mdfx process input.md -o output.md --backend svg --assets-dir assets/mdfx
+```
+
+**Library Usage:**
+```rust
+use mdfx::{TemplateParser, renderer::SvgBackend};
+
+let backend = Box::new(SvgBackend::new("assets/mdfx")?);
+let parser = TemplateParser::with_backend(backend)?;
+
+let (output, assets) = parser.process_with_assets(input)?;
+
+// Write output markdown
+std::fs::write("output.md", output)?;
+
+// Write SVG asset files
+for asset in assets {
+    std::fs::write(&asset.relative_path, asset.bytes)?;
+}
+```
+
+**Output Example:**
+```markdown
+![](assets/mdfx/swatch_8490176a786b203c.svg)
+```
+
+**Generated Files:**
+```
+assets/mdfx/
+├── swatch_8490176a786b203c.svg
+├── divider_3f7a2b1c4d5e6f89.svg
+├── tech_rust_1a2b3c4d5e6f7a8b.svg
+└── manifest.json
+```
+
+**Benefits:**
+- **Offline-first**: No internet required to view docs
+- **Version control**: SVG files tracked in git
+- **Reproducible**: Same input = same filenames (deterministic hashing)
+- **Fast**: No network latency
+- **Privacy**: No external requests
+- **Portable**: Works in any markdown viewer
+
+### Asset Manifest
+
+When using `--backend svg`, mdfx generates a `manifest.json` file tracking all assets:
+
+```json
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-13T18:30:00Z",
+  "backend": "svg",
+  "assets_dir": "assets/mdfx",
+  "total_assets": 7,
+  "assets": [
+    {
+      "path": "assets/mdfx/swatch_8490176a786b203c.svg",
+      "sha256": "2c932535cd177cd4a8e4f9b6d1a3c7e5...",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "f41c80",
+        "style": "flat-square"
+      },
+      "size_bytes": 143
+    }
+  ]
+}
+```
+
+**Use cases:**
+- Verify asset integrity (SHA-256 checksums)
+- Track what assets are used
+- Clean up unused assets
+- Audit badge parameters
+
+### Backend Comparison
+
+| Feature | Shields.io (Default) | SVG Backend |
+|---------|---------------------|-------------|
+| **Requires internet** | Yes | No |
+| **File generation** | No files | Generates .svg files |
+| **GitHub rendering** | Automatic | Requires committed files |
+| **Version control** | URLs only | SVG files in git |
+| **Reproducible builds** | No (shields.io changes) | Yes (deterministic hashing) |
+| **Offline docs** | No | Yes |
+| **Initial setup** | None | Need assets directory |
+| **Best for** | GitHub READMEs, online docs | Offline docs, reproducible builds |
+
+**Recommendation:**
+- **GitHub projects**: Use shields.io (default)
+- **Local documentation**: Use SVG backend
+- **CI/CD reproducibility**: Use SVG backend
+
+See [Architecture Guide](docs/ARCHITECTURE.md#multi-backend-rendering-architecture) for technical implementation details.
+
+---
+
 ## 𝐀𝐝𝐯𝐚𝐧𝐜𝐞𝐝 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬
 
 ### Composition
