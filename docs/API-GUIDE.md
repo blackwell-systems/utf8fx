@@ -141,7 +141,6 @@ let result = converter.convert_with_separator("BOLD", "mathbold", "━", 2)?;
 - `━` (U+2501) - Box drawing heavy horizontal
 - `→` (U+2192) - Rightward arrow
 - `⋅` (U+22C5) - Dot operator
-- `•` (U+2022) - Bullet point
 
 #### `has_style(name: &str) -> bool`
 
@@ -777,7 +776,6 @@ match result {
 | `UnknownBadge(String)` | Badge ID/alias doesn't exist | Check with `has_badge()` first |
 | `UnsupportedChar(String, String)` | Badge doesn't support character | Validate charset before calling |
 | `ParseError(String)` | Generic parse error | Check input format |
-| `StyleNotSupported(String, String)` | Style doesn't support character type | Character passed through unchanged |
 | `UnclosedTag(String)` | Template not closed | Add closing tag |
 | `MismatchedTags(String, String)` | Wrong closing tag | Match opening/closing tags |
 | `InvalidStyleName(String)` | Style name has invalid characters | Use alphanumeric + hyphens only |
@@ -1064,24 +1062,20 @@ for line in input.lines() {
 }
 ```
 
-### Benchmarks
+### Performance Characteristics
 
-Approximate performance on typical content:
+**Time Complexity:**
+- Style conversion: O(n) where n = input length
+- Template parsing: O(n) single-pass
+- Frame application: O(1) string concatenation
+- Badge lookup: O(1) HashMap lookup
 
-| Operation | Time (per 1000 chars) |
-|-----------|----------------------|
-| Simple conversion | ~50μs |
-| With spacing | ~80μs |
-| With separator | ~90μs |
-| Template parsing | ~200μs |
-| Frame application | ~10μs |
-| Badge application | ~5μs |
+**Memory:**
+- JSON data embedded in binary: ~50KB
+- Component initialization: One-time allocation
+- Per-conversion: Allocates output String (~2x input for styled text)
 
-**Memory usage:**
-- Converter initialization: ~100KB
-- Frame renderer: ~50KB
-- Badge renderer: ~30KB
-- Per-conversion overhead: ~2x input size
+**Note:** Specific benchmarks depend on hardware, input characteristics, and style complexity. Run `cargo bench` (when implemented) for measurements on your system.
 
 ---
 

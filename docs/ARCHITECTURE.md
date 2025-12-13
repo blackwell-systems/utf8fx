@@ -495,6 +495,53 @@ lazy_static! {
 
 ---
 
+---
+
+## Data Packaging
+
+### Embedded JSON Files
+
+All character mappings and configurations are **embedded at compile time** using `include_str!()`:
+
+```rust
+// src/styles.rs
+const STYLES_JSON: &str = include_str!("../data/styles.json");
+
+// src/frames.rs
+let data = include_str!("../data/frames.json");
+
+// src/badges.rs
+let data = include_str!("../data/badges.json");
+```
+
+**This means:**
+- No runtime file I/O - data is baked into the binary
+- No deployment concerns - everything is self-contained
+- Works in any environment (containers, embedded systems, WASM)
+- No file path configuration needed
+- Data versioned with code in git
+
+**Library users:** Just `use utf8fx::Converter` - data is already embedded
+**CLI users:** Single binary, no external files required
+
+### Why Embedded?
+
+1. **Simplicity**: No "where are my data files?" support issues
+2. **Performance**: Data parsed once at compile time validation, loaded instantly
+3. **Portability**: Binary works anywhere without file dependencies
+4. **Security**: No file system access, no path traversal concerns
+5. **Versioning**: Data and code versioned together
+
+### Trade-offs
+
+- **Pro**: Zero deployment complexity, guaranteed data availability
+- **Con**: Cannot modify mappings without recompiling (intentional - ensures consistency)
+- **Con**: Binary size includes ~50KB of JSON data (negligible for most uses)
+
+**For custom mappings:** Edit `data/*.json` and recompile. See "Extension Points" below.
+
+---
+
 ## Extension Points
 
 ### Adding New Styles
@@ -531,9 +578,29 @@ Example future syntax:
 {{mathbold:spacing=2:case=upper}}Text{{/mathbold}}
 ```
 
-### Adding Frame Support (Planned)
+### Adding New Frames
 
-See [FRAMES-DESIGN.md](FRAMES-DESIGN.md) for detailed architecture.
+Frames are already implemented and extensible:
+
+1. **Add to frames.json:**
+```json
+{
+  "id": "my-frame",
+  "name": "My Frame",
+  "description": "Custom decorative frame",
+  "prefix": "« ",
+  "suffix": " »",
+  "aliases": ["mf"]
+}
+```
+
+2. **Use immediately:**
+```rust
+let result = renderer.apply_frame("text", "my-frame")?;
+// Output: « text »
+```
+
+See [FRAMES-DESIGN.md](FRAMES-DESIGN.md) for frame design patterns and examples.
 
 **Integration point:** New `FrameRenderer` component
 

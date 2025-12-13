@@ -24,10 +24,6 @@ pub enum Error {
     #[error("Parse error: {0}")]
     ParseError(String),
 
-    /// Style doesn't support the requested character type
-    #[error("Style '{0}' does not support {1}")]
-    StyleNotSupported(String, String),
-
     /// Template syntax error - unclosed tag
     #[error("Unclosed tag: {{{{{0}}}}} (expected {{{{{0}}}}})")]
     UnclosedTag(String),
