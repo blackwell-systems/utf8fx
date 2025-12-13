@@ -2,7 +2,7 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-174_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Tests](https://img.shields.io/badge/tests-189_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 
 𝗠𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗲𝗳𝗳𝗲𝗰𝘁𝘀: 𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝘀𝘁𝘆𝗹𝗶𝗻𝗴 𝗮𝗻𝗱 𝗨𝗜 𝗰𝗼𝗺𝗽𝗼𝗻𝗲𝗻𝘁𝘀
 
