@@ -196,14 +196,21 @@ impl AssetManifest {
 /// Result of verifying a single asset
 #[derive(Debug)]
 pub enum VerificationResult {
-    Valid { path: String },
-    Missing { path: String },
+    Valid {
+        path: String,
+    },
+    Missing {
+        path: String,
+    },
     HashMismatch {
         path: String,
         expected: String,
         actual: String,
     },
-    ReadError { path: String, error: String },
+    ReadError {
+        path: String,
+        error: String,
+    },
 }
 
 #[cfg(test)]

@@ -76,13 +76,12 @@ impl SeparatorsData {
         let mut msg = format!("Unknown separator '{}'.", input);
 
         // Try to find similar named separators (simple edit distance)
-        let similar: Vec<&str> = self.separators
+        let similar: Vec<&str> = self
+            .separators
             .iter()
             .filter(|s| {
                 // Simple similarity check: common prefix or contains substring
-                s.id.starts_with(input) ||
-                s.id.contains(input) ||
-                input.contains(&s.id)
+                s.id.starts_with(input) || s.id.contains(input) || input.contains(&s.id)
             })
             .map(|s| s.id.as_str())
             .take(3)
@@ -186,7 +185,7 @@ mod tests {
         let data = SeparatorsData::load().unwrap();
 
         // Test "did you mean" for partial match
-        let result = data.resolve("arr");  // partial: arrow
+        let result = data.resolve("arr"); // partial: arrow
         assert!(result.is_err());
         let err = result.unwrap_err();
         assert!(err.contains("Did you mean"));
@@ -202,7 +201,7 @@ mod tests {
         assert_eq!(result, Ok("⭐".to_string()));
 
         // Emoji with variation selector (1 grapheme, 2+ chars)
-        let result = data.resolve("👨‍💻");  // Man technologist
+        let result = data.resolve("👨‍💻"); // Man technologist
         assert_eq!(result, Ok("👨‍💻".to_string()));
 
         // Flag emoji (1 grapheme, multiple scalars)

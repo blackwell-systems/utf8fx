@@ -1,6 +1,7 @@
 use clap::{CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
 use colored::Colorize;
+use mdfx::manifest::AssetManifest;
 use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
 use mdfx::{Converter, Error, SeparatorsData, StyleCategory, TemplateParser};
@@ -289,9 +290,18 @@ fn list_separators(show_examples: bool) -> Result<(), Error> {
         "  {}",
         "Any single Unicode character works as a separator:".dimmed()
     );
-    println!("  {}",  "{{mathbold:separator=⚡}}LIGHTNING{{/mathbold}}".dimmed());
-    println!("  {}",  "{{mathbold:separator=★}}STARS{{/mathbold}}".dimmed());
-    println!("  {}",  "{{mathbold:separator=|}}PIPES{{/mathbold}}".dimmed());
+    println!(
+        "  {}",
+        "{{mathbold:separator=⚡}}LIGHTNING{{/mathbold}}".dimmed()
+    );
+    println!(
+        "  {}",
+        "{{mathbold:separator=★}}STARS{{/mathbold}}".dimmed()
+    );
+    println!(
+        "  {}",
+        "{{mathbold:separator=|}}PIPES{{/mathbold}}".dimmed()
+    );
 
     Ok(())
 }
@@ -358,14 +368,52 @@ fn process_file(
             assets_dir
         );
 
+        // Build manifest for SVG backend
+        let mut manifest = if backend == "svg" {
+            Some(AssetManifest::new(backend, assets_dir))
+        } else {
+            None
+        };
+
         for asset in &processed_result.assets {
             if let Some(path) = asset.file_path() {
                 if let Some(bytes) = asset.file_bytes() {
                     // Write the asset file
                     fs::write(path, bytes).map_err(Error::IoError)?;
                     eprintln!("  {} {}", "Wrote:".green(), path);
+
+                    // Add to manifest if SVG backend
+                    if let Some(ref mut m) = manifest {
+                        if let mdfx::RenderedAsset::File {
+                            relative_path,
+                            bytes,
+                            primitive,
+                            ..
+                        } = asset
+                        {
+                            let asset_type = match primitive {
+                                mdfx::Primitive::Swatch { .. } => "swatch",
+                                mdfx::Primitive::Divider { .. } => "divider",
+                                mdfx::Primitive::Tech { .. } => "tech",
+                                mdfx::Primitive::Status { .. } => "status",
+                            };
+                            m.add_asset(
+                                relative_path.clone(),
+                                bytes,
+                                primitive,
+                                asset_type.to_string(),
+                            );
+                        }
+                    }
                 }
             }
+        }
+
+        // Write manifest.json for SVG backend
+        if let Some(manifest) = manifest {
+            let manifest_path = format!("{}/manifest.json", assets_dir);
+            manifest.write(std::path::Path::new(&manifest_path))?;
+            eprintln!("  {} {}", "Wrote:".green(), manifest_path);
         }
     }
 

@@ -22,6 +22,8 @@ pub enum RenderedAsset {
         bytes: Vec<u8>,
         /// Markdown reference to embed (e.g., "![](assets/mdfx/divider_a3f8e2.svg)")
         markdown_ref: String,
+        /// The primitive that generated this asset (for manifest tracking)
+        primitive: Primitive,
     },
 }
 
@@ -79,10 +81,15 @@ mod tests {
 
     #[test]
     fn test_rendered_asset_file() {
+        let primitive = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "flat-square".to_string(),
+        };
         let asset = RenderedAsset::File {
             relative_path: "assets/badge.svg".to_string(),
             bytes: b"<svg></svg>".to_vec(),
             markdown_ref: "![](assets/badge.svg)".to_string(),
+            primitive,
         };
         assert_eq!(asset.to_markdown(), "![](assets/badge.svg)");
         assert!(asset.is_file_based());

@@ -10,7 +10,8 @@ use crate::shields::ShieldsRenderer;
 use lazy_static::lazy_static;
 
 lazy_static! {
-    static ref SEPARATORS: SeparatorsData = SeparatorsData::load().expect("Failed to load separators.json");
+    static ref SEPARATORS: SeparatorsData =
+        SeparatorsData::load().expect("Failed to load separators.json");
 }
 
 /// Template data extracted from parsing
@@ -529,7 +530,8 @@ impl TemplateParser {
 
                 // Parse separator name or direct character
                 let mut sep_input = String::new();
-                while i < chars.len() && !matches_str(chars, i, ":") && !matches_str(chars, i, "}}") {
+                while i < chars.len() && !matches_str(chars, i, ":") && !matches_str(chars, i, "}}")
+                {
                     sep_input.push(chars[i]);
                     i += 1;
                 }
