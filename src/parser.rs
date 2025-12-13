@@ -136,33 +136,61 @@ impl TemplateParser {
     /// println!("{}", processed.markdown);
     /// ```
     pub fn process_with_assets(&self, markdown: &str) -> Result<ProcessedMarkdown> {
-        // Track if we're in a code block to skip processing
-        let mut in_code_block = false;
+        // Split markdown into code blocks and content sections
+        // Code blocks are preserved as-is, content sections are processed
         let mut result = String::new();
         let mut all_assets = Vec::new();
 
-        for line in markdown.lines() {
+        let lines: Vec<&str> = markdown.lines().collect();
+        let mut i = 0;
+
+        while i < lines.len() {
+            let line = lines[i];
             let trimmed = line.trim();
 
-            // Track code block state
+            // Check if this line starts a code block
             if trimmed.starts_with("```") {
-                in_code_block = !in_code_block;
+                // Add the opening ``` line
                 result.push_str(line);
                 result.push('\n');
+                i += 1;
+
+                // Copy all lines until closing ```
+                while i < lines.len() {
+                    let code_line = lines[i];
+                    result.push_str(code_line);
+                    result.push('\n');
+
+                    if code_line.trim().starts_with("```") {
+                        i += 1;
+                        break;
+                    }
+                    i += 1;
+                }
                 continue;
             }
 
-            // Skip processing inside code blocks
-            if in_code_block {
-                result.push_str(line);
-                result.push('\n');
-                continue;
+            // Not a code block, collect lines until next code block or EOF
+            let mut content_section = String::new();
+            let section_start = i;
+
+            while i < lines.len() && !lines[i].trim().starts_with("```") {
+                if i > section_start {
+                    content_section.push('\n');
+                }
+                content_section.push_str(lines[i]);
+                i += 1;
             }
 
-            // Process the line, handling inline code
-            let (processed, assets) = self.process_line_with_assets(line)?;
+            // Process the entire content section (preserves multi-line constructs like frames)
+            let (processed, assets) = self.process_line_with_assets(&content_section)?;
             result.push_str(&processed);
-            result.push('\n');
+
+            // Add newline after section if not at EOF
+            if i < lines.len() {
+                result.push('\n');
+            }
+
             all_assets.extend(assets);
         }
 
@@ -1580,6 +1608,60 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let input = "{{ui:header}}TITLE";
         let result = parser.process(input);
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_frame_multiline() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:gradient}}\nLine 1\nLine 2\n{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert!(result.starts_with("▓▒░"));
+        assert!(result.ends_with("░▒▓"));
+        assert!(result.contains("Line 1"));
+        assert!(result.contains("Line 2"));
+    }
+
+    #[test]
+    fn test_frame_multiline_with_styles() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "{{frame:solid-left}}\n### {{mathbold}}Title{{/mathbold}}\nContent\n{{/frame}}";
+        let result = parser.process(input).unwrap();
+        assert!(result.starts_with("█▌"));
+        assert!(result.contains("𝐓𝐢𝐭𝐥𝐞"));
+        assert!(result.contains("Content"));
+    }
+
+    #[test]
+    fn test_frame_multiline_with_ui_components() {
+        use crate::renderer::svg::SvgBackend;
+
+        let parser = TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
+        let input = "{{frame:gradient}}\n{{ui:swatch:accent/}}\n{{ui:status:success/}}\n{{/frame}}";
+        let result = parser.process_with_assets(input).unwrap();
+
+        // Should process frame correctly
+        assert!(result.markdown.starts_with("▓▒░"));
+        assert!(result.markdown.ends_with("░▒▓"));
+
+        // Should generate assets for UI components
+        assert_eq!(result.assets.len(), 2);
+        assert!(result.markdown.contains("![](assets/test/swatch_"));
+        assert!(result.markdown.contains("![](assets/test/status_"));
+    }
+
+    #[test]
+    fn test_process_with_assets_preserves_code_blocks() {
+        use crate::renderer::svg::SvgBackend;
+
+        let parser = TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
+        let input = "```\n{{ui:swatch:accent/}}\n```\n{{ui:swatch:accent/}}";
+        let result = parser.process_with_assets(input).unwrap();
+
+        // Code block should be preserved
+        assert!(result.markdown.contains("```\n{{ui:swatch:accent/}}\n```"));
+
+        // Only one asset generated (outside code block)
+        assert_eq!(result.assets.len(), 1);
     }
 
     #[test]
