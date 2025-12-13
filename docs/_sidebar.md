@@ -18,7 +18,6 @@
   - [Template Syntax](/TEMPLATE-SYNTAX.md)
   - [Architecture](/ARCHITECTURE.md)
   - [API Guide](/API-GUIDE.md)
-  - [Parser Design](/parser-design.md)
   - [State Machine](/STATE-MACHINE-GUIDE.md)
 
 - **🎨 Design Resources**

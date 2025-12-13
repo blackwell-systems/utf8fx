@@ -1,5 +1,23 @@
 # Parser Design: State Machine Approach
 
+> **⚠️ ARCHIVED DOCUMENT**
+>
+> This document reflects the v0.x parser design and is **no longer maintained**. For current v1.0.0+ documentation, see:
+>
+> - **[Template Syntax Reference](TEMPLATE-SYNTAX.md)** - Complete syntax specification with grammar
+> - **[Architecture Guide](ARCHITECTURE.md)** - System design and processing pipeline
+> - **[State Machine Guide](STATE-MACHINE-GUIDE.md)** - Detailed parser implementation
+>
+> The content below is preserved for historical reference but does **not** include v1.0.0 features:
+> - Component templates (`{{ui:*}}`)
+> - Primitive templates (`{{shields:*}}`)
+> - Post-processing system
+> - Multi-backend architecture
+> - Asset manifest system
+> - GitHub Blocks
+
+---
+
 ## Why State Machine Instead of Regex?
 
 mdfx uses a character-by-character state machine parser instead of regex for template processing.

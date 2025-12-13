@@ -33,7 +33,6 @@ Welcome to the mdfx documentation site! This is your navigation hub for all docu
 - [Template Syntax](TEMPLATE-SYNTAX.md) - Canonical syntax reference with grammar specification
 - [Architecture](ARCHITECTURE.md) - System design, workspace structure, and multi-backend architecture
 - [API Guide](API-GUIDE.md) - Complete library API reference with examples
-- [Parser Design](parser-design.md) - Template parsing implementation
 - [State Machine Guide](STATE-MACHINE-GUIDE.md) - Parser state machine details
 
 ## 🎨 Design Resources
