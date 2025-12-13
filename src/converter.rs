@@ -270,14 +270,18 @@ mod tests {
     #[test]
     fn test_spacing_zero() {
         let converter = Converter::new().unwrap();
-        let result = converter.convert_with_spacing("HELLO", "mathbold", 0).unwrap();
+        let result = converter
+            .convert_with_spacing("HELLO", "mathbold", 0)
+            .unwrap();
         assert_eq!(result, "𝐇𝐄𝐋𝐋𝐎");
     }
 
     #[test]
     fn test_spacing_one() {
         let converter = Converter::new().unwrap();
-        let result = converter.convert_with_spacing("HELLO", "mathbold", 1).unwrap();
+        let result = converter
+            .convert_with_spacing("HELLO", "mathbold", 1)
+            .unwrap();
         assert_eq!(result, "𝐇 𝐄 𝐋 𝐋 𝐎");
     }
 
@@ -298,7 +302,9 @@ mod tests {
     #[test]
     fn test_spacing_with_lowercase() {
         let converter = Converter::new().unwrap();
-        let result = converter.convert_with_spacing("hello", "mathbold", 1).unwrap();
+        let result = converter
+            .convert_with_spacing("hello", "mathbold", 1)
+            .unwrap();
         assert_eq!(result, "𝐡 𝐞 𝐥 𝐥 𝐨");
     }
 

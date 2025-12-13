@@ -103,15 +103,33 @@ Add support for framing text with Unicode box drawing characters, brackets, and 
 
 **Fixed Width Container:**
 - GitHub READMEs render in a fixed-width content area
-- Typical width: ~100-120 characters on desktop displays
-- Mobile: Even narrower (60-80 chars)
-- Boxes wider than container will wrap poorly or overflow
+- Desktop: ~100-120 characters maximum
+- Mobile: 60-80 chars
+- **Reference line (120 chars):** "Unicode offers a plethora of diverse and interesting styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful"
 
-**Implications:**
-1. **Default box width should be conservative** (60-80 chars max)
-2. **Warn or limit excessive widths** (>100 chars)
-3. **Text content should be short** for boxes to render well
-4. **Consider mobile-first** design for maximum compatibility
+**Design Approach:**
+
+The system should NOT be limited by GitHub constraints globally, but should provide tooling to ensure
+GitHub conformity when needed:
+
+1. **No hard limits** - Users can create boxes of any width for terminals, docs, etc.
+2. **Optional validation** - `--validate-github` flag warns about lines >120 chars
+3. **GitHub-safe presets** - Pre-configured box styles optimized for GitHub
+4. **Documentation** - Clear guidelines on what works well on GitHub vs other platforms
+
+**Implementation Strategy:**
+```bash
+# Default: No width limits (works anywhere)
+utf8fx convert --box double "Any length text here"
+
+# GitHub validation mode: Warns if output >120 chars
+utf8fx convert --box double --validate-github "Long text..."
+# Warning: Output width (145 chars) exceeds GitHub limit (120 chars)
+
+# GitHub preset: Auto-sizes for GitHub
+utf8fx convert --box double --preset github "Text"
+# Uses conservative width (60 chars) for universal compatibility
+```
 
 **Best Practices:**
 ```markdown
@@ -131,12 +149,24 @@ See docs for details
 {{/box}}
 ```
 
-#### Practical Width Guidelines
+#### Platform-Specific Width Guidelines
 
+**Default (Terminal/Docs):**
 - **Inline brackets:** No limit (scales with content)
-- **Single-line boxes:** 60 chars max recommended
-- **Multi-line boxes:** 80 chars width, multiple short lines
-- **Headers/Titles:** 30-40 chars ideal for visual impact
+- **Single-line boxes:** No hard limit (user-controlled)
+- **Multi-line boxes:** No hard limit (user-controlled)
+- **Standard terminal:** 80 columns traditional
+
+**GitHub-Optimized (--preset github):**
+- **Single-line boxes:** 60 chars max (mobile-safe)
+- **Multi-line boxes:** 80 chars width per line
+- **Headers/Titles:** 30-40 chars (visual impact)
+- **Line length:** 120 chars absolute maximum
+
+**Wide Terminal/Documentation:**
+- **Single-line boxes:** 100+ chars acceptable
+- **Multi-line boxes:** 120+ chars per line
+- **Large displays:** Can use full width available
 
 #### Rendering Test Environments
 

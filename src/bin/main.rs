@@ -78,7 +78,11 @@ fn run(cli: Cli) -> Result<(), Error> {
     let converter = Converter::new()?;
 
     match cli.command {
-        Commands::Convert { style, spacing, text } => {
+        Commands::Convert {
+            style,
+            spacing,
+            text,
+        } => {
             let result = converter.convert_with_spacing(&text, &style, spacing)?;
             println!("{}", result);
         }
@@ -104,7 +108,11 @@ fn run(cli: Cli) -> Result<(), Error> {
     Ok(())
 }
 
-fn list_styles(converter: &Converter, category: Option<String>, show_samples: bool) -> Result<(), Error> {
+fn list_styles(
+    converter: &Converter,
+    category: Option<String>,
+    show_samples: bool,
+) -> Result<(), Error> {
     println!("{}", "Available styles:".bold());
     println!();
 

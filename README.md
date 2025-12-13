@@ -2,15 +2,22 @@
 
 **Unicode text effects for markdown and beyond**
 
-Transform text into various Unicode styles (mathematical bold, full-width, negative squared, and more) through a powerful markdown preprocessing system.
+Transform text into various Unicode styles (mathematical bold, full-width, negative squared, and more)
+through a powerful markdown preprocessing system.
 
 ## Motivation
 
-Unicode offers a plethora of diverse and interesting styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful Ⓒⓘⓡⓒⓛⓔⓢ—but they feel hidden and cumbersome to interact with. Finding the right glyphs requires hunting through Unicode tables, manually copying characters, and tediously spacing them by hand.
+Unicode offers a plethora of diverse and interesting styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful
+Ⓒⓘⓡⓒⓛⓔⓢ—but they feel hidden and cumbersome to interact with. Finding the right glyphs requires hunting
+through Unicode tables, manually copying characters, and tediously spacing them by hand.
 
-**utf8fx** makes Unicode styling simple and repeatable. Instead of searching for individual characters, you use intuitive template syntax like `{{mathbold}}TITLE{{/mathbold}}` or CLI commands like `utf8fx convert --style script "Elegant"`. Need spaced letters for a header? Just add `:spacing=2` and you're done.
+**utf8fx** makes Unicode styling simple and repeatable. Instead of searching for individual characters,
+you use intuitive template syntax like `{{mathbold}}TITLE{{/mathbold}}` or CLI commands like
+`utf8fx convert --style script "Elegant"`. Need spaced letters for a header? Just add `:spacing=2` and you're done.
 
-This tool transforms Unicode styling from a frustrating manual process into something as easy as markdown formatting—perfect for README files, documentation, and any text where you want distinctive visual elements without leaving your editor.
+This tool transforms Unicode styling from a frustrating manual process into something as easy as markdown
+formatting—perfect for README files, documentation, and any text where you want distinctive visual
+elements without leaving your editor.
 
 ## Features
 

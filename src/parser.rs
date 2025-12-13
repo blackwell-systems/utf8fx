@@ -102,14 +102,18 @@ impl TemplateParser {
             // Look for opening tag {{style}}
             if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
                 // Try to parse a complete template
-                if let Some((template_end, style, spacing, content)) = self.parse_template_at(&chars, i)? {
+                if let Some((template_end, style, spacing, content)) =
+                    self.parse_template_at(&chars, i)?
+                {
                     // Validate style exists
                     if !self.converter.has_style(&style) {
                         return Err(Error::UnknownStyle(style));
                     }
 
                     // Convert and add the styled content with spacing
-                    let converted = self.converter.convert_with_spacing(&content, &style, spacing)?;
+                    let converted = self
+                        .converter
+                        .convert_with_spacing(&content, &style, spacing)?;
                     result.push_str(&converted);
 
                     // Skip past the template
@@ -128,7 +132,11 @@ impl TemplateParser {
 
     /// Try to parse a template starting at position i
     /// Returns: Some((end_position, style_name, spacing, content)) or None if not a valid template
-    fn parse_template_at(&self, chars: &[char], start: usize) -> Result<Option<(usize, String, usize, String)>> {
+    fn parse_template_at(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(usize, String, usize, String)>> {
         let mut i = start;
 
         // Must start with {{
@@ -417,7 +425,8 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_mixed_spacing() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold}}no spacing{{/mathbold}} {{mathbold:spacing=1}}with spacing{{/mathbold}}";
+        let input =
+            "{{mathbold}}no spacing{{/mathbold}} {{mathbold:spacing=1}}with spacing{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐧𝐨 𝐬𝐩𝐚𝐜𝐢𝐧𝐠 𝐰 𝐢 𝐭 𝐡   𝐬 𝐩 𝐚 𝐜 𝐢 𝐧 𝐠");
     }
