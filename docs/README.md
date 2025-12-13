@@ -2,7 +2,7 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-189_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Tests](https://img.shields.io/badge/tests-217_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 [![Crates.io](https://img.shields.io/crates/v/mdfx.svg)](https://crates.io/crates/mdfx)
 
 Welcome to the mdfx documentation site! This is your navigation hub for all documentation.
@@ -30,6 +30,7 @@ Welcome to the mdfx documentation site! This is your navigation hub for all docu
 
 ## 🔧 Technical Documentation
 
+- [Template Syntax](TEMPLATE-SYNTAX.md) - Canonical syntax reference with grammar specification
 - [Architecture](ARCHITECTURE.md) - System design, workspace structure, and multi-backend architecture
 - [API Guide](API-GUIDE.md) - Complete library API reference with examples
 - [Parser Design](parser-design.md) - Template parsing implementation

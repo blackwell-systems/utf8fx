@@ -1241,21 +1241,16 @@ let output = parser.process(input)?;
 
 ### Template Syntax
 
-**Style Templates:**
-```markdown
-{{style}}text{{/style}}
-{{style:spacing=N}}text{{/style}}
-{{style:separator=name}}text{{/style}}
-```
+For complete template syntax reference including all tag types, parameters, nesting rules, and edge cases, see **[Template Syntax Reference](TEMPLATE-SYNTAX.md)**.
 
-**Frame Templates:**
+**Quick examples:**
 ```markdown
-{{frame:type}}text{{/frame}}
-```
-
-**Badge Templates:**
-```markdown
-{{badge:type}}text{{/badge}}
+{{style}}text{{/style}}                    ← Style template
+{{style:separator=dot}}text{{/style}}      ← With parameter
+{{frame:type}}text{{/frame}}               ← Frame template
+{{badge:type}}char{{/badge}}               ← Badge template
+{{ui:component/}}                          ← Self-closing component
+{{ui:component:arg}}content{{/ui}}         ← Block component
 ```
 
 ### Examples

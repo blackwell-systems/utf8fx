@@ -517,31 +517,27 @@ Use as:
 
 ## 𝐓𝐞𝐦𝐩𝐥𝐚𝐭𝐞 𝐒𝐲𝐧𝐭𝐚𝐱
 
-### Self-Closing Tags
-For contentless elements:
+mdfx uses double-brace template syntax with two tag types:
+
+**Self-closing** (no content):
 ```markdown
 {{ui:divider/}}
 {{ui:tech:rust/}}
-{{ui:swatch:accent/}}
 ```
 
-### Block Tags
-For elements with content:
+**Block tags** (with content):
 ```markdown
 {{ui:header}}TITLE{{/ui}}
-{{ui:callout:warning}}Message{{/ui}}
 {{mathbold}}TEXT{{/mathbold}}
 ```
 
-Note: UI components use generic `{{/ui}}` closer. Other templates use specific closers (`{{/mathbold}}`, `{{/frame}}`).
-
-### Parameters
-Colon-separated key=value pairs:
+**Parameters** (colon-separated):
 ```markdown
-{{mathbold:separator=dot:spacing=1}}TEXT{{/mathbold}}
-{{ui:tech:rust/}}    ← Positional arg
-{{ui:callout:warning}}...{{/ui}}    ← Positional arg
+{{mathbold:separator=dot}}STYLED{{/mathbold}}
+{{ui:callout:warning}}Message{{/ui}}
 ```
+
+For complete syntax reference including all tag types, parameters, nesting rules, and edge cases, see **[Template Syntax Reference](docs/TEMPLATE-SYNTAX.md)**.
 
 ## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐚𝐭𝐮𝐬
 
