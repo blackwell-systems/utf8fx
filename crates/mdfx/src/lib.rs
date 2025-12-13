@@ -53,7 +53,7 @@ pub mod styles;
 
 // Re-export main types for convenience
 pub use badges::{BadgeRenderer, BadgeType};
-pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer};
+pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
 pub use converter::Converter;
 pub use error::{Error, Result};
 pub use frames::{FrameRenderer, FrameStyle};

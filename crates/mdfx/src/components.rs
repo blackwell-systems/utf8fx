@@ -15,6 +15,22 @@ pub struct ComponentsRenderer {
     components: HashMap<String, ComponentDef>,
 }
 
+/// Post-processing operations applied after template expansion
+#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[serde(rename_all = "snake_case")]
+pub enum PostProcess {
+    /// No post-processing (default)
+    None,
+    /// Prefix every line with "> " for Markdown blockquotes
+    Blockquote,
+}
+
+impl Default for PostProcess {
+    fn default() -> Self {
+        PostProcess::None
+    }
+}
+
 /// A component definition from components.json
 #[derive(Debug, Clone, Deserialize)]
 pub struct ComponentDef {
@@ -25,6 +41,8 @@ pub struct ComponentDef {
     #[serde(default)]
     pub args: Vec<String>,
     pub template: String,
+    #[serde(default)]
+    pub post_process: PostProcess,
 }
 
 /// Palette data loaded from palette.json
@@ -235,7 +253,41 @@ impl ComponentsRenderer {
         // Resolve any remaining palette references in the template
         expanded = self.resolve_palette_refs(&expanded);
 
-        Ok(expanded)
+        // Apply post-processing based on component definition
+        let processed = match &comp.post_process {
+            PostProcess::None => expanded,
+            PostProcess::Blockquote => self.apply_blockquote(&expanded),
+        };
+
+        Ok(processed)
+    }
+
+    /// Apply blockquote formatting (prefix every line with "> ")
+    ///
+    /// This is used for GitHub-compatible blockquote callouts.
+    /// Every line, including empty lines, gets the "> " prefix.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use mdfx::ComponentsRenderer;
+    /// let renderer = ComponentsRenderer::new().unwrap();
+    /// let input = "Line 1\nLine 2\n\nLine 4";
+    /// let result = renderer.apply_blockquote(input);
+    /// assert_eq!(result, "> Line 1\n> Line 2\n>\n> Line 4");
+    /// ```
+    fn apply_blockquote(&self, content: &str) -> String {
+        content
+            .lines()
+            .map(|line| {
+                if line.trim().is_empty() {
+                    ">".to_string() // Empty blockquote line
+                } else {
+                    format!("> {}", line)
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
     }
 
     /// Resolve a color from palette or pass through
@@ -513,5 +565,70 @@ mod tests {
         let renderer = ComponentsRenderer::new().unwrap();
         let resolved = renderer.resolve_color("abc123");
         assert_eq!(resolved, "abc123");
+    }
+
+    // ========================================
+    // Blockquote Post-Processor Tests
+    // ========================================
+
+    #[test]
+    fn test_apply_blockquote_single_line() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let input = "Single line";
+        let result = renderer.apply_blockquote(input);
+        assert_eq!(result, "> Single line");
+    }
+
+    #[test]
+    fn test_apply_blockquote_multiple_lines() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let input = "Line 1\nLine 2\nLine 3";
+        let result = renderer.apply_blockquote(input);
+        assert_eq!(result, "> Line 1\n> Line 2\n> Line 3");
+    }
+
+    #[test]
+    fn test_apply_blockquote_with_empty_lines() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let input = "Line 1\n\nLine 3";
+        let result = renderer.apply_blockquote(input);
+        // Empty lines should get ">" (no trailing space)
+        assert_eq!(result, "> Line 1\n>\n> Line 3");
+    }
+
+    #[test]
+    fn test_apply_blockquote_preserves_indentation() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let input = "Normal\n  Indented\n    More indented";
+        let result = renderer.apply_blockquote(input);
+        // Blockquote prefix goes before existing indentation
+        assert_eq!(result, "> Normal\n>   Indented\n>     More indented");
+    }
+
+    #[test]
+    fn test_apply_blockquote_with_markdown() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let input = "**Bold text**\n- List item\n- Another item";
+        let result = renderer.apply_blockquote(input);
+        // Markdown inside blockquote should be preserved
+        assert_eq!(result, "> **Bold text**\n> - List item\n> - Another item");
+    }
+
+    #[test]
+    fn test_apply_blockquote_empty_string() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let input = "";
+        let result = renderer.apply_blockquote(input);
+        // Empty input should return empty (lines() on empty string returns no lines)
+        assert_eq!(result, "");
+    }
+
+    #[test]
+    fn test_apply_blockquote_whitespace_only_lines() {
+        let renderer = ComponentsRenderer::new().unwrap();
+        let input = "Line 1\n   \nLine 3";
+        let result = renderer.apply_blockquote(input);
+        // Whitespace-only lines should be treated as empty (trim() is empty)
+        assert_eq!(result, "> Line 1\n>\n> Line 3");
     }
 }
