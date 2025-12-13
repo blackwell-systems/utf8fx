@@ -46,6 +46,7 @@ pub mod frames;
 pub mod parser;
 pub mod primitive;
 pub mod renderer;
+pub mod separators;
 pub mod shields;
 pub mod styles;
 
@@ -58,6 +59,7 @@ pub use frames::{FrameRenderer, FrameStyle};
 pub use parser::{ProcessedMarkdown, TemplateParser};
 pub use primitive::Primitive;
 pub use renderer::{RenderedAsset, Renderer};
+pub use separators::{Separator, SeparatorsData};
 pub use shields::{ShieldStyle, ShieldsRenderer};
 pub use styles::{Style, StyleCategory, StyleSupport, StylesData};
 

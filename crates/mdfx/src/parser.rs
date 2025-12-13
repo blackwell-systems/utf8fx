@@ -5,7 +5,13 @@ use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
 use crate::renderer::shields::ShieldsBackend;
 use crate::renderer::{RenderedAsset, Renderer};
+use crate::separators::SeparatorsData;
 use crate::shields::ShieldsRenderer;
+use lazy_static::lazy_static;
+
+lazy_static! {
+    static ref SEPARATORS: SeparatorsData = SeparatorsData::load().expect("Failed to load separators.json");
+}
 
 /// Template data extracted from parsing
 #[derive(Debug, Clone)]
@@ -521,30 +527,24 @@ impl TemplateParser {
             else if matches_str(chars, i, "separator=") {
                 i += 10; // length of "separator="
 
-                // Parse separator name (letters only)
-                let mut sep_name = String::new();
-                while i < chars.len() && chars[i].is_alphabetic() {
-                    sep_name.push(chars[i]);
+                // Parse separator name or direct character
+                let mut sep_input = String::new();
+                while i < chars.len() && !matches_str(chars, i, ":") && !matches_str(chars, i, "}}") {
+                    sep_input.push(chars[i]);
                     i += 1;
                 }
 
-                // Map separator name to Unicode character
-                separator = Some(
-                    match sep_name.as_str() {
-                        "dot" => "·",
-                        "bullet" => "•",
-                        "dash" => "─",
-                        "bolddash" => "━",
-                        "arrow" => "→",
-                        _ => {
-                            return Err(Error::ParseError(format!(
-                            "Unknown separator '{}'. Available: dot, bullet, dash, bolddash, arrow",
-                            sep_name
-                        )))
-                        }
+                // Resolve separator using SeparatorsData
+                match SEPARATORS.resolve(&sep_input) {
+                    Some(sep_char) => separator = Some(sep_char),
+                    None => {
+                        let available = SEPARATORS.list_ids().join(", ");
+                        return Err(Error::ParseError(format!(
+                            "Unknown separator '{}'. Use a named separator ({}) or a single Unicode character",
+                            sep_input, available
+                        )));
                     }
-                    .to_string(),
-                );
+                }
             } else {
                 // Unknown parameter
                 return Ok(None);
