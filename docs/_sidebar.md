@@ -12,6 +12,7 @@
   - [UI Components](/COMPONENTS.md)
   - [Frame System](/FRAMES-DESIGN.md)
   - [Multi-Backend Rendering](/ARCHITECTURE.md#multi-backend-rendering)
+  - [What is Unicode?](/UNICODE-EXPLAINED.md)
 
 - **Reference**
   - [API Guide](/API-GUIDE.md)
