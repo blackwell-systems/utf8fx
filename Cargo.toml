@@ -3,12 +3,14 @@ name = "utf8fx"
 version = "1.0.0"
 edition = "2021"
 authors = ["Blackwell Systems"]
-description = "Unicode text effects for markdown and beyond"
-repository = "https://github.com/utf8fx/utf8fx-rs"
+description = "Unicode text effects for markdown and beyond - transform text into 19 Unicode styles with character spacing"
+repository = "https://github.com/blackwell-systems/utf8fx"
 license = "MIT"
 keywords = ["unicode", "markdown", "text", "styling", "converter"]
 categories = ["text-processing", "command-line-utilities"]
 readme = "README.md"
+homepage = "https://github.com/blackwell-systems/utf8fx"
+documentation = "https://docs.rs/utf8fx"
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
