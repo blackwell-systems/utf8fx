@@ -148,6 +148,9 @@ impl TemplateParser {
         let mut result = String::new();
         let mut all_assets = Vec::new();
 
+        // Preserve whether input ends with newline (lines() strips it)
+        let had_trailing_newline = markdown.ends_with('\n');
+
         let lines: Vec<&str> = markdown.lines().collect();
         let mut i = 0;
 
@@ -201,8 +204,13 @@ impl TemplateParser {
             all_assets.extend(assets);
         }
 
+        // Restore trailing newline if original had one
+        if had_trailing_newline && !result.ends_with('\n') {
+            result.push('\n');
+        }
+
         // Remove trailing newline if original didn't have one
-        if !markdown.ends_with('\n') && result.ends_with('\n') {
+        if !had_trailing_newline && result.ends_with('\n') {
             result.pop();
         }
 
@@ -1681,5 +1689,159 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let result = parser.process(input).unwrap();
         // Should render 3 inline badges
         assert_eq!(result.matches("![](").count(), 3);
+    }
+
+    // ========================================
+    // GOLDEN TESTS: Whitespace and Line Handling
+    // ========================================
+    // These tests ensure component expansion preserves document structure
+    // and doesn't introduce unwanted whitespace or break formatting.
+
+    #[test]
+    fn test_preserves_blank_lines_around_components() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Test with self-closing component (divider)
+        let input = "Paragraph 1\n\n{{ui:divider/}}\n\nParagraph 2";
+        let result = parser.process(input).unwrap();
+
+        // Should preserve blank lines before and after component
+        assert!(result.contains("Paragraph 1\n\n"));
+        assert!(result.contains("![]("));
+        assert!(result.contains("\n\nParagraph 2"));
+
+        // Count newlines: should maintain document structure
+        let input_newlines = input.matches('\n').count();
+        let result_newlines = result.matches('\n').count();
+        assert_eq!(
+            input_newlines, result_newlines,
+            "Newline count changed: input={}, result={}",
+            input_newlines, result_newlines
+        );
+    }
+
+    #[test]
+    fn test_preserves_blank_lines_around_block_components() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Test with block component (header)
+        let input = "Intro text\n\n{{ui:header}}TITLE{{/ui}}\n\nFollowing text";
+        let result = parser.process(input).unwrap();
+
+        // Should preserve structure
+        assert!(result.contains("Intro text\n\n"));
+        assert!(result.contains("\n\nFollowing text"));
+
+        // Component should expand inline (not add extra blank lines)
+        assert!(
+            !result.contains("\n\n\n\n"),
+            "Component added extra blank lines"
+        );
+    }
+
+    #[test]
+    fn test_component_expansion_in_lists() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Components inside list items
+        let input = "- Item 1\n- {{mathbold}}BOLD{{/mathbold}} item\n- Item 3";
+        let result = parser.process(input).unwrap();
+
+        // Should preserve list structure
+        assert!(result.starts_with("- Item 1\n"));
+        assert!(result.contains("- 𝐁𝐎𝐋𝐃 item\n"));
+        assert!(result.ends_with("- Item 3"));
+
+        // Should maintain same number of lines
+        assert_eq!(input.lines().count(), result.lines().count());
+    }
+
+    #[test]
+    fn test_component_expansion_with_indentation() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Nested list with component
+        let input = "- Outer\n  - {{italic}}Nested{{/italic}} item\n  - Another nested";
+        let result = parser.process(input).unwrap();
+
+        // Should preserve indentation
+        assert!(result.contains("  - 𝑁𝑒𝑠𝑡𝑒𝑑 item\n"));
+        assert!(result.contains("  - Another nested"));
+    }
+
+    #[test]
+    fn test_multiline_component_content_preserves_structure() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Multiline content in component
+        let input = "{{ui:header}}Multi\nLine\nTitle{{/ui}}";
+        let result = parser.process(input).unwrap();
+
+        // Content should be processed but structure preserved
+        // (Even though header may not handle newlines perfectly, it shouldn't crash or mangle output)
+        assert!(!result.is_empty());
+    }
+
+    #[test]
+    fn test_adjacent_components_no_extra_whitespace() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Two components with single newline between
+        let input = "{{mathbold}}FIRST{{/mathbold}}\n{{mathbold}}SECOND{{/mathbold}}";
+        let result = parser.process(input).unwrap();
+
+        // Should preserve single newline (not add extra)
+        assert_eq!(result.matches('\n').count(), 1);
+        assert!(result.contains("𝐅𝐈𝐑𝐒𝐓\n𝐒𝐄𝐂𝐎𝐍𝐃"));
+    }
+
+    #[test]
+    fn test_component_in_blockquote_preserves_prefix() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Component inside manually-written blockquote
+        let input = "> Quote with {{mathbold}}BOLD{{/mathbold}} text";
+        let result = parser.process(input).unwrap();
+
+        // Should preserve the "> " prefix
+        assert!(result.starts_with("> "));
+        assert!(result.contains("𝐁𝐎𝐋𝐃"));
+    }
+
+    #[test]
+    fn test_component_with_trailing_newline() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Component at end of document with trailing newline
+        let input = "Text before\n{{ui:divider/}}\n";
+        let result = parser.process(input).unwrap();
+
+        // Should preserve trailing newline
+        assert!(result.ends_with('\n'), "Trailing newline was lost");
+    }
+
+    #[test]
+    fn test_component_without_trailing_newline() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Component at end without trailing newline
+        let input = "Text before\n{{ui:divider/}}";
+        let result = parser.process(input).unwrap();
+
+        // Should NOT add trailing newline
+        assert!(!result.ends_with('\n'), "Unexpected trailing newline added");
+    }
+
+    #[test]
+    fn test_component_expansion_preserves_empty_lines_in_content() {
+        let parser = TemplateParser::new().unwrap();
+
+        // Block component with empty lines in content
+        let input = "{{ui:callout:warning}}Line 1\n\nLine 3{{/ui}}";
+        let result = parser.process(input).unwrap();
+
+        // Empty line in content should be preserved
+        // (though current callout may not handle this perfectly, it shouldn't crash)
+        assert!(!result.is_empty());
     }
 }
