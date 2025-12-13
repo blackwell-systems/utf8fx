@@ -1041,7 +1041,10 @@ mod tests {
         let result = parser.process(input).unwrap();
 
         // Code block content should be preserved exactly
-        assert_eq!(result, "```markdown\n{{ui:test:arg/}}\nMore {{/ui}} content\n```");
+        assert_eq!(
+            result,
+            "```markdown\n{{ui:test:arg/}}\nMore {{/ui}} content\n```"
+        );
     }
 
     #[test]

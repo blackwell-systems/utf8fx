@@ -262,15 +262,7 @@ impl ComponentsRenderer {
     /// This is used for GitHub-compatible blockquote callouts.
     /// Every line, including empty lines, gets the "> " prefix.
     ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use mdfx::ComponentsRenderer;
-    /// let renderer = ComponentsRenderer::new().unwrap();
-    /// let input = "Line 1\nLine 2\n\nLine 4";
-    /// let result = renderer.apply_blockquote(input);
-    /// assert_eq!(result, "> Line 1\n> Line 2\n>\n> Line 4");
-    /// ```
+    /// Each line is prefixed with "> ", and empty lines become ">".
     fn apply_blockquote(&self, content: &str) -> String {
         content
             .lines()
