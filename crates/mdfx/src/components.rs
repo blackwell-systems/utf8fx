@@ -16,19 +16,14 @@ pub struct ComponentsRenderer {
 }
 
 /// Post-processing operations applied after template expansion
-#[derive(Debug, Clone, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Deserialize, PartialEq, Default)]
 #[serde(rename_all = "snake_case")]
 pub enum PostProcess {
     /// No post-processing (default)
+    #[default]
     None,
     /// Prefix every line with "> " for Markdown blockquotes
     Blockquote,
-}
-
-impl Default for PostProcess {
-    fn default() -> Self {
-        PostProcess::None
-    }
 }
 
 /// A component definition from components.json

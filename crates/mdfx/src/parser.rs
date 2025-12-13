@@ -1035,6 +1035,16 @@ mod tests {
     }
 
     #[test]
+    fn test_preserves_code_blocks_with_language() {
+        let parser = TemplateParser::new().unwrap();
+        let input = "```markdown\n{{ui:test:arg/}}\nMore {{/ui}} content\n```";
+        let result = parser.process(input).unwrap();
+
+        // Code block content should be preserved exactly
+        assert_eq!(result, "```markdown\n{{ui:test:arg/}}\nMore {{/ui}} content\n```");
+    }
+
+    #[test]
     fn test_preserves_inline_code() {
         let parser = TemplateParser::new().unwrap();
         let input = "Text `{{mathbold}}code{{/mathbold}}` more text";
@@ -1924,7 +1934,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         assert!(lines.iter().all(|line| line.starts_with(">")));
 
         // Middle line should be just ">"
-        assert!(lines.iter().any(|line| *line == ">"));
+        assert!(lines.contains(&">"));
     }
 
     #[test]
