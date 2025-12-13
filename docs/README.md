@@ -1,13 +1,55 @@
-# ▓▒░ 𝐌·𝐃·𝐅·𝐗 ░▒▓
+# mdfx Documentation
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Tests](https://img.shields.io/badge/tests-174_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Crates.io](https://img.shields.io/crates/v/mdfx.svg)](https://crates.io/crates/mdfx)
 
-𝗨𝗻𝗶𝗰𝗼𝗱𝗲 𝘁𝗲𝘅𝘁 𝗲𝗳𝗳𝗲𝗰𝘁𝘀 𝗳𝗼𝗿 𝗺𝗮𝗿𝗸𝗱𝗼𝘄𝗻 𝗮𝗻𝗱 𝗯𝗲𝘆𝗼𝗻𝗱
+Welcome to the mdfx documentation site! This is your navigation hub for all documentation.
 
-Transform text into various Unicode styles through a powerful template system. Create distinctive visual elements
-for READMEs, documentation, and presentations without images or external dependencies.
+**Transform markdown with Unicode text effects and UI components through template syntax.**
+
+## 📚 Getting Started
+
+**New to mdfx?** Start here:
+- [Quick Start](#quick-start) - Installation and first examples
+- [What is Unicode?](UNICODE-EXPLAINED.md) - Understanding Unicode vs fonts
+- [Examples](https://github.com/blackwell-systems/mdfx/tree/main/examples) - Visual showcase and sample files
+
+## 📖 User Documentation
+
+### Core Features
+- [19 Unicode Styles](#19-unicode-styles) - Text transformation styles (mathbold, script, fraktur, etc.)
+- [Template System](#template-system) - Embedding effects in markdown
+- [UI Components](COMPONENTS.md) - Dividers, badges, tech stacks, status indicators
+- [Frame System](FRAMES-DESIGN.md) - Visual frames and borders
+
+### Rendering
+- [Multi-Backend System](#multi-backend-rendering) - Shields.io vs local SVG
+- [CLI Commands](#cli-commands) - Complete command reference
+
+## 🔧 Technical Documentation
+
+- [Architecture](ARCHITECTURE.md) - System design, workspace structure, and multi-backend architecture
+- [API Guide](API-GUIDE.md) - Complete library API reference with examples
+- [Parser Design](parser-design.md) - Template parsing implementation
+- [State Machine Guide](STATE-MACHINE-GUIDE.md) - Parser state machine details
+
+## 🎨 Design Resources
+
+- [Unicode Design Elements](unicode-design-elements.md) - Complete Unicode character reference
+- [Planning Document](PLANNING.md) - Design decisions and roadmap
+
+---
+
+**Looking for something specific?**
+- Installation → [Quick Start](#quick-start)
+- Using in Rust code → [API Guide](API-GUIDE.md#getting-started)
+- Component reference → [UI Components](COMPONENTS.md)
+- Understanding the architecture → [Architecture](ARCHITECTURE.md#workspace-structure)
+- CLI reference → [CLI Commands](#cli-commands)
+
+---
 
 ## Quick Start
 

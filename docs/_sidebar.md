@@ -1,34 +1,31 @@
 <!-- docs/_sidebar.md -->
 
-- **Getting Started**
-  - [mdfx](/)
+- **📚 Getting Started**
+  - [Documentation Home](/)
   - [Quick Start](/#quick-start)
-  - [Installation](/#installation)
-  - [Examples](/examples/)
+  - [What is Unicode?](/UNICODE-EXPLAINED.md)
+  - [Examples](https://github.com/blackwell-systems/mdfx/tree/main/examples)
 
-- **Core Features**
-  - [Unicode Styles](/#unicode-styles)
-  - [Template Syntax](/#template-syntax)
+- **📖 User Guide**
+  - [19 Unicode Styles](/#19-unicode-styles)
+  - [Template System](/#template-system)
   - [UI Components](/COMPONENTS.md)
   - [Frame System](/FRAMES-DESIGN.md)
-  - [Multi-Backend Rendering](/ARCHITECTURE.md#multi-backend-rendering)
-  - [What is Unicode?](/UNICODE-EXPLAINED.md)
+  - [Multi-Backend Rendering](/#multi-backend-rendering)
+  - [CLI Commands](/#cli-commands)
 
-- **Reference**
-  - [API Guide](/API-GUIDE.md)
+- **🔧 Technical Docs**
   - [Architecture](/ARCHITECTURE.md)
-  - [Components Reference](/COMPONENTS.md)
-
-- **Advanced**
+  - [API Guide](/API-GUIDE.md)
   - [Parser Design](/parser-design.md)
-  - [Unicode Design Elements](/unicode-design-elements.md)
-  - [State Machine Guide](/STATE-MACHINE-GUIDE.md)
+  - [State Machine](/STATE-MACHINE-GUIDE.md)
 
-- **Project**
-  - [Planning](/PLANNING.md)
+- **🎨 Design Resources**
+  - [Unicode Elements](/unicode-design-elements.md)
+  - [Planning & Roadmap](/PLANNING.md)
+
+- **🔗 Links**
+  - [GitHub Repository](https://github.com/blackwell-systems/mdfx)
+  - [Issue Tracker](https://github.com/blackwell-systems/mdfx/issues)
+  - [Crates.io](https://crates.io/crates/mdfx)
   - [Changelog](https://github.com/blackwell-systems/mdfx/blob/main/CHANGELOG.md)
-
-- **Links**
-  - [![GitHub](https://icongr.am/simple/github.svg?size=16&colored=false) GitHub Repo](https://github.com/blackwell-systems/mdfx)
-  - [![Issues](https://icongr.am/octicons/issue-opened.svg?size=16) Issues](https://github.com/blackwell-systems/mdfx/issues)
-  - [![Crates.io](https://img.shields.io/badge/crates.io-mdfx-orange)](https://crates.io/crates/mdfx)
