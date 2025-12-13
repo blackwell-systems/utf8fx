@@ -512,9 +512,9 @@ diff -r dist1/ dist2/  # Should be identical
 
 ## Implementation Phases
 
-### Phase 0: v1.0.0 (Current - December 2025)
+### Phase 0: v1.0.0 (December 2025) ✅ COMPLETE
 
-**Ship what we have**:
+**Shipped**:
 - ✅ Template parser with 19 Unicode styles
 - ✅ Component system (9 components)
 - ✅ Multi-backend rendering (shields.io, SVG)
@@ -524,33 +524,42 @@ diff -r dist1/ dist2/  # Should be identical
 
 **Position as**: "Markdown styling tool with component system"
 
-### Phase 1: v1.1.0 - Unified Registry (Q1 2026)
+### Phase 1: v1.1.0 - Unified Registry ✅ COMPLETE (ahead of schedule)
 
-**Add without breaking**:
-- Add `snippets.json` alongside existing files
-- Extend separator resolution to check snippets
-- Add `chrome.*` snippets for frame composition
-- Maintain backward compatibility with v1.0 templates
+**Implemented** (December 2025):
+- ✅ Created unified `registry.json` consolidating ALL 7 data files (1139 lines)
+- ✅ Implemented `Registry` module with complete typed API
+- ✅ Extended separator resolution to use glyphs from registry
+- ✅ Added snippets (10) for template expansion
+- ✅ Parser refactored to use Registry for validation
+- ✅ Maintained backward compatibility with v1.0 templates
 
 **Migration**: None required, purely additive
 
-### Phase 2: v1.2.0 - Context System (Q2 2026)
+### Phase 2: v1.2.0 - Context System ✅ COMPLETE (ahead of schedule)
 
-**Add context validation**:
-- Add `contexts` field to all renderables
-- Implement `EvalContext` enum
-- Validate context compatibility at expansion time
-- Helpful error messages with suggestions
+**Implemented** (December 2025):
+- ✅ Added `contexts` field to all renderables in registry.json
+- ✅ Implemented `EvalContext` enum (Inline, Block, FrameChrome)
+- ✅ Implemented context promotion rules
+- ✅ Validate context compatibility for separators
+- ✅ Error messages with available glyph suggestions
 
-**Migration**: Existing templates work, but may emit warnings for context mismatches
+**Migration**: Existing templates work; context validation enforced for separators
 
-### Phase 3: v2.0.0 - Full Compiler Model (Q3 2026)
+### Phase 3: v2.0.0 - Full Compiler Model ⏳ PARTIALLY COMPLETE
 
-**Breaking refactor**:
-- Consolidate all data files into unified registry
-- Implement target abstraction
-- Multi-target compilation
-- Remove deprecated v1.x APIs
+**Completed**:
+- ✅ Consolidated all data files into unified registry
+- ✅ Implemented Target trait abstraction
+- ✅ Shipped targets: GitHubTarget, LocalDocsTarget, NpmTarget
+- ✅ BackendType enum with derived Default
+
+**Remaining**:
+- ⏳ Wire `--target` flag into CLI
+- ⏳ Multi-target compilation command
+- ⏳ Target-aware backend selection
+- ⏳ Remove deprecated v1.x APIs (separators.json still loaded by old code)
 
 **Migration**: Provide `mdfx migrate` tool to auto-convert v1 → v2
 

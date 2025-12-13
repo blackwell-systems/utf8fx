@@ -667,45 +667,52 @@ fn detect_target_from_package_manager(cwd: &Path) -> Option<&'static str> {
 
 ## Implementation Phases
 
-### Phase 1: v1.0 - GitHub Only (Current)
+### Phase 1: v1.0 - GitHub Only ✅ COMPLETE
 
-**Status**: Shipped
+**Status**: Shipped December 2025
 
-- Single target: GitHub
-- Shields.io + SVG backends
+- ✅ Single target: GitHub (implicit)
+- ✅ Shields.io + SVG backends
 - No target abstraction yet
 
-### Phase 2: v1.1 - Add Target Trait
+### Phase 2: v1.1 - Add Target Trait ✅ COMPLETE (ahead of schedule)
 
-**Status**: Planned Q1 2026
+**Status**: Implemented December 2025
 
-- Add `Target` trait to codebase
-- Implement `GitHubTarget` (wraps current behavior)
-- Add `--target` flag (only accepts "github" for now)
-- Refactor backends to be target-aware
+- ✅ Added `Target` trait to codebase (`targets.rs`)
+- ✅ Implemented `GitHubTarget` (wraps current behavior)
+- ✅ Added `BackendType` enum with derived Default
+- ✅ 8 tests for Target trait
+
+**Remaining**:
+- ⏳ Add `--target` flag to CLI
+- ⏳ Refactor backends to be fully target-aware
 
 **Migration**: None required (GitHub is default)
 
-### Phase 3: v1.2 - Add More Targets
+### Phase 3: v1.2 - Add More Targets ✅ COMPLETE (ahead of schedule)
 
-**Status**: Planned Q2 2026
+**Status**: Implemented December 2025
 
-- Implement `LocalDocsTarget`
-- Implement `NpmTarget`
-- Add target auto-detection
-- Add multi-target build command
+- ✅ Implemented `LocalDocsTarget` (SVG files, offline-first)
+- ✅ Implemented `NpmTarget` (similar to GitHub)
+- ✅ Implemented `detect_target_from_path()` utility
+
+**Remaining**:
+- ⏳ Wire target auto-detection into CLI
+- ⏳ Add multi-target build command
 
 **Migration**: None required (GitHub still default)
 
-### Phase 4: v2.0 - Full Multi-Target
+### Phase 4: v2.0 - Full Multi-Target ⏳ NOT STARTED
 
 **Status**: Planned Q3 2026
 
-- Implement `GitLabTarget`
-- Implement `PyPITarget`
-- Target-specific post-processing
-- Fallback strategies
-- Target-specific escapes
+- ⏳ Implement `GitLabTarget`
+- ⏳ Implement `PyPITarget`
+- ⏳ Target-specific post-processing
+- ⏳ Fallback strategies
+- ⏳ Target-specific escapes
 
 **Migration**: Users can explicitly set target in config
 

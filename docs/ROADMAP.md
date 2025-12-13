@@ -17,12 +17,58 @@ This document outlines planned features and architectural improvements for mdfx.
 - [x] Multi-backend rendering (ShieldsBackend, SvgBackend)
 - [x] Data-driven separator system (12 named + direct Unicode)
 - [x] Cargo workspace structure (library + CLI separation)
-- [x] 185 comprehensive tests
+- [x] 256 comprehensive tests
 
 ### Separator System Enhancements
 - [x] Validation: trim whitespace, reject template delimiters
 - [x] Error messages with "did you mean" suggestions
 - [x] Support for any single Unicode character
+
+---
+
+## ✅ Completed (December 2025 - Ahead of Schedule)
+
+### Unified Registry System (Originally planned for v1.1.0-v2.0.0)
+- [x] Created unified `registry.json` consolidating 7 data files (1139 lines)
+- [x] Implemented `Registry` module with complete typed API (`registry.rs`)
+- [x] Renderables: Glyphs (21), Snippets (10), Components (9), Frames (32), Styles (19), Badges (6)
+- [x] Alias support for all renderable types
+- [x] Parser refactored to use Registry for validation (style, frame, badge, separator)
+- [x] Unified resolution: glyphs → snippets → components → literal
+
+### EvalContext System (Originally planned for v1.2.0)
+- [x] Implemented `EvalContext` enum: Inline, Block, FrameChrome
+- [x] All renderables annotated with allowed contexts in registry.json
+- [x] Context promotion rules (Inline → Block/FrameChrome)
+- [x] Separator resolution validates inline context with error messages
+- [x] 8 new tests for Registry and contexts
+
+### Target Trait (Originally planned for v1.1.0-v1.2.0)
+- [x] Implemented `Target` trait abstraction (`targets.rs`)
+- [x] Shipped targets: GitHubTarget, LocalDocsTarget, NpmTarget
+- [x] `BackendType` enum: Shields, Svg, PlainText (with derived Default)
+- [x] `detect_target_from_path()` utility for auto-detection
+- [x] 8 new tests for Target trait
+
+---
+
+## 🔧 Next Steps (v2.0.0 Preparation)
+
+### CLI Integration (Required for v2.0)
+- [ ] Add `--target` flag to CLI (github, local, npm)
+- [ ] Wire target auto-detection from output path
+- [ ] Add multi-target build command (`mdfx build --all-targets`)
+- [ ] Add `--strict-contexts` flag for context validation
+
+### Backend/Target Integration
+- [ ] Refactor backends to be target-aware
+- [ ] Target-specific post-processing in pipeline
+- [ ] Fallback strategies for plain text targets
+
+### Deprecation Cleanup
+- [ ] Remove direct usage of old data files (separators.json, etc.)
+- [ ] Add migration warnings for deprecated APIs
+- [ ] Prepare `mdfx migrate` tool for v1 → v2
 
 ---
 

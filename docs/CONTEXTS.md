@@ -420,55 +420,60 @@ ERROR[2005]: Invalid frame chrome
 
 ## Implementation Strategy
 
-### Phase 1: Add Context Annotations (v1.1.0)
+### Phase 1: Add Context Annotations ✅ COMPLETE (ahead of schedule)
 
-**Changes**:
-- Add `contexts` field to all data structures
-- Make field optional (defaults: `["inline", "block"]`)
-- No validation yet (warnings only)
+**Status**: Implemented December 2025
+
+- ✅ Added `contexts` field to all renderables in `registry.json`
+- ✅ All glyphs, snippets, components, frames, styles, badges annotated
+- ✅ EvalContext enum implemented (Inline, Block, FrameChrome)
 
 **Example**:
 ```json
 {
+  "glyphs": {
+    "dot": {
+      "value": "·",
+      "contexts": ["inline", "block", "frame_chrome"]
+    }
+  },
   "components": {
     "divider": {
       "type": "native",
-      "contexts": ["block"],  // New field
-      ...
+      "contexts": ["block"]
     }
   }
 }
 ```
 
-**CLI**:
+### Phase 2: Validate Contexts ✅ COMPLETE (ahead of schedule)
+
+**Status**: Implemented December 2025
+
+- ✅ Implemented `EvalContext::can_promote_to()` for context promotion
+- ✅ Validation logic implemented in `Registry::resolve()`
+- ✅ Separator resolution validates inline context
+- ✅ Error messages with available glyph suggestions
+
+**Current behavior** (separators):
 ```bash
 $ mdfx process input.md
-Warning: Component 'divider' used in inline context
-  Consider using a block context or inline-compatible component
+# Unknown multi-grapheme separator → ERROR with suggestions
+# Known glyph in wrong context → ERROR with context explanation
 ```
 
-### Phase 2: Validate Contexts (v1.2.0)
+**Remaining**:
+- ⏳ Add `--strict-contexts` flag to CLI
+- ⏳ Extend validation to all expansion sites (frames, components)
+- ⏳ Add warnings mode (currently hard errors)
 
-**Changes**:
-- Implement validation logic
-- Make validation opt-in via `--strict-contexts` flag
-- Default to warnings (not errors)
+### Phase 3: Enforce by Default (v2.0.0) ⏳ NOT STARTED
 
-**CLI**:
-```bash
-$ mdfx process input.md --strict-contexts
-ERROR[2003]: Context mismatch [stops compilation]
+**Status**: Planned Q3 2026
 
-$ mdfx process input.md  # Default
-Warning: Context mismatch [continues]
-```
-
-### Phase 3: Enforce by Default (v2.0.0)
-
-**Changes**:
-- Context validation enabled by default
-- `--allow-context-mismatches` flag to disable (escape hatch)
-- Hard errors on mismatch
+- ⏳ Context validation enabled by default for all sites
+- ⏳ `--allow-context-mismatches` flag to disable (escape hatch)
+- ⏳ Hard errors on mismatch
 
 **Migration**:
 ```bash
