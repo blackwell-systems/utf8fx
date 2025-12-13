@@ -104,35 +104,60 @@ mdfx is a markdown preprocessor that transforms text using Unicode character map
 
 ```mermaid
 %%{init: {'theme':'dark'}}%%
-graph LR
-    A[Input Text] --> B[Template Parser]
-    B --> UI[ComponentsRenderer]
-    UI --> B2[Recursive Parse]
-    B2 --> F[FrameRenderer]
-    B2 --> H[BadgeRenderer]
-    B2 --> S[ShieldsRenderer]
-    B2 --> C[Converter]
-    F --> O[Styled Output]
-    H --> O
-    S --> O
-    C --> O
+graph TB
+    subgraph CLI["mdfx-cli (Binary)"]
+        CMD[CLI Args] --> MAIN[main.rs]
+    end
 
-    P[palette.json] -.->|Design Tokens| UI
-    COM[components.json] -.->|Expansion Rules| UI
-    SH[shields.json] -.->|Shield Styles| S
-    FR[frames.json] -.->|Decorations| F
-    BA[badges.json] -.->|Enclosed Chars| H
-    ST[styles.json] -.->|Character Maps| C
+    subgraph LIB["mdfx (Library)"]
+        MAIN --> PARSER[TemplateParser]
+        PARSER --> UI[ComponentsRenderer]
 
-    style A fill:#2d3748,stroke:#4299e1,stroke-width:2px
-    style B fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style UI fill:#2d3748,stroke:#f56565,stroke-width:3px
-    style B2 fill:#2d3748,stroke:#48bb78,stroke-width:2px
-    style F fill:#2d3748,stroke:#9f7aea,stroke-width:2px
-    style H fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style S fill:#2d3748,stroke:#f56565,stroke-width:2px
-    style C fill:#2d3748,stroke:#ed8936,stroke-width:2px
-    style O fill:#2d3748,stroke:#4299e1,stroke-width:2px
+        UI -->|ComponentOutput| DECISION{Output Type?}
+
+        DECISION -->|Primitive| BACKEND[Backend<br/>Box&lt;dyn Renderer&gt;]
+        DECISION -->|Template| RECURSE[Recursive Parse]
+
+        BACKEND -->|Trait Dispatch| SHIELDS[ShieldsBackend]
+        BACKEND -->|Trait Dispatch| SVG[SvgBackend]
+
+        SHIELDS --> INLINE[InlineMarkdown]
+        SVG --> FILES[File Assets]
+
+        RECURSE --> FRAME[FrameRenderer]
+        RECURSE --> BADGE[BadgeRenderer]
+        RECURSE --> SHIELD[ShieldsRenderer]
+        RECURSE --> CONV[Converter]
+
+        FRAME --> OUTPUT[Styled Output]
+        BADGE --> OUTPUT
+        SHIELD --> OUTPUT
+        CONV --> OUTPUT
+        INLINE --> OUTPUT
+        FILES --> OUTPUT
+    end
+
+    subgraph DATA["Data Files (JSON)"]
+        P[palette.json]
+        COM[components.json]
+        SH[shields.json]
+        FR[frames.json]
+        BA[badges.json]
+        ST[styles.json]
+    end
+
+    P -.->|Design Tokens| UI
+    COM -.->|Expansion Rules| UI
+    SH -.->|Shield Styles| SHIELD
+    FR -.->|Decorations| FRAME
+    BA -.->|Enclosed Chars| BADGE
+    ST -.->|Character Maps| CONV
+
+    style CLI fill:#1a1a1a,stroke:#4299e1,stroke-width:3px
+    style LIB fill:#1a1a1a,stroke:#48bb78,stroke-width:3px
+    style DATA fill:#1a1a1a,stroke:#9f7aea,stroke-width:2px
+    style BACKEND fill:#2d3748,stroke:#f56565,stroke-width:3px
+    style UI fill:#2d3748,stroke:#f56565,stroke-width:2px
 ```
 
 ### Core Principles
@@ -243,18 +268,28 @@ graph LR
 
 ## Multi-Backend Rendering Architecture
 
-**Version:** 0.1.0
-**Status:** Architecture shipped, ShieldsBackend implemented
+**Version:** 1.0.0
+**Status:** ✅ Fully implemented with ShieldsBackend and SvgBackend
 
 ### Overview
 
 UI components (divider, swatch, tech, status) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
 
+The backend is selected at parser construction time:
+```rust
+// Shields.io URLs (default)
+let parser = TemplateParser::new()?;
+
+// Local SVG files
+let parser = TemplateParser::with_backend(Box::new(SvgBackend::new("assets")))?;
+```
+
 ### Primitive AST
 
-Components that generate images (not text effects) expand to a **Primitive enum** instead of template strings:
+Components that generate visual elements expand to a **Primitive enum** instead of template strings:
 
 ```rust
+#[derive(Debug, Clone, PartialEq)]
 pub enum Primitive {
     Swatch { color: String, style: String },
     Divider { colors: Vec<String>, style: String },
@@ -264,9 +299,10 @@ pub enum Primitive {
 ```
 
 **Why primitives:**
-- **Backend-neutral:** Represents *intent* (a tech badge), not implementation (shields.io URL)
+- **Backend-neutral:** Represents *intent* (a tech badge), not implementation (shields.io URL or SVG)
 - **Type-safe:** Compiler-verified parameters
 - **Testable:** Can assert on primitive generation independent of rendering
+- **Serializable:** Primitives can be logged, cached, or transformed
 
 ### Renderer Trait
 
@@ -277,11 +313,22 @@ pub trait Renderer {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset>;
 }
 
+#[derive(Debug, Clone, PartialEq)]
 pub enum RenderedAsset {
-    InlineMarkdown(String),          // e.g., ![](https://...)
-    FileAsset { path: String, markdown: String },  // e.g., ![](assets/badge.svg)
+    InlineMarkdown(String),
+    File {
+        relative_path: String,
+        bytes: Vec<u8>,
+        markdown_ref: String,
+    },
 }
 ```
+
+Helper methods:
+- `file_bytes()` → `Option<&[u8]>` - Get file content for writing
+- `file_path()` → `Option<&str>` - Get relative path
+- `to_markdown()` → `&str` - Get markdown reference
+- `is_file_based()` → `bool` - Check if requires file write
 
 ### Available Backends
 
@@ -309,17 +356,20 @@ mdfx process --backend shields input.md   # default
 mdfx process input.md                     # same (shields is default)
 ```
 
-#### SvgBackend (Planned)
+#### SvgBackend
 
-**Status:** ⏳ Architecture ready, implementation pending (v1.1.0+)
+**Status:** ✅ Shipped in v1.0.0
 
-Will generate local SVG files with hash-based naming:
+Generates local SVG files with deterministic hash-based naming:
 ```rust
 let backend = SvgBackend::new("./assets")?;
 let primitive = Primitive::Swatch { color: "F41C80", style: "flat-square" };
 let rendered = backend.render(&primitive)?;
-// Returns: FileAsset { path: "assets/swatch_a3f8e2.svg", markdown: "![](assets/swatch_a3f8e2.svg)" }
-// Writes: ./assets/swatch_a3f8e2.svg (actual SVG file)
+// Returns: File {
+//   relative_path: "assets/mdfx/swatch_541bbacc5bf498fd.svg",
+//   bytes: vec![...],  // SVG file content
+//   markdown_ref: "![](assets/mdfx/swatch_541bbacc5bf498fd.svg)"
+// }
 ```
 
 **Advantages:**
@@ -328,16 +378,18 @@ let rendered = backend.render(&primitive)?;
 - No external dependencies (some orgs block shields.io)
 - Deterministic builds (same input → same hash → same file)
 
-**CLI Usage (future):**
+**CLI Usage:**
 ```bash
 mdfx process --backend svg --assets-dir ./docs/ui input.md
 ```
 
-**Implementation Notes:**
-- Hash-based filenames prevent collisions: `divider_<hash>.svg`
-- Caching: if file exists with same hash, skip write
-- Phase 1: Support swatch/divider/status (solid colors only)
-- Phase 2: Tech badges (requires bundling logo SVGs)
+**Implementation Details:**
+- Hash-based filenames prevent collisions and enable caching
+- Filename format: `{type}_{hash}.svg` (e.g., `divider_a3f8e2b1.svg`)
+- Hash computed from primitive parameters (color, style, etc.)
+- Assets collected via `process_with_assets()` API
+- Supports: Swatch, Divider, Status (solid colors)
+- Tech badges use embedded Simple Icons SVG logos
 
 ### Rendering Flow
 
@@ -347,7 +399,11 @@ mdfx process --backend svg --assets-dir ./docs/ui input.md
 Primitive::Tech { name: "rust", bg_color: "292A2D", ... }
   ↓ backend.render() [trait dispatch]
   ├─ ShieldsBackend  → InlineMarkdown("![](https://img.shields.io/...)")
-  └─ SvgBackend      → FileAsset { path: "assets/tech_rust_a3f.svg", markdown: "![](assets/...)" }
+  └─ SvgBackend      → File {
+                          relative_path: "assets/mdfx/tech_669db7effe993b2f.svg",
+                          bytes: vec![...],
+                          markdown_ref: "![](assets/mdfx/tech_669db7effe993b2f.svg)"
+                       }
   ↓
 Markdown output
 ```
@@ -533,8 +589,12 @@ pub trait Renderer {
 **RenderedAsset:**
 ```rust
 pub enum RenderedAsset {
-    InlineMarkdown(String),          // e.g., shields.io URL
-    FileAsset { path: String, markdown: String },  // e.g., local SVG
+    InlineMarkdown(String),  // e.g., shields.io URL
+    File {
+        relative_path: String,  // Path for writing
+        bytes: Vec<u8>,         // File content
+        markdown_ref: String,   // Markdown reference
+    },
 }
 ```
 
@@ -550,10 +610,11 @@ pub enum RenderedAsset {
   - `Primitive::Status` → `ShieldsRenderer::render_block()`
 - Returns `RenderedAsset::InlineMarkdown`
 
-**SvgBackend** (planned):
-- Will generate local SVG files
-- Hash-based filenames for caching
-- Returns `RenderedAsset::FileAsset`
+**SvgBackend** (`src/renderer/svg.rs`):
+- Generates local SVG files with deterministic naming
+- Hash-based filenames for reproducible builds
+- Returns `RenderedAsset::File` with bytes and markdown reference
+- Supports all primitive types: Swatch, Divider, Tech, Status
 
 **Design:**
 - **Separation of concerns:** Shield URL generation (ShieldsRenderer) separate from backend abstraction (ShieldsBackend)

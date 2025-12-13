@@ -1,13 +1,13 @@
 use clap::{CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
 use colored::Colorize;
+use mdfx::renderer::shields::ShieldsBackend;
+use mdfx::renderer::svg::SvgBackend;
+use mdfx::{Converter, Error, StyleCategory, TemplateParser};
 use std::fs;
 use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process;
-use mdfx::renderer::shields::ShieldsBackend;
-use mdfx::renderer::svg::SvgBackend;
-use mdfx::{Converter, Error, StyleCategory, TemplateParser};
 
 /// Markdown effects: Unicode text styling and UI components
 #[derive(Parser)]
