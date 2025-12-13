@@ -65,10 +65,10 @@ This document outlines planned features and architectural improvements for mdfx.
 - [ ] Target-specific post-processing in pipeline
 - [ ] Fallback strategies for plain text targets
 
-### Deprecation Cleanup
-- [ ] Remove direct usage of old data files (separators.json, etc.)
-- [ ] Add migration warnings for deprecated APIs
-- [ ] Prepare `mdfx migrate` tool for v1 → v2
+### Data Consolidation ✓
+- [x] Consolidated all JSON data files into registry.json
+- [x] Removed redundant data files (badges.json, frames.json, styles.json, etc.)
+- [x] Updated all modules to use unified registry.json as single source of truth
 
 ---
 

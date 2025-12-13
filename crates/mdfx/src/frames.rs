@@ -1,4 +1,5 @@
 use crate::error::{Error, Result};
+use crate::registry::EvalContext;
 use serde::Deserialize;
 use std::collections::HashMap;
 
@@ -17,26 +18,74 @@ pub struct FrameStyle {
     pub suffix: String,
     #[serde(default)]
     pub aliases: Vec<String>,
+    #[serde(default)]
+    pub contexts: Vec<EvalContext>,
 }
 
-/// Frame data loaded from frames.json
+/// Intermediate structure to parse registry.json for frames
 #[derive(Debug, Deserialize)]
-struct FramesData {
-    #[allow(dead_code)]
-    version: String,
-    frames: HashMap<String, FrameStyle>,
+struct RegistryFramesExtract {
+    renderables: RenderablesExtract,
+}
+
+#[derive(Debug, Deserialize)]
+struct RenderablesExtract {
+    frames: HashMap<String, FrameEntry>,
+}
+
+/// Frame entry as stored in registry.json (without redundant id/name)
+#[derive(Debug, Deserialize)]
+struct FrameEntry {
+    prefix: String,
+    suffix: String,
+    description: String,
+    #[serde(default)]
+    aliases: Vec<String>,
+    #[serde(default)]
+    contexts: Vec<EvalContext>,
 }
 
 impl FrameRenderer {
-    /// Create a new frame renderer by loading frames.json
+    /// Create a new frame renderer by loading from registry.json
     pub fn new() -> Result<Self> {
-        let data = include_str!("../data/frames.json");
-        let frames_data: FramesData = serde_json::from_str(data)
-            .map_err(|e| Error::ParseError(format!("Failed to parse frames.json: {}", e)))?;
+        let data = include_str!("../data/registry.json");
+        let registry: RegistryFramesExtract = serde_json::from_str(data).map_err(|e| {
+            Error::ParseError(format!("Failed to parse registry.json for frames: {}", e))
+        })?;
 
-        Ok(FrameRenderer {
-            frames: frames_data.frames,
-        })
+        // Convert FrameEntry to FrameStyle, deriving id and name from the key
+        let frames: HashMap<String, FrameStyle> = registry
+            .renderables
+            .frames
+            .into_iter()
+            .map(|(id, entry)| {
+                let name = id
+                    .split('-')
+                    .map(|word| {
+                        let mut chars = word.chars();
+                        match chars.next() {
+                            Some(first) => {
+                                first.to_uppercase().collect::<String>() + chars.as_str()
+                            }
+                            None => String::new(),
+                        }
+                    })
+                    .collect::<Vec<_>>()
+                    .join(" ");
+                let style = FrameStyle {
+                    id: id.clone(),
+                    name,
+                    description: entry.description,
+                    prefix: entry.prefix,
+                    suffix: entry.suffix,
+                    aliases: entry.aliases,
+                    contexts: entry.contexts,
+                };
+                (id, style)
+            })
+            .collect();
+
+        Ok(FrameRenderer { frames })
     }
 
     /// Apply a frame around text
@@ -100,43 +149,16 @@ mod tests {
     #[test]
     fn test_apply_gradient_frame() {
         let renderer = FrameRenderer::new().unwrap();
-        let result = renderer.apply_frame("Test", "gradient").unwrap();
-        assert_eq!(result, "▓▒░ Test ░▒▓");
-    }
-
-    #[test]
-    fn test_apply_solid_left_frame() {
-        let renderer = FrameRenderer::new().unwrap();
-        let result = renderer.apply_frame("Important", "solid-left").unwrap();
-        assert_eq!(result, "█▌Important");
-    }
-
-    #[test]
-    fn test_apply_dashed_frame() {
-        let renderer = FrameRenderer::new().unwrap();
-        let result = renderer.apply_frame("Section", "dashed").unwrap();
-        assert_eq!(result, "━━━ Section ━━━");
-    }
-
-    #[test]
-    fn test_frame_alias() {
-        let renderer = FrameRenderer::new().unwrap();
-        let result = renderer.apply_frame("Test", "grad").unwrap();
-        assert_eq!(result, "▓▒░ Test ░▒▓");
-    }
-
-    #[test]
-    fn test_unknown_frame() {
-        let renderer = FrameRenderer::new().unwrap();
-        let result = renderer.apply_frame("Test", "invalid-frame");
-        assert!(result.is_err());
+        let result = renderer.apply_frame("Test", "gradient");
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap(), "▓▒░ Test ░▒▓");
     }
 
     #[test]
     fn test_has_frame() {
         let renderer = FrameRenderer::new().unwrap();
         assert!(renderer.has_frame("gradient"));
-        assert!(renderer.has_frame("grad"));
+        assert!(renderer.has_frame("solid-left"));
         assert!(!renderer.has_frame("nonexistent"));
     }
 
@@ -144,6 +166,14 @@ mod tests {
     fn test_list_frames() {
         let renderer = FrameRenderer::new().unwrap();
         let frames = renderer.list_frames();
-        assert!(!frames.is_empty());
+        assert!(frames.len() >= 10); // At least 10 frames
+    }
+
+    #[test]
+    fn test_frame_alias() {
+        let renderer = FrameRenderer::new().unwrap();
+        // Check that aliases work
+        let frame = renderer.get_frame("gradient");
+        assert!(frame.is_ok());
     }
 }

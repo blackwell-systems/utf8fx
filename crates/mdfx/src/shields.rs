@@ -24,25 +24,24 @@ pub struct ShieldStyle {
     pub aliases: Vec<String>,
 }
 
-/// Shield data loaded from shields.json
+/// Intermediate structure to parse registry.json for shields
 #[derive(Debug, Deserialize)]
-struct ShieldsData {
-    #[allow(dead_code)]
-    version: String,
+struct RegistryShieldsExtract {
     palette: HashMap<String, String>,
-    styles: HashMap<String, ShieldStyle>,
+    shield_styles: HashMap<String, ShieldStyle>,
 }
 
 impl ShieldsRenderer {
-    /// Create a new shields renderer by loading shields.json
+    /// Create a new shields renderer by loading from registry.json
     pub fn new() -> Result<Self> {
-        let data = include_str!("../data/shields.json");
-        let shields_data: ShieldsData = serde_json::from_str(data)
-            .map_err(|e| Error::ParseError(format!("Failed to parse shields.json: {}", e)))?;
+        let data = include_str!("../data/registry.json");
+        let registry: RegistryShieldsExtract = serde_json::from_str(data).map_err(|e| {
+            Error::ParseError(format!("Failed to parse registry.json for shields: {}", e))
+        })?;
 
         Ok(ShieldsRenderer {
-            palette: shields_data.palette,
-            styles: shields_data.styles,
+            palette: registry.palette,
+            styles: registry.shield_styles,
         })
     }
 

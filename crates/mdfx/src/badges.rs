@@ -1,4 +1,5 @@
 use crate::error::{Error, Result};
+use crate::registry::EvalContext;
 use serde::Deserialize;
 use std::collections::HashMap;
 
@@ -22,25 +23,31 @@ pub struct BadgeType {
     #[serde(default)]
     pub aliases: Vec<String>,
     pub mappings: HashMap<String, String>,
+    #[serde(default)]
+    pub contexts: Vec<EvalContext>,
 }
 
-/// Badge data loaded from badges.json
+/// Intermediate structure to parse registry.json for badges
 #[derive(Debug, Deserialize)]
-struct BadgesData {
-    #[allow(dead_code)]
-    version: String,
+struct RegistryBadgesExtract {
+    renderables: RenderablesExtract,
+}
+
+#[derive(Debug, Deserialize)]
+struct RenderablesExtract {
     badges: HashMap<String, BadgeType>,
 }
 
 impl BadgeRenderer {
-    /// Create a new badge renderer by loading badges.json
+    /// Create a new badge renderer by loading from registry.json
     pub fn new() -> Result<Self> {
-        let data = include_str!("../data/badges.json");
-        let badges_data: BadgesData = serde_json::from_str(data)
-            .map_err(|e| Error::ParseError(format!("Failed to parse badges.json: {}", e)))?;
+        let data = include_str!("../data/registry.json");
+        let registry: RegistryBadgesExtract = serde_json::from_str(data).map_err(|e| {
+            Error::ParseError(format!("Failed to parse registry.json for badges: {}", e))
+        })?;
 
         Ok(BadgeRenderer {
-            badges: badges_data.badges,
+            badges: registry.renderables.badges,
         })
     }
 

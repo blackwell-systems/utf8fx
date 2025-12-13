@@ -26,7 +26,7 @@ pub enum PostProcess {
     Blockquote,
 }
 
-/// A component definition from components.json
+/// A component definition from registry.json
 #[derive(Debug, Clone, Deserialize)]
 pub struct ComponentDef {
     #[serde(rename = "type")]
@@ -35,24 +35,21 @@ pub struct ComponentDef {
     pub description: String,
     #[serde(default)]
     pub args: Vec<String>,
+    #[serde(default)]
     pub template: String,
     #[serde(default)]
     pub post_process: PostProcess,
 }
 
-/// Palette data loaded from palette.json
+/// Intermediate structure to parse registry.json for components
 #[derive(Debug, Deserialize)]
-struct PaletteData {
-    #[allow(dead_code)]
-    version: String,
-    colors: HashMap<String, String>,
+struct RegistryComponentsExtract {
+    palette: HashMap<String, String>,
+    renderables: RenderablesExtract,
 }
 
-/// Components data loaded from components.json
 #[derive(Debug, Deserialize)]
-struct ComponentsData {
-    #[allow(dead_code)]
-    version: String,
+struct RenderablesExtract {
     components: HashMap<String, ComponentDef>,
 }
 
@@ -66,19 +63,19 @@ pub enum ComponentOutput {
 }
 
 impl ComponentsRenderer {
-    /// Create a new components renderer by loading palette.json and components.json
+    /// Create a new components renderer by loading from registry.json
     pub fn new() -> Result<Self> {
-        let palette_data = include_str!("../data/palette.json");
-        let palette: PaletteData = serde_json::from_str(palette_data)
-            .map_err(|e| Error::ParseError(format!("Failed to parse palette.json: {}", e)))?;
-
-        let components_data = include_str!("../data/components.json");
-        let components: ComponentsData = serde_json::from_str(components_data)
-            .map_err(|e| Error::ParseError(format!("Failed to parse components.json: {}", e)))?;
+        let data = include_str!("../data/registry.json");
+        let registry: RegistryComponentsExtract = serde_json::from_str(data).map_err(|e| {
+            Error::ParseError(format!(
+                "Failed to parse registry.json for components: {}",
+                e
+            ))
+        })?;
 
         Ok(ComponentsRenderer {
-            palette: palette.colors,
-            components: components.components,
+            palette: registry.palette,
+            components: registry.renderables.components,
         })
     }
 
@@ -413,8 +410,8 @@ mod tests {
         match result {
             ComponentOutput::Primitive(Primitive::Divider { colors, .. }) => {
                 assert_eq!(colors.len(), 4);
-                assert_eq!(colors[0], "292a2d"); // ui.bg
-                assert_eq!(colors[2], "f41c80"); // accent
+                assert_eq!(colors[0], "292A2D"); // ui.bg
+                assert_eq!(colors[2], "F41C80"); // accent
             }
             _ => panic!("Expected Primitive::Divider"),
         }
@@ -430,7 +427,7 @@ mod tests {
         // Swatch should return a Primitive::Swatch with resolved color
         match result {
             ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
-                assert_eq!(color, "f41c80"); // accent resolved
+                assert_eq!(color, "F41C80"); // accent resolved
             }
             _ => panic!("Expected Primitive::Swatch"),
         }
@@ -463,7 +460,7 @@ mod tests {
         match result {
             ComponentOutput::Primitive(Primitive::Tech { name, bg_color, .. }) => {
                 assert_eq!(name, "rust");
-                assert_eq!(bg_color, "292a2d"); // ui.bg resolved
+                assert_eq!(bg_color, "292A2D"); // ui.bg resolved
             }
             _ => panic!("Expected Primitive::Tech"),
         }
@@ -479,7 +476,7 @@ mod tests {
         // Status should return a Primitive::Status with resolved color
         match result {
             ComponentOutput::Primitive(Primitive::Status { level, .. }) => {
-                assert_eq!(level, "22c55e"); // success → green
+                assert_eq!(level, "22C55E"); // success → green
             }
             _ => panic!("Expected Primitive::Status"),
         }
@@ -514,7 +511,7 @@ mod tests {
         match result {
             ComponentOutput::Template(template) => {
                 assert!(template.contains("Breaking change"));
-                assert!(template.contains("eab308")); // warning color resolved
+                assert!(template.contains("EAB308")); // warning color resolved
             }
             _ => panic!("Expected ComponentOutput::Template"),
         }
@@ -564,7 +561,7 @@ mod tests {
     fn test_resolve_color_palette() {
         let renderer = ComponentsRenderer::new().unwrap();
         let resolved = renderer.resolve_color("accent");
-        assert_eq!(resolved, "f41c80");
+        assert_eq!(resolved, "F41C80");
     }
 
     #[test]

@@ -319,7 +319,8 @@ fn list_separators(show_examples: bool) -> Result<(), Error> {
 
         // Show example if requested
         if show_examples {
-            println!("    Example: {}", sep.example.yellow());
+            let example = format!("A {} B", sep.char);
+            println!("    Example: {}", example.yellow());
             println!(
                 "    {}",
                 format!("{{{{mathbold:separator={}}}}}TEXT{{{{/mathbold}}}}", sep.id).dimmed()

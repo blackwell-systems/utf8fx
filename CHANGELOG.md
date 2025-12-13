@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+#### Data Consolidation
+
+- **Removed redundant JSON files** - Deleted 7 separate data files in favor of single `registry.json`:
+  - Removed: `badges.json`, `frames.json`, `styles.json`, `palette.json`, `separators.json`, `shields.json`, `components.json`
+- **Updated all modules to use registry.json directly**:
+  - `shields.rs` - Extracts `palette` and `shield_styles` from registry root
+  - `components.rs` - Extracts `palette` and `renderables.components`
+  - `separators.rs` - Extracts `renderables.glyphs` and converts to separator format
+  - `frames.rs` - Extracts `renderables.frames` with ID/name derived from keys
+  - `badges.rs` - Uses existing `renderables.badges`
+  - `styles.rs` - Uses existing `renderables.styles`
+- **Cleaner frame definitions** - Frame entries in registry.json no longer require redundant `id` and `name` fields; these are now derived from the HashMap key
+- **Updated documentation** - Removed migrate tool references; updated architecture docs to reflect single data source
+
 ### Added
 
 #### Unified Registry System

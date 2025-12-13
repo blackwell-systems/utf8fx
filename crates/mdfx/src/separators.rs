@@ -1,30 +1,61 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use unicode_segmentation::UnicodeSegmentation;
 
-/// A separator character with metadata
+/// A separator/glyph character with metadata
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Separator {
     pub id: String,
-    pub name: String,
+    #[serde(rename = "value")]
     pub char: String,
     pub unicode: String,
     pub description: String,
-    pub example: String,
 }
 
-/// Root structure for separators.json
+/// Intermediate structure to parse registry.json for glyphs
+#[derive(Debug, Deserialize)]
+struct RegistryGlyphsExtract {
+    renderables: RenderablesExtract,
+}
+
+#[derive(Debug, Deserialize)]
+struct RenderablesExtract {
+    glyphs: HashMap<String, GlyphEntry>,
+}
+
+#[derive(Debug, Deserialize)]
+struct GlyphEntry {
+    value: String,
+    unicode: String,
+    description: String,
+}
+
+/// Container for separator data
 #[derive(Debug, Serialize, Deserialize)]
 pub struct SeparatorsData {
-    pub version: String,
     pub separators: Vec<Separator>,
 }
 
 impl SeparatorsData {
-    /// Load separators from embedded JSON
+    /// Load separators from registry.json
     pub fn load() -> crate::Result<Self> {
-        const SEPARATORS_JSON: &str = include_str!("../data/separators.json");
-        let data: SeparatorsData = serde_json::from_str(SEPARATORS_JSON)?;
-        Ok(data)
+        let data = include_str!("../data/registry.json");
+        let registry: RegistryGlyphsExtract = serde_json::from_str(data)?;
+
+        // Convert HashMap to Vec<Separator>
+        let separators: Vec<Separator> = registry
+            .renderables
+            .glyphs
+            .into_iter()
+            .map(|(id, entry)| Separator {
+                id,
+                char: entry.value,
+                unicode: entry.unicode,
+                description: entry.description,
+            })
+            .collect();
+
+        Ok(SeparatorsData { separators })
     }
 
     /// Find a separator by ID
@@ -112,7 +143,6 @@ mod tests {
     fn test_load_separators() {
         let data = SeparatorsData::load().unwrap();
         assert!(data.separators.len() >= 5);
-        assert_eq!(data.version, "1.0.0");
     }
 
     #[test]

@@ -360,122 +360,56 @@ v2.x: Released ~2026-09-01 (estimated)
 
 ---
 
-## Migration Guides
+## Architecture Notes
 
-### Required for MAJOR Releases
+### Data Registry (Implemented)
 
-Every MAJOR release includes:
+The project uses a unified data registry (`registry.json`) as the single source of truth:
 
-1. **Migration guide document**
-   - `docs/MIGRATION-v1-to-v2.md`
-   - Step-by-step instructions
-   - Automated migration tool where possible
+- All renderables (styles, frames, badges, components) are defined in one file
+- Modules extract only the data they need using intermediate structs
+- No redundant JSON files (clean architecture)
+- ID and name fields derived from HashMap keys where appropriate
 
-2. **Compatibility report**
-   - What breaks
-   - What's deprecated
-   - What's new
-
-3. **Upgrade tool**
-   ```bash
-   mdfx migrate --from 1.x --to 2.x input.md
-   ```
-
-### Example Migration (v1 → v2)
-
-```markdown
-# MIGRATION-v1-to-v2.md
-
-## Breaking Changes
-
-### Unified Registry
-
-**v1.x**: Multiple data files
-- `components.json`
-- `separators.json`
-- `frames.json`
-- `palette.json`
-
-**v2.x**: Single registry
-- `registry.json`
-
-**Migration**:
-```bash
-mdfx migrate --consolidate-registry
-```
-
-This automatically merges data files into `registry.json`.
+**Benefits**:
+- Single source of truth for all renderable data
+- No data duplication across files
+- Consistent structure for all renderable types
+- Easier to maintain and extend
 
 ### Context Validation
 
-**v1.x**: No context validation
+Context validation ensures renderables are used in appropriate contexts:
 
-**v2.x**: Context validation enforced
-
-**Breaking**: Templates that used block separators in inline contexts will now error.
-
-**Fix**:
 ```markdown
-<!-- v1.x: Silently broke formatting -->
-{{mathbold:separator=sep.divider}}TEXT{{/mathbold}}
+<!-- Valid: inline separator in inline context -->
+{{mathbold:separator=dot}}TEXT{{/mathbold}}
 
-<!-- v2.x: Explicit error with suggestion -->
-ERROR: Block renderable 'sep.divider' in Inline context
-  Use: separator=dot or separator=sep.accent
-```
+<!-- Error: block renderable in inline context -->
+ERROR: Block renderable 'newline' in Inline context
+  Suggestion: Use an inline-compatible separator
 ```
 
 ---
 
-## Data Format Versioning
+## Data Format
 
-### Schema Versions
+### Registry Schema
 
-Every data file has a `version` field:
+The `registry.json` file contains all renderable definitions:
 
 ```json
 {
   "version": "2.0.0",
-  ...
-}
-```
-
-**Version matching**:
-```
-mdfx v1.x → Reads schema v1.x
-mdfx v2.x → Reads schema v2.x (and v1.x with migration)
-```
-
-### Schema Evolution
-
-```json
-// v1.0.0
-{
-  "version": "1.0.0",
-  "components": {
-    "divider": { "type": "native", "args": [] }
-  }
-}
-
-// v1.1.0 - Added optional field
-{
-  "version": "1.1.0",
-  "components": {
-    "divider": {
-      "type": "native",
-      "args": [],
-      "contexts": ["block"]  // New optional field
-    }
-  }
-}
-
-// v2.0.0 - Restructured (breaking)
-{
-  "version": "2.0.0",
-  "renderables": {  // Changed top-level key
-    "components": {
-      "divider": { ... }
-    }
+  "schema_version": "1.0.0",
+  "palette": { ... },
+  "shield_styles": { ... },
+  "renderables": {
+    "glyphs": { ... },
+    "components": { ... },
+    "frames": { ... },
+    "styles": { ... },
+    "badges": { ... }
   }
 }
 ```

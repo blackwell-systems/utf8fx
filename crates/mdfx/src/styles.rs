@@ -1,3 +1,4 @@
+use crate::registry::EvalContext;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -31,6 +32,8 @@ pub struct Style {
     pub aliases: Vec<String>,
     pub supports: StyleSupport,
     pub mappings: HashMap<char, char>,
+    #[serde(default)]
+    pub contexts: Vec<EvalContext>,
 }
 
 impl Style {
@@ -51,21 +54,42 @@ impl Style {
     }
 }
 
-/// Root structure for styles.json
+/// Intermediate structure to parse registry.json for styles
+#[derive(Debug, Deserialize)]
+struct RegistryStylesExtract {
+    version: String,
+    renderables: RenderablesExtract,
+}
+
+#[derive(Debug, Deserialize)]
+struct RenderablesExtract {
+    styles: HashMap<String, Style>,
+}
+
+/// Root structure for styles data (compatible with old StylesData API)
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StylesData {
     pub version: String,
+    #[serde(default)]
     pub last_updated: String,
+    #[serde(default)]
     pub total_styles: usize,
     pub styles: HashMap<String, Style>,
 }
 
 impl StylesData {
-    /// Load styles from embedded JSON
+    /// Load styles from unified registry.json
     pub fn load() -> crate::Result<Self> {
-        const STYLES_JSON: &str = include_str!("../data/styles.json");
-        let data: StylesData = serde_json::from_str(STYLES_JSON)?;
-        Ok(data)
+        const REGISTRY_JSON: &str = include_str!("../data/registry.json");
+        let registry: RegistryStylesExtract = serde_json::from_str(REGISTRY_JSON)?;
+
+        let styles_count = registry.renderables.styles.len();
+        Ok(Self {
+            version: registry.version,
+            last_updated: String::new(),
+            total_styles: styles_count,
+            styles: registry.renderables.styles,
+        })
     }
 
     /// Find a style by ID or alias

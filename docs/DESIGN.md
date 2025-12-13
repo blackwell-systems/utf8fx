@@ -559,9 +559,11 @@ diff -r dist1/ dist2/  # Should be identical
 - ⏳ Wire `--target` flag into CLI
 - ⏳ Multi-target compilation command
 - ⏳ Target-aware backend selection
-- ⏳ Remove deprecated v1.x APIs (separators.json still loaded by old code)
 
-**Migration**: Provide `mdfx migrate` tool to auto-convert v1 → v2
+**Data Consolidation** ✅:
+- All old JSON files (badges.json, frames.json, styles.json, etc.) removed
+- All modules now use registry.json as the single source of truth
+- No migration tool needed (clean architecture redesign)
 
 ---
 
@@ -722,11 +724,7 @@ crates/mdfx/
 │   │   └── pypi.rs
 │   └── ...
 └── data/
-    ├── registry.json           # NEW: Unified (v2.0)
-    ├── components.json         # DEPRECATED (v2.0)
-    ├── separators.json         # DEPRECATED (v2.0)
-    ├── frames.json             # DEPRECATED (v2.0)
-    └── palette.json            # MIGRATED into registry.json
+    └── registry.json           # Unified data registry (single source of truth)
 ```
 
 ---
