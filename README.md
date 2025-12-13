@@ -1,4 +1,4 @@
-# ｕ ｔ ｆ ８ ｆ ｘ
+# ▓▒░ 𝐔· ·𝐓· ·𝐅· ·𝟖· ·𝐅· ·𝐗 ░▒▓ ①.⓪
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
