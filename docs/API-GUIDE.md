@@ -476,6 +476,31 @@ let result = renderer.expand("callout", &["warning".to_string()], Some("Message"
 {{frame:solid-left}}{{shields:block:color=$1:style=flat-square/}} $content{{/frame}}
 ```
 
+#### row
+
+**Type:** Block (requires content)
+**Args:** None
+**Optional params:** `align` (left, center, right; default: center)
+**Usage:** `{{ui:row}}{{ui:tech:rust/}} {{ui:tech:go/}}{{/ui}}`
+
+```rust
+// Default centered
+let result = renderer.expand("row", &[], Some("{{ui:tech:rust/}}"))?;
+
+// Left-aligned
+let result = renderer.expand("row", &["align=left".to_string()], Some("{{ui:tech:rust/}}"))?;
+```
+
+**Output:** HTML-wrapped row with alignment (converts markdown images to `<img>` tags)
+
+```html
+<p align="center">
+<img alt="" src="https://img.shields.io/..."> <img alt="" src="...">
+</p>
+```
+
+**Note:** Uses delayed post-processing to convert `![](url)` to `<img>` tags after content is recursively parsed. This is required because GitHub Flavored Markdown doesn't parse markdown inside HTML blocks.
+
 ### Design Tokens (Palette)
 
 Components use named colors from `palette.json`. These resolve during expansion.
@@ -2121,8 +2146,13 @@ pub enum PostProcess {
     #[default]
     None,
     Blockquote,
+    Row { align: String },  // Delayed post-processing (after recursive parse)
 }
 ```
+
+**Timing:**
+- `Blockquote` - Applied immediately after template substitution (before recursive parsing)
+- `Row` - Applied AFTER recursive parsing completes (delayed post-processing)
 
 **Usage in components.json:**
 ```json

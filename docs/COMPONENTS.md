@@ -132,9 +132,9 @@ Components are defined in `registry.json` under `renderables.components`:
 
 ### Fields
 
-**type** (`"expand"`)
-- Currently only `"expand"` is implemented
-- Future: `"native"` for Rust-implemented logic (e.g., progress bars)
+**type** (`"expand"` or `"native"`)
+- `"expand"` - Template substitution components (header, callout, section, etc.)
+- `"native"` - Rust-implemented logic (divider, swatch, tech, status, row)
 
 **self_closing** (`boolean`)
 - `true` → `{{ui:component/}}` (no closing tag)
@@ -154,7 +154,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components (9 total)
+### Shipped Components (10 total)
 
 #### divider
 ```json
@@ -284,6 +284,41 @@ Components are defined in `registry.json` under `renderables.components`:
 **Output:** `![](badge) **Build**: passing`
 
 **Composing rows:** `{{ui:statusitem:Build:success:✓/}} · {{ui:statusitem:Tests:success:276/}}`
+
+#### row
+```json
+{
+  "type": "native",
+  "self_closing": false,
+  "description": "Horizontal row of badges with alignment control",
+  "contexts": ["block"],
+  "optional_params": {
+    "align": {
+      "type": "enum",
+      "values": ["left", "center", "right"],
+      "default": "center"
+    }
+  }
+}
+```
+
+**Usage:** `{{ui:row}}{{ui:tech:rust/}} {{ui:tech:go/}}{{/ui}}`
+
+**With alignment:** `{{ui:row:align=left}}...{{/ui}}`
+
+**Output:**
+```html
+<p align="center">
+<img alt="" src="https://img.shields.io/...rust..."> <img alt="" src="https://img.shields.io/...go...">
+</p>
+```
+
+**How it works:**
+1. Content is recursively parsed (tech badges render to `![](url)`)
+2. Delayed post-processing converts `![alt](url)` → `<img alt="alt" src="url">`
+3. Wraps in `<p align="...">` for GitHub compatibility
+
+**Why HTML output?** GitHub Flavored Markdown doesn't parse markdown syntax inside HTML blocks, so we must emit `<img>` tags directly for alignment to work.
 
 ## Design Tokens
 
