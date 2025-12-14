@@ -420,8 +420,7 @@ impl ComponentsRenderer {
                 let after_alt = &after_bang[alt_end + 1..];
 
                 // Expect ( after ]
-                if after_alt.starts_with('(') {
-                    let after_paren = &after_alt[1..];
+                if let Some(after_paren) = after_alt.strip_prefix('(') {
                     // Find closing )
                     if let Some(url_end) = after_paren.find(')') {
                         let url = &after_paren[..url_end];
