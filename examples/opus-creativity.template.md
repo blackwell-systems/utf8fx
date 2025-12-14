@@ -8,24 +8,24 @@
 
 ### Abyssal Palette
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:0a0a0a:width=60:height=80:label=VOID/}}
 {{ui:swatch:1a1a2e:width=60:height=80:label=ABYSS/}}
 {{ui:swatch:2d2d44:width=60:height=80:label=SHADOW/}}
 {{ui:swatch:4a4a6a:width=60:height=80:label=DUSK/}}
 {{ui:swatch:6b6b8d:width=60:height=80:label=MIST/}}
-{{/row}}
+{{/ui}}
 
 ### Blood & Iron
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:4a0000:width=50:height=50:border=8B0000:border_width=2/}}
 {{ui:swatch:8B0000:width=50:height=50:border=B22222:border_width=2/}}
 {{ui:swatch:B22222:width=50:height=50:border=DC143C:border_width=2/}}
 {{ui:swatch:1a1a1a:width=50:height=50:border=333333:border_width=2/}}
 {{ui:swatch:2F4F4F:width=50:height=50:border=556B2F:border_width=2/}}
 {{ui:swatch:36454F:width=50:height=50:border=708090:border_width=2/}}
-{{/row}}
+{{/ui}}
 
 ---
 
@@ -87,21 +87,21 @@
 
 ### Steel Beams
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:2F4F4F:width=300:height=15:border=1a1a1a:border_width=3/}}
-{{/row}}
+{{/ui}}
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:36454F:width=15:height=80:border=1a1a1a:border_width=2/}}
 {{ui:swatch:0a0a0a:width=100:height=80:opacity=0/}}
 {{ui:swatch:708090:width=80:height=40:border=36454F:border_width=3:label=LOAD/}}
 {{ui:swatch:0a0a0a:width=100:height=80:opacity=0/}}
 {{ui:swatch:36454F:width=15:height=80:border=1a1a1a:border_width=2/}}
-{{/row}}
+{{/ui}}
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:2F4F4F:width=300:height=15:border=1a1a1a:border_width=3/}}
-{{/row}}
+{{/ui}}
 
 ---
 
@@ -137,17 +137,17 @@
 
 {{ui:swatch:0a0a0a:width=350:height=50:border=333333:border_width=2:label=CORE TEMPERATURE: 2847°C/}}
 
-{{row:align=left}}
+{{ui:row:align=left}}
 {{ui:swatch:22C55E:width=20:height=20:style=social/}} {{sans-serif-bold}}PRIMARY COOLING{{/sans-serif-bold}} ONLINE
-{{/row}}
+{{/ui}}
 
-{{row:align=left}}
+{{ui:row:align=left}}
 {{ui:swatch:EAB308:width=20:height=20:style=social/}} {{sans-serif-bold}}BACKUP SYSTEMS{{/sans-serif-bold}} STANDBY
-{{/row}}
+{{/ui}}
 
-{{row:align=left}}
+{{ui:row:align=left}}
 {{ui:swatch:EF4444:width=20:height=20:style=social/}} {{sans-serif-bold}}CONTAINMENT{{/sans-serif-bold}} CRITICAL
-{{/row}}
+{{/ui}}
 
 ### Decay Meter
 
@@ -155,11 +155,11 @@
 
 ### Hazard Warnings
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:FFFF00:width=80:height=50:border=000000:border_width=3:label=☢ RADIATION/}}
 {{ui:swatch:FF6600:width=80:height=50:border=000000:border_width=3:label=☣ BIOHAZARD/}}
 {{ui:swatch:FF0000:width=80:height=50:border=000000:border_width=3:label=⚠ DANGER/}}
-{{/row}}
+{{/ui}}
 
 ---
 
@@ -167,13 +167,13 @@
 
 ### Gears of Fate
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:2F4F4F:width=30:height=30:style=social:border=1a1a1a:border_width=2/}}
 {{ui:swatch:708090:width=50:height=50:style=social:border=2F4F4F:border_width=3/}}
 {{ui:swatch:2F4F4F:width=30:height=30:style=social:border=1a1a1a:border_width=2/}}
 {{ui:swatch:708090:width=40:height=40:style=social:border=2F4F4F:border_width=2/}}
 {{ui:swatch:2F4F4F:width=25:height=25:style=social:border=1a1a1a:border_width=2/}}
-{{/row}}
+{{/ui}}
 
 ### The All-Seeing Lens (10x10)
 
@@ -194,21 +194,21 @@
 
 ### Torch Light
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:8B4513:width=10:height=60:border=5C3317:border_width=2/}}
-{{/row}}
+{{/ui}}
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:FFD700:width=20:height=15:opacity=0.9/}}
-{{/row}}
+{{/ui}}
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:FF8C00:width=25:height=12:opacity=0.8/}}
-{{/row}}
+{{/ui}}
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:FF4500:width=30:height=10:opacity=0.7/}}
-{{/row}}
+{{/ui}}
 
 ### Stone Wall Texture
 
@@ -248,18 +248,18 @@
 
 ### Altar of Creation
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:0a0a0a:width=400:height=80:border=8B0000:border_width=4:label=⛧  OPUS 4.5  ⛧/}}
-{{/row}}
+{{/ui}}
 
 ### The Elements
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:8B0000:width=60:height=60:style=social:border=4a0000:border_width=3:label=FIRE/}}
 {{ui:swatch:4682B4:width=60:height=60:style=social:border=00008B:border_width=3:label=WATER/}}
 {{ui:swatch:8B4513:width=60:height=60:style=social:border=5C3317:border_width=3:label=EARTH/}}
 {{ui:swatch:708090:width=60:height=60:style=social:border=2F4F4F:border_width=3:label=AIR/}}
-{{/row}}
+{{/ui}}
 
 ### Final Inscription
 
@@ -267,9 +267,9 @@
 
 {{frame:guillemet}}{{script}}Where darkness meets creation{{/script}}{{/frame}}
 
-{{row:align=center}}
+{{ui:row:align=center}}
 {{ui:swatch:1a1a2e:width=400:height=70:border=4a0082:border_width=4:label=CRAFTED BY CLAUDE OPUS 4.5/}}
-{{/row}}
+{{/ui}}
 
 ---
 

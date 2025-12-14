@@ -8,24 +8,15 @@
 
 ### Abyssal Palette
 
-{{row:align=center}}
-![](examples/assets/swatch_23c69fa60e5eb82b.svg)
-![](examples/assets/swatch_f1c1457d9dadcd89.svg)
-![](examples/assets/swatch_8fff951307e2b28a.svg)
-![](examples/assets/swatch_65213dcd412f75f3.svg)
-![](examples/assets/swatch_4653764c040b4ec4.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_23c69fa60e5eb82b.svg"> <img alt="" src="examples/assets/swatch_f1c1457d9dadcd89.svg"> <img alt="" src="examples/assets/swatch_8fff951307e2b28a.svg"> <img alt="" src="examples/assets/swatch_65213dcd412f75f3.svg"> <img alt="" src="examples/assets/swatch_4653764c040b4ec4.svg">
+</p>
 
 ### Blood & Iron
 
-{{row:align=center}}
-![](examples/assets/swatch_ff7e26ad60c22e12.svg)
-![](examples/assets/swatch_9c407c8df7b1c9f1.svg)
-![](examples/assets/swatch_82ce302dd42ee896.svg)
-![](examples/assets/swatch_fc4bd5f8ac5a3711.svg)
-![](examples/assets/swatch_f91317b37402bcb.svg)
-![](examples/assets/swatch_2930b3d823bd33e.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_ff7e26ad60c22e12.svg"> <img alt="" src="examples/assets/swatch_9c407c8df7b1c9f1.svg"> <img alt="" src="examples/assets/swatch_82ce302dd42ee896.svg"> <img alt="" src="examples/assets/swatch_fc4bd5f8ac5a3711.svg"> <img alt="" src="examples/assets/swatch_f91317b37402bcb.svg"> <img alt="" src="examples/assets/swatch_2930b3d823bd33e.svg">
+</p>
 
 ---
 
@@ -87,21 +78,17 @@
 
 ### Steel Beams
 
-{{row:align=center}}
-![](examples/assets/swatch_9f2d177a41bca688.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_9f2d177a41bca688.svg">
+</p>
 
-{{row:align=center}}
-![](examples/assets/swatch_dcacbf7931c81e3.svg)
-![](examples/assets/swatch_3bda57fe7e5ea9d0.svg)
-![](examples/assets/swatch_cff31e8bd5a03b53.svg)
-![](examples/assets/swatch_3bda57fe7e5ea9d0.svg)
-![](examples/assets/swatch_dcacbf7931c81e3.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_dcacbf7931c81e3.svg"> <img alt="" src="examples/assets/swatch_3bda57fe7e5ea9d0.svg"> <img alt="" src="examples/assets/swatch_cff31e8bd5a03b53.svg"> <img alt="" src="examples/assets/swatch_3bda57fe7e5ea9d0.svg"> <img alt="" src="examples/assets/swatch_dcacbf7931c81e3.svg">
+</p>
 
-{{row:align=center}}
-![](examples/assets/swatch_9f2d177a41bca688.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_9f2d177a41bca688.svg">
+</p>
 
 ---
 
@@ -137,17 +124,17 @@
 
 ![](examples/assets/swatch_5b15ba5e95e992fc.svg)
 
-{{row:align=left}}
-![](examples/assets/swatch_19d4081327074c63.svg) 𝗣𝗥𝗜𝗠𝗔𝗥𝗬 𝗖𝗢𝗢𝗟𝗜𝗡𝗚 ONLINE
-{{/row}}
+<p align="left">
+<img alt="" src="examples/assets/swatch_19d4081327074c63.svg"> 𝗣𝗥𝗜𝗠𝗔𝗥𝗬 𝗖𝗢𝗢𝗟𝗜𝗡𝗚 ONLINE
+</p>
 
-{{row:align=left}}
-![](examples/assets/swatch_84ea0c50d45334eb.svg) 𝗕𝗔𝗖𝗞𝗨𝗣 𝗦𝗬𝗦𝗧𝗘𝗠𝗦 STANDBY
-{{/row}}
+<p align="left">
+<img alt="" src="examples/assets/swatch_84ea0c50d45334eb.svg"> 𝗕𝗔𝗖𝗞𝗨𝗣 𝗦𝗬𝗦𝗧𝗘𝗠𝗦 STANDBY
+</p>
 
-{{row:align=left}}
-![](examples/assets/swatch_5f05d0654f4f371c.svg) 𝗖𝗢𝗡𝗧𝗔𝗜𝗡𝗠𝗘𝗡𝗧 CRITICAL
-{{/row}}
+<p align="left">
+<img alt="" src="examples/assets/swatch_5f05d0654f4f371c.svg"> 𝗖𝗢𝗡𝗧𝗔𝗜𝗡𝗠𝗘𝗡𝗧 CRITICAL
+</p>
 
 ### Decay Meter
 
@@ -155,11 +142,9 @@
 
 ### Hazard Warnings
 
-{{row:align=center}}
-![](examples/assets/swatch_7b78ddedf6d96d55.svg)
-![](examples/assets/swatch_e5e5638ae388e696.svg)
-![](examples/assets/swatch_d8038c856b776b6b.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_7b78ddedf6d96d55.svg"> <img alt="" src="examples/assets/swatch_e5e5638ae388e696.svg"> <img alt="" src="examples/assets/swatch_d8038c856b776b6b.svg">
+</p>
 
 ---
 
@@ -167,13 +152,9 @@
 
 ### Gears of Fate
 
-{{row:align=center}}
-![](examples/assets/swatch_4b20409fde4645e9.svg)
-![](examples/assets/swatch_594f8fe8f48019c2.svg)
-![](examples/assets/swatch_4b20409fde4645e9.svg)
-![](examples/assets/swatch_8cd4f0f1d19955e6.svg)
-![](examples/assets/swatch_221ea0d197c3ee11.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_4b20409fde4645e9.svg"> <img alt="" src="examples/assets/swatch_594f8fe8f48019c2.svg"> <img alt="" src="examples/assets/swatch_4b20409fde4645e9.svg"> <img alt="" src="examples/assets/swatch_8cd4f0f1d19955e6.svg"> <img alt="" src="examples/assets/swatch_221ea0d197c3ee11.svg">
+</p>
 
 ### The All-Seeing Lens (10x10)
 
@@ -194,21 +175,21 @@
 
 ### Torch Light
 
-{{row:align=center}}
-![](examples/assets/swatch_c2c0dd09cab351cb.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_c2c0dd09cab351cb.svg">
+</p>
 
-{{row:align=center}}
-![](examples/assets/swatch_d7801ba6da9507bf.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_d7801ba6da9507bf.svg">
+</p>
 
-{{row:align=center}}
-![](examples/assets/swatch_a5f37272d2f2d99a.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_a5f37272d2f2d99a.svg">
+</p>
 
-{{row:align=center}}
-![](examples/assets/swatch_730d17d0366ce496.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_730d17d0366ce496.svg">
+</p>
 
 ### Stone Wall Texture
 
@@ -248,18 +229,15 @@
 
 ### Altar of Creation
 
-{{row:align=center}}
-![](examples/assets/swatch_5aea0dc19f215d93.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_5aea0dc19f215d93.svg">
+</p>
 
 ### The Elements
 
-{{row:align=center}}
-![](examples/assets/swatch_96babdc7ef420e7c.svg)
-![](examples/assets/swatch_e5f33e30fb995c58.svg)
-![](examples/assets/swatch_18afa8fced20344b.svg)
-![](examples/assets/swatch_4d7bca36c43bc18.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_96babdc7ef420e7c.svg"> <img alt="" src="examples/assets/swatch_e5f33e30fb995c58.svg"> <img alt="" src="examples/assets/swatch_18afa8fced20344b.svg"> <img alt="" src="examples/assets/swatch_4d7bca36c43bc18.svg">
+</p>
 
 ### Final Inscription
 
@@ -267,9 +245,9 @@
 
 « 𝒲𝒽ℯ𝓇ℯ 𝒹𝒶𝓇𝓀𝓃ℯ𝓈𝓈 𝓂ℯℯ𝓉𝓈 𝒸𝓇ℯ𝒶𝓉𝒾ℴ𝓃 »
 
-{{row:align=center}}
-![](examples/assets/swatch_7cf6b09ca7720c94.svg)
-{{/row}}
+<p align="center">
+<img alt="" src="examples/assets/swatch_7cf6b09ca7720c94.svg">
+</p>
 
 ---
 
