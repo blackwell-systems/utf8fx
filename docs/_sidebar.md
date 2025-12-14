@@ -28,11 +28,8 @@
   - [Evaluation Contexts](/CONTEXTS.md)
   - [State Machine](/STATE-MACHINE-GUIDE.md)
 
-- **Specifications**
-  - [API Specification](/SPEC.md)
+- **Resources**
   - [Target System](/TARGETS.md)
   - [Roadmap](/ROADMAP.md)
-
-- **Resources**
   - [GitHub Repository](https://github.com/blackwell-systems/mdfx)
   - [Changelog](https://github.com/blackwell-systems/mdfx/blob/main/CHANGELOG.md)
