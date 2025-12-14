@@ -149,6 +149,23 @@ Framed messages with colored indicators:
 - Migration guides
 - Release notes
 
+#### Row Layout
+
+Horizontally align content with HTML wrapper (GitHub-compatible):
+
+```markdown
+{{ui:row:align=center}}
+{{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:warning/}}
+{{/ui}}
+```
+
+**Alignment options:** `left`, `center`, `right`
+
+**Use Cases:**
+- Center badges and swatches
+- Horizontal layouts on GitHub
+- Aligned icon rows
+
 ---
 
 ## Complete Examples
@@ -579,6 +596,33 @@ done
 
 hugo build
 ```
+
+---
+
+## Creative Showcases
+
+### Gothic & Industrial Edition
+
+See [opus-creativity-showcase.md](opus-creativity-showcase.md) for an advanced creative example featuring:
+
+- **Pixel Art**: Stained glass windows, warding sigils, mechanical eyes
+- **Gothic Typography**: Fraktur, script, and decorated text styles
+- **Industrial UI**: Reactor status panels, hazard warnings, decay meters
+- **Color Poetry**: Emotional gradients, abyssal palettes, forge heat
+- **Nested Frames**: Multi-layer decorative frames for dramatic effect
+
+**To regenerate:**
+
+```bash
+cd examples
+mdfx process opus-creativity.template.md --backend svg --assets-dir assets -o opus-creativity-showcase.md
+```
+
+The SVG backend generates individual `.svg` files for swatches, enabling:
+- Custom dimensions and shapes
+- Borders and opacity
+- Labels and icons
+- Pixel-art compositions
 
 ---
 
