@@ -685,7 +685,6 @@ fn detect_target_from_package_manager(cwd: &Path) -> Option<&'static str> {
 - ✅ 8 tests for Target trait
 
 **Remaining**:
-- ⏳ Add `--target` flag to CLI
 - ⏳ Refactor backends to be fully target-aware
 
 **Migration**: None required (GitHub is default)
@@ -697,9 +696,10 @@ fn detect_target_from_package_manager(cwd: &Path) -> Option<&'static str> {
 - ✅ Implemented `LocalDocsTarget` (SVG files, offline-first)
 - ✅ Implemented `NpmTarget` (similar to GitHub)
 - ✅ Implemented `detect_target_from_path()` utility
+- ✅ Added `--target` flag to CLI (github, local, npm, auto)
+- ✅ Wired target auto-detection into CLI
 
 **Remaining**:
-- ⏳ Wire target auto-detection into CLI
 - ⏳ Add multi-target build command
 
 **Migration**: None required (GitHub still default)

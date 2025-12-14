@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### CLI Target Flag
+
+- **`--target` flag** for multi-platform rendering:
+  - `github` (default) - shields.io badges for GitHub READMEs
+  - `local` - SVG files for offline documentation
+  - `npm` - shields.io badges for npm packages
+  - `auto` - auto-detect from output path
+- **Optional `--backend` flag** - targets now provide preferred backends automatically
+  - GitHubTarget → Shields backend
+  - LocalDocsTarget → SVG backend
+  - NpmTarget → Shields backend
+- **Auto-detection** - `--target auto` detects from output path (e.g., `docs/` → local, `npm/` → npm)
+
+**Usage:**
+```bash
+mdfx process --target github input.md       # Default (shields.io)
+mdfx process --target local input.md        # SVG files
+mdfx process --target auto -o docs/README.md  # Auto-detect
+mdfx process --target github --backend svg input.md  # Override backend
+```
+
 ### Changed
 
 #### Data Consolidation

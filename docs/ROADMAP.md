@@ -55,8 +55,8 @@ This document outlines planned features and architectural improvements for mdfx.
 ## 🔧 Next Steps (v2.0.0 Preparation)
 
 ### CLI Integration (Required for v2.0)
-- [ ] Add `--target` flag to CLI (github, local, npm)
-- [ ] Wire target auto-detection from output path
+- [x] Add `--target` flag to CLI (github, local, npm, auto)
+- [x] Wire target auto-detection from output path
 - [ ] Add multi-target build command (`mdfx build --all-targets`)
 - [ ] Add `--strict-contexts` flag for context validation
 
