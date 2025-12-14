@@ -20,7 +20,7 @@ mdfx = "1.0"
 - **Target System** - Compile for GitHub, GitLab, npm, PyPI, or local docs
 - **Custom Palettes** - Project-specific color definitions
 - **Enhanced Swatches** - SVG-only opacity, borders, labels
-- **275 Tests** - Comprehensive test coverage
+- **276 Tests** - Comprehensive test coverage
 - **Cross-Platform** - macOS • Linux • Windows • WSL2
 
 [Get Started](#quick-start)
