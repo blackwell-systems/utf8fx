@@ -169,7 +169,7 @@ Add visual spacing between words with the `separator` parameter:
 ＧＥＴＳＴＡＲＴＥＤ ★
 ```
 
-Available separators: Any glyph name (`dot`, `star`, `bullet`, `diamond`, `arrow`, etc.)
+Available separators: Any separator name (`dot`, `star`, `bullet`, `diamond`, `arrow`, etc.)
 
 ---
 

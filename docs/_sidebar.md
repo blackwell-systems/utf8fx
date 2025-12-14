@@ -19,7 +19,6 @@
 
 - **Internals**
   - [Architecture](/ARCHITECTURE.md)
-  - [Contexts](/CONTEXTS.md)
 
 - **Links**
   - [GitHub](https://github.com/blackwell-systems/mdfx)
