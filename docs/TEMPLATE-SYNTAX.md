@@ -265,10 +265,25 @@ All primitive-based components (divider, swatch, tech, status) support optional 
 ```markdown
 {{ui:swatch:COLOR/}}
 {{ui:swatch:COLOR:style=STYLE/}}
+{{ui:swatch:COLOR:label=TEXT:icon=LOGO/}}
 ```
 - 1 arg: color name (palette) or 6-digit hex
-- Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
-- Examples: `{{ui:swatch:accent/}}`, `{{ui:swatch:FF6B35:style=flat/}}`
+- Optional parameters:
+  - `style=` - Badge style (flat, flat-square, for-the-badge, plastic, social)
+  - `opacity=` - Opacity 0.0-1.0 (SVG-only)
+  - `width=` - Width in pixels (default: 20)
+  - `height=` - Height in pixels (style-dependent)
+  - `border=` - Border color (hex or palette, SVG-only)
+  - `border_width=` - Border width in pixels (SVG-only)
+  - `label=` - Text label inside swatch
+  - `label_color=` - Label text color (default: white)
+  - `icon=` - Simple Icons logo name (e.g., "rust")
+  - `icon_color=` - Icon color (default: white)
+- Examples:
+  - `{{ui:swatch:accent/}}` - Basic swatch
+  - `{{ui:swatch:FF6B35:style=flat/}}` - With style
+  - `{{ui:swatch:cobalt:label=v1/}}` - With label
+  - `{{ui:swatch:000000:icon=rust:icon_color=FFFFFF/}}` - With icon
 
 **tech:**
 ```markdown
@@ -366,34 +381,34 @@ Converts text to Unicode character styles.
 - Separator cannot be `:`, `/`, or `}` (template delimiters)
 - Whitespace in separator is trimmed
 
-### Available Styles
+### Available Styles (19 total)
 
 **Bold & Emphasis:**
-- `mathbold` - 𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓
-- `fullwidth` - ＢＬＡＣＫＤＯＴ
-- `sans-serif-bold` - 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧
-- `sans-serif-bold-italic` - 𝘽𝙇𝘼𝘾𝙆𝘿𝙊𝙏
+- `mathbold` - 𝐇𝐄𝐋𝐋𝐎 (Mathematical bold serif)
+- `fullwidth` - ＨＥＬＬＯ (Wide characters)
+- `sans-serif-bold` - 𝗛𝗘𝗟𝗟𝗢 (Modern bold)
+- `sans-serif-bold-italic` - 𝙃𝙀𝙇𝙇𝙊 (Bold italic sans)
 
 **Boxed:**
-- `negative-squared` - 🅱🅻🅰🅲🅺🅳🅾🆃
-- `negative-circled` - 🅑🅛🅐🅒🅚🅓🅞🅣
-- `squared-latin` - 🄱🄻🄰🄲🄺🄳🄾🅃
-- `circled-latin` - Ⓑⓛⓐⓒⓚⓓⓞⓣ
+- `negative-squared` - 🅷🅴🅻🅻🅾 (White on black squares)
+- `negative-circled` - 🅗🅔🅛🅛🅞 (White on black circles)
+- `squared-latin` - 🄷🄴🄻🄻🄾 (Letters in boxes)
+- `circled-latin` - Ⓗⓔⓛⓛⓞ (Letters in circles)
 
 **Elegant:**
-- `script` - 𝐵𝐿𝒜𝒞𝒦𝒟𝒪𝒯
-- `bold-script` - 𝓑𝓛𝓐𝓒𝓚𝓓𝓞𝓣
-- `fraktur` - 𝔅𝔏𝔄ℭ𝔎𝔇𝔒𝔗
-- `bold-fraktur` - 𝕭𝕷𝕬𝕮𝕶𝕯𝕺𝕿
-- `italic` - 𝐵𝐿𝐴𝐶𝐾𝐷𝑂𝑇
-- `bold-italic` - 𝑩𝑳𝑨𝑪𝑲𝑫𝑶𝑻
-- `small-caps` - ʙʟᴀᴄᴋᴅᴏᴛ
+- `script` - ℋℯ𝓁𝓁ℴ (Calligraphic)
+- `bold-script` - 𝓗𝓮𝓵𝓵𝓸 (Heavy cursive)
+- `fraktur` - ℌ𝔢𝔩𝔩𝔬 (Gothic blackletter)
+- `bold-fraktur` - 𝕳𝖊𝖑𝖑𝖔 (Heavy Gothic)
+- `italic` - 𝐻𝑒𝑙𝑙𝑜 (Slanted)
+- `bold-italic` - 𝑯𝒆𝒍𝒍𝒐 (Bold slanted)
+- `small-caps` - ʜᴇʟʟᴏ (Understated capitals)
 
 **Technical:**
-- `monospace` - 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝
-- `double-struck` - 𝔹𝕃𝔸ℂ𝕂𝔻𝕆𝕋
-- `sans-serif` - 𝖡𝖫𝖠𝖢𝖪𝖣𝖮𝖳
-- `sans-serif-italic` - 𝘉𝘓𝘈𝘊𝘒𝘋𝘖𝘛
+- `monospace` - 𝙷𝚎𝚕𝚕𝚘 (Fixed-width)
+- `double-struck` - ℍ𝕖𝕝𝕝𝕠 (Outline/blackboard)
+- `sans-serif` - 𝖧𝖾𝗅𝗅𝗈 (Clean modern)
+- `sans-serif-italic` - 𝘏𝘦𝘭𝘭𝘰 (Slanted modern)
 
 ### Examples
 
@@ -425,30 +440,56 @@ Adds decorative prefix/suffix around content.
 {{frame:frame_type}}CONTENT{{/frame}}
 ```
 
-### Available Frames
+### Available Frames (32 total)
 
 **Gradient Frames:**
 - `gradient` - ▓▒░ TEXT ░▒▓
+- `gradient-light` - ▒░ TEXT ░▒
 - `gradient-reverse` - ░▒▓ TEXT ▓▒░
 
-**Line Frames:**
-- `line-single` - ─ TEXT ─
-- `line-double` - ═ TEXT ═
-- `line-bold` - ━ TEXT ━
-
 **Solid Frames:**
-- `solid-left` - █▌ TEXT
-- `solid-right` - TEXT ▐█
+- `solid-left` - █▌TEXT
+- `solid-right` - TEXT▐█
+- `solid-both` - █▌TEXT▐█
 
-**Box Frames:**
-- `box-light` - ┌─ TEXT ─┐
-- `box-heavy` - ┏━ TEXT ━┓
+**Line Frames:**
+- `line-light` - ─── TEXT ───
+- `line-bold` - ━━━ TEXT ━━━
+- `line-double` - ═══ TEXT ═══
+- `line-dashed` - ╌╌╌ TEXT ╌╌╌
 
-**Arrow Frames:**
+**Block Frames:**
+- `block-top` - ▀▀▀ TEXT ▀▀▀
+- `block-bottom` - ▄▄▄ TEXT ▄▄▄
+
+**Symbol Frames:**
 - `arrow-right` - → TEXT →
-- `arrow-left` - ← TEXT ←
+- `dot` - · TEXT ·
+- `bullet` - • TEXT •
+- `star` - ★ TEXT ☆
+- `diamond` - ◆ TEXT ◇
+- `fisheye` - ◉ TEXT ◉
+- `asterism` - ⁂ TEXT ⁂
 
-And 18 more frame styles. Run `mdfx frames list` for complete list.
+**Bracket Frames:**
+- `lenticular` - 【TEXT】
+- `angle` - 《TEXT》
+- `guillemet` - « TEXT »
+- `guillemet-single` - ‹ TEXT ›
+- `heavy-quote` - ❝TEXT❞
+
+**Special Frames:**
+- `triangle-right` - ▶ TEXT ◀
+- `finger` - ☞ TEXT ☜
+- `arc-top` - ╭ TEXT ╮
+- `arc-bottom` - ╰ TEXT ╯
+
+**Alert Frames (with emoji prefixes):**
+- `alert-warning` - ⚠️ TEXT
+- `alert-info` - ℹ️ TEXT
+- `alert-success` - ✅ TEXT
+- `alert-error` - ❌ TEXT
+- `color-accent` - [accent swatch] TEXT
 
 ### Examples
 
@@ -865,4 +906,4 @@ line = { character } newline ;
 
 ---
 
-**Last Updated:** v1.0.0 (2025-12-13)
+**Last Updated:** v1.0.0 (2025-12-14)

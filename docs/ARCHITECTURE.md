@@ -147,9 +147,11 @@ graph TB
 
         BACKEND -->|Trait Dispatch| SHIELDS[ShieldsBackend]
         BACKEND -->|Trait Dispatch| SVG[SvgBackend]
+        BACKEND -->|Trait Dispatch| PLAIN[PlainTextBackend]
 
         SHIELDS --> INLINE[InlineMarkdown]
         SVG --> FILES[File Assets]
+        PLAIN --> TEXT[ASCII Text]
 
         RECURSE --> FRAME[FrameRenderer]
         RECURSE --> BADGE[BadgeRenderer]
@@ -162,6 +164,7 @@ graph TB
         CONV --> OUTPUT
         INLINE --> OUTPUT
         FILES --> OUTPUT
+        TEXT --> OUTPUT
     end
 
     subgraph DATA["Unified Registry"]
@@ -292,12 +295,14 @@ The Target system allows the compiler to adapt output for different deployment p
 
 ### Available Targets
 
-| Target | Backend | Context | Use Case |
-|--------|---------|---------|----------|
-| `github` | shields.io | `github` | GitHub READMEs, wikis |
-| `npm` | shields.io | `npm` | npm package docs |
-| `local` | SVG | `local` | Offline documentation |
-| `auto` | (detected) | (detected) | Infer from output path |
+| Target | Backend | Use Case |
+|--------|---------|----------|
+| `github` | Shields | GitHub READMEs, wikis |
+| `gitlab` | Shields | GitLab READMEs, wikis |
+| `npm` | Shields | npm package docs |
+| `pypi` | PlainText | PyPI package descriptions (ASCII-safe) |
+| `local` | SVG | Offline documentation |
+| `auto` | (detected) | Infer from output path |
 
 ### Target Trait
 
@@ -316,6 +321,7 @@ pub trait Target {
 pub enum BackendType {
     Shields,
     Svg,
+    PlainText,
 }
 ```
 
@@ -487,13 +493,16 @@ pub enum Primitive {
     Swatch {
         color: String,
         style: String,
-        // SVG-only options:
-        opacity: Option<f32>,        // 0.0-1.0
-        width: Option<u32>,          // pixels (default: 20)
-        height: Option<u32>,         // pixels (default: style-dependent)
-        border_color: Option<String>, // hex or palette name
-        border_width: Option<u32>,   // pixels (default: 0)
-        label: Option<String>,       // text inside swatch
+        // Optional parameters (many are SVG-only):
+        opacity: Option<f32>,         // 0.0-1.0 (SVG-only)
+        width: Option<u32>,           // pixels (default: 20)
+        height: Option<u32>,          // pixels (default: style-dependent)
+        border_color: Option<String>, // hex or palette name (SVG-only)
+        border_width: Option<u32>,    // pixels (default: 0, SVG-only)
+        label: Option<String>,        // text label inside swatch
+        label_color: Option<String>,  // label text color (default: white)
+        icon: Option<String>,         // Simple Icons logo name
+        icon_color: Option<String>,   // icon color (default: white)
     },
 
     /// Multi-color divider bar
@@ -601,6 +610,38 @@ mdfx process --backend svg --assets-dir ./docs/ui input.md
 - Supports: Swatch, Divider, Status (solid colors)
 - Tech badges use embedded Simple Icons SVG logos
 
+#### PlainTextBackend
+
+**Status:** ✅ Shipped in v1.0.0
+
+Generates ASCII text representations for primitives (used by PyPI target):
+
+```rust
+let backend = PlainTextBackend::new();
+let primitive = Primitive::Swatch { color: "F41C80", style: "flat-square", ... };
+let rendered = backend.render(&primitive)?;
+// Returns: InlineMarkdown("[#F41C80]")
+```
+
+**Rendering:**
+| Primitive | Output |
+|-----------|--------|
+| `Swatch` | `[#RRGGBB]` |
+| `Tech` | `[name]` |
+| `Status` | `[OK]`, `[WARN]`, `[ERR]`, or `[INFO]` |
+| `Divider` | ` ` (space) |
+
+**Use Cases:**
+- PyPI package descriptions (ASCII-only environments)
+- CLI output where images aren't supported
+- Graceful degradation for text-based renderers
+
+**CLI Usage:**
+```bash
+mdfx process --backend plaintext input.md
+mdfx process --target pypi input.md  # automatically uses plaintext
+```
+
 ### Rendering Flow
 
 ```
@@ -697,6 +738,9 @@ Swatch primitives now support advanced styling options when using the SVG backen
 | `border_color` | `String` | none | Border color (hex or palette name) |
 | `border_width` | `u32` | `0` | Border width in pixels |
 | `label` | `String` | none | Text label inside swatch |
+| `label_color` | `String` | `"white"` | Label text color |
+| `icon` | `String` | none | Simple Icons logo name (e.g., "rust") |
+| `icon_color` | `String` | `"white"` | Icon color |
 
 ### Template Syntax
 
@@ -757,16 +801,19 @@ fn render_swatch_svg(options: &SwatchOptions) -> String {
 
 ### Backend Compatibility
 
-| Feature | shields.io | SVG |
-|---------|------------|-----|
-| Basic color | ✅ | ✅ |
-| Style | ✅ | ✅ |
-| Opacity | ❌ (ignored) | ✅ |
-| Custom size | ❌ (ignored) | ✅ |
-| Border | ❌ (ignored) | ✅ |
-| Label | ❌ (ignored) | ✅ |
+| Feature | shields.io | SVG | PlainText |
+|---------|------------|-----|-----------|
+| Basic color | ✅ | ✅ | ✅ (as `[#hex]`) |
+| Style | ✅ | ✅ | ❌ (ignored) |
+| Opacity | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Custom size | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Border | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Label | ✅ | ✅ | ❌ (ignored) |
+| Label color | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Icon | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Icon color | ❌ (ignored) | ✅ | ❌ (ignored) |
 
-**Design principle:** Enhanced options gracefully degrade - templates work on both backends, with extra features only visible in SVG output.
+**Design principle:** Enhanced options gracefully degrade - templates work on all backends, with extra features only visible in SVG output.
 
 ---
 
@@ -1445,7 +1492,7 @@ apply_frame("TITLE", "gradient")
 - **String concatenation:** `format!("{}{}{}", frame.prefix, text, frame.suffix)`
 - **No width calculation:** Frames don't adjust based on content length
 - **Recursive content:** Frame content can contain styles/badges
-- **27 styles:** gradient, solid, lines, arrows, brackets, etc.
+- **32 styles:** gradient, solid, lines, arrows, brackets, alerts, etc.
 
 **Frame Types:**
 - Gradient (▓▒░), solid (█▌), lines (═), arrows (→), brackets (【】)
@@ -1453,7 +1500,7 @@ apply_frame("TITLE", "gradient")
 **Data:**
 - Frame definitions in `registry.json` → `renderables.frames`
 
-### 4. BadgeRenderer (`src/badges.rs`)
+### 5. BadgeRenderer (`src/badges.rs`)
 
 **Purpose:** Enclose alphanumeric characters in Unicode badges
 
@@ -1736,9 +1783,9 @@ let registry: Registry = serde_json::from_str(data)?;
 | `styles` | Character mappings | 19 Unicode styles |
 | `separators` | Named separator characters | 12 separators |
 | `shield_styles` | Badge rendering styles | 5 styles (flat-square, flat, etc.) |
-| `renderables.frames` | Prefix/suffix decorations | 27+ frames |
+| `renderables.frames` | Prefix/suffix decorations | 32 frames |
 | `renderables.badges` | Enclosed character mappings | 6 badge types |
-| `renderables.components` | UI component definitions | 8+ components |
+| `renderables.components` | UI component definitions | 9 components |
 
 **Total:** ~25KB unified `registry.json`
 
@@ -2016,7 +2063,7 @@ fn progress_bar(args: &[String]) -> Result<String> {
 - `src/renderer/svg.rs` - SVG generation, enhanced swatches
 - `src/manifest.rs` - Asset manifest, SHA-256 verification
 
-**Total:** 261+ tests across all modules
+**Total:** 276 tests across all modules
 
 ### Integration Tests
 

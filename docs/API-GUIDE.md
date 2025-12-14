@@ -116,8 +116,10 @@ The Target system allows the compiler to adapt output for different deployment p
 
 | Target | Backend | Use Case |
 |--------|---------|----------|
-| `github` | shields.io | GitHub READMEs, wikis |
-| `npm` | shields.io | npm package docs |
+| `github` | Shields | GitHub READMEs, wikis |
+| `gitlab` | Shields | GitLab READMEs, wikis |
+| `npm` | Shields | npm package docs |
+| `pypi` | PlainText | PyPI package descriptions (ASCII-safe) |
 | `local` | SVG | Offline documentation |
 | `auto` | (detected) | Infer from output path |
 
@@ -2221,7 +2223,6 @@ let result = parser.process(template)?;
 ### See Also
 
 - [examples/github-blocks.md](../examples/github-blocks.md) - Complete gallery
-- [GITHUB-BLOCKS-PLAN.md](GITHUB-BLOCKS-PLAN.md) - Implementation details
 - [GitHub Blocks section in ARCHITECTURE.md](ARCHITECTURE.md#github-blocks)
 
 ---
@@ -2242,6 +2243,9 @@ Swatch primitives support advanced SVG-only styling options.
 | `border_color` | `String` | none | Border color (hex or palette name) |
 | `border_width` | `u32` | `0` | Border width in pixels |
 | `label` | `String` | none | Text label inside swatch |
+| `label_color` | `String` | `"FFFFFF"` | Label text color (hex or palette name) |
+| `icon` | `String` | none | Simple Icons logo name (e.g., "rust") |
+| `icon_color` | `String` | `"FFFFFF"` | Icon color (hex or palette name) |
 
 ### API Usage
 
@@ -2261,6 +2265,9 @@ let enhanced = Primitive::Swatch {
     border_color: Some("FFFFFF".to_string()),
     border_width: Some(2),
     label: Some("v1".to_string()),
+    label_color: Some("000000".to_string()),
+    icon: Some("rust".to_string()),
+    icon_color: Some("FFFFFF".to_string()),
 };
 ```
 
@@ -2270,21 +2277,25 @@ let enhanced = Primitive::Swatch {
 {{ui:swatch:FF6B35:opacity=0.5/}}
 {{ui:swatch:accent:width=40:height=30/}}
 {{ui:swatch:cobalt:border=FFFFFF:border_width=2/}}
-{{ui:swatch:F41C80:label=v1/}}
+{{ui:swatch:F41C80:label=v1:label_color=000000/}}
+{{ui:swatch:DEA584:icon=rust:icon_color=FFFFFF/}}
 ```
 
 ### Backend Compatibility
 
-| Feature | shields.io | SVG |
-|---------|------------|-----|
-| Basic color | ✅ | ✅ |
-| Style | ✅ | ✅ |
-| Opacity | ❌ (ignored) | ✅ |
-| Custom size | ❌ (ignored) | ✅ |
-| Border | ❌ (ignored) | ✅ |
-| Label | ❌ (ignored) | ✅ |
+| Feature | shields.io | SVG | PlainText |
+|---------|------------|-----|-----------|
+| Basic color | ✅ | ✅ | ✅ (as `[#hex]`) |
+| Style | ✅ | ✅ | ❌ (ignored) |
+| Opacity | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Custom size | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Border | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Label | ✅ | ✅ | ❌ (ignored) |
+| Label color | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Icon | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Icon color | ❌ (ignored) | ✅ | ❌ (ignored) |
 
-Enhanced options gracefully degrade on shields.io backend.
+Enhanced options gracefully degrade on shields.io and PlainText backends.
 
 ---
 
@@ -2807,8 +2818,8 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 ## See Also
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) - System architecture and design
-- [parser-design.md](parser-design.md) - State machine implementation details
-- [PLANNING.md](PLANNING.md) - Development roadmap
+- [STATE-MACHINE-GUIDE.md](STATE-MACHINE-GUIDE.md) - State machine implementation details
+- [ROADMAP.md](ROADMAP.md) - Development roadmap
 - [examples/README.md](../examples/README.md) - Template syntax examples
 
 ---
