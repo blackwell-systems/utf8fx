@@ -224,9 +224,6 @@ Wed ![](./assets/swatch_23044fea8d17086.svg)![](./assets/swatch_19c4adf113f7c283
 
 ![](./assets/swatch_5afc95e20625000b.svg)
 
-### Fractal-Inspired Recursion
-![](./assets/swatch_92df9a28e17e6883.svg)![](./assets/swatch_232f55fe0397eb3d.svg)![](./assets/swatch_1794949f0db4e6b4.svg)![](./assets/swatch_ebd5139911fa73c3.svg)
-
 ---
 
 ## Minecraft Vibes

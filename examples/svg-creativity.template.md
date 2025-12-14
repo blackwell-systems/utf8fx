@@ -224,9 +224,6 @@ Wed {{ui:swatch:22C55E:width=12:height=12:opacity=0.8/}}{{ui:swatch:22C55E:width
 
 {{ui:swatch:000000:width=250:height=60:border=FF00FF:border_width=4:label=PUNK/}}
 
-### Fractal-Inspired Recursion
-{{ui:swatch:8B00FF:width=100:height=100:opacity=0.9/}}{{ui:swatch:FF1493:width=80:height=80:opacity=0.7/}}{{ui:swatch:00FFFF:width=60:height=60:opacity=0.5/}}{{ui:swatch:FFD700:width=40:height=40:opacity=0.3/}}
-
 ---
 
 ## Minecraft Vibes
