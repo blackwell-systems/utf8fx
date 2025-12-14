@@ -1,21 +1,29 @@
 # mdfx Architecture
 
-**Version:** 1.0.0
-**Last Updated:** 2025-12-13
+**Version:** 1.1.0
+**Last Updated:** 2025-12-14
+
+## Overview
+
+mdfx is a **markdown compiler** that transforms template syntax into rich visual output. Unlike simple text processors, mdfx implements a complete compilation pipeline: parsing templates into an AST, semantic analysis through a unified registry, and code generation to multiple rendering backends.
 
 ## Table of Contents
 
-- [Workspace Structure](#workspace-structure) 🆕
+- [Workspace Structure](#workspace-structure)
 - [System Overview](#system-overview)
+- [Unified Registry](#unified-registry) 🆕
+- [Target System](#target-system) 🆕
 - [Three-Layer Architecture](#three-layer-architecture)
 - [Component Responsibilities](#component-responsibilities)
 - [Expansion Model](#expansion-model)
 - [Parser Design](#parser-design)
-- [Multi-Backend Rendering](#multi-backend-rendering) 🆕
-- [Separator System](#separator-system) 🆕
-- [Asset Manifest System](#asset-manifest-system) 🆕
-- [GitHub Blocks](#github-blocks) 🆕
+- [Multi-Backend Rendering](#multi-backend-rendering)
+- [Enhanced Swatch Primitives](#enhanced-swatch-primitives) 🆕
+- [Separator System](#separator-system)
+- [Asset Manifest System](#asset-manifest-system)
+- [GitHub Blocks](#github-blocks)
 - [Data Packaging](#data-packaging)
+- [Custom Palette Support](#custom-palette-support) 🆕
 - [Performance Characteristics](#performance-characteristics)
 - [Key Design Decisions](#key-design-decisions)
 - [Extension Points](#extension-points)
@@ -31,25 +39,22 @@ mdfx/
 ├── Cargo.toml                    # Workspace root
 │   └── [workspace.package]       # Shared metadata
 ├── crates/
-│   ├── mdfx/                     # Core library
+│   ├── mdfx/                     # Core library (compiler)
 │   │   ├── Cargo.toml           # Package: mdfx
-│   │   ├── data/                # JSON data files
-│   │   │   ├── styles.json
-│   │   │   ├── components.json
-│   │   │   ├── palette.json
-│   │   │   ├── shields.json
-│   │   │   ├── frames.json
-│   │   │   └── badges.json
+│   │   ├── data/
+│   │   │   └── registry.json    # Unified data registry (single source of truth)
 │   │   └── src/
 │   │       ├── lib.rs
-│   │       ├── converter.rs
-│   │       ├── parser.rs
-│   │       ├── components.rs
-│   │       ├── primitive.rs
+│   │       ├── converter.rs     # Character transformation
+│   │       ├── parser.rs        # Template parsing
+│   │       ├── components.rs    # Component expansion
+│   │       ├── primitive.rs     # Rendering-neutral AST
+│   │       ├── registry.rs      # Unified registry loader
+│   │       ├── targets.rs       # Target platform selection
 │   │       ├── renderer/
-│   │       │   ├── mod.rs
-│   │       │   ├── shields.rs
-│   │       │   └── svg.rs
+│   │       │   ├── mod.rs       # Renderer trait
+│   │       │   ├── shields.rs   # shields.io backend
+│   │       │   └── svg.rs       # Local SVG backend
 │   │       └── ...
 │   └── mdfx-cli/                # CLI application
 │       ├── Cargo.toml           # Package: mdfx-cli
@@ -60,13 +65,13 @@ mdfx/
 ### Design Rationale
 
 **Library Crate (`mdfx`):**
-- Minimal dependencies (7 total: serde, serde_json, thiserror, lazy_static, unicode-segmentation, sha2, chrono)
+- Minimal dependencies (8 total)
 - No CLI-specific deps (clap, colored excluded)
 - Can be embedded in other Rust applications
 - Smaller compile times for library users
 
 **CLI Crate (`mdfx-cli`):**
-- Thin wrapper around library
+- Thin wrapper around compiler library
 - Handles argument parsing (clap)
 - Terminal formatting (colored)
 - Binary named `mdfx` for UX
@@ -75,25 +80,40 @@ mdfx/
 
 **Library (`mdfx`):**
 ```toml
-serde = "1.0"          # JSON deserialization
-serde_json = "1.0"     # Data file loading
-thiserror = "1.0"      # Error handling
-lazy_static = "1.4"    # Static data loading
+serde = "1.0"              # JSON deserialization
+serde_json = "1.0"         # Registry loading
+thiserror = "2.0"          # Error handling
+unicode-segmentation = "1" # Grapheme cluster support
+sha2 = "0.10"              # Asset hashing
+chrono = "0.4"             # Manifest timestamps
 ```
 
 **CLI (`mdfx-cli`):**
 ```toml
-mdfx = { path = "../mdfx" }     # Core library
+mdfx = { path = "../mdfx" }     # Core compiler
 clap = "4.4"                     # Argument parsing
 clap_complete = "4.4"            # Shell completions
 colored = "2.1"                  # Terminal colors
+serde_json = "1.0"               # Custom palette loading
 ```
 
 ---
 
 ## System Overview
 
-mdfx is a markdown preprocessor that transforms text using Unicode character mappings, decorative frames, and multi-backend rendering. The library consists of **five primary components** working together in a **three-layer pipeline architecture**.
+mdfx is a **markdown compiler** that transforms template syntax into styled output through a multi-stage compilation pipeline. The compiler processes Unicode character mappings, decorative frames, and multi-backend rendering through a **unified registry** and **target-aware code generation**.
+
+### Compiler Pipeline
+
+```
+Source → Lexer → Parser → Semantic Analysis → Code Generation → Output
+  │        │        │            │                   │
+  │        │        │            │                   └─ ShieldsBackend / SvgBackend
+  │        │        │            └─ Registry resolution, EvalContext filtering
+  │        │        └─ Template AST (Primitive enum)
+  │        └─ Token stream (template boundaries)
+  └─ Markdown with {{templates}}
+```
 
 ### Three Layers
 
@@ -110,11 +130,15 @@ mdfx is a markdown preprocessor that transforms text using Unicode character map
 graph TB
     subgraph CLI["mdfx-cli (Binary)"]
         CMD[CLI Args] --> MAIN[main.rs]
+        MAIN -->|--target| TARGET[Target Selection]
+        MAIN -->|--palette| PALETTE[Custom Palette]
     end
 
-    subgraph LIB["mdfx (Library)"]
-        MAIN --> PARSER[TemplateParser]
-        PARSER --> UI[ComponentsRenderer]
+    subgraph LIB["mdfx (Compiler Library)"]
+        TARGET --> PARSER[TemplateParser]
+        PALETTE --> PARSER
+        PARSER --> REGISTRY[Registry]
+        REGISTRY --> UI[ComponentsRenderer]
 
         UI -->|ComponentOutput| DECISION{Output Type?}
 
@@ -132,7 +156,7 @@ graph TB
         RECURSE --> SHIELD[ShieldsRenderer]
         RECURSE --> CONV[Converter]
 
-        FRAME --> OUTPUT[Styled Output]
+        FRAME --> OUTPUT[Compiled Output]
         BADGE --> OUTPUT
         SHIELD --> OUTPUT
         CONV --> OUTPUT
@@ -140,27 +164,23 @@ graph TB
         FILES --> OUTPUT
     end
 
-    subgraph DATA["Data Files (JSON)"]
-        P[palette.json]
-        COM[components.json]
-        SH[shields.json]
-        FR[frames.json]
-        BA[badges.json]
-        ST[styles.json]
+    subgraph DATA["Unified Registry"]
+        REG[registry.json]
+        REG -.->|Palette| UI
+        REG -.->|Components| UI
+        REG -.->|Styles| CONV
+        REG -.->|Frames| FRAME
+        REG -.->|Badges| BADGE
+        REG -.->|Separators| PARSER
+        REG -.->|Shield Styles| SHIELD
     end
-
-    P -.->|Design Tokens| UI
-    COM -.->|Expansion Rules| UI
-    SH -.->|Shield Styles| SHIELD
-    FR -.->|Decorations| FRAME
-    BA -.->|Enclosed Chars| BADGE
-    ST -.->|Character Maps| CONV
 
     style CLI fill:#1a1a1a,stroke:#4299e1,stroke-width:3px
     style LIB fill:#1a1a1a,stroke:#48bb78,stroke-width:3px
     style DATA fill:#1a1a1a,stroke:#9f7aea,stroke-width:2px
     style BACKEND fill:#2d3748,stroke:#f56565,stroke-width:3px
     style UI fill:#2d3748,stroke:#f56565,stroke-width:2px
+    style REGISTRY fill:#2d3748,stroke:#f6ad55,stroke-width:2px
 ```
 
 ### Core Principles
@@ -169,9 +189,178 @@ graph TB
 2. **Expansion Over Rendering** - Components expand to primitives (data, not code)
 3. **Single Responsibility** - Each renderer has one clear purpose
 4. **Allocation-Minimized** - Single-pass processing, streaming where possible
-5. **Data-Driven** - Configuration over code (JSON files)
+5. **Data-Driven** - Configuration over code (unified registry)
 6. **Strict by Default** - Returns errors for invalid templates
 7. **Composable** - Nest templates for complex effects
+8. **Target-Aware** - Output adapts to deployment platform (GitHub, npm, local)
+
+---
+
+## Unified Registry
+
+**Version:** 1.1.0
+**Module:** `src/registry.rs`
+**Data:** `data/registry.json`
+
+### Overview
+
+The unified registry consolidates all compiler data into a single JSON file, replacing the previous multi-file approach. This simplifies maintenance, ensures consistency, and enables cross-cutting features like EvalContext filtering.
+
+### Registry Structure
+
+```json
+{
+  "version": "1.1.0",
+  "palette": { "accent": "F41C80", "cobalt": "2B6CB0", ... },
+  "styles": { "mathbold": { ... }, "fullwidth": { ... }, ... },
+  "separators": { "dot": { "char": "·" }, ... },
+  "shield_styles": { "flat-square": { ... }, "flat": { ... }, ... },
+  "renderables": {
+    "frames": { "gradient": { "prefix": "▓▒░ ", "suffix": " ░▒▓" }, ... },
+    "badges": { "circle": { "mappings": { "1": "①", ... } }, ... },
+    "components": { "header": { "template": "..." }, ... }
+  }
+}
+```
+
+### Key Benefits
+
+| Before (Multi-file) | After (Unified Registry) |
+|---------------------|--------------------------|
+| 7 JSON files to maintain | 1 JSON file |
+| Inconsistent schema versions | Single version |
+| No cross-references | Shared palette, consistent IDs |
+| Separate parsing per file | Single parse, type-safe access |
+
+### EvalContext System
+
+Renderables can specify which contexts they're valid in:
+
+```json
+{
+  "gradient": {
+    "prefix": "▓▒░ ",
+    "suffix": " ░▒▓",
+    "contexts": ["cli", "github", "npm"]
+  }
+}
+```
+
+**Available contexts:**
+- `cli` - Command line output
+- `github` - GitHub README rendering
+- `npm` - npm package documentation
+- `local` - Local documentation (file:// or localhost)
+
+**Filtering:** The Registry filters renderables based on the current target's context, ensuring only appropriate elements are available.
+
+### Registry API
+
+```rust
+pub struct Registry {
+    pub palette: HashMap<String, String>,
+    pub styles: HashMap<String, Style>,
+    pub separators: HashMap<String, Separator>,
+    pub shield_styles: HashMap<String, ShieldStyle>,
+    pub frames: HashMap<String, FrameStyle>,
+    pub badges: HashMap<String, BadgeType>,
+    pub components: HashMap<String, ComponentDef>,
+}
+
+impl Registry {
+    /// Load the unified registry
+    pub fn new() -> Result<Self>;
+
+    /// Resolve a renderable by name with context filtering
+    pub fn resolve(&self, name: &str, context: EvalContext) -> Option<ResolvedRenderable>;
+
+    /// Get all renderables valid for a context
+    pub fn list_for_context(&self, context: EvalContext) -> Vec<&str>;
+}
+```
+
+---
+
+## Target System
+
+**Version:** 1.1.0
+**Module:** `src/targets.rs`
+
+### Overview
+
+The Target system allows the compiler to adapt output for different deployment platforms. Each target defines rendering preferences, context filtering, and backend selection.
+
+### Available Targets
+
+| Target | Backend | Context | Use Case |
+|--------|---------|---------|----------|
+| `github` | shields.io | `github` | GitHub READMEs, wikis |
+| `npm` | shields.io | `npm` | npm package docs |
+| `local` | SVG | `local` | Offline documentation |
+| `auto` | (detected) | (detected) | Infer from output path |
+
+### Target Trait
+
+```rust
+pub trait Target {
+    /// Get the rendering backend type
+    fn backend_type(&self) -> BackendType;
+
+    /// Get the evaluation context for filtering
+    fn eval_context(&self) -> EvalContext;
+
+    /// Get the target name
+    fn name(&self) -> &str;
+}
+
+pub enum BackendType {
+    Shields,
+    Svg,
+}
+```
+
+### CLI Usage
+
+```bash
+# Explicit target selection
+mdfx process --target github README.template.md
+mdfx process --target local docs/guide.template.md
+mdfx process --target npm package-readme.template.md
+
+# Auto-detection (default)
+mdfx process README.md              # → github target
+mdfx process docs/local/guide.md    # → local target
+```
+
+### Auto-Detection Logic
+
+```rust
+pub fn detect_target_from_path(path: &Path) -> &'static dyn Target {
+    let path_str = path.to_string_lossy().to_lowercase();
+
+    if path_str.contains("readme") || path_str.contains(".github") {
+        &GitHubTarget
+    } else if path_str.contains("package.json") || path_str.contains("npm") {
+        &NpmTarget
+    } else if path_str.contains("docs/local") || path_str.contains("offline") {
+        &LocalDocsTarget
+    } else {
+        default_target()  // GitHub
+    }
+}
+```
+
+### Target-Aware Compilation
+
+```rust
+// The parser adapts to the target
+let target = get_target("github");
+let parser = TemplateParser::with_target(target)?;
+
+// Components are filtered by context
+// Backends are selected automatically
+let output = parser.process(&input)?;
+```
 
 ---
 
@@ -294,9 +483,26 @@ Components that generate visual elements expand to a **Primitive enum** instead 
 ```rust
 #[derive(Debug, Clone, PartialEq)]
 pub enum Primitive {
-    Swatch { color: String, style: String },
+    /// Single colored swatch block with optional enhancements
+    Swatch {
+        color: String,
+        style: String,
+        // SVG-only options:
+        opacity: Option<f32>,        // 0.0-1.0
+        width: Option<u32>,          // pixels (default: 20)
+        height: Option<u32>,         // pixels (default: style-dependent)
+        border_color: Option<String>, // hex or palette name
+        border_width: Option<u32>,   // pixels (default: 0)
+        label: Option<String>,       // text inside swatch
+    },
+
+    /// Multi-color divider bar
     Divider { colors: Vec<String>, style: String },
+
+    /// Technology badge with logo
     Tech { name: String, bg_color: String, logo_color: String, style: String },
+
+    /// Status indicator
     Status { level: String, style: String },
 }
 ```
@@ -306,6 +512,7 @@ pub enum Primitive {
 - **Type-safe:** Compiler-verified parameters
 - **Testable:** Can assert on primitive generation independent of rendering
 - **Serializable:** Primitives can be logged, cached, or transformed
+- **Extensible:** Optional fields enable advanced SVG features without breaking shields.io
 
 ### Renderer Trait
 
@@ -471,11 +678,103 @@ A: Determinism + caching. Same primitive parameters → same hash → same filen
 
 ---
 
+## Enhanced Swatch Primitives
+
+**Version:** 1.1.0
+**Module:** `src/primitive.rs`, `src/renderer/svg.rs`
+
+### Overview
+
+Swatch primitives now support advanced styling options when using the SVG backend. These options are ignored by the shields.io backend, ensuring backward compatibility.
+
+### Available Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `opacity` | `f32` | `1.0` | Transparency (0.0 = transparent, 1.0 = opaque) |
+| `width` | `u32` | `20` | Width in pixels |
+| `height` | `u32` | style-dependent | Height in pixels |
+| `border_color` | `String` | none | Border color (hex or palette name) |
+| `border_width` | `u32` | `0` | Border width in pixels |
+| `label` | `String` | none | Text label inside swatch |
+
+### Template Syntax
+
+```markdown
+{{ui:swatch:FF6B35:opacity=0.5/}}
+{{ui:swatch:accent:width=40:height=30/}}
+{{ui:swatch:cobalt:border=FFFFFF:border_width=2/}}
+{{ui:swatch:F41C80:label=v1/}}
+```
+
+### SVG Rendering
+
+```rust
+// Enhanced swatch options
+struct SwatchOptions {
+    color: String,
+    style: String,
+    opacity: f32,
+    width: u32,
+    height: u32,
+    border_color: Option<String>,
+    border_width: u32,
+    label: Option<String>,
+}
+
+fn render_swatch_svg(options: &SwatchOptions) -> String {
+    let mut svg = format!(
+        r#"<svg xmlns="http://www.w3.org/2000/svg" width="{}" height="{}">"#,
+        options.width, options.height
+    );
+
+    // Add border if specified
+    if options.border_width > 0 {
+        svg.push_str(&format!(
+            r#"<rect width="100%" height="100%" fill="{}" stroke="{}" stroke-width="{}"/>"#,
+            options.color, options.border_color.as_deref().unwrap_or("none"), options.border_width
+        ));
+    }
+
+    // Add fill with opacity
+    svg.push_str(&format!(
+        r#"<rect width="100%" height="100%" fill="{}" fill-opacity="{}"/>"#,
+        options.color, options.opacity
+    ));
+
+    // Add label if specified
+    if let Some(label) = &options.label {
+        svg.push_str(&format!(
+            r#"<text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="white" font-size="10">{}</text>"#,
+            label
+        ));
+    }
+
+    svg.push_str("</svg>");
+    svg
+}
+```
+
+### Backend Compatibility
+
+| Feature | shields.io | SVG |
+|---------|------------|-----|
+| Basic color | ✅ | ✅ |
+| Style | ✅ | ✅ |
+| Opacity | ❌ (ignored) | ✅ |
+| Custom size | ❌ (ignored) | ✅ |
+| Border | ❌ (ignored) | ✅ |
+| Label | ❌ (ignored) | ✅ |
+
+**Design principle:** Enhanced options gracefully degrade - templates work on both backends, with extra features only visible in SVG output.
+
+---
+
 ## Separator System
 
-**Version:** 1.0.0 (shipped as of v1.0.0)
+**Version:** 1.0.0
 **Module:** `src/separators.rs`
-**Data:** `data/separators.json`
+**Data:** Unified in `registry.json`
 
 ### Overview
 
@@ -492,20 +791,18 @@ The separator system allows inserting characters between styled text characters 
 
 ### Data Structure
 
-**separators.json:**
+**In registry.json:**
 ```json
 {
-  "version": "1.0.0",
-  "separators": [
-    {
-      "id": "dot",
+  "separators": {
+    "dot": {
       "name": "Middle Dot",
       "char": "·",
       "unicode": "U+00B7",
       "description": "Middle dot separator for elegant spacing",
       "example": "𝐓·𝐈·𝐓·𝐋·𝐄"
     }
-  ]
+  }
 }
 ```
 
@@ -753,7 +1050,8 @@ if file_exists && content_hash_matches {
 ## GitHub Blocks
 
 **Version:** 1.0.0
-**Module:** `components.rs` (post-processing), `components.json` (definitions)
+**Module:** `components.rs` (post-processing)
+**Data:** `registry.json` → `renderables.components`
 
 ### Overview
 
@@ -1036,9 +1334,9 @@ let result = renderer.expand("header", &[], Some("TITLE"))?;
 - **Type-safe primitives:** Image components get compiler-verified parameters
 - **Template recursion:** Template-based components parsed recursively
 
-**Data Files:**
-- `data/components.json` - Component definitions (for template-based only)
-- `data/palette.json` - Design token colors
+**Data:**
+- Component definitions in `registry.json` → `renderables.components`
+- Palette colors in `registry.json` → `palette`
 
 ### 2. ShieldsRenderer (`src/shields.rs`)
 
@@ -1071,8 +1369,9 @@ pub fn resolve_color(&self, color: &str) -> Result<String>
 3. **bar** - Multiple inline blocks
 4. **icon** - Logo chip with background
 
-**Data File:**
-- `data/shields.json` - Shield styles and palette
+**Data:**
+- Shield styles in `registry.json` → `shield_styles`
+- Palette in `registry.json` → `palette`
 
 **Note:** ShieldsRenderer is used internally by `ShieldsBackend` which implements the `Renderer` trait. Direct shields.io template parsing (`{{shields:*}}`) is also supported as an escape hatch.
 
@@ -1151,8 +1450,8 @@ apply_frame("TITLE", "gradient")
 **Frame Types:**
 - Gradient (▓▒░), solid (█▌), lines (═), arrows (→), brackets (【】)
 
-**Data File:**
-- `data/frames.json` - Frame definitions with prefix/suffix
+**Data:**
+- Frame definitions in `registry.json` → `renderables.frames`
 
 ### 4. BadgeRenderer (`src/badges.rs`)
 
@@ -1180,8 +1479,8 @@ apply_badge("2", "negative-circle")  // → ❷
 - **Error on unsupported:** Returns `UnsupportedChar` error
 - **6 types:** circle, double-circle, negative-circle, paren, period, negative-paren
 
-**Data File:**
-- `data/badges.json` - Badge definitions with base codepoints
+**Data:**
+- Badge definitions in `registry.json` → `renderables.badges`
 
 ### 5. Converter (`src/converter.rs`)
 
@@ -1213,8 +1512,8 @@ convert_with_separator("TITLE", "mathbold", "·", 1)
 - **O(1) lookup:** HashMap for style resolution
 - **19 styles:** mathbold, fullwidth, script, fraktur, monospace, etc.
 
-**Data File:**
-- `data/styles.json` - Character mappings per style
+**Data:**
+- Style definitions in `registry.json` → `styles`
 
 ---
 
@@ -1244,7 +1543,7 @@ convert_with_separator("TITLE", "mathbold", "·", 1)
            ▼
 ┌─────────────────────────────────────────────────────┐
 │ ComponentsRenderer.expand("header", [], "TEXT")     │
-│ → Lookup in components.json                         │
+│ → Lookup in registry.json → renderables.components  │
 │ → Substitute $content → TEXT                         │
 │ → Resolve palette refs → ui.bg → 292A2D            │
 └─────────────────────────────────────────────────────┘
@@ -1411,13 +1710,13 @@ for (i, part) in parts.iter().enumerate() {
 
 ## Data Packaging
 
-### Embedded JSON Files
+### Unified Registry
 
 All configuration is **embedded at compile time** using `include_str!()`:
 
 ```rust
-let data = include_str!("../data/styles.json");
-let styles: StylesData = serde_json::from_str(data)?;
+let data = include_str!("../data/registry.json");
+let registry: Registry = serde_json::from_str(data)?;
 ```
 
 **Benefits:**
@@ -1425,22 +1724,78 @@ let styles: StylesData = serde_json::from_str(data)?;
 - Self-contained binary
 - Works in any environment (containers, WASM, embedded systems)
 - No deployment concerns
+- Single source of truth for all compiler data
 
-**Trade-off:** Users must recompile to change built-in data (custom components planned for v0.2)
+**Trade-off:** Users must recompile to change built-in data (runtime custom palette via `--palette` available)
 
-### Data Files
+### Registry Contents
 
-| File | Purpose | Size | Loaded By |
-|------|---------|------|-----------|
-| `styles.json` | Character mappings (19 styles) | ~15KB | Converter |
-| `frames.json` | Prefix/suffix decorations (27 frames) | ~3KB | FrameRenderer |
-| `badges.json` | Enclosed character mappings (6 types) | ~2KB | BadgeRenderer |
-| `shields.json` | Shield styles + palette (4 styles) | ~1KB | ShieldsRenderer |
-| `separators.json` | Named separator characters (12 separators) | ~2KB | TemplateParser |
-| `components.json` | UI component definitions (6 components) | ~1KB | ComponentsRenderer |
-| `palette.json` | Design tokens (15 colors) | <1KB | ComponentsRenderer |
+| Section | Purpose | Contents |
+|---------|---------|----------|
+| `palette` | Design tokens | 15+ named colors |
+| `styles` | Character mappings | 19 Unicode styles |
+| `separators` | Named separator characters | 12 separators |
+| `shield_styles` | Badge rendering styles | 5 styles (flat-square, flat, etc.) |
+| `renderables.frames` | Prefix/suffix decorations | 27+ frames |
+| `renderables.badges` | Enclosed character mappings | 6 badge types |
+| `renderables.components` | UI component definitions | 8+ components |
 
-**Total:** ~24KB embedded data
+**Total:** ~25KB unified `registry.json`
+
+---
+
+## Custom Palette Support
+
+**Version:** 1.1.0
+**Module:** `src/components.rs`, `src/parser.rs`
+
+### Overview
+
+Custom palettes allow projects to define their own named colors without modifying the built-in registry. This enables brand-consistent documentation across repositories.
+
+### CLI Usage
+
+```bash
+# Use custom palette
+mdfx process --palette ./brand-colors.json README.template.md
+
+# Palette file format
+{
+  "brand-primary": "FF6B35",
+  "brand-secondary": "2B6CB0",
+  "brand-accent": "F41C80"
+}
+```
+
+### Template Usage
+
+```markdown
+{{ui:swatch:brand-primary/}}
+{{ui:divider:brand-primary:brand-secondary:brand-accent/}}
+{{ui:tech:rust:brand-primary/}}
+```
+
+### API
+
+```rust
+// Extend palette programmatically
+let mut parser = TemplateParser::new()?;
+parser.extend_palette(HashMap::from([
+    ("brand".to_string(), "FF6B35".to_string()),
+]));
+
+// Or via ComponentsRenderer
+let mut renderer = ComponentsRenderer::new()?;
+renderer.extend_palette(custom_colors);
+```
+
+### Resolution Order
+
+1. Custom palette (highest priority)
+2. Built-in registry palette
+3. Direct hex code (6-digit, e.g., `FF6B35`)
+
+**Error handling:** Unknown color names that don't match palette or hex format return `Error::InvalidColor`
 
 ---
 
@@ -1650,24 +2005,28 @@ fn progress_bar(args: &[String]) -> Result<String> {
 
 ### Unit Tests
 
-**Per-component testing:**
-- `src/components.rs` - Expansion logic (14 tests)
-- `src/shields.rs` - URL generation (14 tests)
-- `src/frames.rs` - Prefix/suffix (27 tests)
-- `src/badges.rs` - Character mapping (18 tests)
-- `src/converter.rs` - Character transformation (41 tests)
+**Per-module testing:**
+- `src/components.rs` - Expansion logic, palette extension
+- `src/shields.rs` - URL generation
+- `src/frames.rs` - Prefix/suffix decorations
+- `src/badges.rs` - Character mapping
+- `src/converter.rs` - Character transformation
+- `src/registry.rs` - Unified registry loading
+- `src/targets.rs` - Target selection and detection
+- `src/renderer/svg.rs` - SVG generation, enhanced swatches
+- `src/manifest.rs` - Asset manifest, SHA-256 verification
 
-**Total:** 114+ unit tests
+**Total:** 261+ tests across all modules
 
 ### Integration Tests
 
 **Parser integration:**
-- UI component parsing (12 tests)
+- UI component parsing
 - Composition tests (frame + style + badge)
 - Recursive nesting
 - Error handling
-
-**Total:** 38+ integration tests
+- Target-aware rendering
+- Custom palette integration
 
 ### End-to-End Tests
 
@@ -1677,22 +2036,27 @@ mdfx process README.template.md > README.md
 diff README.md expected_README.md
 ```
 
-**Example validation:**
+**Target-specific tests:**
 ```bash
-echo "{{ui:header}}TEST{{/ui}}" | mdfx process -
-# Verify output matches expected rendering
+mdfx process --target github README.template.md
+mdfx process --target local --backend svg docs/guide.template.md
+```
+
+**Custom palette tests:**
+```bash
+mdfx process --palette brand.json README.template.md
 ```
 
 ---
 
 ## References
 
-- **Source:** `src/` directory
-- **Data:** `data/` directory (JSON files)
+- **Source:** `crates/mdfx/src/` directory
+- **Data:** `crates/mdfx/data/registry.json` (unified)
 - **Components Design:** [COMPONENTS.md](COMPONENTS.md)
 - **API Guide:** [API-GUIDE.md](API-GUIDE.md)
 - **Frames Design:** [FRAMES-DESIGN.md](FRAMES-DESIGN.md)
 
 ---
 
-**Document Status:** Reflects v1.0.0 implementation with component-first architecture
+**Document Status:** Reflects v1.1.0 implementation with markdown compiler architecture, unified registry, target system, enhanced swatch primitives, and custom palette support

@@ -1,11 +1,20 @@
 # mdfx API Guide
 
-**Version:** 1.0.0
-**Last Updated:** 2025-12-13
+**Version:** 1.1.0
+**Last Updated:** 2025-12-14
 
-Complete API reference for using the mdfx library in your Rust projects.
+Complete API reference for the mdfx **markdown compiler** library.
 
 > **Note:** This guide covers the **library API** (`mdfx` crate). For CLI usage, run `mdfx --help` or see the [README](../README.md).
+
+---
+
+## Overview
+
+mdfx is a **markdown compiler** that transforms template syntax into styled output. The compiler pipeline includes:
+- **Lexing/Parsing:** Template syntax to Primitive AST
+- **Semantic Analysis:** Registry resolution, EvalContext filtering
+- **Code Generation:** Backend-specific output (shields.io or SVG)
 
 ---
 
@@ -15,8 +24,8 @@ mdfx uses a Cargo workspace with two packages:
 
 | Package | Purpose | Dependencies |
 |---------|---------|--------------|
-| **`mdfx`** | Core library | 7 deps (serde, serde_json, thiserror, lazy_static, unicode-segmentation, sha2, chrono) |
-| **`mdfx-cli`** | CLI tool | mdfx + CLI deps (clap, colored) |
+| **`mdfx`** | Core compiler | 8 deps (serde, serde_json, thiserror, unicode-segmentation, sha2, chrono) |
+| **`mdfx-cli`** | CLI tool | mdfx + CLI deps (clap, colored, serde_json) |
 
 **For library usage**, add only the `mdfx` crate - no CLI dependencies included.
 
@@ -25,13 +34,17 @@ mdfx uses a Cargo workspace with two packages:
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Target System](#target-system) 🆕
+- [Custom Palette Support](#custom-palette-support) 🆕
 - [ComponentsRenderer API](#componentsrenderer-api) ⭐ **Primary API**
 - [ShieldsRenderer API](#shieldsrenderer-api)
 - [Converter API](#converter-api)
 - [FrameRenderer API](#framerenderer-api)
 - [BadgeRenderer API](#badgerenderer-api)
 - [TemplateParser API](#templateparser-api)
-- [Multi-Backend Rendering](#multi-backend-rendering) 🆕
+- [Multi-Backend Rendering](#multi-backend-rendering)
+- [Enhanced Swatch Options](#enhanced-swatch-options) 🆕
+- [Registry API](#registry-api) 🆕
 - [Error Handling](#error-handling)
 - [Advanced Usage](#advanced-usage)
 - [Performance Tips](#performance-tips)
@@ -93,6 +106,116 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ---
 
+## Target System
+
+**Version:** 1.1.0
+
+The Target system allows the compiler to adapt output for different deployment platforms.
+
+### Available Targets
+
+| Target | Backend | Use Case |
+|--------|---------|----------|
+| `github` | shields.io | GitHub READMEs, wikis |
+| `npm` | shields.io | npm package docs |
+| `local` | SVG | Offline documentation |
+| `auto` | (detected) | Infer from output path |
+
+### Using Targets
+
+```rust
+use mdfx::{TemplateParser, get_target};
+
+// Explicit target selection
+let target = get_target("github");
+let parser = TemplateParser::with_target(target)?;
+
+// Auto-detection from path
+use mdfx::detect_target_from_path;
+use std::path::Path;
+
+let target = detect_target_from_path(Path::new("README.md"));
+// Returns GitHubTarget
+
+let target = detect_target_from_path(Path::new("docs/local/guide.md"));
+// Returns LocalDocsTarget
+```
+
+### Target Trait
+
+```rust
+use mdfx::{Target, BackendType, EvalContext};
+
+// All targets implement this trait
+pub trait Target {
+    fn backend_type(&self) -> BackendType;
+    fn eval_context(&self) -> EvalContext;
+    fn name(&self) -> &str;
+}
+```
+
+### Listing Available Targets
+
+```rust
+use mdfx::available_targets;
+
+for target in available_targets() {
+    println!("{}: {:?}", target.name(), target.backend_type());
+}
+```
+
+---
+
+## Custom Palette Support
+
+**Version:** 1.1.0
+
+Custom palettes allow projects to define their own named colors.
+
+### Extending the Palette Programmatically
+
+```rust
+use mdfx::ComponentsRenderer;
+use std::collections::HashMap;
+
+let mut renderer = ComponentsRenderer::new()?;
+
+// Add custom colors
+let custom_colors: HashMap<String, String> = [
+    ("brand-primary".to_string(), "FF6B35".to_string()),
+    ("brand-secondary".to_string(), "2B6CB0".to_string()),
+].into_iter().collect();
+
+renderer.extend_palette(custom_colors);
+
+// Now "brand-primary" resolves in swatch expansion
+let result = renderer.expand("swatch", &["brand-primary".to_string()], None)?;
+```
+
+### Via TemplateParser
+
+```rust
+use mdfx::TemplateParser;
+use std::collections::HashMap;
+
+let mut parser = TemplateParser::new()?;
+
+parser.extend_palette(HashMap::from([
+    ("brand".to_string(), "FF6B35".to_string()),
+]));
+
+// Templates can now use the custom color
+let output = parser.process("{{ui:swatch:brand/}}")?;
+```
+
+### Resolution Order
+
+1. Custom palette (highest priority)
+2. Built-in registry palette
+3. Direct hex code (6-digit, e.g., `FF6B35`)
+
+---
+
 ## ComponentsRenderer API
 
 ⭐ **This is the primary user-facing API.** Components provide high-level semantic elements that expand to primitives.
@@ -115,11 +238,10 @@ use mdfx::ComponentsRenderer;
 let renderer = ComponentsRenderer::new()?;
 ```
 
-**Error:** Returns `Error::ParseError` if `components.json` or `palette.json` are malformed.
+**Error:** Returns `Error::ParseError` if `registry.json` is malformed.
 
-**Data Sources:**
-- `data/components.json` - Component definitions
-- `data/palette.json` - Design token colors
+**Data Source:**
+- `data/registry.json` - Unified registry (components, palette, styles, frames, badges, separators)
 
 ### Methods
 
@@ -1386,10 +1508,14 @@ use mdfx::primitive::Primitive;
 
 let backend = ShieldsBackend::new()?;
 
-let primitive = Primitive::Swatch {
-    color: "F41C80".to_string(),
-    style: "flat-square".to_string(),
-};
+let primitive = Primitive::simple_swatch("F41C80", "flat-square");
+// Equivalent to:
+// Primitive::Swatch {
+//     color: "F41C80".to_string(),
+//     style: "flat-square".to_string(),
+//     opacity: None, width: None, height: None,
+//     border_color: None, border_width: None, label: None,
+// }
 
 let asset = backend.render(&primitive)?;
 
@@ -1465,7 +1591,7 @@ let result = converter.convert_with_separator("TITLE", "mathbold", "·", 1)?;
 
 The system supports two input methods:
 
-1. **Named Separators**: Predefined characters from `data/separators.json`
+1. **Named Separators**: Predefined characters from the unified registry
 2. **Direct Unicode**: Any single Unicode character (grapheme cluster)
 
 ### SeparatorsData API
@@ -1609,27 +1735,23 @@ bullet       • (U+2022)  Bullet
 
 ### Data Format
 
-Separators are defined in `data/separators.json`:
+Separators are defined in the unified `registry.json`:
 
 ```json
 {
-  "version": "1.0.0",
-  "separators": [
-    {
-      "id": "dot",
+  "separators": {
+    "dot": {
       "name": "Middle Dot",
       "char": "·",
       "unicode": "U+00B7",
       "description": "Middle dot separator for elegant spacing",
       "example": "𝐓·𝐈·𝐓·𝐋·𝐄"
     }
-  ]
+  }
 }
 ```
 
-**Adding Custom Separators:**
-
-Edit `data/separators.json` to add new named separators. Changes take effect immediately (file is loaded lazily via `lazy_static`).
+**Note:** Separators are embedded at compile time from the registry. Runtime customization is not currently supported for separators.
 
 ---
 
@@ -2104,6 +2226,158 @@ let result = parser.process(template)?;
 
 ---
 
+## Enhanced Swatch Options
+
+**Version:** 1.1.0
+
+Swatch primitives support advanced SVG-only styling options.
+
+### Available Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `opacity` | `f32` | `1.0` | Transparency (0.0 = transparent, 1.0 = opaque) |
+| `width` | `u32` | `20` | Width in pixels |
+| `height` | `u32` | style-dependent | Height in pixels |
+| `border_color` | `String` | none | Border color (hex or palette name) |
+| `border_width` | `u32` | `0` | Border width in pixels |
+| `label` | `String` | none | Text label inside swatch |
+
+### API Usage
+
+```rust
+use mdfx::Primitive;
+
+// Simple swatch (helper method)
+let simple = Primitive::simple_swatch("F41C80", "flat-square");
+
+// Enhanced swatch (all options)
+let enhanced = Primitive::Swatch {
+    color: "F41C80".to_string(),
+    style: "flat-square".to_string(),
+    opacity: Some(0.8),
+    width: Some(40),
+    height: Some(30),
+    border_color: Some("FFFFFF".to_string()),
+    border_width: Some(2),
+    label: Some("v1".to_string()),
+};
+```
+
+### Template Syntax
+
+```markdown
+{{ui:swatch:FF6B35:opacity=0.5/}}
+{{ui:swatch:accent:width=40:height=30/}}
+{{ui:swatch:cobalt:border=FFFFFF:border_width=2/}}
+{{ui:swatch:F41C80:label=v1/}}
+```
+
+### Backend Compatibility
+
+| Feature | shields.io | SVG |
+|---------|------------|-----|
+| Basic color | ✅ | ✅ |
+| Style | ✅ | ✅ |
+| Opacity | ❌ (ignored) | ✅ |
+| Custom size | ❌ (ignored) | ✅ |
+| Border | ❌ (ignored) | ✅ |
+| Label | ❌ (ignored) | ✅ |
+
+Enhanced options gracefully degrade on shields.io backend.
+
+---
+
+## Registry API
+
+**Version:** 1.1.0
+
+The unified registry provides access to all compiler data.
+
+### Loading the Registry
+
+```rust
+use mdfx::Registry;
+
+let registry = Registry::new()?;
+```
+
+### Available Data
+
+```rust
+// Palette colors
+for (name, hex) in &registry.palette {
+    println!("{}: #{}", name, hex);
+}
+
+// Text styles
+for (id, style) in &registry.styles {
+    println!("{}: {}", id, style.name);
+}
+
+// Frames
+for (id, frame) in &registry.frames {
+    println!("{}: {}{{}}{}", id, frame.prefix, frame.suffix);
+}
+
+// Badges
+for (id, badge) in &registry.badges {
+    println!("{}: {}", id, badge.name);
+}
+
+// Separators
+for (id, sep) in &registry.separators {
+    println!("{}: {} ({})", id, sep.char, sep.unicode);
+}
+
+// Shield styles
+for (id, style) in &registry.shield_styles {
+    println!("{}: {}", id, style.name);
+}
+
+// Components
+for (id, comp) in &registry.components {
+    println!("{}: {}", id, comp.description);
+}
+```
+
+### Resolving Renderables
+
+```rust
+use mdfx::{Registry, EvalContext, ResolvedRenderable};
+
+let registry = Registry::new()?;
+
+// Resolve a frame with context filtering
+if let Some(resolved) = registry.resolve("gradient", EvalContext::GitHub) {
+    match resolved {
+        ResolvedRenderable::Frame(f) => println!("Frame: {}{{}}{}", f.prefix, f.suffix),
+        ResolvedRenderable::Badge(b) => println!("Badge: {}", b.name),
+        ResolvedRenderable::Style(s) => println!("Style: {}", s.name),
+        ResolvedRenderable::Component(c) => println!("Component: {}", c.description),
+    }
+}
+```
+
+### EvalContext Filtering
+
+```rust
+use mdfx::EvalContext;
+
+// Available contexts
+let contexts = [
+    EvalContext::Cli,      // Command line
+    EvalContext::GitHub,   // GitHub README
+    EvalContext::Npm,      // npm docs
+    EvalContext::Local,    // Local/offline
+];
+
+// Get renderables valid for a context
+let github_renderables = registry.list_for_context(EvalContext::GitHub);
+```
+
+---
+
 ## Error Handling
 
 All errors implement `std::error::Error` and use the `thiserror` crate.
@@ -2539,4 +2813,6 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 
 ---
 
-**Last Updated:** 2025-12-13
+**Last Updated:** 2025-12-14
+
+**Version:** 1.1.0 - Added Target System, Custom Palette Support, Enhanced Swatch Options, Registry API
