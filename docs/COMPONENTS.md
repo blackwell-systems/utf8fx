@@ -156,7 +156,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components
+### Shipped Components (9 total)
 
 #### divider
 ```json
@@ -239,6 +239,53 @@ Components are defined in `registry.json` under `renderables.components`:
 **Usage:** `{{ui:callout:warning}}Message{{/ui}}`
 
 **Output:** `█▌ 🟡 Message`
+
+#### section
+```json
+{
+  "type": "expand",
+  "self_closing": true,
+  "args": ["title"],
+  "template": "## $1\n{{ui:divider/}}"
+}
+```
+
+**Usage:** `{{ui:section:Features/}}`
+
+**Output:** Markdown header (`##`) followed by divider badge row
+
+#### callout-github
+```json
+{
+  "type": "expand",
+  "self_closing": false,
+  "args": ["type"],
+  "template": "{{ui:status:$1/}} **Note**\n$content",
+  "post_process": "blockquote"
+}
+```
+
+**Usage:** `{{ui:callout-github:warning}}Breaking changes{{/ui}}`
+
+**Output:** Blockquote with colored status indicator (uses `post_process: blockquote` to wrap all lines with `> `)
+
+**Types:** `success` (green), `info` (blue), `warning` (yellow), `error` (red)
+
+#### statusitem
+```json
+{
+  "type": "expand",
+  "self_closing": true,
+  "args": ["label", "level", "text"],
+  "template": "{{ui:status:$2/}} **$1**: $3"
+}
+```
+
+**Usage:** `{{ui:statusitem:Build:success:passing/}}`
+
+**Output:** `![](badge) **Build**: passing`
+
+**Composing rows:** `{{ui:statusitem:Build:success:✓/}} · {{ui:statusitem:Tests:success:276/}}`
 
 ## Design Tokens
 
@@ -604,10 +651,11 @@ Swatches now support advanced SVG-only options:
 {{ui:swatch:FF6B35:opacity=0.5/}}
 {{ui:swatch:accent:width=40:height=30/}}
 {{ui:swatch:cobalt:border=FFFFFF:border_width=2/}}
-{{ui:swatch:F41C80:label=v1/}}
+{{ui:swatch:F41C80:label=v1:label_color=000000/}}
+{{ui:swatch:DEA584:icon=rust:icon_color=FFFFFF/}}
 ```
 
-Options: `opacity`, `width`, `height`, `border`, `border_width`, `label`
+Options: `opacity`, `width`, `height`, `border`, `border_width`, `label`, `label_color`, `icon`, `icon_color`
 
 ### Custom Palette Support
 
