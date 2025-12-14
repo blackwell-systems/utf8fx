@@ -80,7 +80,7 @@ dist/readme_npm.md
 - **Opacity control** - `{{ui:swatch:accent:opacity=0.5/}}` for transparent swatches (SVG-only)
 - **Custom dimensions** - `{{ui:swatch:accent:width=40:height=30/}}` for non-standard sizes (SVG-only)
 - **Border support** - `{{ui:swatch:accent:border=white:border_width=2/}}` for outlined swatches (SVG-only)
-- **Labels** - `{{ui:swatch:accent:label=v1/}}` for text overlay on swatches (SVG-only)
+- **Labels** - `{{ui:swatch:accent:label=v1/}}` for text overlay on swatches (Shields.io + SVG)
 - **Label color** - `{{ui:swatch:white:label=X:label_color=000000/}}` for custom text color (SVG-only)
 - **Icon support** - `{{ui:swatch:F41C80:icon=rust/}}` for Simple Icons logos (All backends)
 - **Icon color** - `{{ui:swatch:accent:icon=docker:icon_color=white/}}` for custom icon color (All backends)
@@ -99,7 +99,8 @@ dist/readme_npm.md
 | Option | Shields.io | SVG | PlainText |
 |--------|------------|-----|-----------|
 | opacity, width, height, border | ❌ | ✅ | ❌ |
-| label, label_color | ❌ | ✅ | ✅ |
+| label | ✅ | ✅ | ✅ |
+| label_color | ❌ | ✅ | ❌ |
 | icon, icon_color | ✅ (real logos) | ⚠️ (text fallback) | ✅ |
 
 #### Custom Palette Support

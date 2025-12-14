@@ -29,12 +29,16 @@ impl Renderer for ShieldsBackend {
                 style,
                 icon,
                 icon_color,
+                label,
                 ..
             } => {
                 // If icon is specified, render as icon badge with custom background
                 if let Some(icon_name) = icon {
                     let logo_color = icon_color.as_deref().unwrap_or("FFFFFF");
                     self.shields.render_icon(icon_name, color, logo_color, style)?
+                } else if let Some(label_text) = label {
+                    // Render block with label text
+                    self.shields.render_labeled_block(color, label_text, style)?
                 } else {
                     self.shields.render_block(color, style)?
                 }

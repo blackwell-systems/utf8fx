@@ -73,6 +73,31 @@ impl ShieldsRenderer {
         Ok(format!("![]({})", url))
     }
 
+    /// Render a colored block with a text label
+    ///
+    /// # Arguments
+    ///
+    /// * `color` - Background color (palette name or hex)
+    /// * `label` - Text to display on the badge
+    /// * `style` - Shield style
+    pub fn render_labeled_block(&self, color: &str, label: &str, style: &str) -> Result<String> {
+        let resolved_color = self.resolve_color(color)?;
+        let resolved_style = self.resolve_style(style)?;
+
+        // URL-encode the label for safe inclusion in URL
+        let encoded_label = label
+            .replace(' ', "%20")
+            .replace('-', "--")
+            .replace('_', "__");
+
+        let url = format!(
+            "https://img.shields.io/badge/-{}-{}?style={}",
+            encoded_label, resolved_color, resolved_style
+        );
+
+        Ok(format!("![]({})", url))
+    }
+
     /// Render a two-tone block (left/right colors)
     ///
     /// # Arguments
