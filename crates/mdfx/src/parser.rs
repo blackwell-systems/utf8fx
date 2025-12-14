@@ -3,7 +3,7 @@ use crate::components::{ComponentOutput, ComponentsRenderer, PostProcess};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
 use crate::frames::FrameRenderer;
-use crate::registry::{EvalContext, Registry};
+use crate::registry::Registry;
 use crate::renderer::shields::ShieldsBackend;
 use crate::renderer::{RenderedAsset, Renderer};
 use crate::shields::ShieldsRenderer;
@@ -572,43 +572,19 @@ impl TemplateParser {
                     i += 1;
                 }
 
-                // Resolve separator using unified Registry (inline context)
-                // First, try to resolve as a known glyph
-                if let Some(glyph) = self.registry.glyph(&sep_input) {
-                    // Check context compatibility
-                    if glyph.contexts.contains(&EvalContext::Inline) {
-                        separator = Some(glyph.value.clone());
-                    } else {
-                        return Err(Error::ParseError(format!(
-                            "Glyph '{}' cannot be used in inline context (separators must be inline-compatible)",
-                            sep_input
-                        )));
-                    }
+                // Check if it's a single grapheme literal
+                use unicode_segmentation::UnicodeSegmentation;
+                let graphemes: Vec<&str> = sep_input.graphemes(true).collect();
+
+                if graphemes.len() == 1 {
+                    // Single grapheme - accept as literal separator
+                    separator = Some(sep_input.clone());
                 } else {
-                    // Not a known glyph - check if it's a single grapheme literal
-                    use unicode_segmentation::UnicodeSegmentation;
-                    let graphemes: Vec<&str> = sep_input.graphemes(true).collect();
-
-                    if graphemes.len() == 1 {
-                        // Single grapheme - accept as literal separator
-                        separator = Some(sep_input.clone());
-                    } else {
-                        // Multi-grapheme unknown name - error with suggestions
-                        let available: Vec<&str> = self
-                            .registry
-                            .glyphs()
-                            .iter()
-                            .filter(|(_, g)| g.contexts.contains(&EvalContext::Inline))
-                            .map(|(name, _)| name.as_str())
-                            .take(8)
-                            .collect();
-
-                        return Err(Error::ParseError(format!(
-                            "Unknown separator '{}'. Available separators: {}. Or use a single character like '→' or '·'.",
-                            sep_input,
-                            available.join(", ")
-                        )));
-                    }
+                    // Multi-grapheme - error
+                    return Err(Error::ParseError(format!(
+                        "Separator must be a single character, got: '{}'",
+                        sep_input
+                    )));
                 }
             } else {
                 // Unknown parameter
@@ -1275,7 +1251,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_with_separator_dot() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold:separator=dot}}HELLO{{/mathbold}}";
+        let input = "{{mathbold:separator=·}}HELLO{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐇·𝐄·𝐋·𝐋·𝐎");
     }
@@ -1283,7 +1259,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_with_separator_dash() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold:separator=dash}}HEADER{{/mathbold}}";
+        let input = "{{mathbold:separator=─}}HEADER{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐇─𝐄─𝐀─𝐃─𝐄─𝐑");
     }
@@ -1291,7 +1267,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_with_separator_bolddash() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold:separator=bolddash}}BOLD{{/mathbold}}";
+        let input = "{{mathbold:separator=━}}BOLD{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐁━𝐎━𝐋━𝐃");
     }
@@ -1299,7 +1275,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_with_separator_arrow() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold:separator=arrow}}ABC{{/mathbold}}";
+        let input = "{{mathbold:separator=→}}ABC{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐀→𝐁→𝐂");
     }
@@ -1307,7 +1283,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_with_separator_bullet() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold:separator=bullet}}TEST{{/mathbold}}";
+        let input = "{{mathbold:separator=•}}TEST{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐓•𝐄•𝐒•𝐓");
     }
@@ -1315,7 +1291,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_separator_in_heading() {
         let parser = TemplateParser::new().unwrap();
-        let input = "# {{mathbold:separator=dot}}TITLE{{/mathbold}}";
+        let input = "# {{mathbold:separator=·}}TITLE{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "# 𝐓·𝐈·𝐓·𝐋·𝐄");
     }
@@ -1323,7 +1299,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_template_separator_with_punctuation() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold:separator=dash}}Hello, World!{{/mathbold}}";
+        let input = "{{mathbold:separator=─}}Hello, World!{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐇─𝐞─𝐥─𝐥─𝐨─,─ ─𝐖─𝐨─𝐫─𝐥─𝐝─!");
     }
@@ -1332,7 +1308,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     fn test_template_spacing_and_separator_mutually_exclusive() {
         let parser = TemplateParser::new().unwrap();
         // When both are specified, separator takes precedence
-        let input = "{{mathbold:spacing=2:separator=dot}}HI{{/mathbold}}";
+        let input = "{{mathbold:spacing=2:separator=·}}HI{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐇·𝐈");
     }
@@ -1344,7 +1320,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let result = parser.process(input);
         assert!(result.is_err());
         if let Err(Error::ParseError(msg)) = result {
-            assert!(msg.contains("Unknown separator"));
+            assert!(msg.contains("Separator must be a single character"));
         } else {
             panic!("Expected ParseError");
         }
@@ -1354,7 +1330,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     fn test_template_mixed_with_and_without_separator() {
         let parser = TemplateParser::new().unwrap();
         let input =
-            "{{mathbold}}no sep{{/mathbold}} {{mathbold:separator=dot}}with sep{{/mathbold}}";
+            "{{mathbold}}no sep{{/mathbold}} {{mathbold:separator=·}}with sep{{/mathbold}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "𝐧𝐨 𝐬𝐞𝐩 𝐰·𝐢·𝐭·𝐡· ·𝐬·𝐞·𝐩");
     }
@@ -1379,7 +1355,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_frame_with_separator() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{frame:solid-left}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}";
+        let input = "{{frame:solid-left}}{{mathbold:separator=·}}TITLE{{/mathbold}}{{/frame}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "█▌𝐓·𝐈·𝐓·𝐋·𝐄");
     }
@@ -1464,7 +1440,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_composition_frame_style_separator() {
         let parser = TemplateParser::new().unwrap();
-        let input = "{{frame:gradient}}{{mathbold:separator=dash}}STYLED{{/mathbold}}{{/frame}}";
+        let input = "{{frame:gradient}}{{mathbold:separator=─}}STYLED{{/mathbold}}{{/frame}}";
         let result = parser.process(input).unwrap();
         assert_eq!(result, "▓▒░ 𝐒─𝐓─𝐘─𝐋─𝐄─𝐃 ░▒▓");
     }
@@ -1481,7 +1457,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     #[test]
     fn test_complex_composition() {
         let parser = TemplateParser::new().unwrap();
-        let input = r#"# {{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+        let input = r#"# {{frame:gradient}}{{mathbold:separator=·}}TITLE{{/mathbold}}{{/frame}}
 
 {{frame:solid-left}}{{italic}}Important note{{/italic}}{{/frame}}
 

@@ -7,7 +7,7 @@ use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
 use mdfx::{
     available_targets, detect_target_from_path, get_target, BackendType, Converter, Error,
-    SeparatorsData, StyleCategory, Target, TemplateParser,
+    StyleCategory, Target, TemplateParser,
 };
 use std::fs;
 use std::io::{self, Read};
@@ -70,21 +70,6 @@ enum Commands {
         /// Show sample output for each style
         #[arg(short, long)]
         samples: bool,
-    },
-
-    /// List available separators
-    ///
-    /// Display all available separator characters that can be used with the
-    /// separator parameter. Includes both named separators (dot, bullet, arrow)
-    /// and examples. You can also use any single Unicode character directly.
-    ///
-    /// Examples:
-    ///   mdfx separators
-    ///   mdfx separators --examples
-    Separators {
-        /// Show usage examples for each separator
-        #[arg(short, long)]
-        examples: bool,
     },
 
     /// Process markdown file with style templates
@@ -248,10 +233,6 @@ fn run(cli: Cli) -> Result<(), Error> {
             list_styles(&converter, category, samples)?;
         }
 
-        Commands::Separators { examples } => {
-            list_separators(examples)?;
-        }
-
         Commands::Process {
             input,
             output,
@@ -363,66 +344,6 @@ fn list_styles(
 
         println!();
     }
-
-    Ok(())
-}
-
-fn list_separators(show_examples: bool) -> Result<(), Error> {
-    let separators_data = SeparatorsData::load()?;
-
-    println!("{}", "Available separators:".bold());
-    println!();
-    println!(
-        "{}",
-        "Use with: {{mathbold:separator=NAME}}TEXT{{/mathbold}}".dimmed()
-    );
-    println!(
-        "{}",
-        "Or use any single Unicode character directly: {{mathbold:separator=⚡}}TEXT{{/mathbold}}"
-            .dimmed()
-    );
-    println!();
-
-    for sep in &separators_data.separators {
-        // Show ID and character
-        print!("  {} ", sep.id.green());
-        print!("({}) ", sep.char.cyan().bold());
-
-        // Show Unicode code point
-        print!("[{}] ", sep.unicode.dimmed());
-
-        // Show description
-        println!("- {}", sep.description.dimmed());
-
-        // Show example if requested
-        if show_examples {
-            let example = format!("A {} B", sep.char);
-            println!("    Example: {}", example.yellow());
-            println!(
-                "    {}",
-                format!("{{{{mathbold:separator={}}}}}TEXT{{{{/mathbold}}}}", sep.id).dimmed()
-            );
-        }
-    }
-
-    println!();
-    println!("{}", "💡 Tip:".bold());
-    println!(
-        "  {}",
-        "Any single Unicode character works as a separator:".dimmed()
-    );
-    println!(
-        "  {}",
-        "{{mathbold:separator=⚡}}LIGHTNING{{/mathbold}}".dimmed()
-    );
-    println!(
-        "  {}",
-        "{{mathbold:separator=★}}STARS{{/mathbold}}".dimmed()
-    );
-    println!(
-        "  {}",
-        "{{mathbold:separator=|}}PIPES{{/mathbold}}".dimmed()
-    );
 
     Ok(())
 }

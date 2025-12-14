@@ -56,187 +56,6 @@
   },
 
   "renderables": {
-    "glyphs": {
-      "dot": {
-        "value": "·",
-        "unicode": "U+00B7",
-        "description": "Middle dot separator",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "bullet": {
-        "value": "•",
-        "unicode": "U+2022",
-        "description": "Bullet point separator",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "dash": {
-        "value": "─",
-        "unicode": "U+2500",
-        "description": "Light horizontal line",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "bolddash": {
-        "value": "━",
-        "unicode": "U+2501",
-        "description": "Heavy horizontal line",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "arrow": {
-        "value": "→",
-        "unicode": "U+2192",
-        "description": "Rightward arrow",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "star": {
-        "value": "★",
-        "unicode": "U+2605",
-        "description": "Black star",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "diamond": {
-        "value": "◆",
-        "unicode": "U+25C6",
-        "description": "Black diamond",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "square": {
-        "value": "■",
-        "unicode": "U+25A0",
-        "description": "Black square",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "circle": {
-        "value": "●",
-        "unicode": "U+25CF",
-        "description": "Black circle",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "pipe": {
-        "value": "|",
-        "unicode": "U+007C",
-        "description": "Vertical bar",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "slash": {
-        "value": "/",
-        "unicode": "U+002F",
-        "description": "Forward slash",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "tilde": {
-        "value": "~",
-        "unicode": "U+007E",
-        "description": "Tilde",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "newline": {
-        "value": "\n",
-        "unicode": "U+000A",
-        "description": "Line break (block context only)",
-        "contexts": ["block"]
-      },
-      "space": {
-        "value": " ",
-        "unicode": "U+0020",
-        "description": "Space character",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "em-dash": {
-        "value": "—",
-        "unicode": "U+2014",
-        "description": "Em dash",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "en-dash": {
-        "value": "–",
-        "unicode": "U+2013",
-        "description": "En dash",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "ellipsis": {
-        "value": "…",
-        "unicode": "U+2026",
-        "description": "Horizontal ellipsis",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "check": {
-        "value": "✓",
-        "unicode": "U+2713",
-        "description": "Check mark",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "cross": {
-        "value": "✗",
-        "unicode": "U+2717",
-        "description": "Cross mark",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "warning-icon": {
-        "value": "⚠",
-        "unicode": "U+26A0",
-        "description": "Warning sign",
-        "contexts": ["inline", "block", "frame_chrome"]
-      },
-      "info-icon": {
-        "value": "ℹ",
-        "unicode": "U+2139",
-        "description": "Information sign",
-        "contexts": ["inline", "block", "frame_chrome"]
-      }
-    },
-
-    "snippets": {
-      "sep.accent": {
-        "template": "{{ui:swatch:accent/}}",
-        "description": "Accent color swatch as separator",
-        "contexts": ["inline"],
-        "inline_only": true,
-        "no_newlines": true
-      },
-      "sep.success": {
-        "template": "{{ui:swatch:success/}}",
-        "description": "Success color swatch as separator",
-        "contexts": ["inline"],
-        "inline_only": true,
-        "no_newlines": true
-      },
-      "sep.divider": {
-        "template": "{{ui:divider/}}",
-        "description": "Full-width gradient divider",
-        "contexts": ["block"]
-      },
-      "chrome.warning": {
-        "template": "⚠️ ",
-        "description": "Warning emoji for frame chrome",
-        "contexts": ["inline", "frame_chrome"]
-      },
-      "chrome.info": {
-        "template": "ℹ️ ",
-        "description": "Info emoji for frame chrome",
-        "contexts": ["inline", "frame_chrome"]
-      },
-      "chrome.success": {
-        "template": "✅ ",
-        "description": "Success emoji for frame chrome",
-        "contexts": ["inline", "frame_chrome"]
-      },
-      "chrome.error": {
-        "template": "❌ ",
-        "description": "Error emoji for frame chrome",
-        "contexts": ["inline", "frame_chrome"]
-      },
-      "chrome.accent_block": {
-        "template": "{{ui:swatch:accent/}} ",
-        "description": "Accent color block for frame prefix",
-        "contexts": ["frame_chrome"]
-      },
-      "chrome.gradient": {
-        "template": "▓▒░ ",
-        "description": "Gradient block characters",
-        "contexts": ["inline", "frame_chrome"]
-      }
-    },
-
     "components": {
       "divider": {
         "type": "native",
@@ -300,7 +119,7 @@
         "description": "Section header with gradient frame and bold text",
         "contexts": ["block"],
         "args": [],
-        "template": "{{frame:gradient}}{{mathbold:separator=dot}}$content{{/mathbold}}{{/frame}}"
+        "template": "{{frame:gradient}}{{mathbold:separator=·}}$content{{/mathbold}}{{/frame}}"
       },
       "callout": {
         "type": "expand",
@@ -550,35 +369,35 @@
         "aliases": ["arcbottom", "rounded-bottom"]
       },
       "alert-warning": {
-        "prefix": "{{snippet:chrome.warning}}",
+        "prefix": "⚠️ ",
         "suffix": "",
         "description": "Warning alert frame",
         "contexts": ["block"],
         "aliases": ["warn", "caution"]
       },
       "alert-info": {
-        "prefix": "{{snippet:chrome.info}}",
+        "prefix": "ℹ️ ",
         "suffix": "",
         "description": "Info alert frame",
         "contexts": ["block"],
         "aliases": ["note", "tip"]
       },
       "alert-success": {
-        "prefix": "{{snippet:chrome.success}}",
+        "prefix": "✅ ",
         "suffix": "",
         "description": "Success alert frame",
         "contexts": ["block"],
         "aliases": ["done", "ok"]
       },
       "alert-error": {
-        "prefix": "{{snippet:chrome.error}}",
+        "prefix": "❌ ",
         "suffix": "",
         "description": "Error alert frame",
         "contexts": ["block"],
         "aliases": ["danger", "fail"]
       },
       "color-accent": {
-        "prefix": "{{snippet:chrome.accent_block}}",
+        "prefix": "{{ui:swatch:accent/}} ",
         "suffix": "",
         "description": "Accent color block prefix",
         "contexts": ["block"],
@@ -1141,8 +960,6 @@
   },
 
   "metadata": {
-    "total_glyphs": 21,
-    "total_snippets": 10,
     "total_components": 9,
     "total_frames": 32,
     "total_styles": 19,
