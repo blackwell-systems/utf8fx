@@ -17,10 +17,10 @@ mdfx = "1.0"
 - **Template Syntax** - {{mathbold}}TEXT{{/mathbold}} transforms automatically
 - **9 UI Components** - Dividers, swatches, status indicators, tech badges, GitHub blocks
 - **Multi-Backend Rendering** - shields.io URLs or local SVG files
-- **Target System** - Compile for GitHub, npm, or local docs
+- **Target System** - Compile for GitHub, GitLab, npm, PyPI, or local docs
 - **Custom Palettes** - Project-specific color definitions
 - **Enhanced Swatches** - SVG-only opacity, borders, labels
-- **261 Tests** - Comprehensive test coverage
+- **266 Tests** - Comprehensive test coverage
 - **Cross-Platform** - macOS • Linux • Windows • WSL2
 
 [Get Started](#quick-start)

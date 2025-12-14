@@ -104,6 +104,8 @@ enum Commands {
     ///   github - GitHub README (shields.io badges, default)
     ///   local  - Local docs (SVG files, offline-first)
     ///   npm    - npm package README (like GitHub)
+    ///   gitlab - GitLab README (more HTML support)
+    ///   pypi   - PyPI package (plain text, ASCII-safe)
     ///   auto   - Auto-detect from output path
     ///
     /// Template syntax:
@@ -123,7 +125,7 @@ enum Commands {
         #[arg(short = 'i', long)]
         in_place: bool,
 
-        /// Target platform (github, local, npm, auto)
+        /// Target platform (github, local, npm, gitlab, pypi, auto)
         #[arg(short, long, default_value = "github")]
         target: String,
 

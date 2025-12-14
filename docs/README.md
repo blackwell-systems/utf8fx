@@ -2,7 +2,7 @@
 
 [![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
 [![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-261_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+[![Tests](https://img.shields.io/badge/tests-266_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
 [![Crates.io](https://img.shields.io/crates/v/mdfx.svg)](https://crates.io/crates/mdfx)
 
 Welcome to the mdfx documentation site! This is your navigation hub for all documentation.
@@ -243,9 +243,11 @@ The SVG backend generates deterministic filenames (hash-based) for reproducible 
 Compile for different platforms:
 
 ```bash
-mdfx process --target github README.md    # shields.io backend (default)
+mdfx process --target github README.md     # shields.io badges (default)
 mdfx process --target local docs/guide.md  # SVG backend, offline-first
 mdfx process --target npm package-readme.md
+mdfx process --target gitlab README.md     # GitLab with more HTML support
+mdfx process --target pypi PKG-INFO.md     # Plain text, ASCII-safe
 ```
 
 ### Custom Palettes

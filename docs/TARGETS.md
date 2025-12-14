@@ -702,12 +702,12 @@ fn detect_target_from_package_manager(cwd: &Path) -> Option<&'static str> {
 
 **Migration**: None required (GitHub still default)
 
-### Phase 4: v2.0 - Full Multi-Target ⏳ NOT STARTED
+### Phase 4: v2.0 - Full Multi-Target ✅ COMPLETE
 
-**Status**: Planned Q3 2026
+**Status**: Implemented December 2025
 
-- ⏳ Implement `GitLabTarget`
-- ⏳ Implement `PyPITarget`
+- ✅ Implement `GitLabTarget` (more HTML support, Mermaid diagrams)
+- ✅ Implement `PyPITarget` (plain text fallbacks, ASCII-safe)
 - ⏳ Target-specific post-processing
 - ⏳ Fallback strategies
 - ⏳ Target-specific escapes
@@ -842,10 +842,12 @@ cargo test --test golden -- --target github
 - **Post-processing**: Target-specific transformations
 - **Fallbacks**: Graceful degradation when features unavailable
 
-**Shipped targets**:
-- v1.0: GitHub
-- v1.1+: Local, npm
-- v2.0: GitLab, PyPI
+**Shipped targets** (all implemented):
+- GitHub (default, shields.io badges)
+- Local (SVG files, offline-first)
+- npm (like GitHub)
+- GitLab (more HTML support)
+- PyPI (plain text, ASCII-safe)
 
 **The goal**: Write once (source), compile for many (targets).
 

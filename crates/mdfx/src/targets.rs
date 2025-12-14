@@ -7,10 +7,8 @@
 //! - `GitHubTarget`: shields.io badges, no HTML
 //! - `LocalDocsTarget`: SVG files, offline-first
 //! - `NpmTarget`: Similar to GitHub
-//!
-//! Future targets (v2.0):
-//! - `GitLabTarget`: More HTML support
-//! - `PyPITarget`: Plain text fallbacks
+//! - `GitLabTarget`: More HTML support, Mermaid diagrams
+//! - `PyPITarget`: Plain text fallbacks, ASCII-safe
 
 use crate::error::Result;
 use serde::{Deserialize, Serialize};
@@ -215,6 +213,163 @@ impl Target for NpmTarget {
 }
 
 // =============================================================================
+// GitLab Target
+// =============================================================================
+
+/// GitLab rendering target
+///
+/// Characteristics:
+/// - Markdown flavor: GitLab-Flavored Markdown
+/// - HTML support: More permissive than GitHub
+/// - Image support: External URLs, embedded SVGs
+/// - Special features: Mermaid diagrams, issue/MR references
+/// - Unicode: Full support
+#[derive(Debug, Clone, Copy, Default)]
+pub struct GitLabTarget;
+
+impl Target for GitLabTarget {
+    fn name(&self) -> &str {
+        "gitlab"
+    }
+
+    fn supports_html(&self) -> bool {
+        true // GitLab allows more HTML than GitHub
+    }
+
+    fn supports_svg_embed(&self) -> bool {
+        true
+    }
+
+    fn supports_external_images(&self) -> bool {
+        true
+    }
+
+    fn max_line_length(&self) -> Option<usize> {
+        None
+    }
+
+    fn preferred_backend(&self) -> BackendType {
+        BackendType::Shields
+    }
+
+    fn description(&self) -> &str {
+        "GitLab-Flavored Markdown with extended HTML support"
+    }
+
+    fn post_process(&self, markdown: &str) -> Result<String> {
+        // GitLab-specific transformations
+        let output = convert_callouts_to_gitlab_alerts(markdown);
+        Ok(output)
+    }
+}
+
+/// Convert mdfx callouts to GitLab's alert syntax
+fn convert_callouts_to_gitlab_alerts(markdown: &str) -> String {
+    // GitLab uses similar blockquote alerts but with different syntax
+    markdown
+        .replace("> 🟢 **Note**", "> **Note**")
+        .replace("> ⚠️ **Warning**", "> **Warning**")
+        .replace("> 🔴 **Error**", "> **Danger**")
+        .replace("> 🟡 **Tip**", "> **Tip**")
+        .replace("> ℹ️ **Info**", "> **Info**")
+}
+
+// =============================================================================
+// PyPI Target
+// =============================================================================
+
+/// PyPI package description target
+///
+/// Characteristics:
+/// - Markdown flavor: Limited Markdown or reStructuredText
+/// - HTML support: None (stripped)
+/// - Image support: External URLs only (no embed)
+/// - Unicode: Limited (some clients are ASCII-only)
+///
+/// Optimizations:
+/// - Plain text fallbacks for styled text
+/// - External shields.io URLs (if images allowed)
+/// - ASCII alternatives for Unicode decorations
+#[derive(Debug, Clone, Copy, Default)]
+pub struct PyPITarget;
+
+impl Target for PyPITarget {
+    fn name(&self) -> &str {
+        "pypi"
+    }
+
+    fn supports_html(&self) -> bool {
+        false // PyPI strips HTML in long_description
+    }
+
+    fn supports_svg_embed(&self) -> bool {
+        false // No SVG embed support
+    }
+
+    fn supports_external_images(&self) -> bool {
+        true // Can link to external images
+    }
+
+    fn max_line_length(&self) -> Option<usize> {
+        Some(80) // PyPI recommends 80-char lines
+    }
+
+    fn preferred_backend(&self) -> BackendType {
+        BackendType::PlainText // Fallback to text for maximum compatibility
+    }
+
+    fn supports_unicode_styling(&self) -> bool {
+        false // PyPI often displays in ASCII-only contexts
+    }
+
+    fn description(&self) -> &str {
+        "PyPI package description (plain text fallbacks)"
+    }
+
+    fn post_process(&self, markdown: &str) -> Result<String> {
+        // PyPI-specific: Convert fancy Unicode to ASCII equivalents
+        let output = convert_unicode_to_ascii(markdown);
+        Ok(output)
+    }
+}
+
+/// Convert Unicode decorations to ASCII equivalents for PyPI
+fn convert_unicode_to_ascii(markdown: &str) -> String {
+    markdown
+        // Convert common Unicode arrows and bullets
+        .replace("→", "->")
+        .replace("←", "<-")
+        .replace("↔", "<->")
+        .replace("•", "*")
+        .replace("·", ".")
+        // Convert box drawing to ASCII
+        .replace("─", "-")
+        .replace("│", "|")
+        .replace("┌", "+")
+        .replace("┐", "+")
+        .replace("└", "+")
+        .replace("┘", "+")
+        .replace("├", "+")
+        .replace("┤", "+")
+        .replace("┬", "+")
+        .replace("┴", "+")
+        .replace("┼", "+")
+        // Convert gradient frame chars
+        .replace("▓", "#")
+        .replace("▒", "=")
+        .replace("░", "-")
+        // Convert block chars
+        .replace("█", "#")
+        .replace("▌", "|")
+        // Keep emoji indicators but add text
+        .replace("🟢", "[OK]")
+        .replace("🟡", "[WARN]")
+        .replace("🔴", "[ERR]")
+        .replace("⚠️", "[!]")
+        .replace("ℹ️", "[i]")
+}
+
+// =============================================================================
 // Target Registry
 // =============================================================================
 
@@ -224,6 +379,8 @@ pub fn get_target(name: &str) -> Option<Box<dyn Target>> {
         "github" => Some(Box::new(GitHubTarget)),
         "local" => Some(Box::new(LocalDocsTarget)),
         "npm" => Some(Box::new(NpmTarget)),
+        "gitlab" => Some(Box::new(GitLabTarget)),
+        "pypi" => Some(Box::new(PyPITarget)),
         _ => None,
     }
 }
@@ -235,7 +392,7 @@ pub fn default_target() -> Box<dyn Target> {
 
 /// List all available target names
 pub fn available_targets() -> Vec<&'static str> {
-    vec!["github", "local", "npm"]
+    vec!["github", "local", "npm", "gitlab", "pypi"]
 }
 
 /// Detect target from output path
@@ -297,11 +454,36 @@ mod tests {
     }
 
     #[test]
+    fn test_gitlab_target() {
+        let target = GitLabTarget;
+        assert_eq!(target.name(), "gitlab");
+        assert!(target.supports_html()); // GitLab allows more HTML
+        assert!(target.supports_svg_embed());
+        assert!(target.supports_external_images());
+        assert!(target.supports_unicode_styling());
+        assert_eq!(target.preferred_backend(), BackendType::Shields);
+    }
+
+    #[test]
+    fn test_pypi_target() {
+        let target = PyPITarget;
+        assert_eq!(target.name(), "pypi");
+        assert!(!target.supports_html());
+        assert!(!target.supports_svg_embed()); // No SVG embed
+        assert!(target.supports_external_images());
+        assert!(!target.supports_unicode_styling()); // ASCII-safe
+        assert_eq!(target.preferred_backend(), BackendType::PlainText);
+        assert_eq!(target.max_line_length(), Some(80));
+    }
+
+    #[test]
     fn test_get_target() {
         assert!(get_target("github").is_some());
         assert!(get_target("GitHub").is_some()); // Case insensitive
         assert!(get_target("local").is_some());
         assert!(get_target("npm").is_some());
+        assert!(get_target("gitlab").is_some());
+        assert!(get_target("pypi").is_some());
         assert!(get_target("unknown").is_none());
     }
 
@@ -311,6 +493,8 @@ mod tests {
         assert!(targets.contains(&"github"));
         assert!(targets.contains(&"local"));
         assert!(targets.contains(&"npm"));
+        assert!(targets.contains(&"gitlab"));
+        assert!(targets.contains(&"pypi"));
     }
 
     #[test]
@@ -339,6 +523,34 @@ mod tests {
         let input = "> 🟢 **Note**\n> This is a note";
         let output = target.post_process(input).unwrap();
         assert!(output.contains("[!NOTE]"));
+    }
+
+    #[test]
+    fn test_gitlab_post_process() {
+        let target = GitLabTarget;
+        let input = "> 🔴 **Error**\n> This is an error";
+        let output = target.post_process(input).unwrap();
+        assert!(output.contains("**Danger**"));
+    }
+
+    #[test]
+    fn test_pypi_post_process() {
+        let target = PyPITarget;
+        let input = "▓▒░ Title ░▒▓ → Next";
+        let output = target.post_process(input).unwrap();
+        assert!(output.contains("#=-"));
+        assert!(output.contains("->"));
+        assert!(!output.contains("→"));
+    }
+
+    #[test]
+    fn test_pypi_emoji_conversion() {
+        let target = PyPITarget;
+        let input = "🟢 Success 🟡 Warning 🔴 Error";
+        let output = target.post_process(input).unwrap();
+        assert!(output.contains("[OK]"));
+        assert!(output.contains("[WARN]"));
+        assert!(output.contains("[ERR]"));
     }
 
     #[test]

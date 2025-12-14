@@ -57,9 +57,15 @@ This document outlines planned features and architectural improvements for mdfx.
 ## ✅ Completed (December 2025 - v1.0.0 Enhancements)
 
 ### CLI Integration
-- [x] Add `--target` flag to CLI (github, local, npm, auto)
+- [x] Add `--target` flag to CLI (github, local, npm, gitlab, pypi, auto)
 - [x] Wire target auto-detection from output path
 - [x] Add `--palette` flag for custom color palettes
+
+### New Targets
+- [x] Implement `GitLabTarget` (more HTML support, Mermaid diagrams)
+- [x] Implement `PyPITarget` (plain text fallbacks, ASCII-safe)
+- [x] GitLab post-processing (callout conversion)
+- [x] PyPI post-processing (Unicode to ASCII conversion)
 
 ### Data Consolidation
 - [x] Consolidated all JSON data files into registry.json
