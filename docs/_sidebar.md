@@ -1,13 +1,11 @@
 <!-- docs/_sidebar.md -->
 
 - **Getting Started**
-  - [Documentation Home](/)
+  - [Home](/)
   - [Quick Start](/#quick-start)
-  - [What is Unicode?](/UNICODE-EXPLAINED.md)
   - [Examples](https://github.com/blackwell-systems/mdfx/tree/main/examples)
 
-- **User Guides**
-  - [All Guides](/guides/)
+- **Guides**
   - [Swatches](/guides/SWATCH-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
   - [Frames](/guides/FRAMES-GUIDE.md)
@@ -18,18 +16,13 @@
 
 - **Reference**
   - [Template Syntax](/TEMPLATE-SYNTAX.md)
-  - [CLI Commands](/#cli-commands)
   - [API Guide](/API-GUIDE.md)
+  - [CLI Commands](/#cli-commands)
 
-- **Architecture**
-  - [System Design](/ARCHITECTURE.md)
-  - [Component Design](/COMPONENTS.md)
-  - [Frame Design](/FRAMES-DESIGN.md)
-  - [Evaluation Contexts](/CONTEXTS.md)
-  - [State Machine](/STATE-MACHINE-GUIDE.md)
+- **Internals**
+  - [Architecture](/ARCHITECTURE.md)
+  - [Contexts](/CONTEXTS.md)
 
-- **Resources**
-  - [Target System](/TARGETS.md)
-  - [Roadmap](/ROADMAP.md)
-  - [GitHub Repository](https://github.com/blackwell-systems/mdfx)
+- **Links**
+  - [GitHub](https://github.com/blackwell-systems/mdfx)
   - [Changelog](https://github.com/blackwell-systems/mdfx/blob/main/CHANGELOG.md)
