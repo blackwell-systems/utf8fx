@@ -32,6 +32,10 @@ pub enum Primitive {
         label: Option<String>,
         /// Label text color (hex or palette name). Default: white. SVG-only.
         label_color: Option<String>,
+        /// Simple Icons logo name (e.g., "rust", "python", "docker").
+        icon: Option<String>,
+        /// Icon color (hex or palette name). Default: white.
+        icon_color: Option<String>,
     },
 
     /// Multi-color divider bar for section separation
@@ -67,6 +71,8 @@ impl Primitive {
             border_width: None,
             label: None,
             label_color: None,
+            icon: None,
+            icon_color: None,
         }
     }
 }
@@ -87,6 +93,8 @@ mod tests {
             border_width: None,
             label: None,
             label_color: None,
+            icon: None,
+            icon_color: None,
         };
         assert_eq!(
             swatch,
@@ -100,6 +108,8 @@ mod tests {
                 border_width: None,
                 label: None,
                 label_color: None,
+                icon: None,
+                icon_color: None,
             }
         );
     }
@@ -116,12 +126,16 @@ mod tests {
             border_width: Some(2),
             label: Some("v1".to_string()),
             label_color: Some("000000".to_string()),
+            icon: Some("rust".to_string()),
+            icon_color: Some("FFFFFF".to_string()),
         };
         if let Primitive::Swatch {
             opacity,
             width,
             label,
             label_color,
+            icon,
+            icon_color,
             ..
         } = swatch
         {
@@ -129,6 +143,8 @@ mod tests {
             assert_eq!(width, Some(40));
             assert_eq!(label, Some("v1".to_string()));
             assert_eq!(label_color, Some("000000".to_string()));
+            assert_eq!(icon, Some("rust".to_string()));
+            assert_eq!(icon_color, Some("FFFFFF".to_string()));
         } else {
             panic!("Expected Swatch primitive");
         }

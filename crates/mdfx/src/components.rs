@@ -232,6 +232,8 @@ impl ComponentsRenderer {
                     .and_then(|v| v.parse::<u32>().ok());
                 let label = params.get("label").cloned();
                 let label_color = params.get("label_color").map(|v| self.resolve_color(v));
+                let icon = params.get("icon").cloned();
+                let icon_color = params.get("icon_color").map(|v| self.resolve_color(v));
 
                 // Style can come from params or use default
                 let style = params
@@ -249,6 +251,8 @@ impl ComponentsRenderer {
                     border_width,
                     label,
                     label_color,
+                    icon,
+                    icon_color,
                 }))
             }
 
@@ -380,7 +384,15 @@ impl ComponentsRenderer {
         let mut result = template.to_string();
 
         // Parameter keys that can contain colors
-        let color_params = ["color", "colors", "bg", "logoColor", "labelColor", "label_color"];
+        let color_params = [
+            "color",
+            "colors",
+            "bg",
+            "logoColor",
+            "labelColor",
+            "label_color",
+            "icon_color",
+        ];
 
         for param in &color_params {
             // Find all occurrences of param=value or param=value1,value2,...

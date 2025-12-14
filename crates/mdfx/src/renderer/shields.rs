@@ -24,7 +24,21 @@ impl ShieldsBackend {
 impl Renderer for ShieldsBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
         let markdown = match primitive {
-            Primitive::Swatch { color, style, .. } => self.shields.render_block(color, style)?,
+            Primitive::Swatch {
+                color,
+                style,
+                icon,
+                icon_color,
+                ..
+            } => {
+                // If icon is specified, render as icon badge with custom background
+                if let Some(icon_name) = icon {
+                    let logo_color = icon_color.as_deref().unwrap_or("FFFFFF");
+                    self.shields.render_icon(icon_name, color, logo_color, style)?
+                } else {
+                    self.shields.render_block(color, style)?
+                }
+            }
 
             Primitive::Divider { colors, style } => self.shields.render_bar(colors, style)?,
 

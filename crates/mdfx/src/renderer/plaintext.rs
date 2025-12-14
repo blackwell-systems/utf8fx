@@ -28,8 +28,16 @@ impl PlainTextBackend {
 impl Renderer for PlainTextBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
         let text = match primitive {
-            Primitive::Swatch { color, label, .. } => {
-                if let Some(lbl) = label {
+            Primitive::Swatch {
+                color,
+                label,
+                icon,
+                ..
+            } => {
+                // Icon takes precedence over label
+                if let Some(icon_name) = icon {
+                    format!("[#{} {}]", color, icon_name)
+                } else if let Some(lbl) = label {
                     format!("[#{} {}]", color, lbl)
                 } else {
                     format!("[#{}]", color)
@@ -101,9 +109,31 @@ mod tests {
             border_width: None,
             label: Some("v1.0".to_string()),
             label_color: None,
+            icon: None,
+            icon_color: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#FF6B35 v1.0]");
+    }
+
+    #[test]
+    fn test_plaintext_swatch_with_icon() {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Swatch {
+            color: "F41C80".to_string(),
+            style: "flat-square".to_string(),
+            opacity: None,
+            width: None,
+            height: None,
+            border_color: None,
+            border_width: None,
+            label: None,
+            label_color: None,
+            icon: Some("rust".to_string()),
+            icon_color: None,
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), "[#F41C80 rust]");
     }
 
     #[test]
