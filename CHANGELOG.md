@@ -9,6 +9,72 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### PlainTextBackend
+
+- **New rendering backend** for PyPI and ASCII-only contexts
+- Renders primitives as plain ASCII text:
+  - Swatches: `[#RRGGBB]` or `[#RRGGBB label]`
+  - Dividers: `---` or `--- #color1 #color2 ---`
+  - Tech badges: `[rust]`, `[python]`
+  - Status indicators: `[OK]`, `[WARN]`, `[ERR]`, `[INFO]`
+- Handles both semantic names and resolved hex colors for status
+- 9 unit tests for plain text rendering
+
+#### Multi-Target Build Command
+
+- **`mdfx build`** - Compile markdown to multiple targets at once
+- **`--all-targets`** flag - Build for all 5 available targets
+- **`--targets`** flag - Selective builds (e.g., `--targets github,pypi,npm`)
+- **Per-target assets** - SVG assets organized by target (`dist/assets/local/`)
+- **Custom palette support** - `--palette` flag for build command
+
+**Usage:**
+```bash
+mdfx build README.template.md --all-targets           # All 5 targets
+mdfx build README.template.md --targets github,pypi   # Selective
+mdfx build README.template.md -o dist/                # Custom output dir
+```
+
+**Output:**
+```
+dist/readme_github.md
+dist/readme_pypi.md
+dist/readme_local.md + dist/assets/local/*.svg
+dist/readme_gitlab.md
+dist/readme_npm.md
+```
+
+#### GitLabTarget
+
+- **New target** for GitLab-Flavored Markdown
+- More permissive HTML support than GitHub
+- Embedded SVG support
+- **Post-processing** - Converts callouts to GitLab alert syntax
+- Shields.io backend (default)
+
+#### PyPITarget
+
+- **New target** for PyPI package descriptions
+- Plain text fallbacks for maximum compatibility
+- ASCII-safe rendering (no Unicode styling by default)
+- 80-character line limit recommendation
+- **Post-processing** - Converts Unicode to ASCII equivalents:
+  - Arrows: `→` → `->`, `←` → `<-`
+  - Box drawing: `─` → `-`, `│` → `|`
+  - Gradient chars: `▓` → `#`, `▒` → `=`, `░` → `-`
+  - Status emoji: `🟢` → `[OK]`, `🟡` → `[WARN]`, `🔴` → `[ERR]`
+
+#### Target Pipeline Integration
+
+- **`target.preferred_backend()`** now properly selects backend (Shields/SVG/PlainText)
+- **`target.post_process()`** called on final output for target-specific transformations
+- Full backend selection wired into CLI process pipeline
+
+### Changed
+
+- **Test count** - Increased from 266 to 275 tests (9 new PlainTextBackend tests)
+- **PyPITarget** - Now uses PlainTextBackend instead of falling back to Shields
+
 #### Enhanced Swatch Primitives (SVG-only)
 
 - **Opacity control** - `{{ui:swatch:accent:opacity=0.5/}}` for transparent swatches
