@@ -20,7 +20,7 @@ Process:
 mdfx process input.md -o output.md
 ```
 
-## Guides
+## Design Guides
 
 | Guide | Description |
 |-------|-------------|

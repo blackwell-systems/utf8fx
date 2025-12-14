@@ -5,7 +5,7 @@
   - [Quick Start](/#quick-start)
   - [Examples](https://github.com/blackwell-systems/mdfx/tree/main/examples)
 
-- **Guides**
+- **Design Guides**
   - [Swatches](/guides/SWATCH-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
   - [Frames](/guides/FRAMES-GUIDE.md)
