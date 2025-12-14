@@ -484,9 +484,7 @@ fn process_file(
     let mut parser = match backend_type {
         BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
         BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
-        BackendType::PlainText => {
-            TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?
-        }
+        BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
     };
 
     // Load custom palette if provided
@@ -902,9 +900,7 @@ fn build_multi_target(
         let assets_dir = format!("{}/assets/{}", output_dir, target_name);
 
         let mut parser = match backend_type {
-            BackendType::Shields => {
-                TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
-            }
+            BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
             BackendType::Svg => {
                 fs::create_dir_all(&assets_dir).map_err(Error::IoError)?;
                 TemplateParser::with_backend(Box::new(SvgBackend::new(&assets_dir)))?

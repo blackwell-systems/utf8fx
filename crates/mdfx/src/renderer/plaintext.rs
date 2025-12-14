@@ -3,7 +3,6 @@
 /// This backend renders primitives as plain text representations without
 /// external dependencies or Unicode decorations. Useful for PyPI package
 /// descriptions and other environments with limited rendering support.
-
 use crate::error::Result;
 use crate::primitive::Primitive;
 use crate::renderer::{RenderedAsset, Renderer};
@@ -29,10 +28,7 @@ impl Renderer for PlainTextBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
         let text = match primitive {
             Primitive::Swatch {
-                color,
-                label,
-                icon,
-                ..
+                color, label, icon, ..
             } => {
                 // Icon takes precedence over label
                 if let Some(icon_name) = icon {
