@@ -16,13 +16,6 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 |-------|-------------|
 | [Text Styles](TEXT-STYLES-GUIDE.md) | 19 Unicode typography styles (bold, script, gothic, etc.) |
 | [Badges](BADGES-GUIDE.md) | 6 numeral/letter badge styles for lists and markers |
-| [Glyphs](GLYPHS-GUIDE.md) | 21 single Unicode characters (arrows, dots, checks) |
-
-## Utilities
-
-| Guide | Description |
-|-------|-------------|
-| [Snippets](SNIPPETS-GUIDE.md) | 10 reusable template fragments for common patterns |
 
 ---
 
@@ -55,11 +48,6 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 ```markdown
 {{ui:tech:rust/}} {{ui:tech:python/}}
 {{ui:row:align=center}}content{{/ui}}
-```
-
-**Glyph:**
-```markdown
-Item A {{glyph:dot/}} Item B {{glyph:arrow/}} Item C
 ```
 
 ---

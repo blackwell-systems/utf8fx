@@ -29,8 +29,6 @@ mdfx process input.md -o output.md
 | [Frames](guides/FRAMES-GUIDE.md) | Decorative Unicode borders |
 | [Text Styles](guides/TEXT-STYLES-GUIDE.md) | Unicode typography |
 | [Badges](guides/BADGES-GUIDE.md) | Numbered list markers |
-| [Glyphs](guides/GLYPHS-GUIDE.md) | Single Unicode characters |
-| [Snippets](guides/SNIPPETS-GUIDE.md) | Reusable fragments |
 
 ## Reference
 
