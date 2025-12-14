@@ -743,35 +743,6 @@ mdfx uses double-brace template syntax with two tag types:
 
 For complete syntax reference including all tag types, parameters, nesting rules, and edge cases, see **[Template Syntax Reference](docs/TEMPLATE-SYNTAX.md)**.
 
-## 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐒𝐭𝐚𝐭𝐮𝐬
-
-**Current Version:** v1.0.0
-
-**Shipped:**
-- 19 Unicode text styles with aliases
-- 9 UI components (divider, swatch, tech, status, header, callout, section, callout-github, statusitem)
-- 27 inline frames
-- 6 alphanumeric badge types
-- Data-driven separator system (12 named + direct Unicode)
-- Asset manifest system (SHA-256 verification, cleanup)
-- GitHub Blocks (blockquote callouts, section headers, status rows)
-- Design token system (palette.json)
-- Template composition and nesting
-- Multi-backend rendering (shields.io, SVG)
-- CLI and Rust library
-- 237 passing tests
-
-**v1.2.0 Roadmap:**
-- Grid component (table generation)
-- StatusRow component (auto-joining)
-- Custom callout titles
-
-**Future:**
-- Pill primitive (message badges)
-- WASM bindings for browser/Node.js
-- VS Code extension with preview
-- Watch mode for live regeneration
-
 ## 𝐂𝐨𝐧𝐭𝐫𝐢𝐛𝐮𝐭𝐢𝐧𝐠
 
 Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
