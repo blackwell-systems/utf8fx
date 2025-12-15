@@ -34,14 +34,13 @@ mdfx uses a **component-first architecture** where users write semantic `{{ui:*}
 ```markdown
 {{shields:block:color=accent:style=flat-square/}}
 {{frame:gradient}}...{{/frame}}
-{{badge:circle}}1{{/badge}}
 ```
 
-**Purpose:** Rendering engines for specific output types (shields.io URLs, Unicode frames, badge characters).
+**Purpose:** Rendering engines for specific output types (shields.io URLs, Unicode frames).
 
 **Characteristics:**
 - Verbose parameter syntax
-- Explicit closers (`{{/frame}}`, `{{/badge}}`)
+- Explicit closers (`{{/frame}}`) or universal closer (`{{/}}`)
 - Direct control over rendering
 - Available as escape hatch
 
@@ -81,10 +80,9 @@ When the parser encounters `{{ui:header}}TITLE{{/ui}}`:
 **Order matters** for expansion to work:
 
 1. **UI** (expand to primitives) → `{{ui:*}}`
-2. **Frame** (add prefix/suffix) → `{{frame:*}}`
-3. **Badge** (enclose characters) → `{{badge:*}}`
-4. **Shields** (generate image URLs) → `{{shields:*}}`
-5. **Style** (transform characters) → `{{mathbold}}`
+2. **Frame** (add prefix/suffix) → `{{frame:*}}` / `{{fr:*}}`
+3. **Shields** (generate image URLs) → `{{shields:*}}`
+4. **Style** (transform characters) → `{{mathbold}}`
 
 This ensures UI components can use any primitive, and primitives can use styles.
 
@@ -424,8 +422,7 @@ This groups related colors without requiring nested objects.
 
 **Other templates use specific closers:**
 - `{{mathbold}}...{{/mathbold}}`
-- `{{frame:gradient}}...{{/frame}}`
-- `{{badge:circle}}...{{/badge}}`
+- `{{frame:gradient}}...{{/frame}}` or `{{fr:gradient}}...{{/}}`
 
 **Rationale:** UI is the high-level authoring layer, so ergonomics matter. Primitives are explicit escape hatches.
 

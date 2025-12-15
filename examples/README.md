@@ -440,23 +440,6 @@ Decorative prefix/suffix:
 
 **27 frame styles available.** See `mdfx frames list`.
 
-### Alphanumeric Badges
-
-Enclose numbers and letters:
-
-```markdown
-{{badge:circle}}1{{/badge}}
-→ ①
-
-{{badge:negative-circle}}2{{/badge}}
-→ ❷
-
-{{badge:paren}}a{{/badge}}
-→ ⒜
-```
-
-**6 badge types available.** See `mdfx badges list`.
-
 ### Shields (Direct)
 
 Generate shields.io badges directly:
@@ -479,7 +462,7 @@ Combine primitives for custom effects:
 {{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
 → ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓
 
-{{frame:solid-left}}{{badge:circle}}1{{/badge}} {{mathbold}}FIRST{{/mathbold}}{{/frame}}
+{{frame:solid-left}}{{glyph:circle.1}} {{mathbold}}FIRST{{/mathbold}}{{/frame}}
 → █▌① 𝐅𝐈𝐑𝐒𝐓
 ```
 

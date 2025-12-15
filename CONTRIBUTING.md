@@ -140,25 +140,19 @@ mdfx/
 │   ├── mdfx/                     # Core library
 │   │   ├── Cargo.toml           # Library dependencies (4 total)
 │   │   ├── data/                # JSON configuration
-│   │   │   ├── styles.json      # Unicode character mappings
-│   │   │   ├── components.json  # UI component definitions
-│   │   │   ├── palette.json     # Design tokens
-│   │   │   ├── frames.json      # Frame decorations
-│   │   │   ├── badges.json      # Badge mappings
-│   │   │   └── shields.json     # Shield configurations
+│   │   │   └── registry.json    # Unified registry (components, palette, styles, frames)
 │   │   └── src/
 │   │       ├── lib.rs           # Public API
 │   │       ├── converter.rs     # Character transformations
 │   │       ├── parser.rs        # Template parser
 │   │       ├── components.rs    # Component expansion
 │   │       ├── primitive.rs     # Primitive AST
-│   │       ├── frames.rs        # Frame renderer
-│   │       ├── badges.rs        # Badge renderer
+│   │       ├── registry.rs      # Unified registry
 │   │       ├── shields.rs       # Shields renderer
-│   │       └── renderer/        # Backend implementations
-│   │           ├── mod.rs       # Renderer trait
-│   │           ├── shields.rs   # ShieldsBackend
-│   │           └── svg.rs       # SvgBackend
+│   │       ├── styles.rs        # Style renderer
+│   │       ├── targets.rs       # Target backends (GitHub, local)
+│   │       ├── error.rs         # Error types
+│   │       └── manifest.rs      # Asset manifest
 │   └── mdfx-cli/                # CLI application
 │       ├── Cargo.toml           # CLI dependencies
 │       └── src/main.rs          # CLI implementation

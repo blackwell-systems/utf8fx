@@ -324,18 +324,6 @@ Add decorative prefix/suffix around text:
 
 27 frame styles available. See `mdfx frames list`.
 
-### Alphanumeric Badges
-
-Enclose numbers and letters:
-```markdown
-{{badge:circle}}1{{/badge}}         → ①
-{{badge:circle}}A{{/badge}}         → Ⓐ
-{{badge:negative-circle}}2{{/badge}} → ❷
-{{badge:paren}}a{{/badge}}          → ⒜
-```
-
-6 badge types available. See `mdfx badges list`.
-
 ### Low-Level Primitives (Escape Hatch)
 
 For advanced users, direct shield rendering is available:
@@ -398,7 +386,7 @@ Configure your environment...
 mdfx uses a three-layer architecture:
 
 1. **UI Components** (`{{ui:*}}`) - High-level semantic elements you author
-2. **Primitives** (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`) - Rendering engines
+2. **Primitives** (`{{shields:*}}`, `{{frame:*}}` / `{{fr:*}}`) - Rendering engines
 3. **Styles** (`{{mathbold}}`) - Character transformations
 
 When you write `{{ui:header}}TITLE{{/ui}}`, mdfx:
