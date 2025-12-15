@@ -51,6 +51,13 @@ struct ShieldData {
     params: std::collections::HashMap<String, String>,
 }
 
+/// Glyph template data
+#[derive(Debug, Clone)]
+struct GlyphData {
+    end_pos: usize,
+    glyph_name: String,
+}
+
 /// Result of processing markdown with file-based assets
 #[derive(Debug, Clone)]
 pub struct ProcessedMarkdown {
@@ -440,6 +447,21 @@ impl TemplateParser {
 
                     // Skip past the shields template
                     i = shield_data.end_pos;
+                    continue;
+                }
+
+                // Try to parse a glyph template
+                if let Some(glyph_data) = self.parse_glyph_at(&chars, i)? {
+                    // Resolve glyph from registry
+                    let glyph_char = self
+                        .registry
+                        .glyph(&glyph_data.glyph_name)
+                        .ok_or_else(|| Error::UnknownGlyph(glyph_data.glyph_name.clone()))?;
+
+                    result.push_str(glyph_char);
+
+                    // Skip past the glyph template
+                    i = glyph_data.end_pos;
                     continue;
                 }
 
@@ -1049,6 +1071,58 @@ impl TemplateParser {
         }
 
         // Not a valid shields template
+        Ok(None)
+    }
+
+    /// Try to parse a glyph template starting at position i
+    /// Returns: Some(GlyphData) or None if not a valid glyph template
+    ///
+    /// Supports self-closing only: {{glyph:block.lower.4/}}
+    fn parse_glyph_at(&self, chars: &[char], start: usize) -> Result<Option<GlyphData>> {
+        let mut i = start;
+
+        // Must start with {{glyph:
+        if i + 9 >= chars.len() {
+            return Ok(None);
+        }
+
+        // Check for "{{glyph:"
+        let glyph_start = "{{glyph:";
+        let glyph_chars: Vec<char> = glyph_start.chars().collect();
+        for (idx, &expected) in glyph_chars.iter().enumerate() {
+            if chars[i + idx] != expected {
+                return Ok(None);
+            }
+        }
+        i += glyph_chars.len();
+
+        // Parse glyph name (alphanumeric, dots, and hyphens allowed)
+        let mut glyph_name = String::new();
+        while i < chars.len() {
+            let ch = chars[i];
+            if ch.is_alphanumeric() || ch == '.' || ch == '-' || ch == '_' {
+                glyph_name.push(ch);
+                i += 1;
+            } else if ch == '/' {
+                break;
+            } else {
+                // Invalid character in glyph name
+                return Ok(None);
+            }
+        }
+
+        // Glyph name must be non-empty
+        if glyph_name.is_empty() {
+            return Ok(None);
+        }
+
+        // Must be self-closing (ends with /}})
+        if i + 2 < chars.len() && chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
+            let end_pos = i + 3;
+            return Ok(Some(GlyphData { end_pos, glyph_name }));
+        }
+
+        // Not a valid glyph template
         Ok(None)
     }
 

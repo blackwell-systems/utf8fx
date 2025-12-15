@@ -16,6 +16,10 @@ pub enum Error {
     #[error("Unknown badge '{0}'. Run `mdfx badges list` to see available badges.")]
     UnknownBadge(String),
 
+    /// The requested glyph does not exist
+    #[error("Unknown glyph '{0}'. Available glyphs: block.*, shade.*, quad.*")]
+    UnknownGlyph(String),
+
     /// Badge doesn't support the requested character
     #[error("Badge '{0}' does not support '{1}'. Check badge charset limits.")]
     UnsupportedChar(String, String),
