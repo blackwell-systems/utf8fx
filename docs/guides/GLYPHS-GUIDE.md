@@ -182,6 +182,65 @@ Parenthesized letters (a-z): `paren.a` → ⒜
 
 Period numbers (0-20): `period.1` → ⒈
 
+### Shapes
+
+**Squares** (`square.*`):
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `square.filled` | ■ | `square.empty` | □ |
+| `square.rounded` | ▢ | `square.dotted` | ▣ |
+| `square.h-lines` | ▤ | `square.v-lines` | ▥ |
+| `square.grid` | ▦ | `square.cross` | ▩ |
+
+**Circles** (`circle.*`):
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `circle.filled` | ● | `circle.empty` | ○ |
+| `circle.target` | ◎ | `circle.dotted` | ◌ |
+| `circle.half-left` | ◐ | `circle.half-right` | ◑ |
+| `circle.half-top` | ◓ | `circle.half-bottom` | ◒ |
+
+**Triangles** (`tri.*`):
+
+| Direction | Filled | Empty | Small |
+|-----------|--------|-------|-------|
+| up | ▲ | △ | ▴ |
+| down | ▼ | ▽ | ▾ |
+| left | ◀ | ◁ | ◂ |
+| right | ▶ | ▷ | ▸ |
+
+**Diamonds** (`diamond.*`): ◆ ◇ ◈ ◊
+
+### Checkboxes
+
+| Name | Char | Description |
+|------|------|-------------|
+| `check.empty` | ☐ | Empty box |
+| `check.yes` | ☑ | Checked |
+| `check.no` | ☒ | X'd out |
+| `check.mark` | ✓ | Checkmark |
+| `check.heavy` | ✔ | Heavy check |
+| `check.x` | ✗ | X mark |
+| `check.x.heavy` | ✘ | Heavy X |
+
+### Arrows
+
+**Basic** (`arrow.*`):
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `arrow.left` | ← | `arrow.right` | → |
+| `arrow.up` | ↑ | `arrow.down` | ↓ |
+| `arrow.left-right` | ↔ | `arrow.up-down` | ↕ |
+| `arrow.nw` | ↖ | `arrow.ne` | ↗ |
+| `arrow.sw` | ↙ | `arrow.se` | ↘ |
+
+**Double** (`arrow.double-*`): ⇐ ⇑ ⇒ ⇓ ⇔ ⇕
+
+**Dashed** (`arrow.dashed-*`): ⇠ ⇡ ⇢ ⇣
+
 ---
 
 ## Examples
