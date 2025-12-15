@@ -10,12 +10,20 @@ repository.workspace = true
 license.workspace = true
 homepage.workspace = true
 
+[features]
+default = []
+lsp = ["tower-lsp", "tokio"]
+
 [dependencies]
 mdfx = { path = "../mdfx" }
 clap = { version = "4.4", features = ["derive", "cargo"] }
 clap_complete = "4.4"
 colored = "2.1"
 serde_json = "1.0"
+
+# LSP dependencies (optional)
+tower-lsp = { version = "0.20", optional = true }
+tokio = { version = "1", features = ["full"], optional = true }
 
 [[bin]]
 name = "mdfx"

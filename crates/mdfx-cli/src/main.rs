@@ -14,6 +14,9 @@ use std::io::{self, Read};
 use std::path::PathBuf;
 use std::process;
 
+#[cfg(feature = "lsp")]
+mod lsp;
+
 /// Markdown effects: Unicode text styling and UI components
 #[derive(Parser)]
 #[command(name = "mdfx")]
@@ -205,6 +208,22 @@ enum Commands {
         #[arg(long)]
         palette: Option<PathBuf>,
     },
+
+    /// Start the Language Server Protocol (LSP) server
+    ///
+    /// Provides IDE integration with autocompletion for mdfx template syntax.
+    /// Works with any LSP-compatible editor (VS Code, Neovim, Emacs, Sublime, etc.)
+    ///
+    /// The server communicates over stdio using the LSP protocol.
+    ///
+    /// Requires: cargo install mdfx-cli --features lsp
+    ///
+    /// Editor setup:
+    ///   VS Code: Add mdfx-lsp extension or configure settings.json
+    ///   Neovim: Configure with nvim-lspconfig
+    ///   Emacs: Configure with lsp-mode or eglot
+    #[cfg(feature = "lsp")]
+    Lsp,
 }
 
 fn main() {
@@ -283,6 +302,14 @@ fn run(cli: Cli) -> Result<(), Error> {
                 all_targets,
                 palette.as_deref(),
             )?;
+        }
+
+        #[cfg(feature = "lsp")]
+        Commands::Lsp => {
+            // Run the LSP server using tokio runtime
+            tokio::runtime::Runtime::new()
+                .expect("Failed to create tokio runtime")
+                .block_on(lsp::run_lsp_server());
         }
     }
 
