@@ -5,6 +5,8 @@
 //!
 //! Enable with: `cargo install mdfx-cli --features lsp`
 
+#![cfg(feature = "lsp")]
+
 use mdfx::Registry;
 use std::sync::Arc;
 use tower_lsp::jsonrpc::Result;
@@ -93,11 +95,7 @@ impl MdfxLanguageServer {
                 let mut items = vec![CompletionItem {
                     label: name.clone(),
                     kind: Some(CompletionItemKind::STRUCT),
-                    detail: Some(format!(
-                        "{} ... {}",
-                        frame.prefix.trim(),
-                        frame.suffix.trim()
-                    )),
+                    detail: Some(format!("{} ... {}", frame.prefix.trim(), frame.suffix.trim())),
                     documentation: frame.description.clone().map(Documentation::String),
                     insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", name, name)),
                     insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -264,7 +262,7 @@ impl MdfxLanguageServer {
                     let style_prefix = &after_open[style_pos + 6..];
                     // Don't include any trailing characters after the style value
                     let style_prefix = style_prefix
-                        .split([':', '/', '}'])
+                        .split(|c| c == ':' || c == '/' || c == '}')
                         .next()
                         .unwrap_or(style_prefix);
                     return CompletionContext::ShieldStyle(style_prefix.to_string());
@@ -272,8 +270,7 @@ impl MdfxLanguageServer {
             }
 
             // Check for color parameter (e.g., swatch:cobalt or bg=cobalt)
-            if after_open.contains(':')
-                && (after_open.contains("bg=") || after_open.contains("fg="))
+            if after_open.contains(':') && (after_open.contains("bg=") || after_open.contains("fg="))
             {
                 // Find the part after the last = sign
                 if let Some(eq_pos) = after_open.rfind('=') {
@@ -455,7 +452,10 @@ impl LanguageServer for MdfxLanguageServer {
             // Check for glyph
             if let Some(glyph_name) = template_start.strip_prefix("glyph:") {
                 // Find end of glyph name
-                let name = glyph_name.split(['/', '}']).next().unwrap_or(glyph_name);
+                let name = glyph_name
+                    .split(|c| c == '/' || c == '}')
+                    .next()
+                    .unwrap_or(glyph_name);
                 let full_name = if let Some(end_pos) = after.find('/') {
                     format!("{}{}", name, &after[..end_pos])
                 } else {
@@ -479,7 +479,10 @@ impl LanguageServer for MdfxLanguageServer {
             }
 
             // Check for style
-            let style_name = template_start.split([':', '}']).next().unwrap_or("");
+            let style_name = template_start
+                .split(|c| c == ':' || c == '}')
+                .next()
+                .unwrap_or("");
             if let Some(style) = self.registry.style(style_name) {
                 return Ok(Some(Hover {
                     contents: HoverContents::Markup(MarkupContent {
@@ -499,7 +502,10 @@ impl LanguageServer for MdfxLanguageServer {
             }
 
             // Check for component
-            let comp_name = template_start.split([':', '/', '}']).next().unwrap_or("");
+            let comp_name = template_start
+                .split(|c| c == ':' || c == '/' || c == '}')
+                .next()
+                .unwrap_or("");
             if let Some(component) = self.registry.component(comp_name) {
                 return Ok(Some(Hover {
                     contents: HoverContents::Markup(MarkupContent {

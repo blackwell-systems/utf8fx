@@ -49,17 +49,13 @@ Renders a colored block. The foundation for visual elements.
 | `icon` | string | none | Simple Icons logo |
 | `icon_color` | string | white | Icon color |
 
-**Syntax:**
+**Examples:**
 ```markdown
 {{ui:swatch:accent/}}
 {{ui:swatch:FF5500/}}
 {{ui:swatch:success:style=plastic/}}
 {{ui:swatch:info:width=100:height=30:label=Status/}}
 ```
-
-**Rendered:**
-
-![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) ![](https://img.shields.io/badge/-%20-FF5500?style=flat-square) ![](https://img.shields.io/badge/-%20-22C55E?style=plastic) ![](https://img.shields.io/badge/-Status-3B82F6?style=flat-square)
 
 See [SWATCH-GUIDE.md](SWATCH-GUIDE.md) for complete documentation.
 
@@ -83,9 +79,13 @@ Creates a gradient color bar for section separation.
 
 **Colors:** Uses theme gradient: `ui.bg` → `ui.surface` → `accent` → `ui.panel`
 
-**Rendered:**
+**Example:**
+```markdown
+## Section Title
+{{ui:divider/}}
 
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
+Content goes here...
+```
 
 ---
 
@@ -106,15 +106,11 @@ Displays a technology logo badge using Simple Icons.
 | `logo` | string | required | Simple Icons name (rust, python, docker, etc.) |
 | `style` | string | flat-square | Badge style |
 
-**Syntax:**
+**Examples:**
 ```markdown
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:typescript/}}
 {{ui:tech:docker:style=for-the-badge/}}
 ```
-
-**Rendered:**
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=python&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=typescript&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=for-the-badge&logo=docker&logoColor=FFFFFF&label=&labelColor=292A2D)
 
 **Common logos:** rust, python, typescript, javascript, go, docker, kubernetes, react, vue, svelte, nodejs, postgresql, redis, github, gitlab
 
@@ -139,20 +135,13 @@ Renders a colored status indicator block.
 | `level` | string | required | Status level (success, warning, error, info) |
 | `style` | string | flat-square | Badge style |
 
-**Syntax:**
+**Examples:**
 ```markdown
 {{ui:status:success/}} All tests passing
 {{ui:status:warning/}} Deprecated feature
 {{ui:status:error/}} Build failed
 {{ui:status:info/}} New version available
 ```
-
-**Rendered:**
-
-![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) All tests passing
-![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) Deprecated feature
-![](https://img.shields.io/badge/-%20-EF4444?style=flat-square) Build failed
-![](https://img.shields.io/badge/-%20-3B82F6?style=flat-square) New version available
 
 ---
 
@@ -173,18 +162,23 @@ content
 |-----------|------|---------|-------------|
 | `align` | enum | center | Horizontal alignment (left, center, right) |
 
-**Syntax:**
+**Examples:**
 ```markdown
 {{ui:row:align=center}}
 {{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:warning/}}
 {{/ui}}
+
+{{ui:row:align=right}}
+{{ui:tech:rust/}} {{ui:tech:go/}}
+{{/ui}}
 ```
 
-**Rendered:**
-
+**Output (HTML):**
+```html
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/-%20-F41C80?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-22C55E?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-EAB308?style=flat-square">
+<img src="...accent..."> <img src="...success..."> <img src="...warning...">
 </p>
+```
 
 ---
 
@@ -206,9 +200,15 @@ Section header with gradient frame and bold mathematical text.
 {{frame:gradient}}{{mathbold:separator=dot}}Title Text{{/mathbold}}{{/frame}}
 ```
 
-**Rendered:**
+**Example:**
+```markdown
+{{ui:header}}GETTING STARTED{{/ui}}
+```
 
-▓▒░ 𝐆·𝐄·𝐓·𝐓·𝐈·𝐍·𝐆· ·𝐒·𝐓·𝐀·𝐑·𝐓·𝐄·𝐃 ░▒▓
+**Output:**
+```
+▓▒░ 𝐆𝐄𝐓𝐓𝐈𝐍𝐆 · 𝐒𝐓𝐀𝐑𝐓𝐄𝐃 ░▒▓
+```
 
 ---
 
@@ -227,10 +227,12 @@ Creates a markdown heading with gradient divider underneath.
 {{ui:divider/}}
 ```
 
-**Rendered:**
+**Example:**
+```markdown
+{{ui:section:Installation/}}
 
-## Installation
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
+Follow these steps to install...
+```
 
 ---
 
@@ -249,13 +251,15 @@ Callout box with status color indicator.
 |-----------|------|-------------|
 | `level` | string | Status color (success, warning, error, info) |
 
-**Rendered:**
+**Expands to:**
+```markdown
+{{frame:solid-left}}{{shields:block:color=level:style=flat-square/}} Content{{/frame}}
+```
 
-█▌![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) This action cannot be undone.
-
-█▌![](https://img.shields.io/badge/-%20-3B82F6?style=flat-square) Check the documentation for more details.
-
-█▌![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) Operation completed successfully!
+**Example:**
+```markdown
+{{ui:callout:warning}}This action cannot be undone.{{/ui}}
+```
 
 ---
 
@@ -274,10 +278,16 @@ GitHub-style blockquote callout with status emoji.
 |-----------|------|-------------|
 | `type` | string | Status type (success, warning, error, info) |
 
-**Rendered:**
+**Expands to:**
+```markdown
+> {{ui:status:type/}} **Note**
+> Content
+```
 
-> ![](https://img.shields.io/badge/-%20-3B82F6?style=flat-square) **Note**
-> Check the documentation for more details.
+**Example:**
+```markdown
+{{ui:callout-github:info}}Check the documentation for more details.{{/ui}}
+```
 
 ---
 
@@ -298,18 +308,17 @@ Inline status indicator with label and description.
 | `level` | string | Status color |
 | `text` | string | Description |
 
-**Syntax:**
+**Expands to:**
+```markdown
+{{ui:status:level/}} **Label**: Description text
+```
+
+**Example:**
 ```markdown
 {{ui:statusitem:Build:success:Completed in 2.3s/}}
 {{ui:statusitem:Tests:warning:3 skipped/}}
 {{ui:statusitem:Deploy:error:Connection failed/}}
 ```
-
-**Rendered:**
-
-![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) **Build**: Completed in 2.3s
-![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) **Tests**: 3 skipped
-![](https://img.shields.io/badge/-%20-EF4444?style=flat-square) **Deploy**: Connection failed
 
 ---
 
@@ -317,36 +326,34 @@ Inline status indicator with label and description.
 
 All components that render badges support these styles:
 
-| Style | Example |
-|-------|---------|
-| `flat-square` | ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) |
-| `flat` | ![](https://img.shields.io/badge/-%20-F41C80?style=flat) |
-| `plastic` | ![](https://img.shields.io/badge/-%20-F41C80?style=plastic) |
-| `for-the-badge` | ![](https://img.shields.io/badge/-%20-F41C80?style=for-the-badge) |
-| `social` | ![](https://img.shields.io/badge/-%20-F41C80?style=social) |
+| Style | Description |
+|-------|-------------|
+| `flat-square` | Square corners, flat design (default) |
+| `flat` | Rounded corners, flat design |
+| `plastic` | Glossy plastic appearance |
+| `for-the-badge` | Tall header bar style |
+| `social` | Social media pill shape |
+
+**Example:**
+```markdown
+{{ui:swatch:accent:style=flat/}}
+{{ui:swatch:accent:style=plastic/}}
+{{ui:swatch:accent:style=for-the-badge/}}
+{{ui:swatch:accent:style=social/}}
+```
 
 ---
 
 ## Practical Examples
 
 ### Tech Stack Display
-
-**Syntax:**
 ```markdown
 {{ui:row:align=center}}
 {{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}}
 {{/ui}}
 ```
 
-**Rendered:**
-
-<p align="center">
-<img alt="" src="https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF&label=&labelColor=292A2D"> <img alt="" src="https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=typescript&logoColor=FFFFFF&label=&labelColor=292A2D"> <img alt="" src="https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=docker&logoColor=FFFFFF&label=&labelColor=292A2D">
-</p>
-
 ### Status Dashboard
-
-**Syntax:**
 ```markdown
 | Service | Status |
 |---------|--------|
@@ -355,89 +362,33 @@ All components that render badges support these styles:
 | Cache | {{ui:status:warning/}} |
 ```
 
-**Rendered:**
-
-| Service | Status |
-|---------|--------|
-| API | ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) |
-| Database | ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) |
-| Cache | ![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) |
-
 ### Section with Divider
-
-**Rendered:**
-
-## Features
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
+```markdown
+{{ui:section:Features/}}
 
 - Fast compilation
 - Type safety
 - Zero-cost abstractions
+```
+
+### Callout Box
+```markdown
+{{ui:callout:warning}}
+Breaking changes in v2.0. See migration guide.
+{{/ui}}
+```
 
 ### Color Palette Row
-
-**Syntax:**
 ```markdown
 {{ui:row:align=center}}
 {{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:warning/}} {{ui:swatch:error/}} {{ui:swatch:info/}}
 {{/ui}}
 ```
 
-**Rendered:**
-
-<p align="center">
-<img alt="" src="https://img.shields.io/badge/-%20-F41C80?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-22C55E?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-EAB308?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-EF4444?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-3B82F6?style=flat-square">
-</p>
-
 ### Build Status Line
-
-**Syntax:**
 ```markdown
 {{ui:statusitem:Build:success:v1.2.3/}} {{ui:statusitem:Coverage:info:94%/}}
 ```
-
-**Rendered:**
-
-![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) **Build**: v1.2.3 ![](https://img.shields.io/badge/-%20-3B82F6?style=flat-square) **Coverage**: 94%
-
----
-
-## Top-Level Templates
-
-These templates don't use the `ui:` prefix.
-
-### kbd
-
-Renders keyboard keys with native HTML `<kbd>` tags. GitHub renders these with special keyboard styling.
-
-**Syntax:**
-```markdown
-{{kbd:keys/}}
-```
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `keys` | string | Key or key combination (use `+` for combos) |
-
-**Syntax:**
-```markdown
-Press {{kbd:Enter/}} to continue
-Copy with {{kbd:Ctrl+C/}} or {{kbd:⌘+C/}}
-Open palette: {{kbd:Ctrl+Shift+P/}}
-```
-
-**Rendered:**
-
-Press <kbd>Enter</kbd> to continue
-Copy with <kbd>Ctrl</kbd>+<kbd>C</kbd> or <kbd>⌘</kbd>+<kbd>C</kbd>
-Open palette: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
-
-**Notes:**
-- Splits on `+` and wraps each key in `<kbd>` tags
-- Works with Unicode symbols (⌘, ⌥, ⇧, etc.)
-- Preserved in code blocks (not processed)
 
 ---
 
@@ -455,7 +406,6 @@ Open palette: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
 | `callout` | expand | no | block |
 | `callout-github` | expand | no | block |
 | `statusitem` | expand | yes | inline, block |
-| `kbd` | top-level | yes | inline |
 
 ---
 
@@ -466,9 +416,3 @@ Open palette: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd>
 3. **Status semantics** - success=green, warning=yellow, error=red, info=blue
 4. **Section organization** - Use `{{ui:section:Title/}}` for consistent heading styles
 5. **Inline vs block** - Most components work in both contexts; row is block-only
-
----
-
-<p align="center">
-ʀᴇɴᴅᴇʀᴇᴅ ᴡɪᴛʜ ᴍᴅꜰx
-</p>

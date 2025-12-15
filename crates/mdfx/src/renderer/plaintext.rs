@@ -107,16 +107,6 @@ mod tests {
             label_color: None,
             icon: None,
             icon_color: None,
-            rx: None,
-            ry: None,
-            shadow: None,
-            gradient: None,
-            stroke_dash: None,
-            logo_size: None,
-            border_top: None,
-            border_right: None,
-            border_bottom: None,
-            border_left: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#FF6B35 v1.0]");
@@ -137,16 +127,6 @@ mod tests {
             label_color: None,
             icon: Some("rust".to_string()),
             icon_color: None,
-            rx: None,
-            ry: None,
-            shadow: None,
-            gradient: None,
-            stroke_dash: None,
-            logo_size: None,
-            border_top: None,
-            border_right: None,
-            border_bottom: None,
-            border_left: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#F41C80 rust]");
@@ -158,7 +138,6 @@ mod tests {
         let primitive = Primitive::Divider {
             colors: vec!["F41C80".to_string(), "2B6CB0".to_string()],
             style: "flat-square".to_string(),
-            separator: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "--- #F41C80 #2B6CB0 ---");
@@ -170,7 +149,6 @@ mod tests {
         let primitive = Primitive::Divider {
             colors: vec![],
             style: "flat-square".to_string(),
-            separator: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "---");

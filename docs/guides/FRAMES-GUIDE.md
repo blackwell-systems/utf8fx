@@ -6,22 +6,12 @@ Frames wrap text content with decorative Unicode borders. They're perfect for he
 
 ```markdown
 {{frame:style}}Your content here{{/frame}}
-{{fr:style}}Short form{{/}}                   <!-- shorthand -->
-{{fr:style:inline content/}}                  <!-- self-closing -->
-```
-
-**Self-closing frames** are perfect for short inline content:
-
-```markdown
-{{fr:gradient:Title/}}           → ▓▒░ Title ░▒▓
-{{fr:star:VIP/}}                 → ★ VIP ☆
-{{fr:glyph:diamond*2:Gem/}}      → ◆◆ Gem ◆◆
 ```
 
 Frames support **nesting** for layered effects:
 
 ```markdown
-{{fr:gradient}}{{fr:line-bold}}NESTED{{//}}   <!-- close-all -->
+{{frame:gradient}}{{frame:line-bold}}NESTED CONTENT{{/frame}}{{/frame}}
 ```
 
 ---
@@ -37,24 +27,19 @@ Block element gradients for dramatic emphasis.
 | `gradient` | grad, gradient-full | `▓▒░ text ░▒▓` |
 | `gradient-light` | gradlight | `▒░ text ░▒` |
 | `gradient-reverse` | gradrev | `░▒▓ text ▓▒░` |
-| `gradient-wave` | wave | `▓▒░ text ▒░▓` |
 
 ```markdown
 {{frame:gradient}}DRAMATIC HEADER{{/frame}}
 {{frame:gradient-light}}Subtle emphasis{{/frame}}
 {{frame:gradient-reverse}}Inverted style{{/frame}}
-{{frame:gradient-wave}}Wave effect{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ▓▒░ DRAMATIC HEADER ░▒▓
-
 ▒░ Subtle emphasis ░▒
-
 ░▒▓ Inverted style ▓▒░
-
-▓▒░ Wave effect ▒░▓
+```
 
 ---
 
@@ -74,13 +59,12 @@ Heavy block elements for strong visual weight.
 {{frame:solid-both}}Fully framed{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 █▌Callout text
-
 Right aligned▐█
-
 █▌Fully framed▐█
+```
 
 **Use case:** `solid-left` is excellent for callout boxes and blockquote-style content.
 
@@ -104,15 +88,13 @@ Horizontal rules for clean separators.
 {{frame:line-dashed}}Dashed style{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ─── Light divider ───
-
 ━━━ Bold divider ━━━
-
 ═══ Double line ═══
-
 ╌╌╌ Dashed style ╌╌╌
+```
 
 ---
 
@@ -130,40 +112,43 @@ Top/bottom block decorations.
 {{frame:block-bottom}}Lower block{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ▀▀▀ Upper block ▀▀▀
-
 ▄▄▄ Lower block ▄▄▄
+```
 
 ---
 
 ### Symbol Frames
 
-Decorative symbols with asymmetric prefix/suffix for visual flair.
+Decorative symbols for visual flair.
 
 | Style | Aliases | Output |
 |-------|---------|--------|
+| `arrow-right` | arrow, arrows | `→ text →` |
+| `dot` | dots, middledot | `· text ·` |
+| `bullet` | bullets | `• text •` |
 | `star` | stars, featured | `★ text ☆` |
 | `diamond` | diamonds, gem | `◆ text ◇` |
 | `triangle-right` | triangles, tri-h | `▶ text ◀` |
 | `finger` | fingers, point, manicule | `☞ text ☜` |
+| `fisheye` | bullseye, target | `◉ text ◉` |
 
 ```markdown
-{{frame:star}}Featured content{{/}}
-{{frame:diamond}}Premium item{{/}}
-{{frame:finger}}Important note{{/}}
+{{frame:star}}Featured content{{/frame}}
+{{frame:diamond}}Premium item{{/frame}}
+{{frame:finger}}Important note{{/frame}}
+{{frame:arrow}}Navigation{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ★ Featured content ☆
-
 ◆ Premium item ◇
-
 ☞ Important note ☜
-
-> **Note:** For symmetric single-character frames like bullets (•), dots (·), or arrows (→), use glyph frames: `{{frame:glyph:bullet}}text{{/}}`
+→ Navigation →
+```
 
 ---
 
@@ -186,37 +171,38 @@ International quotation styles and brackets.
 {{frame:guillemet}}French quotation{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ❝A memorable quote❞
-
 【Japanese style】
-
 《Chinese brackets》
-
 « French quotation »
+```
 
 ---
 
 ### Special Frames
 
-Rounded corner decorations.
+Unique decorative elements.
 
 | Style | Aliases | Output |
 |-------|---------|--------|
+| `asterism` | section, divider | `⁂ text ⁂` |
 | `arc-top` | arctop, rounded-top | `╭ text ╮` |
 | `arc-bottom` | arcbottom, rounded-bottom | `╰ text ╯` |
 
 ```markdown
-{{frame:arc-top}}Rounded top{{/}}
-{{frame:arc-bottom}}Rounded bottom{{/}}
+{{frame:asterism}}Section break{{/frame}}
+{{frame:arc-top}}Rounded top{{/frame}}
+{{frame:arc-bottom}}Rounded bottom{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
+⁂ Section break ⁂
 ╭ Rounded top ╮
-
 ╰ Rounded bottom ╯
+```
 
 **Combine arcs for a rounded box effect:**
 ```markdown
@@ -244,15 +230,13 @@ Status indicator prefixes for notifications.
 {{frame:alert-error}}Something went wrong{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ⚠️ Proceed with caution
-
 ℹ️ Helpful tip here
-
 ✅ Operation complete
-
 ❌ Something went wrong
+```
 
 ---
 
@@ -260,154 +244,24 @@ Status indicator prefixes for notifications.
 
 Frames can be nested for layered visual effects:
 
-**Syntax:**
 ```markdown
 {{frame:gradient}}{{frame:line-bold}}ANNOUNCEMENT{{/frame}}{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ▓▒░ ━━━ ANNOUNCEMENT ━━━ ░▒▓
+```
 
 **Triple nesting:**
-
-**Syntax:**
 ```markdown
 {{frame:solid-left}}{{frame:gradient}}{{frame:star}}VIP{{/frame}}{{/frame}}{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 █▌▓▒░ ★ VIP ☆ ░▒▓
-
----
-
-## Frame Combos
-
-Combine multiple frames with the `+` syntax for nested effects without verbose nesting:
-
-**Syntax:**
-```markdown
-{{fr:outer+inner}}content{{/}}
-{{fr:gradient+star}}TITLE{{/}}
 ```
-
-**Rendered:**
-
-▓▒░ ★ TITLE ☆ ░▒▓
-
-This is equivalent to nesting:
-```markdown
-{{fr:gradient}}{{fr:star}}TITLE{{/}}{{/}}
-```
-
-**Triple combo:**
-
-```markdown
-{{fr:gradient+star+diamond}}VIP{{/}}
-```
-
-**Rendered:**
-
-▓▒░ ★ ◆ VIP ◇ ☆ ░▒▓
-
-Combo order: outer frames wrap inner frames. Prefix builds left-to-right, suffix builds right-to-left.
-
----
-
-## Frame Modifiers
-
-Frames support modifiers for separators and spacing.
-
-### Separator (`/separator=X`)
-
-Insert a character between frame pattern glyphs:
-
-```markdown
-{{fr:gradient/separator=·}}Title{{/}}
-{{frame:gradient/separator=dot}}Header{{/frame}}
-```
-
-**Rendered:**
-
-▓·▒·░ Title ░·▒·▓
-
-Named separators: `dot` (·), `dash` (-), `space` ( ), `pipe` (|), `colon` (:)
-
-### Spacing (`/spacing=N`)
-
-Insert N spaces between frame pattern glyphs:
-
-```markdown
-{{fr:gradient/spacing=1}}Title{{/}}
-{{fr:gradient/spacing=2}}Wide{{/}}
-```
-
-**Rendered:**
-
-▓ ▒ ░ Title ░ ▒ ▓
-
-▓  ▒  ░ Wide ░  ▒  ▓
-
-### Combined Modifiers
-
-```markdown
-{{fr:gradient/separator=·/spacing=1}}TEXT{{/}}
-```
-
-**Rendered:**
-
-▓ · ▒ · ░ TEXT ░ · ▒ · ▓
-
-### Reverse (`/reverse`)
-
-Flip any frame by swapping prefix and suffix:
-
-```markdown
-{{fr:gradient/reverse}}Title{{/}}
-{{fr:star/reverse}}VIP{{/}}
-```
-
-**Rendered:**
-
-░▒▓ Title ▓▒░
-
-☆ VIP ★
-
-**Alias:** `/rev` also works
-
-### Count (`*N`)
-
-Repeat frame patterns N times (max 20):
-
-```markdown
-{{fr:star*3}}Title{{/}}
-{{fr:gradient*2}}X{{/}}
-{{fr:diamond*5}}Premium{{/}}
-```
-
-**Rendered:**
-
-★★★ Title ☆☆☆
-
-▓▒░▓▒░ X ░▒▓░▒▓
-
-◆◆◆◆◆ Premium ◇◇◇◇◇
-
-### Count with Modifiers
-
-Combine count with other modifiers:
-
-```markdown
-{{fr:star*3/separator=·}}Title{{/}}
-{{fr:star*2/reverse}}VIP{{/}}
-```
-
-**Rendered:**
-
-★·★·★ Title ☆·☆·☆
-
-☆☆ VIP ★★
 
 ---
 
@@ -415,186 +269,52 @@ Combine count with other modifiers:
 
 Frames work beautifully with text styles:
 
-**Syntax:**
 ```markdown
 {{frame:gradient}}{{mathbold}}BOLD HEADER{{/mathbold}}{{/frame}}
 {{frame:star}}{{fraktur}}Gothic Text{{/fraktur}}{{/frame}}
 {{frame:lenticular}}{{fullwidth}}WIDE TEXT{{/fullwidth}}{{/frame}}
 ```
 
-**Rendered:**
-
+**Output:**
+```
 ▓▒░ 𝐁𝐎𝐋𝐃 𝐇𝐄𝐀𝐃𝐄𝐑 ░▒▓
-
 ★ 𝔊𝔬𝔱𝔥𝔦𝔠 𝔗𝔢𝔵𝔱 ☆
-
-【ＷＩＤＥ ＴＥＸＴ】
+【ＷＩＤＥ　ＴＥＸＴ】
+```
 
 ---
 
 ## Practical Examples
 
 ### Section Header
-
-**Syntax:**
 ```markdown
 {{frame:gradient}}{{mathbold:separator=dot}}GETTING STARTED{{/mathbold}}{{/frame}}
 ```
 
-**Rendered:**
-
-▓▒░ 𝐆·𝐄·𝐓·𝐓·𝐈·𝐍·𝐆· ·𝐒·𝐓·𝐀·𝐑·𝐓·𝐄·𝐃 ░▒▓
-
 ### Callout Box
-
-**Syntax:**
 ```markdown
 {{frame:solid-left}}{{ui:swatch:warning/}} **Warning:** This action cannot be undone.{{/frame}}
 ```
 
-**Rendered:**
-
-█▌![](https://img.shields.io/badge/-%20-EAB308?style=flat-square) **Warning:** This action cannot be undone.
-
 ### Featured Quote
-
-**Syntax:**
 ```markdown
 {{frame:heavy-quote}}{{italic}}The best code is no code at all.{{/italic}}{{/frame}}
 ```
 
-**Rendered:**
-
-❝𝑇ℎ𝑒 𝑏𝑒𝑠𝑡 𝑐𝑜𝑑𝑒 𝑖𝑠 𝑛𝑜 𝑐𝑜𝑑𝑒 𝑎𝑡 𝑎𝑙𝑙.❞
-
 ### Navigation Breadcrumb
-
-**Syntax:**
 ```markdown
 {{frame:arrow}}Home → Products → Details{{/frame}}
 ```
 
-**Rendered:**
-
-→ Home → Products → Details →
-
 ### Japanese-Style Title
-
-**Syntax:**
 ```markdown
 {{frame:lenticular}}{{fullwidth}}CHAPTER ONE{{/fullwidth}}{{/frame}}
 ```
 
-**Rendered:**
-
-【ＣＨＡＰＴＥＲ ＯＮＥ】
-
 ### Status Banner
-
-**Syntax:**
 ```markdown
 {{frame:gradient}}{{frame:alert-success}}All systems operational{{/frame}}{{/frame}}
 ```
-
-**Rendered:**
-
-▓▒░ ✅ All systems operational ░▒▓
-
----
-
-## Glyph Frame Shorthand
-
-Create custom frames using any glyph as the decorative element. This is more flexible than predefined frames.
-
-### Basic Syntax
-
-```markdown
-{{frame:glyph:NAME}}content{{/frame}}
-```
-
-**Example:**
-```markdown
-{{frame:glyph:star}}Featured{{/frame}}
-```
-
-**Rendered:** ★ Featured ★
-
-### Multiplier (*N)
-
-Repeat the glyph N times (max 20):
-
-```markdown
-{{frame:glyph:star*3}}Title{{/frame}}
-{{frame:glyph:diamond*5}}Premium{{/frame}}
-```
-
-**Rendered:**
-
-★★★ Title ★★★
-
-◆◆◆◆◆ Premium ◆◆◆◆◆
-
-### Padding Control (/pad=VALUE)
-
-Control spacing between glyphs and content:
-
-| Syntax | Effect |
-|--------|--------|
-| `/pad=0` | No padding (tight) |
-| `/pad=1` | Single space (default) |
-| `/pad=3` | Three spaces |
-| `/pad=-` | Custom character `-` |
-| `/pad=·` | Custom character `·` |
-| `/pad=--` | Multi-character `--` |
-
-**Examples:**
-
-```markdown
-{{frame:glyph:star*3/pad=0}}Tight{{/frame}}
-{{frame:glyph:star*3/pad=3}}Wide{{/frame}}
-{{frame:glyph:diamond*2/pad=·}}Dotted{{/frame}}
-{{frame:glyph:bullet*4/pad=--}}Dashed{{/frame}}
-```
-
-**Rendered:**
-
-★★★Tight★★★
-
-★★★   Wide   ★★★
-
-◆◆·Dotted·◆◆
-
-••••--Dashed--••••
-
-### Separator and Spacing
-
-Glyph frames also support separator and spacing modifiers:
-
-```markdown
-{{frame:glyph:star*3/separator=·}}Title{{/frame}}
-{{frame:glyph:diamond*4/spacing=1}}Gem{{/frame}}
-```
-
-**Rendered:**
-
-★·★·★ Title ★·★·★
-
-◆ ◆ ◆ ◆ Gem ◆ ◆ ◆ ◆
-
-### Replacing Line Frames
-
-Glyph frames can replicate line frames dynamically:
-
-```markdown
-{{frame:glyph:line.h.light*3}}Title{{/frame}}
-{{frame:glyph:line.h.bold*3}}Title{{/frame}}
-```
-
-**Rendered:**
-
-─── Title ───
-
-━━━ Title ━━━
 
 ---
 
@@ -602,15 +322,14 @@ Glyph frames can replicate line frames dynamically:
 
 | Category | Frames |
 |----------|--------|
-| **Gradient** | gradient, gradient-light, gradient-reverse, gradient-wave |
+| **Gradient** | gradient, gradient-light, gradient-reverse |
 | **Solid** | solid-left, solid-right, solid-both |
 | **Lines** | line-light, line-bold, line-double, line-dashed |
 | **Blocks** | block-top, block-bottom |
-| **Symbols** | star, diamond, triangle-right, finger |
+| **Symbols** | arrow-right, dot, bullet, star, diamond, triangle-right, finger, fisheye |
 | **Quotes** | heavy-quote, lenticular, angle, guillemet, guillemet-single |
-| **Arcs** | arc-top, arc-bottom |
+| **Special** | asterism, arc-top, arc-bottom |
 | **Alerts** | alert-warning, alert-info, alert-success, alert-error |
-| **Glyphs** | `{{frame:glyph:NAME}}` - any glyph as symmetric frame |
 
 ---
 
@@ -621,9 +340,3 @@ Glyph frames can replicate line frames dynamically:
 3. **Test rendering** - Some Unicode may display differently across fonts/platforms
 4. **Use aliases** - Shorter aliases like `grad` and `bold-line` speed up typing
 5. **Combine wisely** - Frames + text styles + swatches create rich visual elements
-
----
-
-<p align="center">
-ʀᴇɴᴅᴇʀᴇᴅ ᴡɪᴛʜ ᴍᴅꜰx
-</p>

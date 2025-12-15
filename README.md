@@ -133,8 +133,34 @@ cargo build --release --workspace
 mdfx process input.md -o output.md
 mdfx process README.template.md > README.md
 
-# Direct text conversion
-mdfx convert --style mathbold "HELLO"
+# Process and save
+mdfx process input.md --output output.md
+
+# Process from stdin
+echo "{{ui:header}}HELLO{{/ui}}" | mdfx process -
+```
+
+### CLI - Multi-Target Rendering
+```bash
+# Target-specific output (github, gitlab, npm, pypi, local)
+mdfx process input.md --target github -o README.md      # shields.io badges
+mdfx process input.md --target pypi -o PKG-INFO.md      # plain text fallbacks
+mdfx process input.md --target local -o docs/index.md   # local SVG files
+
+# Build for multiple targets at once
+mdfx build input.md --all-targets                       # all 5 targets
+mdfx build input.md --targets github,pypi,npm           # selected targets
+```
+
+See [CLI Guide](docs/guides/CLI-GUIDE.md) for complete multi-target documentation.
+
+### CLI - Direct Conversion
+```bash
+# Convert text directly
+mdfx convert --style mathbold "HELLO WORLD"
+# Output: 𝐇𝐄𝐋𝐋𝐎 𝐖𝐎𝐑𝐋𝐃
+
+# With separator
 mdfx convert --style mathbold --separator dot "TITLE"
 
 # List available styles

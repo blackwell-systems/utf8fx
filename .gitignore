@@ -1,2 +1,11 @@
 /target
 /assets
+
+# Backup files
+*.backup
+
+# Generated example outputs
+examples/assets/
+examples/*-showcase.md
+examples/*-showcase-rendered.md
+examples/*-rendered.md
