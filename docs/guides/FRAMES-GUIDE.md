@@ -126,24 +126,19 @@ Top/bottom block decorations.
 
 ### Symbol Frames
 
-Decorative symbols for visual flair.
+Decorative symbols with asymmetric prefix/suffix for visual flair.
 
 | Style | Aliases | Output |
 |-------|---------|--------|
-| `arrow-right` | arrow, arrows | `→ text →` |
-| `dot` | dots, middledot | `· text ·` |
-| `bullet` | bullets | `• text •` |
 | `star` | stars, featured | `★ text ☆` |
 | `diamond` | diamonds, gem | `◆ text ◇` |
 | `triangle-right` | triangles, tri-h | `▶ text ◀` |
 | `finger` | fingers, point, manicule | `☞ text ☜` |
-| `fisheye` | bullseye, target | `◉ text ◉` |
 
 ```markdown
-{{frame:star}}Featured content{{/frame}}
-{{frame:diamond}}Premium item{{/frame}}
-{{frame:finger}}Important note{{/frame}}
-{{frame:arrow}}Navigation{{/frame}}
+{{frame:star}}Featured content{{/}}
+{{frame:diamond}}Premium item{{/}}
+{{frame:finger}}Important note{{/}}
 ```
 
 **Rendered:**
@@ -154,7 +149,7 @@ Decorative symbols for visual flair.
 
 ☞ Important note ☜
 
-→ Navigation →
+> **Note:** For symmetric single-character frames like bullets (•), dots (·), or arrows (→), use glyph frames: `{{frame:glyph:bullet}}text{{/}}`
 
 ---
 
@@ -191,23 +186,19 @@ International quotation styles and brackets.
 
 ### Special Frames
 
-Unique decorative elements.
+Rounded corner decorations.
 
 | Style | Aliases | Output |
 |-------|---------|--------|
-| `asterism` | section, divider | `⁂ text ⁂` |
 | `arc-top` | arctop, rounded-top | `╭ text ╮` |
 | `arc-bottom` | arcbottom, rounded-bottom | `╰ text ╯` |
 
 ```markdown
-{{frame:asterism}}Section break{{/frame}}
-{{frame:arc-top}}Rounded top{{/frame}}
-{{frame:arc-bottom}}Rounded bottom{{/frame}}
+{{frame:arc-top}}Rounded top{{/}}
+{{frame:arc-bottom}}Rounded bottom{{/}}
 ```
 
 **Rendered:**
-
-⁂ Section break ⁂
 
 ╭ Rounded top ╮
 
@@ -457,10 +448,11 @@ Glyph frames can replicate line frames dynamically:
 | **Solid** | solid-left, solid-right, solid-both |
 | **Lines** | line-light, line-bold, line-double, line-dashed |
 | **Blocks** | block-top, block-bottom |
-| **Symbols** | arrow-right, dot, bullet, star, diamond, triangle-right, finger, fisheye |
+| **Symbols** | star, diamond, triangle-right, finger |
 | **Quotes** | heavy-quote, lenticular, angle, guillemet, guillemet-single |
-| **Special** | asterism, arc-top, arc-bottom |
+| **Arcs** | arc-top, arc-bottom |
 | **Alerts** | alert-warning, alert-info, alert-success, alert-error |
+| **Glyphs** | `{{frame:glyph:NAME}}` - any glyph as symmetric frame |
 
 ---
 

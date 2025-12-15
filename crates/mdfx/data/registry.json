@@ -799,27 +799,6 @@
         "contexts": ["inline", "block"],
         "aliases": ["bottom"]
       },
-      "arrow-right": {
-        "prefix": "→ ",
-        "suffix": " →",
-        "description": "Rightward arrows",
-        "contexts": ["inline", "block"],
-        "aliases": ["arrow", "arrows"]
-      },
-      "dot": {
-        "prefix": "· ",
-        "suffix": " ·",
-        "description": "Middle dots",
-        "contexts": ["inline", "block"],
-        "aliases": ["dots", "middledot"]
-      },
-      "bullet": {
-        "prefix": "• ",
-        "suffix": " •",
-        "description": "Bullet points",
-        "contexts": ["inline", "block"],
-        "aliases": ["bullets"]
-      },
       "lenticular": {
         "prefix": "【",
         "suffix": "】",
@@ -882,20 +861,6 @@
         "description": "Decorative quotation marks",
         "contexts": ["inline", "block"],
         "aliases": ["heavy-quotes", "dquote"]
-      },
-      "fisheye": {
-        "prefix": "◉ ",
-        "suffix": " ◉",
-        "description": "Bullseye circles",
-        "contexts": ["inline", "block"],
-        "aliases": ["bullseye", "target"]
-      },
-      "asterism": {
-        "prefix": "⁂ ",
-        "suffix": " ⁂",
-        "description": "Three-star section marker",
-        "contexts": ["inline", "block"],
-        "aliases": ["section", "divider"]
       },
       "arc-top": {
         "prefix": "╭ ",
@@ -1532,7 +1497,7 @@
   "metadata": {
     "total_glyphs": 493,
     "total_components": 9,
-    "total_frames": 32,
+    "total_frames": 27,
     "total_styles": 23,
     "total_palette_colors": 15,
     "total_shield_styles": 5,
