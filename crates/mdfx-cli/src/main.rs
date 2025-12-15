@@ -133,6 +133,10 @@ enum Commands {
         /// Format: {"colorName": "HEXVALUE", ...}
         #[arg(long)]
         palette: Option<PathBuf>,
+
+        /// Embed SVG assets as base64 data URIs (works everywhere, no external files)
+        #[arg(long)]
+        inline: bool,
     },
 
     /// Generate shell completions
@@ -248,6 +252,10 @@ enum Commands {
         /// Debounce delay in milliseconds
         #[arg(long, default_value = "100")]
         debounce: u64,
+
+        /// Embed SVG assets as base64 data URIs (works everywhere, no external files)
+        #[arg(long)]
+        inline: bool,
     },
 
     /// Start the Language Server Protocol (LSP) server
@@ -301,6 +309,7 @@ fn run(cli: Cli) -> Result<(), Error> {
             backend,
             assets_dir,
             palette,
+            inline,
         } => {
             process_file(
                 input,
@@ -310,6 +319,7 @@ fn run(cli: Cli) -> Result<(), Error> {
                 backend.as_deref(),
                 &assets_dir,
                 palette.as_deref(),
+                inline,
             )?;
         }
 
@@ -353,6 +363,7 @@ fn run(cli: Cli) -> Result<(), Error> {
             assets_dir,
             palette,
             debounce,
+            inline,
         } => {
             watch_file(
                 input,
@@ -362,6 +373,7 @@ fn run(cli: Cli) -> Result<(), Error> {
                 &assets_dir,
                 palette.as_deref(),
                 debounce,
+                inline,
             )?;
         }
 
@@ -444,6 +456,7 @@ fn process_file(
     backend_override: Option<&str>,
     assets_dir: &str,
     palette_path: Option<&std::path::Path>,
+    inline: bool,
 ) -> Result<(), Error> {
     // Resolve target (with auto-detection support)
     let target: Box<dyn Target> = if target_name == "auto" {
@@ -492,7 +505,13 @@ fn process_file(
     // Create the appropriate backend
     let mut parser = match backend_type {
         BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
-        BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
+        BackendType::Svg => {
+            if inline {
+                TemplateParser::with_backend(Box::new(SvgBackend::new_inline()))?
+            } else {
+                TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?
+            }
+        }
         BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
     };
 
@@ -967,6 +986,7 @@ fn watch_file(
     assets_dir: &str,
     palette_path: Option<&std::path::Path>,
     debounce_ms: u64,
+    inline: bool,
 ) -> Result<(), Error> {
     // Validate input file exists
     if !input.exists() {
@@ -997,6 +1017,7 @@ fn watch_file(
         backend_override,
         assets_dir,
         palette_path,
+        inline,
     ) {
         Ok(()) => println!("{} Build complete", "[watch]".green()),
         Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),
@@ -1037,6 +1058,7 @@ fn watch_file(
                         backend_override,
                         assets_dir,
                         palette_path,
+                        inline,
                     ) {
                         Ok(()) => println!("{} Build complete", "[watch]".green()),
                         Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),

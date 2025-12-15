@@ -9,10 +9,12 @@ use crate::renderer::{RenderedAsset, Renderer};
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
 
-/// SVG rendering backend (file-based)
+/// SVG rendering backend (file-based or inline)
 pub struct SvgBackend {
     /// Output directory for generated SVG files (e.g., "assets/mdfx")
     out_dir: String,
+    /// When true, embed SVGs as data URIs instead of writing files
+    inline: bool,
 }
 
 /// SVG style metrics for different badge styles
@@ -82,7 +84,21 @@ impl SvgBackend {
     pub fn new(out_dir: impl Into<String>) -> Self {
         Self {
             out_dir: out_dir.into(),
+            inline: false,
         }
+    }
+
+    /// Create a new inline SVG backend (embeds as data URIs)
+    pub fn new_inline() -> Self {
+        Self {
+            out_dir: String::new(),
+            inline: true,
+        }
+    }
+
+    /// Check if this backend uses inline mode
+    pub fn is_inline(&self) -> bool {
+        self.inline
     }
 
     /// Generate deterministic filename for a primitive
@@ -486,14 +502,23 @@ impl Renderer for SvgBackend {
             } => Self::render_tech_svg(name, bg_color, logo_color, style),
         };
 
-        let markdown_ref = format!("![]({})", relative_path);
-
-        Ok(RenderedAsset::File {
-            relative_path,
-            bytes: svg.into_bytes(),
-            markdown_ref,
-            primitive: Box::new(primitive.clone()),
-        })
+        // Handle inline mode (data URI) vs file mode
+        if self.inline {
+            // Encode SVG as base64 data URI
+            use base64::{Engine as _, engine::general_purpose::STANDARD};
+            let encoded = STANDARD.encode(svg.as_bytes());
+            let data_uri = format!("data:image/svg+xml;base64,{}", encoded);
+            let markdown = format!("![]({})", data_uri);
+            Ok(RenderedAsset::InlineMarkdown(markdown))
+        } else {
+            let markdown_ref = format!("![]({})", relative_path);
+            Ok(RenderedAsset::File {
+                relative_path,
+                bytes: svg.into_bytes(),
+                markdown_ref,
+                primitive: Box::new(primitive.clone()),
+            })
+        }
     }
 }
 
