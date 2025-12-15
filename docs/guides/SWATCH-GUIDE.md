@@ -43,8 +43,12 @@ Where `COLOR` is either:
 | `width` | integer | 20 | **SVG only** | Width in pixels |
 | `height` | integer | 20 | **SVG only** | Height in pixels |
 | `opacity` | float | 1.0 | **SVG only** | Fill opacity (0.0 to 1.0) |
-| `border` | hex/palette | none | **SVG only** | Border color |
+| `border` | hex/palette | none | **SVG only** | Border color (all sides) |
 | `border_width` | integer | 1 | **SVG only** | Border thickness in pixels |
+| `border_top` | string | none | **SVG only** | Top border: "color/width" or "color" |
+| `border_right` | string | none | **SVG only** | Right border: "color/width" or "color" |
+| `border_bottom` | string | none | **SVG only** | Bottom border: "color/width" or "color" |
+| `border_left` | string | none | **SVG only** | Left border: "color/width" or "color" |
 | `rx` | integer | style-based | **SVG only** | Horizontal corner radius in pixels |
 | `ry` | integer | same as rx | **SVG only** | Vertical corner radius in pixels |
 | `shadow` | string | none | **SVG only** | Drop shadow: "color:blur:offset_x:offset_y" |
@@ -266,6 +270,54 @@ Add dashed or dotted borders with `stroke_dash`. Format: "dash:gap" (e.g., "4:2"
 ```
 
 **Use cases:** Cut lines, selection indicators, placeholder outlines.
+
+### Per-Side Borders
+
+Control each border side independently with `border_top`, `border_right`, `border_bottom`, `border_left`. Format: "color/width" (e.g., "FF0000/3") or just "color" (defaults to width 2).
+
+**Syntax:**
+```markdown
+{{ui:swatch:333333:width=100:height=40:border_top=3B82F6/3/}}      <!-- Top border only -->
+{{ui:swatch:333333:width=100:height=40:border_bottom=22C55E/3/}}   <!-- Underline effect -->
+{{ui:swatch:333333:width=100:height=40:border_left=F41C80/4:border_right=F41C80/4/}}  <!-- Side accents -->
+```
+
+### All Sides Different Colors
+
+Create multi-colored frames:
+
+**Syntax:**
+```markdown
+{{ui:swatch:1a1a1a:width=120:height=60:border_top=EF4444/3:border_right=F59E0B/3:border_bottom=22C55E/3:border_left=3B82F6/3/}}
+```
+
+### Underline Effect
+
+Use `border_bottom` for underlined elements:
+
+**Syntax:**
+```markdown
+{{ui:swatch:1a1a2e:width=150:height=40:border_bottom=F41C80/3/}}
+```
+
+### Accent Bars
+
+Use `border_left` or `border_right` for sidebar accents:
+
+**Syntax:**
+```markdown
+{{ui:swatch:292A2D:width=200:height=50:border_left=22C55E/4/}}   <!-- Left accent -->
+{{ui:swatch:292A2D:width=200:height=50:border_right=3B82F6/4/}}  <!-- Right accent -->
+```
+
+### Top & Bottom Framing
+
+**Syntax:**
+```markdown
+{{ui:swatch:1a1a2e:width=200:height=50:border_top=F41C80/2:border_bottom=F41C80/2/}}
+```
+
+**Use cases:** Underlines, accent bars, CSS-like border styling, multi-colored frames.
 
 ---
 
@@ -597,6 +649,7 @@ SVG backend features not available in shields.io:
 - **Custom dimensions** - width and height in pixels
 - **Opacity** - transparency from 0.0 to 1.0
 - **Borders** - colored borders with custom width, dashed patterns
+- **Per-side borders** - independent control of top, right, bottom, left borders
 - **Corner radius** - custom rx/ry for precise rounded corners
 - **Drop shadows** - shadows with custom color, blur, and offset
 - **Gradients** - horizontal, vertical, and diagonal gradient fills
@@ -632,9 +685,20 @@ Additional SVG-only features:
 - Opacity/transparency
 - Borders with custom colors/width
 - Dashed borders (`stroke_dash`)
+- Per-side borders (`border_top`, `border_right`, `border_bottom`, `border_left`)
 - Custom corner radius (`rx`/`ry`)
 - Drop shadows (`shadow`)
 - Gradient fills (`gradient`)
+
+### Hybrid Backend
+
+Auto-selects between shields.io and SVG based on feature usage:
+
+```bash
+mdfx process template.md --backend hybrid --assets-dir assets
+```
+
+Uses shields.io for simple swatches (fast, no files), switches to SVG when advanced features are detected (gradients, shadows, rx/ry, stroke_dash, per-side borders).
 
 ---
 

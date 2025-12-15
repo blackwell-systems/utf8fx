@@ -9,6 +9,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Hybrid Backend (`--backend hybrid`)
+
+- **Auto-selection** - Automatically chooses between shields.io and SVG based on feature usage
+- **Best of both worlds** - Uses shields.io for simple badges (fast, no files), SVG only when needed
+- **Smart detection** - Triggers SVG for: gradients, shadows, rx/ry, stroke_dash, per-side borders
+- **Seamless mixing** - Same document can have both shields.io URLs and SVG files
+
+**Usage:**
+```bash
+mdfx process template.md --backend hybrid --assets-dir assets
+```
+
+**When shields.io is used:**
+```markdown
+{{ui:swatch:accent/}}                    <!-- Simple color → shields.io -->
+{{ui:swatch:accent:label=Badge/}}        <!-- With label → shields.io -->
+{{ui:swatch:000000:icon=rust/}}          <!-- With icon → shields.io -->
+```
+
+**When SVG is used:**
+```markdown
+{{ui:swatch:accent:gradient=horizontal/FF0000/0000FF/}}  <!-- Gradient → SVG -->
+{{ui:swatch:accent:shadow=000000/4/2/2/}}                <!-- Shadow → SVG -->
+{{ui:swatch:accent:rx=10/}}                              <!-- Custom corners → SVG -->
+{{ui:swatch:accent:border_bottom=F41C80/3/}}             <!-- Per-side border → SVG -->
+```
+
+#### Per-Side Border Control (SVG Backend)
+
+- **Independent borders** - Control each side separately with `border_top`, `border_right`, `border_bottom`, `border_left`
+- **Format** - "color/width" (e.g., `FF0000/3`) or just "color" (defaults to width 2)
+- **CSS-like styling** - Create underlines, accent bars, multi-colored frames
+
+**Usage:**
+```markdown
+{{ui:swatch:333333:width=100:height=40:border_top=3B82F6/3/}}      <!-- Top border only -->
+{{ui:swatch:333333:width=100:height=40:border_bottom=22C55E/3/}}   <!-- Underline effect -->
+{{ui:swatch:333333:width=100:height=40:border_left=F41C80/4:border_right=F41C80/4/}}  <!-- Side accents -->
+
+<!-- All sides different colors -->
+{{ui:swatch:1a1a1a:width=120:height=60:border_top=EF4444/3:border_right=F59E0B/3:border_bottom=22C55E/3:border_left=3B82F6/3/}}
+```
+
 #### Keyboard Keys (`{{kbd:...}}`)
 
 - **Native HTML kbd tags** - GitHub renders `<kbd>` tags with keyboard styling
