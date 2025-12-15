@@ -120,7 +120,7 @@ Source → Lexer → Parser → Semantic Analysis → Code Generation → Output
 ### Three Layers
 
 1. **UI Components** (`{{ui:*}}`) - High-level semantic elements users write
-2. **Primitives** (`{{shields:*}}`, `{{frame:*}}`, `{{badge:*}}`) - Rendering engines
+2. **Primitives** (`{{shields:*}}`, `{{frame:*}}` / `{{fr:*}}`) - Rendering engines
 3. **Styles** (`{{mathbold}}`) - Character transformations
 
 **Key Innovation:** Components **expand** to primitives at parse time, keeping user-facing syntax concise while maintaining full customization power.
@@ -155,13 +155,11 @@ graph TB
         SVG --> FILES[File Assets]
         PLAIN --> TEXT[ASCII Text]
 
-        RECURSE --> FRAME[FrameRenderer]
-        RECURSE --> BADGE[BadgeRenderer]
+        RECURSE --> FRAME[Frame Processing]
         RECURSE --> SHIELD[ShieldsRenderer]
         RECURSE --> CONV[Converter]
 
         FRAME --> OUTPUT[Compiled Output]
-        BADGE --> OUTPUT
         SHIELD --> OUTPUT
         CONV --> OUTPUT
         INLINE --> OUTPUT
@@ -175,7 +173,6 @@ graph TB
         REG -.->|Components| UI
         REG -.->|Styles| CONV
         REG -.->|Frames| FRAME
-        REG -.->|Badges| BADGE
         REG -.->|Separators| PARSER
         REG -.->|Shield Styles| SHIELD
     end
@@ -222,7 +219,6 @@ The unified registry consolidates all compiler data into a single JSON file, rep
   "shield_styles": { "flat-square": { ... }, "flat": { ... }, ... },
   "renderables": {
     "frames": { "gradient": { "prefix": "▓▒░ ", "suffix": " ░▒▓" }, ... },
-    "badges": { "circle": { "mappings": { "1": "①", ... } }, ... },
     "components": { "header": { "template": "..." }, ... }
   }
 }
@@ -268,7 +264,6 @@ pub struct Registry {
     pub separators: HashMap<String, Separator>,
     pub shield_styles: HashMap<String, ShieldStyle>,
     pub frames: HashMap<String, FrameStyle>,
-    pub badges: HashMap<String, BadgeType>,
     pub components: HashMap<String, ComponentDef>,
 }
 
@@ -402,26 +397,27 @@ let output = parser.process(&input)?;
 
 **Types:**
 1. **Shields** (`{{shields:*}}`) - shields.io badge URLs as Markdown images
-2. **Frames** (`{{frame:*}}`) - Decorative prefix/suffix (▓▒░ TEXT ░▒▓)
-3. **Badges** (`{{badge:*}}`) - Enclosed alphanumerics (①②③, ⓐⓑⓒ)
+2. **Frames** (`{{frame:*}}` or `{{fr:*}}`) - Decorative prefix/suffix (▓▒░ TEXT ░▒▓)
+3. **Glyph Frames** (`{{fr:glyph:NAME}}`) - Dynamic Unicode glyph frames
 
 **Example:**
 ```markdown
 {{shields:block:color=F41C80:style=flat-square/}}
-{{frame:gradient}}TEXT{{/frame}}
-{{badge:circle}}1{{/badge}}
+{{fr:gradient}}TEXT{{/}}
+{{fr:gradient:Inline Text/}}
+{{fr:glyph:star*3}}FEATURED{{//}}
 ```
 
 **Characteristics:**
 - Verbose parameter syntax (explicit control)
-- Specific closers (`{{/frame}}`, `{{/badge}}`)
+- Universal closer `{{/}}` or close-all `{{//}}`
+- Self-closing frames `{{fr:STYLE:CONTENT/}}`
 - Direct mapping to output format
 - Available as escape hatch for advanced users
 
 **Implementation:**
 - ShieldsRenderer (`src/shields.rs`) - Generate shields.io URLs
-- FrameRenderer (`src/frames.rs`) - Add decorative borders
-- BadgeRenderer (`src/badges.rs`) - Map to enclosed Unicode
+- Frame processing via Registry (`src/registry.rs`) - Add decorative borders
 
 ### Layer 3: Styles (Character Transformation)
 
@@ -1471,65 +1467,37 @@ pub enum RenderedAsset {
 - **Type safety:** Renderer trait enforces consistent return type
 - **Testability:** Can mock backends for testing parser logic
 
-### 4. FrameRenderer (`src/frames.rs`)
+### 4. Frame Processing (via Registry)
 
-**Purpose:** Add decorative prefix/suffix around text
+**Purpose:** Add decorative prefix/suffix around text with multiple syntax options
 
-**Key Functions:**
-```rust
-pub fn new() -> Result<Self>
-pub fn apply_frame(&self, text: &str, frame_style: &str) -> Result<String>
-pub fn get_frame(&self, name: &str) -> Option<&Frame>
-pub fn has_frame(&self, name: &str) -> bool
-pub fn list_frames(&self) -> Vec<&Frame>
+**Syntax Options:**
+```markdown
+{{frame:gradient}}TEXT{{/frame}}       <!-- Full syntax -->
+{{fr:gradient}}TEXT{{/}}               <!-- Shorthand + universal closer -->
+{{fr:gradient:Inline/}}                <!-- Self-closing -->
+{{fr:a}}{{fr:b}}Nested{{//}}           <!-- Close-all -->
+{{fr:glyph:star*3}}TEXT{{/}}           <!-- Glyph frames -->
 ```
 
 **Example:**
 ```rust
-apply_frame("TITLE", "gradient")
-// Returns: "▓▒░ TITLE ░▒▓"
+// Frames are processed via Registry in parser.rs
+// Result: "▓▒░ TITLE ░▒▓"
 ```
 
 **Design:**
 - **String concatenation:** `format!("{}{}{}", frame.prefix, text, frame.suffix)`
 - **No width calculation:** Frames don't adjust based on content length
-- **Recursive content:** Frame content can contain styles/badges
-- **32 styles:** gradient, solid, lines, arrows, brackets, alerts, etc.
+- **Recursive content:** Frame content can contain styles and other frames
+- **Glyph frames:** Dynamic frames from Unicode glyphs with multiplier/padding
+- **27 built-in styles:** gradient, solid, lines, arrows, brackets, alerts, etc.
 
 **Frame Types:**
-- Gradient (▓▒░), solid (█▌), lines (═), arrows (→), brackets (【】)
+- Gradient (▓▒░), solid (█▌), lines (═), arrows (→), brackets (【】), star (★☆), glyph (dynamic)
 
 **Data:**
 - Frame definitions in `registry.json` → `renderables.frames`
-
-### 5. BadgeRenderer (`src/badges.rs`)
-
-**Purpose:** Enclose alphanumeric characters in Unicode badges
-
-**Key Functions:**
-```rust
-pub fn new() -> Result<Self>
-pub fn apply_badge(&self, text: &str, badge_type: &str) -> Result<String>
-pub fn get_badge(&self, name: &str) -> Option<&Badge>
-pub fn has_badge(&self, name: &str) -> bool
-pub fn list_badges(&self) -> Vec<&Badge>
-```
-
-**Example:**
-```rust
-apply_badge("1", "circle")     // → ①
-apply_badge("A", "circle")     // → Ⓐ
-apply_badge("2", "negative-circle")  // → ❷
-```
-
-**Design:**
-- **Character mapping:** Direct Unicode codepoint offset
-- **Limited charset:** 0-9, A-Z, a-z (depends on badge type)
-- **Error on unsupported:** Returns `UnsupportedChar` error
-- **6 types:** circle, double-circle, negative-circle, paren, period, negative-paren
-
-**Data:**
-- Badge definitions in `registry.json` → `renderables.badges`
 
 ### 5. Converter (`src/converter.rs`)
 
@@ -1645,15 +1613,14 @@ The parser uses a character-by-character state machine (no regex) for predictabl
 **Critical for expansion to work:**
 
 1. **UI** (`{{ui:*}}`) - Expand first
-2. **Frame** (`{{frame:*}}`) - After expansion
-3. **Badge** (`{{badge:*}}`) - After frames
-4. **Shields** (`{{shields:*}}`) - After badges (from expanded UI)
-5. **Style** (`{{mathbold}}`) - Last (innermost)
+2. **Frame** (`{{frame:*}}` / `{{fr:*}}`) - After expansion
+3. **Shields** (`{{shields:*}}`) - After frames (from expanded UI)
+4. **Style** (`{{mathbold}}`) - Last (innermost)
 
 **Why this order:**
 - UI must expand before primitives can parse
-- Frames wrap other elements
-- Badges/shields are leaf nodes
+- Frames wrap other elements (support nesting with `{{//}}` close-all)
+- Shields are leaf nodes
 - Styles transform characters (innermost operation)
 
 ### Template Parsing
@@ -1684,6 +1651,28 @@ Parser uses stack to match `{{/ui}}` with most recent `ui:*` opener.
 ```
 
 Parser searches for exact closing tag `{{/{tag}}}`.
+
+**4. Universal closer** (`{{/}}`)
+```markdown
+{{fr:gradient}}TEXT{{/}}
+```
+
+Closes the most recent frame without specifying type.
+
+**5. Close-all** (`{{//}}`)
+```markdown
+{{fr:gradient}}{{fr:star}}{{mathbold}}NESTED{{//}}
+```
+
+Closes ALL open tags (frames, styles, UI components) in reverse order.
+
+**6. Self-closing frames** (`{{fr:STYLE:CONTENT/}}`)
+```markdown
+{{fr:gradient:Title/}}
+{{fr:glyph:star*3:Featured/}}
+```
+
+Compact syntax for inline frame content.
 
 ### Parameter Parsing
 
@@ -1785,8 +1774,7 @@ let registry: Registry = serde_json::from_str(data)?;
 | `styles` | Character mappings | 23 Unicode styles |
 | `separators` | Named separator characters | 12 separators |
 | `shield_styles` | Badge rendering styles | 5 styles (flat-square, flat, etc.) |
-| `renderables.frames` | Prefix/suffix decorations | 32 frames |
-| `renderables.badges` | Enclosed character mappings | 6 badge types |
+| `renderables.frames` | Prefix/suffix decorations | 27 frames + glyph frames |
 | `renderables.components` | UI component definitions | 9 components |
 
 **Total:** ~25KB unified `registry.json`
@@ -2089,15 +2077,14 @@ fn progress_bar(args: &[String]) -> Result<String> {
 **Per-module testing:**
 - `src/components.rs` - Expansion logic, palette extension
 - `src/shields.rs` - URL generation
-- `src/frames.rs` - Prefix/suffix decorations
-- `src/badges.rs` - Character mapping
+- `src/parser.rs` - Template parsing, frames, close-all, self-closing
 - `src/converter.rs` - Character transformation
 - `src/registry.rs` - Unified registry loading
 - `src/targets.rs` - Target selection and detection
 - `src/renderer/svg.rs` - SVG generation, enhanced swatches
 - `src/manifest.rs` - Asset manifest, SHA-256 verification
 
-**Total:** 248 tests across all modules
+**Total:** 280 tests across all modules
 
 ### Integration Tests
 

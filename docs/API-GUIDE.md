@@ -39,8 +39,7 @@ mdfx uses a Cargo workspace with two packages:
 - [ComponentsRenderer API](#componentsrenderer-api) ⭐ **Primary API**
 - [ShieldsRenderer API](#shieldsrenderer-api)
 - [Converter API](#converter-api)
-- [FrameRenderer API](#framerenderer-api)
-- [BadgeRenderer API](#badgerenderer-api)
+- [Frame Syntax](#frame-syntax) 🆕
 - [TemplateParser API](#templateparser-api)
 - [Multi-Backend Rendering](#multi-backend-rendering)
 - [Enhanced Swatch Options](#enhanced-swatch-options) 🆕
@@ -1008,344 +1007,95 @@ let result = converter.convert("Hello World", "mathbold")?;
 
 ---
 
-## FrameRenderer API
+## Frame Syntax
 
-The `FrameRenderer` adds decorative prefix/suffix around text.
+Frames add decorative prefix/suffix around text. mdfx provides multiple syntax options for flexibility.
 
-### Creating a FrameRenderer
+### Basic Syntax
 
-```rust
-use mdfx::FrameRenderer;
-
-let renderer = FrameRenderer::new()?;
+```markdown
+{{frame:gradient}}TEXT{{/frame}}       <!-- Full syntax -->
+{{fr:gradient}}TEXT{{/}}               <!-- Shorthand + universal closer -->
+{{fr:gradient:Inline Text/}}           <!-- Self-closing -->
+{{fr:a}}{{fr:b}}Nested{{//}}           <!-- Close-all -->
 ```
 
-**Error:** Returns `Error::InvalidJson` if `frames.json` is malformed.
+### Shorthand `{{fr:}}`
 
-### Methods
+The `fr:` prefix is an alias for `frame:`:
 
-#### `apply_frame(text: &str, frame_style: &str) -> Result<String>`
-
-Wrap text with decorative elements.
-
-```rust
-let result = renderer.apply_frame("TITLE", "gradient")?;
-// Output: ▓▒░ TITLE ░▒▓
-
-let result = renderer.apply_frame("Note", "solid-left")?;
-// Output: █▌Note
-
-let result = renderer.apply_frame("Header", "line-bold")?;
-// Output: ━━━ Header ━━━
+```markdown
+{{fr:gradient}}Title{{/}}              <!-- Same as {{frame:gradient}}Title{{/frame}} -->
+{{fr:star}}VIP{{/}}                    <!-- ★ VIP ☆ -->
+{{fr:solid-left}}Note{{/}}             <!-- █▌Note -->
 ```
 
-**Parameters:**
-- `text` - Text to wrap (can be pre-styled)
-- `frame_style` - Frame ID or alias
+### Self-Closing Frames
 
-**Returns:** Text with prefix and suffix added
+For short inline content, use the self-closing syntax:
 
-**Errors:**
-- `Error::UnknownFrame` - Frame doesn't exist
-
-#### `has_frame(name: &str) -> bool`
-
-Check if a frame exists.
-
-```rust
-if renderer.has_frame("gradient") {
-    println!("Frame exists!");
-}
+```markdown
+{{fr:gradient:Title/}}                 <!-- ▓▒░ Title ░▒▓ -->
+{{fr:star:VIP/}}                       <!-- ★ VIP ☆ -->
+{{fr:glyph:diamond*2:Gem/}}            <!-- ◆◆ Gem ◆◆ -->
 ```
 
-#### `list_frames() -> Vec<&FrameType>`
+### Universal Closer `{{/}}`
 
-Get all available frames, sorted by ID.
+Close any frame without specifying its type:
 
-```rust
-for frame in renderer.list_frames() {
-    println!("{}: {} - {}",
-        frame.id,
-        frame.name,
-        frame.description
-    );
-}
+```markdown
+{{fr:gradient}}Text{{/}}               <!-- Closes gradient frame -->
+{{frame:star}}Text{{/}}                <!-- Also works with full syntax -->
 ```
 
-#### `get_frame(name: &str) -> Result<&FrameType>`
+### Close-All `{{//}}`
 
-Get a specific frame by ID or alias.
+Close ALL open tags (frames, styles, UI components) at once:
 
-```rust
-let frame = renderer.get_frame("gradient")?;
-println!("Name: {}", frame.name);
-println!("Prefix: {}", frame.prefix);
-println!("Suffix: {}", frame.suffix);
+```markdown
+{{fr:gradient}}{{fr:star}}{{mathbold}}NESTED{{//}}
+<!-- Closes mathbold, then star, then gradient (reverse order) -->
 ```
+
+### Glyph Frames
+
+Create dynamic frames from any Unicode glyph:
+
+```markdown
+{{fr:glyph:star}}Title{{/}}            <!-- ★ Title ★ -->
+{{fr:glyph:star*3}}Title{{/}}          <!-- ★★★ Title ★★★ -->
+{{fr:glyph:star*3/pad=0}}Title{{/}}    <!-- ★★★Title★★★ -->
+{{fr:glyph:diamond*2/pad=·}}Gem{{/}}   <!-- ◆◆·Gem·◆◆ -->
+```
+
+**Options:**
+- `*N` - Repeat glyph N times
+- `/pad=CHAR` - Custom padding character (default: space)
 
 ### Available Frames
 
-**Gradient & Blocks:**
-```rust
-// gradient: ▓▒░ ... ░▒▓
-renderer.apply_frame("TEXT", "gradient")?;
+| Frame | Output | Description |
+|-------|--------|-------------|
+| `gradient` | ▓▒░ X ░▒▓ | Block gradient |
+| `solid-left` | █▌X | Left solid bar |
+| `solid-right` | X▐█ | Right solid bar |
+| `star` | ★ X ☆ | Star bookends |
+| `diamond` | ◆ X ◇ | Diamond bookends |
+| `line-bold` | ━━━ X ━━━ | Bold lines |
+| `lenticular` | 【X】 | Japanese brackets |
+| `guillemet` | « X » | French quotes |
+| `glyph:NAME` | (dynamic) | Any Unicode glyph |
 
-// solid-left: █▌...
-renderer.apply_frame("TEXT", "solid-left")?;
-
-// solid-right: ...▐█
-renderer.apply_frame("TEXT", "solid-right")?;
-
-// solid-both: █▌...▐█
-renderer.apply_frame("TEXT", "solid-both")?;
-
-// block-top: ▀▀▀ ... ▀▀▀
-renderer.apply_frame("TEXT", "block-top")?;
-
-// block-bottom: ▄▄▄ ... ▄▄▄
-renderer.apply_frame("TEXT", "block-bottom")?;
-```
-
-**Lines:**
-```rust
-// line-light: ─── ... ───
-renderer.apply_frame("TEXT", "line-light")?;
-
-// line-bold: ━━━ ... ━━━
-renderer.apply_frame("TEXT", "line-bold")?;
-
-// line-double: ═══ ... ═══
-renderer.apply_frame("TEXT", "line-double")?;
-
-// line-dashed: ╌╌╌ ... ╌╌╌
-renderer.apply_frame("TEXT", "line-dashed")?;
-```
-
-**Symbols:**
-```rust
-// arrow-right: → ... →
-renderer.apply_frame("TEXT", "arrow-right")?;
-
-// dot: · ... ·
-renderer.apply_frame("TEXT", "dot")?;
-
-// bullet: • ... •
-renderer.apply_frame("TEXT", "bullet")?;
-
-// star: ★ ... ☆
-renderer.apply_frame("TEXT", "star")?;
-
-// diamond: ◆ ... ◇
-renderer.apply_frame("TEXT", "diamond")?;
-```
-
-**Brackets:**
-```rust
-// lenticular: 【...】
-renderer.apply_frame("TEXT", "lenticular")?;
-
-// angle: 《...》
-renderer.apply_frame("TEXT", "angle")?;
-
-// guillemet: « ... »
-renderer.apply_frame("TEXT", "guillemet")?;
-
-// guillemet-single: ‹ ... ›
-renderer.apply_frame("TEXT", "guillemet-single")?;
-
-// heavy-quote: ❝...❞
-renderer.apply_frame("TEXT", "heavy-quote")?;
-```
-
-**Special:**
-```rust
-// triangle-right: ▶ ... ◀
-renderer.apply_frame("TEXT", "triangle-right")?;
-
-// finger: ☞ ... ☜
-renderer.apply_frame("TEXT", "finger")?;
-
-// fisheye: ◉ ... ◉
-renderer.apply_frame("TEXT", "fisheye")?;
-
-// asterism: ⁂ ... ⁂
-renderer.apply_frame("TEXT", "asterism")?;
-
-// arc-top: ╭ ... ╮
-renderer.apply_frame("TEXT", "arc-top")?;
-
-// arc-bottom: ╰ ... ╯
-renderer.apply_frame("TEXT", "arc-bottom")?;
-```
+Run `mdfx frames` for the full list.
 
 ### Combining Styles and Frames
 
 Frames work with styled text:
 
-```rust
-let converter = Converter::new()?;
-let renderer = FrameRenderer::new()?;
-
-// Style first, then frame
-let styled = converter.convert("HEADER", "mathbold")?;
-let framed = renderer.apply_frame(&styled, "gradient")?;
-// Output: ▓▒░ 𝐇𝐄𝐀𝐃𝐄𝐑 ░▒▓
-
-// With separator
-let styled = converter.convert_with_separator("TITLE", "mathbold", "·", 1)?;
-let framed = renderer.apply_frame(&styled, "solid-left")?;
-// Output: █▌𝐓·𝐈·𝐓·𝐋·𝐄
-```
-
----
-
-## BadgeRenderer API
-
-The `BadgeRenderer` encloses numbers (0-20) and letters (a-z) with pre-composed Unicode characters.
-
-### Creating a BadgeRenderer
-
-```rust
-use mdfx::BadgeRenderer;
-
-let renderer = BadgeRenderer::new()?;
-```
-
-**Error:** Returns `Error::InvalidJson` if `badges.json` is malformed.
-
-### Methods
-
-#### `apply_badge(text: &str, badge_type: &str) -> Result<String>`
-
-Enclose text in a badge character.
-
-```rust
-let result = renderer.apply_badge("1", "circle")?;
-// Output: ①
-
-let result = renderer.apply_badge("a", "paren-letter")?;
-// Output: ⒜
-
-let result = renderer.apply_badge("10", "circle")?;
-// Output: ⑩
-```
-
-**Parameters:**
-- `text` - Text to enclose (must be in badge's supported charset)
-- `badge_type` - Badge ID or alias
-
-**Returns:** Single Unicode character containing the enclosed text
-
-**Errors:**
-- `Error::UnknownBadge` - Badge type doesn't exist
-- `Error::UnsupportedChar` - Text not in badge's charset
-
-#### `has_badge(name: &str) -> bool`
-
-Check if a badge type exists.
-
-```rust
-if renderer.has_badge("circle") {
-    println!("Badge exists!");
-}
-```
-
-#### `list_badges() -> Vec<&BadgeType>`
-
-Get all available badge types, sorted by ID.
-
-```rust
-for badge in renderer.list_badges() {
-    println!("{}: {} - {}",
-        badge.id,
-        badge.name,
-        badge.description
-    );
-}
-```
-
-#### `get_badge(name: &str) -> Result<&BadgeType>`
-
-Get a specific badge by ID or alias.
-
-```rust
-let badge = renderer.get_badge("circle")?;
-println!("Name: {}", badge.name);
-println!("Supported chars: {}", badge.mappings.len());
-```
-
-### Available Badge Types
-
-**Number Badges (0-20):**
-
-```rust
-// circle: ①②③④⑤⑥⑦⑧⑨⑩⑪...⑳
-renderer.apply_badge("1", "circle")?;     // ①
-renderer.apply_badge("10", "circle")?;    // ⑩
-renderer.apply_badge("0", "circle")?;     // ⓪
-
-// negative-circle: ❶❷❸❹❺❻❼❽❾❿⓫...⓴
-renderer.apply_badge("1", "negative-circle")?;  // ❶
-renderer.apply_badge("20", "negative-circle")?; // ⓴
-
-// double-circle: ⓵⓶⓷⓸⓹⓺⓻⓼⓽⓾ (1-10 only)
-renderer.apply_badge("1", "double-circle")?;  // ⓵
-renderer.apply_badge("5", "double-circle")?;  // ⓹
-
-// paren: ⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾...⒇ (1-20)
-renderer.apply_badge("3", "paren")?;  // ⑶
-
-// period: 🄁🄂🄃🄄🄅🄆🄇🄈🄉🄊🄋...🄔
-renderer.apply_badge("7", "period")?;  // 🄇
-```
-
-**Letter Badges (a-z):**
-
-```rust
-// paren-letter: ⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵
-renderer.apply_badge("a", "paren-letter")?;  // ⒜
-renderer.apply_badge("z", "paren-letter")?;  // ⒵
-```
-
-### Charset Limitations
-
-Badges have strict charset support:
-
-```rust
-// Supported
-renderer.apply_badge("1", "circle")?;    // ①
-renderer.apply_badge("20", "circle")?;   // ⑳
-renderer.apply_badge("a", "paren-letter")?;  // ⒜
-
-// Unsupported - returns Error::UnsupportedChar
-renderer.apply_badge("99", "circle")?;   // Error: not in 0-20 range
-renderer.apply_badge("A", "paren-letter")?;  // Error: uppercase not supported
-renderer.apply_badge("21", "circle")?;   // Error: above maximum
-```
-
-**Why the limitation?**
-Badges use pre-composed Unicode characters (U+2460-24FF). These blocks only contain specific numbers and lowercase letters.
-
-### Use Cases
-
-**Step Indicators:**
-```rust
-println!("{}  Install dependencies", renderer.apply_badge("1", "circle")?);
-println!("{}  Configure settings", renderer.apply_badge("2", "circle")?);
-println!("{}  Run application", renderer.apply_badge("3", "circle")?);
-```
-
-**Priority Labels:**
-```rust
-println!("Priority {} Critical bug", renderer.apply_badge("1", "negative-circle")?);
-println!("Priority {} Feature request", renderer.apply_badge("2", "negative-circle")?);
-```
-
-**Option Lists:**
-```rust
-println!("{}  Accept changes", renderer.apply_badge("a", "paren-letter")?);
-println!("{}  Reject changes", renderer.apply_badge("b", "paren-letter")?);
-println!("{}  Request review", renderer.apply_badge("c", "paren-letter")?);
+```markdown
+{{fr:gradient}}{{mathbold:separator=dot}}TITLE{{//}}
+<!-- Output: ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓ -->
 ```
 
 ---
@@ -1362,7 +1112,7 @@ use mdfx::TemplateParser;
 let parser = TemplateParser::new()?;
 ```
 
-**Note:** Initializes all three renderers (Converter, FrameRenderer, BadgeRenderer).
+**Note:** Initializes all renderers (Converter, ShieldsRenderer) and loads Registry for frames.
 
 ### Methods
 
@@ -1384,7 +1134,6 @@ let output = parser.process(input)?;
 **Errors:**
 - `Error::UnknownStyle` - Style doesn't exist
 - `Error::UnknownFrame` - Frame doesn't exist
-- `Error::UnknownBadge` - Badge doesn't exist
 - `Error::UnclosedTag` - Template not closed
 - `Error::MismatchedTags` - Opening/closing tags don't match
 
@@ -1396,8 +1145,9 @@ For complete template syntax reference including all tag types, parameters, nest
 ```markdown
 {{style}}text{{/style}}                    ← Style template
 {{style:separator=dot}}text{{/style}}      ← With parameter
-{{frame:type}}text{{/frame}}               ← Frame template
-{{badge:type}}char{{/badge}}               ← Badge template
+{{fr:type}}text{{/}}                       ← Frame template (shorthand)
+{{fr:type:inline text/}}                   ← Self-closing frame
+{{fr:a}}{{fr:b}}nested{{//}}               ← Close-all syntax
 {{ui:component/}}                          ← Self-closing component
 {{ui:component:arg}}content{{/ui}}         ← Block component
 ```
@@ -1436,14 +1186,14 @@ let output = parser.process(input)?;
 // Output: ▓▒░ 𝐇─𝐄─𝐀─𝐃─𝐄─𝐑 ░▒▓
 ```
 
-**Badges:**
+**Frames with Close-All:**
 ```rust
 let input = r#"
 ## Installation Steps
 
-{{badge:circle}}1{{/badge}} Download the package
-{{badge:circle}}2{{/badge}} Install dependencies
-{{badge:circle}}3{{/badge}} Run the application
+{{fr:gradient}}{{mathbold}}Step 1{{//}} Download the package
+{{fr:gradient}}{{mathbold}}Step 2{{//}} Install dependencies
+{{fr:gradient}}{{mathbold}}Step 3{{//}} Run the application
 "#;
 
 let output = parser.process(input)?;
@@ -2435,15 +2185,11 @@ match result {
     }
     Err(Error::UnknownFrame(name)) => {
         eprintln!("Frame '{}' not found", name);
-    }
-    Err(Error::UnknownBadge(name)) => {
-        eprintln!("Badge '{}' not found", name);
-    }
-    Err(Error::UnsupportedChar(badge, ch)) => {
-        eprintln!("Badge '{}' doesn't support '{}'", badge, ch);
+        eprintln!("Run `mdfx frames` to see available frames");
     }
     Err(Error::UnclosedTag(tag)) => {
         eprintln!("Template {{{{{}}}}} was never closed", tag);
+        eprintln!("Hint: Use {{{{//}}}} to close all open tags at once");
     }
     Err(Error::MismatchedTags(expected, found)) => {
         eprintln!("Expected {{{{/{}}}}}, found {{{{{}}}}}", expected, found);
@@ -2460,11 +2206,9 @@ match result {
 | Error | When It Occurs | Recovery |
 |-------|----------------|----------|
 | `UnknownStyle(String)` | Style ID/alias doesn't exist | Check with `has_style()` first |
-| `UnknownFrame(String)` | Frame ID/alias doesn't exist | Check with `has_frame()` first |
-| `UnknownBadge(String)` | Badge ID/alias doesn't exist | Check with `has_badge()` first |
-| `UnsupportedChar(String, String)` | Badge doesn't support character | Validate charset before calling |
+| `UnknownFrame(String)` | Frame ID/alias doesn't exist | Run `mdfx frames` to list |
 | `ParseError(String)` | Generic parse error | Check input format |
-| `UnclosedTag(String)` | Template not closed | Add closing tag |
+| `UnclosedTag(String)` | Template not closed | Add `{{/}}` or `{{//}}` |
 | `MismatchedTags(String, String)` | Wrong closing tag | Match opening/closing tags |
 | `InvalidStyleName(String)` | Style name has invalid characters | Use alphanumeric + hyphens only |
 | `FileNotFound(PathBuf)` | File doesn't exist | Check file path |
@@ -2575,16 +2319,14 @@ Reuse converters across multiple operations:
 ```rust
 struct StyleCache {
     converter: Converter,
-    frame_renderer: FrameRenderer,
-    badge_renderer: BadgeRenderer,
+    parser: TemplateParser,
 }
 
 impl StyleCache {
     fn new() -> Result<Self, Error> {
         Ok(Self {
             converter: Converter::new()?,
-            frame_renderer: FrameRenderer::new()?,
-            badge_renderer: BadgeRenderer::new()?,
+            parser: TemplateParser::new()?,
         })
     }
 
@@ -2592,43 +2334,29 @@ impl StyleCache {
         self.converter.convert(text, style)
     }
 
-    fn frame(&self, text: &str, frame: &str) -> Result<String, Error> {
-        self.frame_renderer.apply_frame(text, frame)
-    }
-
-    fn badge(&self, text: &str, badge: &str) -> Result<String, Error> {
-        self.badge_renderer.apply_badge(text, badge)
+    fn process(&self, template: &str) -> Result<String, Error> {
+        self.parser.process(template)
     }
 }
 ```
 
 ### Complex Composition
 
-Build complex styled text programmatically:
+Build complex styled text using templates:
 
 ```rust
-fn create_header(
-    text: &str,
-    converter: &Converter,
-    renderer: &FrameRenderer,
-) -> Result<String, Error> {
-    // Convert with separator
-    let styled = converter.convert_with_separator(
-        text,
-        "mathbold",
-        "·",
-        1
-    )?;
-
-    // Add frame
-    let framed = renderer.apply_frame(&styled, "gradient")?;
-
-    // Add markdown header
-    Ok(format!("# {}\n\n", framed))
+fn create_header(text: &str, parser: &TemplateParser) -> Result<String, Error> {
+    // Use template syntax for composition
+    let template = format!(
+        "# {{{{fr:gradient}}}}{{{{mathbold:separator=dot}}}}{}{{{{//}}}}",
+        text
+    );
+    parser.process(&template)
 }
 
 // Usage
-let header = create_header("TITLE", &converter, &renderer)?;
+let parser = TemplateParser::new()?;
+let header = create_header("TITLE", &parser)?;
 // Output: # ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓
 ```
 
