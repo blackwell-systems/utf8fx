@@ -2,6 +2,7 @@
 ///
 /// This module defines the trait-based architecture for rendering primitives
 /// to different output formats (shields.io URLs, local SVG files, etc.).
+pub mod hybrid;
 pub mod plaintext;
 pub mod shields;
 pub mod svg;

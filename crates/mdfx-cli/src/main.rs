@@ -2,6 +2,7 @@ use clap::{CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
 use colored::Colorize;
 use mdfx::manifest::AssetManifest;
+use mdfx::renderer::hybrid::HybridBackend;
 use mdfx::renderer::plaintext::PlainTextBackend;
 use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
@@ -491,9 +492,10 @@ fn process_file(
         match backend {
             "shields" => BackendType::Shields,
             "svg" => BackendType::Svg,
+            "hybrid" => BackendType::Hybrid,
             _ => {
                 return Err(Error::ParseError(format!(
-                    "Unknown backend '{}'. Available: shields, svg",
+                    "Unknown backend '{}'. Available: shields, svg, hybrid",
                     backend
                 )));
             }
@@ -513,6 +515,7 @@ fn process_file(
             }
         }
         BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
+        BackendType::Hybrid => TemplateParser::with_backend(Box::new(HybridBackend::new(assets_dir)?))?,
     };
 
     // Load custom palette if provided
@@ -935,6 +938,10 @@ fn build_multi_target(
             }
             BackendType::PlainText => {
                 TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?
+            }
+            BackendType::Hybrid => {
+                fs::create_dir_all(&assets_dir).map_err(Error::IoError)?;
+                TemplateParser::with_backend(Box::new(HybridBackend::new(&assets_dir)?))?
             }
         };
 

@@ -24,6 +24,8 @@ pub enum BackendType {
     Svg,
     /// Plain text fallback (PyPI, ASCII-only contexts)
     PlainText,
+    /// Hybrid: shields.io for simple, SVG for advanced features (gradients, shadows)
+    Hybrid,
 }
 
 /// Target trait defines a rendering destination with specific capabilities

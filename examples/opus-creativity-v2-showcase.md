@@ -124,7 +124,7 @@ Before, we needed 12 bars. Now, ONE element:
 
 
 ![](assets/swatch_fd7244cf896a06a5.svg)
-![](assets/swatch_9d1a61e73112be2d.svg)
+![](https://img.shields.io/badge/-ACTIVE-3B82F6?style=flat-square)
 ![](assets/swatch_d73e2b4719a365f9.svg)
 
 
@@ -158,15 +158,15 @@ Before, we needed 12 bars. Now, ONE element:
 
 
 ![](assets/swatch_60b6d10db0198df0.svg)
-![](assets/swatch_e41a5da9b012a89c.svg)
+![](https://img.shields.io/badge/-%20-0A0A0A?style=flat-square)
 ![](assets/swatch_1929e8e7cb4abdab.svg)
-![](assets/swatch_40d0fb49ba3d59e1.svg)
+![](https://img.shields.io/badge/-%20-0A0A0A?style=flat-square)
 ![](assets/swatch_5763cd92da9a3e6e.svg)
-![](assets/swatch_5db26f57dd6fa3c7.svg)
+![](https://img.shields.io/badge/-%20-0A0A0A?style=flat-square)
 ![](assets/swatch_bc6aaf0ef398342e.svg)
-![](assets/swatch_2100369ec6bb8486.svg)
+![](https://img.shields.io/badge/-%20-0A0A0A?style=flat-square)
 ![](assets/swatch_14b03074fead189d.svg)
-![](assets/swatch_d2da11b36c338afb.svg)
+![](https://img.shields.io/badge/-%20-0A0A0A?style=flat-square)
 ![](assets/swatch_39b410904529d5b0.svg)
 
 
