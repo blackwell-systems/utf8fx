@@ -308,6 +308,53 @@ Period numbers (0-20): `period.1` → ⒈
 | `math.or` | ∨ | `math.xor` | ⊕ |
 | `math.therefore` | ∴ | `math.because` | ∵ |
 
+### Superscript & Subscript
+
+**Superscript** (`sup.*`):
+
+| Name | Char | Name | Char | Name | Char |
+|------|------|------|------|------|------|
+| `sup.0` | ⁰ | `sup.1` | ¹ | `sup.2` | ² |
+| `sup.3` | ³ | `sup.4` | ⁴ | `sup.5` | ⁵ |
+| `sup.6` | ⁶ | `sup.7` | ⁷ | `sup.8` | ⁸ |
+| `sup.9` | ⁹ | `sup.n` | ⁿ | | |
+
+Also: `sup.+` ⁺, `sup.-` ⁻, `sup.=` ⁼, `sup.(` ⁽, `sup.)` ⁾
+
+**Subscript** (`sub.*`):
+
+| Name | Char | Name | Char | Name | Char |
+|------|------|------|------|------|------|
+| `sub.0` | ₀ | `sub.1` | ₁ | `sub.2` | ₂ |
+| `sub.3` | ₃ | `sub.4` | ₄ | `sub.5` | ₅ |
+| `sub.6` | ₆ | `sub.7` | ₇ | `sub.8` | ₈ |
+| `sub.9` | ₉ | | | | |
+
+Also: `sub.+` ₊, `sub.-` ₋, `sub.=` ₌, `sub.(` ₍, `sub.)` ₎
+
+### Roman Numerals
+
+| Name | Char | Name | Char | Name | Char |
+|------|------|------|------|------|------|
+| `roman.1` | Ⅰ | `roman.2` | Ⅱ | `roman.3` | Ⅲ |
+| `roman.4` | Ⅳ | `roman.5` | Ⅴ | `roman.6` | Ⅵ |
+| `roman.7` | Ⅶ | `roman.8` | Ⅷ | `roman.9` | Ⅸ |
+| `roman.10` | Ⅹ | `roman.11` | Ⅺ | `roman.12` | Ⅻ |
+| `roman.50` | Ⅼ | `roman.100` | Ⅽ | `roman.500` | Ⅾ |
+| `roman.1000` | Ⅿ | | | | |
+
+### Stars
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `star.filled` | ★ | `star.empty` | ☆ |
+| `star.4` | ✦ | `star.4.empty` | ✧ |
+| `star.circle` | ✪ | `star.shadow` | ✫ |
+| `star.5.empty` | ✭ | `star.outlined` | ✮ |
+| `star.pinwheel` | ✯ | `star.heavy` | ✰ |
+| `star.6` | ✡ | `star.8` | ✴ |
+| `star.sparkle` | ❇ | | |
+
 ---
 
 ## Examples
