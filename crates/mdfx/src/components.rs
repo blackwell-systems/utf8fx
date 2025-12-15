@@ -252,6 +252,12 @@ impl ComponentsRenderer {
                 let gradient = params.get("gradient").cloned();
                 let stroke_dash = params.get("stroke_dash").cloned();
 
+                // Per-side borders (format: "color/width" or just "color")
+                let border_top = params.get("border_top").cloned();
+                let border_right = params.get("border_right").cloned();
+                let border_bottom = params.get("border_bottom").cloned();
+                let border_left = params.get("border_left").cloned();
+
                 // Shields.io-only parameter
                 let logo_size = params.get("logo_size").cloned();
 
@@ -279,6 +285,10 @@ impl ComponentsRenderer {
                     gradient,
                     stroke_dash,
                     logo_size,
+                    border_top,
+                    border_right,
+                    border_bottom,
+                    border_left,
                 }))
             }
 

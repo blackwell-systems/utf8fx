@@ -113,6 +113,10 @@ mod tests {
             gradient: None,
             stroke_dash: None,
             logo_size: None,
+            border_top: None,
+            border_right: None,
+            border_bottom: None,
+            border_left: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#FF6B35 v1.0]");
@@ -139,6 +143,10 @@ mod tests {
             gradient: None,
             stroke_dash: None,
             logo_size: None,
+            border_top: None,
+            border_right: None,
+            border_bottom: None,
+            border_left: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#F41C80 rust]");

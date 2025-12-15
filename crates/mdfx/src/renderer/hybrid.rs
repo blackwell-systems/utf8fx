@@ -30,6 +30,10 @@ impl HybridBackend {
                 rx,
                 ry,
                 stroke_dash,
+                border_top,
+                border_right,
+                border_bottom,
+                border_left,
                 ..
             } => {
                 // Use SVG if any advanced feature is present
@@ -38,6 +42,10 @@ impl HybridBackend {
                     || rx.is_some()
                     || ry.is_some()
                     || stroke_dash.is_some()
+                    || border_top.is_some()
+                    || border_right.is_some()
+                    || border_bottom.is_some()
+                    || border_left.is_some()
             }
             // Dividers and other primitives use their default backend
             Primitive::Divider { .. } => true, // SVG for dividers
@@ -94,6 +102,10 @@ mod tests {
             gradient: Some("horizontal/FF0000/0000FF".to_string()),
             stroke_dash: None,
             logo_size: None,
+            border_top: None,
+            border_right: None,
+            border_bottom: None,
+            border_left: None,
         };
 
         let result = backend.render(&primitive).unwrap();
@@ -123,11 +135,48 @@ mod tests {
             gradient: None,
             stroke_dash: None,
             logo_size: None,
+            border_top: None,
+            border_right: None,
+            border_bottom: None,
+            border_left: None,
         };
 
         let result = backend.render(&primitive).unwrap();
 
         // Should be file-based (SVG)
+        assert!(result.is_file_based());
+    }
+
+    #[test]
+    fn test_per_side_border_uses_svg() {
+        let backend = HybridBackend::new("assets").unwrap();
+        let primitive = Primitive::Swatch {
+            color: "FF0000".to_string(),
+            style: "flat-square".to_string(),
+            opacity: None,
+            width: Some(100),
+            height: Some(50),
+            border_color: None,
+            border_width: None,
+            label: None,
+            label_color: None,
+            icon: None,
+            icon_color: None,
+            rx: None,
+            ry: None,
+            shadow: None,
+            gradient: None,
+            stroke_dash: None,
+            logo_size: None,
+            border_top: Some("0000FF/3".to_string()),
+            border_right: None,
+            border_bottom: Some("00FF00/3".to_string()),
+            border_left: None,
+        };
+
+        let result = backend.render(&primitive).unwrap();
+
+        // Should be file-based (SVG) because per-side borders need SVG
         assert!(result.is_file_based());
     }
 }

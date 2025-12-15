@@ -39,11 +39,7 @@ impl Renderer for ShieldsBackend {
                     (Some(icon_name), Some(label_text)) => {
                         let logo_color = icon_color.as_deref().unwrap_or("FFFFFF");
                         self.shields.render_icon_with_label(
-                            icon_name,
-                            label_text,
-                            color,
-                            logo_color,
-                            style,
+                            icon_name, label_text, color, logo_color, style,
                         )?
                     }
                     // Icon only - render icon chip
@@ -58,10 +54,9 @@ impl Renderer for ShieldsBackend {
                         )?
                     }
                     // Label only - render labeled block
-                    (None, Some(label_text)) => {
-                        self.shields
-                            .render_labeled_block(color, label_text, style)?
-                    }
+                    (None, Some(label_text)) => self
+                        .shields
+                        .render_labeled_block(color, label_text, style)?,
                     // Neither - render plain color block
                     (None, None) => self.shields.render_block(color, style)?,
                 }

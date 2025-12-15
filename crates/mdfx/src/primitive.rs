@@ -48,6 +48,14 @@ pub enum Primitive {
         stroke_dash: Option<String>,
         /// Logo size for shields.io ("auto" for adaptive). Shields-only.
         logo_size: Option<String>,
+        /// Top border: "color/width" (e.g., "FF0000/2") or just "color". SVG-only.
+        border_top: Option<String>,
+        /// Right border: "color/width" (e.g., "FF0000/2") or just "color". SVG-only.
+        border_right: Option<String>,
+        /// Bottom border: "color/width" (e.g., "FF0000/2") or just "color". SVG-only.
+        border_bottom: Option<String>,
+        /// Left border: "color/width" (e.g., "FF0000/2") or just "color". SVG-only.
+        border_left: Option<String>,
     },
 
     /// Multi-color divider bar for section separation
@@ -91,6 +99,10 @@ impl Primitive {
             gradient: None,
             stroke_dash: None,
             logo_size: None,
+            border_top: None,
+            border_right: None,
+            border_bottom: None,
+            border_left: None,
         }
     }
 }
@@ -130,6 +142,10 @@ mod tests {
             gradient: Some("horizontal:FF0000:0000FF".to_string()),
             stroke_dash: Some("4:2".to_string()),
             logo_size: Some("auto".to_string()),
+            border_top: Some("FF0000/2".to_string()),
+            border_right: None,
+            border_bottom: Some("0000FF/3".to_string()),
+            border_left: None,
         };
         if let Primitive::Swatch {
             opacity,

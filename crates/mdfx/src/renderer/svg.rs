@@ -77,6 +77,11 @@ struct SwatchOptions<'a> {
     shadow: Option<&'a str>,
     gradient: Option<&'a str>,
     stroke_dash: Option<&'a str>,
+    /// Per-side borders (format: "color/width" or just "color")
+    border_top: Option<&'a str>,
+    border_right: Option<&'a str>,
+    border_bottom: Option<&'a str>,
+    border_left: Option<&'a str>,
 }
 
 impl SvgBackend {
@@ -124,6 +129,10 @@ impl SvgBackend {
                 gradient,
                 stroke_dash,
                 logo_size,
+                border_top,
+                border_right,
+                border_bottom,
+                border_left,
             } => {
                 "swatch".hash(&mut hasher);
                 color.hash(&mut hasher);
@@ -146,6 +155,10 @@ impl SvgBackend {
                 gradient.hash(&mut hasher);
                 stroke_dash.hash(&mut hasher);
                 logo_size.hash(&mut hasher);
+                border_top.hash(&mut hasher);
+                border_right.hash(&mut hasher);
+                border_bottom.hash(&mut hasher);
+                border_left.hash(&mut hasher);
             }
             Primitive::Divider { colors, style } => {
                 "divider".hash(&mut hasher);
@@ -211,6 +224,16 @@ impl SvgBackend {
             ))
         } else {
             None
+        }
+    }
+
+    /// Parse a per-side border spec: "color/width" or just "color" (defaults to width 2)
+    fn parse_border_spec(spec: &str) -> (String, u32) {
+        let parts: Vec<&str> = spec.split('/').collect();
+        match parts.as_slice() {
+            [color, width] => (color.to_string(), width.parse::<u32>().unwrap_or(2)),
+            [color] => (color.to_string(), 2),
+            _ => ("000000".to_string(), 2),
         }
     }
 
@@ -351,9 +374,59 @@ impl SvgBackend {
         let rect_x = border_offset + shadow_padding / 2;
         let rect_y = border_offset + shadow_padding / 2;
 
+        // Build per-side border lines (drawn on top of rect)
+        let has_per_side_borders = opts.border_top.is_some()
+            || opts.border_right.is_some()
+            || opts.border_bottom.is_some()
+            || opts.border_left.is_some();
+
+        let per_side_borders = if has_per_side_borders {
+            let mut lines = String::new();
+
+            // Top border: horizontal line at top
+            if let Some(spec) = opts.border_top {
+                let (color, bw) = Self::parse_border_spec(spec);
+                lines.push_str(&format!(
+                    "\n  <line x1=\"{}\" y1=\"{}\" x2=\"{}\" y2=\"{}\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"square\"/>",
+                    rect_x, rect_y, rect_x + width, rect_y, color, bw
+                ));
+            }
+
+            // Right border: vertical line at right
+            if let Some(spec) = opts.border_right {
+                let (color, bw) = Self::parse_border_spec(spec);
+                lines.push_str(&format!(
+                    "\n  <line x1=\"{}\" y1=\"{}\" x2=\"{}\" y2=\"{}\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"square\"/>",
+                    rect_x + width, rect_y, rect_x + width, rect_y + height, color, bw
+                ));
+            }
+
+            // Bottom border: horizontal line at bottom
+            if let Some(spec) = opts.border_bottom {
+                let (color, bw) = Self::parse_border_spec(spec);
+                lines.push_str(&format!(
+                    "\n  <line x1=\"{}\" y1=\"{}\" x2=\"{}\" y2=\"{}\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"square\"/>",
+                    rect_x + width, rect_y + height, rect_x, rect_y + height, color, bw
+                ));
+            }
+
+            // Left border: vertical line at left
+            if let Some(spec) = opts.border_left {
+                let (color, bw) = Self::parse_border_spec(spec);
+                lines.push_str(&format!(
+                    "\n  <line x1=\"{}\" y1=\"{}\" x2=\"{}\" y2=\"{}\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"square\"/>",
+                    rect_x, rect_y + height, rect_x, rect_y, color, bw
+                ));
+            }
+
+            lines
+        } else {
+            String::new()
+        };
+
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-{}  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"{}\" rx=\"{}\" ry=\"{}\"{}{}{}/>{}{}
+{}  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"{}\" rx=\"{}\" ry=\"{}\"{}{}{}/>{}{}{}
 </svg>",
             vb_width,
             vb_height,
@@ -370,6 +443,7 @@ impl SvgBackend {
             opacity_attr,
             border_attrs,
             filter_attr,
+            per_side_borders,
             shine_overlay,
             label_elem
         )
@@ -453,6 +527,10 @@ impl Renderer for SvgBackend {
                 gradient,
                 stroke_dash,
                 logo_size: _,
+                border_top,
+                border_right,
+                border_bottom,
+                border_left,
             } => Self::render_swatch_svg(SwatchOptions {
                 color,
                 style,
@@ -468,6 +546,10 @@ impl Renderer for SvgBackend {
                 shadow: shadow.as_deref(),
                 gradient: gradient.as_deref(),
                 stroke_dash: stroke_dash.as_deref(),
+                border_top: border_top.as_deref(),
+                border_right: border_right.as_deref(),
+                border_bottom: border_bottom.as_deref(),
+                border_left: border_left.as_deref(),
             }),
 
             Primitive::Divider { colors, style } => Self::render_divider_svg(colors, style),
@@ -489,6 +571,10 @@ impl Renderer for SvgBackend {
                     shadow: None,
                     gradient: None,
                     stroke_dash: None,
+                    border_top: None,
+                    border_right: None,
+                    border_bottom: None,
+                    border_left: None,
                 })
             }
 
