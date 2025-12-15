@@ -31,26 +31,26 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Neon Signs (Real Glow!)
 
-<p align="center">
+
 ![](assets/swatch_667d48e2e174615e.svg)
-</p>
 
-<p align="center">
+
+
 ![](assets/swatch_bed9b382ffaf8931.svg)
-</p>
 
-<p align="center">
+
+
 ![](assets/swatch_2e1913136230dc6f.svg)
-</p>
+
 
 ### Magical Runes
 
-<p align="center">
+
 ![](assets/swatch_c70cb68d65e1a9b7.svg)
 ![](assets/swatch_6a3cd1462e0a6cfa.svg)
 ![](assets/swatch_48f769f75fb502a6.svg)
 ![](assets/swatch_a5adb63622437e6b.svg)
-</p>
+
 
 ---
 
@@ -58,25 +58,25 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Floating Panels
 
-<p align="center">
+
 ![](assets/swatch_526df69fdf0c3e57.svg)
-</p>
 
-<p align="center">
+
+
 ![](assets/swatch_f20a38fa61d2152f.svg)
-</p>
 
-<p align="center">
+
+
 ![](assets/swatch_b9c9bc85ae20d337.svg)
-</p>
+
 
 ### 3D Buttons
 
-<p align="center">
+
 ![](assets/swatch_53b838627b30a1d3.svg)
 ![](assets/swatch_853987107d0c93a3.svg)
 ![](assets/swatch_5aa09b31c8a83902.svg)
-</p>
+
 
 ---
 
@@ -84,25 +84,25 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Organic Shapes
 
-<p align="center">
+
 ![](assets/swatch_7247e7eb2541c00c.svg)
 ![](assets/swatch_5c70b4145dccb47f.svg)
 ![](assets/swatch_af2629613f9bcb6b.svg)
-</p>
+
 
 ### Pill Variants
 
-<p align="center">
+
 ![](assets/swatch_84e6f9df7ce15729.svg)
-</p>
 
-<p align="center">
+
+
 ![](assets/swatch_41d9aa8f9afe6a56.svg)
-</p>
 
-<p align="center">
+
+
 ![](assets/swatch_490af06131f63a89.svg)
-</p>
+
 
 ---
 
@@ -110,9 +110,9 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Dashed Sigil Circle
 
-<p align="center">
+
 ![](assets/swatch_3481de88e9117cc6.svg)
-</p>
+
 
 ### Ancient Inscriptions
 
@@ -122,11 +122,11 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Selection Indicators
 
-<p align="center">
+
 ![](assets/swatch_fd7244cf896a06a5.svg)
 ![](assets/swatch_9d1a61e73112be2d.svg)
 ![](assets/swatch_d73e2b4719a365f9.svg)
-</p>
+
 
 ---
 
@@ -138,11 +138,11 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Metallic Buttons
 
-<p align="center">
+
 ![](assets/swatch_392b0d4f6be7c026.svg)
 ![](assets/swatch_c03e79467064957.svg)
 ![](assets/swatch_6b703a149846e153.svg)
-</p>
+
 
 ---
 
@@ -156,7 +156,7 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Neon Rain
 
-<p align="center">
+
 ![](assets/swatch_60b6d10db0198df0.svg)
 ![](assets/swatch_e41a5da9b012a89c.svg)
 ![](assets/swatch_1929e8e7cb4abdab.svg)
@@ -168,7 +168,7 @@ Before, we needed 12 bars. Now, ONE element:
 ![](assets/swatch_14b03074fead189d.svg)
 ![](assets/swatch_d2da11b36c338afb.svg)
 ![](assets/swatch_39b410904529d5b0.svg)
-</p>
+
 
 ---
 
@@ -176,27 +176,27 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Fire Orb
 
-<p align="center">
+
 ![](assets/swatch_e6d0abdf70d200a9.svg)
-</p>
+
 
 ### Water Orb
 
-<p align="center">
+
 ![](assets/swatch_7dcb4a1e2ac09517.svg)
-</p>
+
 
 ### Earth Orb
 
-<p align="center">
+
 ![](assets/swatch_e965ec257d8a581a.svg)
-</p>
+
 
 ### Void Orb
 
-<p align="center">
+
 ![](assets/swatch_7b10f7bffffa3581.svg)
-</p>
+
 
 ---
 
@@ -210,9 +210,9 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### The Seal
 
-<p align="center">
+
 ![](assets/swatch_7b5a13fa7772f921.svg)
-</p>
+
 
 ---
 
@@ -220,26 +220,26 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Altar of Creation v2
 
-<p align="center">
+
 ![](assets/swatch_ee5ddf197b9d9c84.svg)
-</p>
+
 
 ### The Four Corners
 
-<p align="center">
+
 ![](assets/swatch_2faacdad71b85d65.svg)
 ![](assets/swatch_5b0fd855846662b7.svg)
 ![](assets/swatch_652bd3943ee71128.svg)
 ![](assets/swatch_b1db8b951d767df0.svg)
-</p>
+
 
 ### Final Words
 
 ▓▒░ 𝓦𝓱𝓮𝓻𝓮 𝓛𝓲𝓰𝓱𝓽 𝓜𝓮𝓮𝓽𝓼 𝓢𝓱𝓪𝓭𝓸𝔀 ░▒▓
 
-<p align="center">
+
 ![](assets/swatch_ea2c3e3768fb9ade.svg)
-</p>
+
 
 ---
 

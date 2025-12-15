@@ -240,15 +240,13 @@ impl SvgBackend {
 
         // Build border attributes
         let (border_attrs, border_offset) = match (opts.border_color, opts.border_width) {
-            (Some(bc), Some(bw)) if bw > 0 => {
-                (
-                    format!(
-                        " stroke=\"#{}\" stroke-width=\"{}\"{}",
-                        bc, bw, stroke_dash_attr
-                    ),
-                    bw,
-                )
-            }
+            (Some(bc), Some(bw)) if bw > 0 => (
+                format!(
+                    " stroke=\"#{}\" stroke-width=\"{}\"{}",
+                    bc, bw, stroke_dash_attr
+                ),
+                bw,
+            ),
             (Some(bc), None) => (
                 format!(" stroke=\"#{}\" stroke-width=\"1\"{}", bc, stroke_dash_attr),
                 1,

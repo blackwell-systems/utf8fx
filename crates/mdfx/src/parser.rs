@@ -847,11 +847,7 @@ impl TemplateParser {
                 }
 
                 // Special case: if we see /}} it's the self-closing marker
-                if ch == '/'
-                    && i + 2 < chars.len()
-                    && chars[i + 1] == '}'
-                    && chars[i + 2] == '}'
-                {
+                if ch == '/' && i + 2 < chars.len() && chars[i + 1] == '}' && chars[i + 2] == '}' {
                     break;
                 }
 
