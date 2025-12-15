@@ -241,6 +241,73 @@ Period numbers (0-20): `period.1` → ⒈
 
 **Dashed** (`arrow.dashed-*`): ⇠ ⇡ ⇢ ⇣
 
+### Dice
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `die.1` | ⚀ | `die.4` | ⚃ |
+| `die.2` | ⚁ | `die.5` | ⚄ |
+| `die.3` | ⚂ | `die.6` | ⚅ |
+
+### Card Suits
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `card.spade` | ♠ | `card.spade.empty` | ♤ |
+| `card.heart` | ♥ | `card.heart.empty` | ♡ |
+| `card.diamond` | ♦ | `card.diamond.empty` | ♢ |
+| `card.club` | ♣ | `card.club.empty` | ♧ |
+
+### Music
+
+| Name | Char | Description |
+|------|------|-------------|
+| `music.quarter` | ♩ | Quarter note |
+| `music.eighth` | ♪ | Eighth note |
+| `music.beamed` | ♫ | Beamed eighth notes |
+| `music.beamed-16` | ♬ | Beamed sixteenth notes |
+| `music.flat` | ♭ | Flat |
+| `music.natural` | ♮ | Natural |
+| `music.sharp` | ♯ | Sharp |
+
+### Math Symbols
+
+**Operators** (`math.*`):
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `math.plus-minus` | ± | `math.times` | × |
+| `math.divide` | ÷ | `math.sqrt` | √ |
+| `math.sum` | ∑ | `math.product` | ∏ |
+| `math.integral` | ∫ | `math.partial` | ∂ |
+| `math.delta` | ∆ | `math.nabla` | ∇ |
+
+**Relations**:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `math.approx` | ≈ | `math.not-equal` | ≠ |
+| `math.lte` | ≤ | `math.gte` | ≥ |
+| `math.infinity` | ∞ | | |
+
+**Set theory**:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `math.element-of` | ∈ | `math.not-element` | ∉ |
+| `math.subset` | ⊂ | `math.superset` | ⊃ |
+| `math.union` | ∪ | `math.intersect` | ∩ |
+| `math.empty-set` | ∅ | | |
+
+**Logic**:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `math.forall` | ∀ | `math.exists` | ∃ |
+| `math.not` | ¬ | `math.and` | ∧ |
+| `math.or` | ∨ | `math.xor` | ⊕ |
+| `math.therefore` | ∴ | `math.because` | ∵ |
+
 ---
 
 ## Examples
