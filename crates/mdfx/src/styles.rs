@@ -126,8 +126,8 @@ mod tests {
     #[test]
     fn test_load_styles() {
         let data = StylesData::load().unwrap();
-        assert_eq!(data.total_styles, 19);
-        assert_eq!(data.styles.len(), 19);
+        assert_eq!(data.total_styles, 23);
+        assert_eq!(data.styles.len(), 23);
     }
 
     #[test]

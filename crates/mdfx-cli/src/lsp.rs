@@ -95,7 +95,11 @@ impl MdfxLanguageServer {
                 let mut items = vec![CompletionItem {
                     label: name.clone(),
                     kind: Some(CompletionItemKind::STRUCT),
-                    detail: Some(format!("{} ... {}", frame.prefix.trim(), frame.suffix.trim())),
+                    detail: Some(format!(
+                        "{} ... {}",
+                        frame.prefix.trim(),
+                        frame.suffix.trim()
+                    )),
                     documentation: frame.description.clone().map(Documentation::String),
                     insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", name, name)),
                     insert_text_format: Some(InsertTextFormat::SNIPPET),
@@ -270,7 +274,8 @@ impl MdfxLanguageServer {
             }
 
             // Check for color parameter (e.g., swatch:cobalt or bg=cobalt)
-            if after_open.contains(':') && (after_open.contains("bg=") || after_open.contains("fg="))
+            if after_open.contains(':')
+                && (after_open.contains("bg=") || after_open.contains("fg="))
             {
                 // Find the part after the last = sign
                 if let Some(eq_pos) = after_open.rfind('=') {

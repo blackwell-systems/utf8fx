@@ -1423,6 +1423,108 @@
           "q": "ⓠ", "r": "ⓡ", "s": "ⓢ", "t": "ⓣ", "u": "ⓤ", "v": "ⓥ", "w": "ⓦ", "x": "ⓧ",
           "y": "ⓨ", "z": "ⓩ"
         }
+      },
+      "subscript": {
+        "id": "subscript",
+        "name": "Subscript",
+        "description": "Small lowered text for chemical formulas and math (H₂O, x₁)",
+        "category": "technical",
+        "unicode_block": "Subscripts and Superscripts (U+2080–U+209C)",
+        "aliases": ["sub"],
+        "contexts": ["inline"],
+        "supports": {
+          "uppercase": false,
+          "lowercase": true,
+          "numbers": true,
+          "symbols": false
+        },
+        "mappings": {
+          "a": "ₐ", "e": "ₑ", "h": "ₕ", "i": "ᵢ", "j": "ⱼ", "k": "ₖ", "l": "ₗ", "m": "ₘ",
+          "n": "ₙ", "o": "ₒ", "p": "ₚ", "r": "ᵣ", "s": "ₛ", "t": "ₜ", "u": "ᵤ", "v": "ᵥ",
+          "x": "ₓ",
+          "0": "₀", "1": "₁", "2": "₂", "3": "₃", "4": "₄", "5": "₅", "6": "₆", "7": "₇",
+          "8": "₈", "9": "₉",
+          "+": "₊", "-": "₋", "=": "₌", "(": "₍", ")": "₎"
+        }
+      },
+      "superscript": {
+        "id": "superscript",
+        "name": "Superscript",
+        "description": "Small raised text for exponents and ordinals (x², 1ˢᵗ)",
+        "category": "technical",
+        "unicode_block": "Subscripts and Superscripts (U+2070–U+207F)",
+        "aliases": ["sup", "super"],
+        "contexts": ["inline"],
+        "supports": {
+          "uppercase": true,
+          "lowercase": true,
+          "numbers": true,
+          "symbols": false
+        },
+        "mappings": {
+          "A": "ᴬ", "B": "ᴮ", "D": "ᴰ", "E": "ᴱ", "G": "ᴳ", "H": "ᴴ", "I": "ᴵ", "J": "ᴶ",
+          "K": "ᴷ", "L": "ᴸ", "M": "ᴹ", "N": "ᴺ", "O": "ᴼ", "P": "ᴾ", "R": "ᴿ", "T": "ᵀ",
+          "U": "ᵁ", "V": "ⱽ", "W": "ᵂ",
+          "a": "ᵃ", "b": "ᵇ", "c": "ᶜ", "d": "ᵈ", "e": "ᵉ", "f": "ᶠ", "g": "ᵍ", "h": "ʰ",
+          "i": "ⁱ", "j": "ʲ", "k": "ᵏ", "l": "ˡ", "m": "ᵐ", "n": "ⁿ", "o": "ᵒ", "p": "ᵖ",
+          "r": "ʳ", "s": "ˢ", "t": "ᵗ", "u": "ᵘ", "v": "ᵛ", "w": "ʷ", "x": "ˣ", "y": "ʸ",
+          "z": "ᶻ",
+          "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷",
+          "8": "⁸", "9": "⁹",
+          "+": "⁺", "-": "⁻", "=": "⁼", "(": "⁽", ")": "⁾"
+        }
+      },
+      "parenthesized": {
+        "id": "parenthesized",
+        "name": "Parenthesized",
+        "description": "Letters enclosed in parentheses for lists and annotations",
+        "category": "boxed",
+        "unicode_block": "Enclosed Alphanumerics (U+2474–U+249B)",
+        "aliases": ["paren", "parens"],
+        "contexts": ["inline", "block"],
+        "supports": {
+          "uppercase": false,
+          "lowercase": true,
+          "numbers": true,
+          "symbols": false
+        },
+        "mappings": {
+          "a": "⒜", "b": "⒝", "c": "⒞", "d": "⒟", "e": "⒠", "f": "⒡", "g": "⒢", "h": "⒣",
+          "i": "⒤", "j": "⒥", "k": "⒦", "l": "⒧", "m": "⒨", "n": "⒩", "o": "⒪", "p": "⒫",
+          "q": "⒬", "r": "⒭", "s": "⒮", "t": "⒯", "u": "⒰", "v": "⒱", "w": "⒲", "x": "⒳",
+          "y": "⒴", "z": "⒵",
+          "1": "⑴", "2": "⑵", "3": "⑶", "4": "⑷", "5": "⑸", "6": "⑹", "7": "⑺", "8": "⑻",
+          "9": "⑼"
+        }
+      },
+      "inverted": {
+        "id": "inverted",
+        "name": "Inverted",
+        "description": "Upside-down text for playful effects (read bottom to top)",
+        "category": "boxed",
+        "unicode_block": "Various (Latin Extended, IPA, Symbols)",
+        "aliases": ["upsidedown", "flip", "flipped"],
+        "contexts": ["inline", "block"],
+        "supports": {
+          "uppercase": true,
+          "lowercase": true,
+          "numbers": true,
+          "symbols": true
+        },
+        "mappings": {
+          "A": "∀", "B": "ᗺ", "C": "Ɔ", "D": "ᗡ", "E": "Ǝ", "F": "Ⅎ", "G": "⅁", "H": "H",
+          "I": "I", "J": "ſ", "K": "ʞ", "L": "˥", "M": "W", "N": "N", "O": "O", "P": "Ԁ",
+          "Q": "Ό", "R": "ᴚ", "S": "S", "T": "⊥", "U": "∩", "V": "Λ", "W": "M", "X": "X",
+          "Y": "⅄", "Z": "Z",
+          "a": "ɐ", "b": "q", "c": "ɔ", "d": "p", "e": "ǝ", "f": "ɟ", "g": "ƃ", "h": "ɥ",
+          "i": "ᴉ", "j": "ɾ", "k": "ʞ", "l": "l", "m": "ɯ", "n": "u", "o": "o", "p": "d",
+          "q": "b", "r": "ɹ", "s": "s", "t": "ʇ", "u": "n", "v": "ʌ", "w": "ʍ", "x": "x",
+          "y": "ʎ", "z": "z",
+          "0": "0", "1": "Ɩ", "2": "ᄅ", "3": "Ɛ", "4": "ㄣ", "5": "ϛ", "6": "9", "7": "ㄥ",
+          "8": "8", "9": "6",
+          ".": "˙", ",": "'", "'": ",", "\"": "„", "!": "¡", "?": "¿", "(": ")", ")": "(",
+          "[": "]", "]": "[", "{": "}", "}": "{", "<": ">", ">": "<", "&": "⅋", "_": "‾"
+        }
       }
     }
   },
@@ -1431,7 +1533,7 @@
     "total_glyphs": 493,
     "total_components": 9,
     "total_frames": 32,
-    "total_styles": 19,
+    "total_styles": 23,
     "total_palette_colors": 15,
     "total_shield_styles": 5,
     "last_updated": "2025-12-15"

@@ -23,6 +23,21 @@ Copy with {{kbd:Ctrl+C/}} or {{kbd:⌘+C/}}
 Open command palette: {{kbd:Ctrl+Shift+P/}}
 ```
 
+#### New Text Styles (4 additions, 23 total)
+
+- **subscript** - Small lowered text for chemistry and math: H₂O, x₁ (aliases: `sub`)
+- **superscript** - Small raised text for exponents and ordinals: x², 1ˢᵗ (aliases: `sup`, `super`)
+- **parenthesized** - Letters in parentheses: ⒜⒝⒞ (aliases: `paren`, `parens`)
+- **inverted** - Upside-down text for fun: ʇxǝʇ uʍop ǝpᴉsd∩ (aliases: `upsidedown`, `flip`, `flipped`)
+
+**Examples:**
+```markdown
+{{subscript}}H2O{{/subscript}}        → H₂O
+{{superscript}}x2{{/superscript}}     → x²
+{{parenthesized}}abc{{/parenthesized}} → ⒜⒝⒞
+{{inverted}}Hello{{/inverted}}        → Hǝllo
+```
+
 #### Watch Mode (`mdfx watch`)
 
 - **Live rebuilding** - Monitor input file and automatically rebuild on changes

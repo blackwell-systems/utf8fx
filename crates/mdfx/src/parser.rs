@@ -1025,7 +1025,10 @@ impl TemplateParser {
         // Must be self-closing (ends with /}})
         if i + 2 < chars.len() && chars[i] == '/' && chars[i + 1] == '}' && chars[i + 2] == '}' {
             let end_pos = i + 3;
-            return Ok(Some(GlyphData { end_pos, glyph_name }));
+            return Ok(Some(GlyphData {
+                end_pos,
+                glyph_name,
+            }));
         }
 
         // Not a valid glyph template

@@ -61,7 +61,6 @@ impl EvalContext {
     }
 }
 
-
 /// Optional parameter definition for components
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct OptionalParam {
