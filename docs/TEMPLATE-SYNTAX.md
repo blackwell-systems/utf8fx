@@ -105,9 +105,14 @@ For templates with content:
 | Template Type | Closer |
 |---------------|--------|
 | Styles | `{{/style_name}}` (specific) |
-| Frames | `{{/frame}}` (generic) |
+| Frames | `{{/}}` or `{{/frame}}` |
 | Badges | `{{/badge}}` (generic) |
 | UI Components | `{{/ui}}` (generic) |
+
+**Universal closer `{{/}}`:**
+- Frames support `{{/}}` as a shorthand for `{{/frame}}`
+- Less typing: `{{frame:gradient}}Title{{/}}` instead of `{{frame:gradient}}Title{{/frame}}`
+- Works correctly with nesting
 
 **Why generic closers?**
 - Less typing: `{{/ui}}` instead of `{{/callout-github}}`
@@ -437,10 +442,12 @@ Adds decorative prefix/suffix around content.
 ### Syntax
 
 ```markdown
-{{frame:frame_type}}CONTENT{{/frame}}
+{{frame:frame_type}}CONTENT{{/}}
+{{frame:glyph:NAME}}CONTENT{{/}}
+{{frame:glyph:NAME*COUNT/pad=VALUE}}CONTENT{{/}}
 ```
 
-### Available Frames (32 total)
+### Available Frames (27 predefined + unlimited glyph frames)
 
 **Gradient Frames:**
 - `gradient` - ▓▒░ TEXT ░▒▓
@@ -462,14 +469,11 @@ Adds decorative prefix/suffix around content.
 - `block-top` - ▀▀▀ TEXT ▀▀▀
 - `block-bottom` - ▄▄▄ TEXT ▄▄▄
 
-**Symbol Frames:**
-- `arrow-right` - → TEXT →
-- `dot` - · TEXT ·
-- `bullet` - • TEXT •
+**Symbol Frames (asymmetric):**
 - `star` - ★ TEXT ☆
 - `diamond` - ◆ TEXT ◇
-- `fisheye` - ◉ TEXT ◉
-- `asterism` - ⁂ TEXT ⁂
+- `triangle-right` - ▶ TEXT ◀
+- `finger` - ☞ TEXT ☜
 
 **Bracket Frames:**
 - `lenticular` - 【TEXT】
@@ -478,9 +482,7 @@ Adds decorative prefix/suffix around content.
 - `guillemet-single` - ‹ TEXT ›
 - `heavy-quote` - ❝TEXT❞
 
-**Special Frames:**
-- `triangle-right` - ▶ TEXT ◀
-- `finger` - ☞ TEXT ☜
+**Arc Frames:**
 - `arc-top` - ╭ TEXT ╮
 - `arc-bottom` - ╰ TEXT ╯
 
@@ -491,14 +493,33 @@ Adds decorative prefix/suffix around content.
 - `alert-error` - ❌ TEXT
 - `color-accent` - [accent swatch] TEXT
 
+### Glyph Frames
+
+Create symmetric frames from any glyph:
+
+```markdown
+{{frame:glyph:NAME}}TEXT{{/}}           → GLYPH TEXT GLYPH
+{{frame:glyph:NAME*3}}TEXT{{/}}         → GLYPH×3 TEXT GLYPH×3
+{{frame:glyph:NAME*3/pad=0}}TEXT{{/}}   → tight (no spacing)
+{{frame:glyph:NAME/pad=·}}TEXT{{/}}     → custom padding char
+```
+
+**Examples:**
+- `{{frame:glyph:bullet}}Item{{/}}` → • Item •
+- `{{frame:glyph:star*3}}Title{{/}}` → ★★★ Title ★★★
+- `{{frame:glyph:arrow*2/pad=0}}Go{{/}}` → →→Go→→
+
 ### Examples
 
 ```markdown
-{{frame:gradient}}TITLE{{/frame}}
+{{frame:gradient}}TITLE{{/}}
 → ▓▒░ TITLE ░▒▓
 
-{{frame:solid-left}}WARNING{{/frame}}
+{{frame:solid-left}}WARNING{{/}}
 → █▌ WARNING
+
+{{frame:glyph:diamond*2}}VIP{{/}}
+→ ◆◆ VIP ◆◆
 ```
 
 ---
@@ -881,9 +902,9 @@ line = { character } newline ;
 
 | Template Type | Self-Closing | Block | Closer | Example |
 |---------------|--------------|-------|--------|---------|
-| Component | Yes | Yes | `{{/ui}}` | `{{ui:divider/}}` |
+| Component | Yes | Yes | `{{/ui}}` or `{{/}}` | `{{ui:divider/}}` |
 | Style | No | Yes | `{{/style}}` | `{{mathbold}}TEXT{{/mathbold}}` |
-| Frame | No | Yes | `{{/frame}}` | `{{frame:gradient}}TEXT{{/frame}}` |
+| Frame | No | Yes | `{{/frame}}` or `{{/}}` | `{{frame:gradient}}TEXT{{/}}` |
 | Badge | No | Yes | `{{/badge}}` | `{{badge:circle}}1{{/badge}}` |
 | Primitive | Yes | No | N/A | `{{shields:block:color=F41C80/}}` |
 

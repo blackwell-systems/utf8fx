@@ -52,6 +52,19 @@ mdfx process template.md --backend hybrid --assets-dir assets
 {{ui:swatch:1a1a1a:width=120:height=60:border_top=EF4444/3:border_right=F59E0B/3:border_bottom=22C55E/3:border_left=3B82F6/3/}}
 ```
 
+#### Short Close Tag (`{{/}}`)
+
+- **Universal closer** - Use `{{/}}` instead of `{{/frame}}` or `{{/ui}}`
+- **Cleaner syntax** - Reduces verbosity for deeply nested structures
+- **Backward compatible** - Full tag names (`{{/frame}}`, `{{/ui}}`) still work
+
+**Usage:**
+```markdown
+{{frame:gradient}}Title{{/}}                  <!-- Same as {{/frame}} -->
+{{frame:gradient}}{{frame:star}}Nested{{/}}{{/}}  <!-- Both work -->
+{{ui:header}}Content{{/}}                     <!-- Same as {{/ui}} -->
+```
+
 #### Glyph Frame Shorthand (`{{frame:glyph:NAME}}`)
 
 - **Dynamic frames** - Use any registered glyph as frame decoration
@@ -64,10 +77,10 @@ mdfx process template.md --backend hybrid --assets-dir assets
 
 **Usage:**
 ```markdown
-{{frame:glyph:star}}Title{{/frame}}           <!-- ★ Title ★ -->
-{{frame:glyph:star*3}}Title{{/frame}}         <!-- ★★★ Title ★★★ -->
-{{frame:glyph:star*3/pad=0}}Title{{/frame}}   <!-- ★★★Title★★★ -->
-{{frame:glyph:diamond*2/pad=·}}Gem{{/frame}}  <!-- ◆◆·Gem·◆◆ -->
+{{frame:glyph:star}}Title{{/}}                <!-- ★ Title ★ -->
+{{frame:glyph:star*3}}Title{{/}}              <!-- ★★★ Title ★★★ -->
+{{frame:glyph:star*3/pad=0}}Title{{/}}        <!-- ★★★Title★★★ -->
+{{frame:glyph:diamond*2/pad=·}}Gem{{/}}       <!-- ◆◆·Gem·◆◆ -->
 ```
 
 ### Changed
