@@ -355,6 +355,82 @@ Also: `sub.+` ₊, `sub.-` ₋, `sub.=` ₌, `sub.(` ₍, `sub.)` ₎
 | `star.6` | ✡ | `star.8` | ✴ |
 | `star.sparkle` | ❇ | | |
 
+### Currency
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `currency.dollar` | $ | `currency.cent` | ¢ |
+| `currency.pound` | £ | `currency.yen` | ¥ |
+| `currency.euro` | € | `currency.won` | ₩ |
+| `currency.rupee` | ₹ | `currency.ruble` | ₽ |
+| `currency.bitcoin` | ₿ | `currency.generic` | ¤ |
+
+### Greek Letters
+
+**Lowercase** (`greek.*`):
+
+| Name | Char | Name | Char | Name | Char |
+|------|------|------|------|------|------|
+| `greek.alpha` | α | `greek.beta` | β | `greek.gamma` | γ |
+| `greek.delta` | δ | `greek.epsilon` | ε | `greek.zeta` | ζ |
+| `greek.eta` | η | `greek.theta` | θ | `greek.iota` | ι |
+| `greek.kappa` | κ | `greek.lambda` | λ | `greek.mu` | μ |
+| `greek.nu` | ν | `greek.xi` | ξ | `greek.omicron` | ο |
+| `greek.pi` | π | `greek.rho` | ρ | `greek.sigma` | σ |
+| `greek.tau` | τ | `greek.upsilon` | υ | `greek.phi` | φ |
+| `greek.chi` | χ | `greek.psi` | ψ | `greek.omega` | ω |
+
+**Uppercase** (`greek.Alpha`, `greek.Beta`, etc.): Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω
+
+### Fractions
+
+| Name | Char | Name | Char | Name | Char |
+|------|------|------|------|------|------|
+| `frac.1-2` | ½ | `frac.1-3` | ⅓ | `frac.2-3` | ⅔ |
+| `frac.1-4` | ¼ | `frac.3-4` | ¾ | `frac.1-5` | ⅕ |
+| `frac.2-5` | ⅖ | `frac.3-5` | ⅗ | `frac.4-5` | ⅘ |
+| `frac.1-6` | ⅙ | `frac.5-6` | ⅚ | `frac.1-7` | ⅐ |
+| `frac.1-8` | ⅛ | `frac.3-8` | ⅜ | `frac.5-8` | ⅝ |
+| `frac.7-8` | ⅞ | `frac.1-9` | ⅑ | `frac.1-10` | ⅒ |
+
+### Miscellaneous Symbols
+
+**Warning/Safety** (`misc.*`):
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `misc.warning` | ⚠ | `misc.radioactive` | ☢ |
+| `misc.biohazard` | ☣ | `misc.skull` | ☠ |
+| `misc.medical` | ⚕ | `misc.recycle` | ♻ |
+
+**Weather/Nature**:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `misc.sun` | ☀ | `misc.cloud` | ☁ |
+| `misc.umbrella` | ☂ | `misc.snowman` | ☃ |
+| `misc.comet` | ☄ | `misc.lightning` | ⚡ |
+
+**Objects/Tools**:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `misc.anchor` | ⚓ | `misc.gear` | ⚙ |
+| `misc.crossed-swords` | ⚔ | `misc.scales` | ⚖ |
+| `misc.phone` | ☎ | `misc.mail` | ✉ |
+| `misc.scissors` | ✂ | `misc.pencil` | ✏ |
+| `misc.flag` | ⚑ | `misc.flag.empty` | ⚐ |
+
+**Symbols**:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `misc.peace` | ☮ | `misc.yinyang` | ☯ |
+| `misc.atom` | ⚛ | `misc.fleur-de-lis` | ⚜ |
+| `misc.infinity` | ♾ | `misc.wheelchair` | ♿ |
+| `misc.smiley` | ☺ | `misc.frown` | ☹ |
+| `misc.hot` | ♨ | | |
+
 ---
 
 ## Examples
