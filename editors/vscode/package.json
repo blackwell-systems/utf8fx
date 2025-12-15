@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "publisher": "blackwell-systems",
   "license": "MIT",
+  "icon": "icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/blackwell-systems/mdfx"
