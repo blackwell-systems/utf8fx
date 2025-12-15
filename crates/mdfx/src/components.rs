@@ -245,6 +245,16 @@ impl ComponentsRenderer {
                 let icon = params.get("icon").cloned();
                 let icon_color = params.get("icon_color").map(|v| self.resolve_color(v));
 
+                // SVG-only advanced parameters
+                let rx = params.get("rx").and_then(|v| v.parse::<u32>().ok());
+                let ry = params.get("ry").and_then(|v| v.parse::<u32>().ok());
+                let shadow = params.get("shadow").cloned();
+                let gradient = params.get("gradient").cloned();
+                let stroke_dash = params.get("stroke_dash").cloned();
+
+                // Shields.io-only parameter
+                let logo_size = params.get("logo_size").cloned();
+
                 // Style can come from params or use default
                 let style = params
                     .get("style")
@@ -263,6 +273,12 @@ impl ComponentsRenderer {
                     label_color,
                     icon,
                     icon_color,
+                    rx,
+                    ry,
+                    shadow,
+                    gradient,
+                    stroke_dash,
+                    logo_size,
                 }))
             }
 

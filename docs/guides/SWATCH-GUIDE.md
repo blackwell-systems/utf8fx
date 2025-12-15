@@ -39,13 +39,19 @@ Where `COLOR` is either:
 | `label_color` | hex/palette | white | Both | Label text color |
 | `icon` | string | none | Both | Simple Icons logo name |
 | `icon_color` | hex/palette | white | Both | Icon color |
+| `logo_size` | string | none | **Shields only** | Logo size ("auto" for adaptive) |
 | `width` | integer | 20 | **SVG only** | Width in pixels |
 | `height` | integer | 20 | **SVG only** | Height in pixels |
 | `opacity` | float | 1.0 | **SVG only** | Fill opacity (0.0 to 1.0) |
 | `border` | hex/palette | none | **SVG only** | Border color |
 | `border_width` | integer | 1 | **SVG only** | Border thickness in pixels |
+| `rx` | integer | style-based | **SVG only** | Horizontal corner radius in pixels |
+| `ry` | integer | same as rx | **SVG only** | Vertical corner radius in pixels |
+| `shadow` | string | none | **SVG only** | Drop shadow: "color:blur:offset_x:offset_y" |
+| `gradient` | string | none | **SVG only** | Gradient fill: "direction:color1:color2" |
+| `stroke_dash` | string | none | **SVG only** | Dashed border: "dash:gap" pattern |
 
-> **Note:** Parameters marked "SVG only" require `--backend svg`. The default GitHub target uses shields.io which ignores these parameters.
+> **Note:** Parameters marked "SVG only" require `--backend svg`. Parameters marked "Shields only" only affect the shields.io backend.
 
 ---
 
@@ -248,6 +254,112 @@ Combine opacity and borders for a frosted glass effect:
 
 ![](assets/svg-examples/swatch_8d3e9297f25688e7.svg)
 
+### Dashed Borders
+
+Add dashed or dotted borders with `stroke_dash`. Format: "dash:gap" (e.g., "4:2" for 4px dash, 2px gap).
+
+**Syntax:**
+```markdown
+{{ui:swatch:1a1a2e:width=100:height=40:border=F41C80:stroke_dash=4:2/}}
+{{ui:swatch:1a1a2e:width=100:height=40:border=22C55E:stroke_dash=8:4/}}
+{{ui:swatch:1a1a2e:width=100:height=40:border=3B82F6:stroke_dash=2:2/}}
+```
+
+**Use cases:** Cut lines, selection indicators, placeholder outlines.
+
+---
+
+## Corner Radius (SVG Backend Only)
+
+> ⚠️ **SVG backend required.** Use `mdfx process --backend svg` to enable custom corner radius.
+
+Override style-based corner radius with `rx` (horizontal) and `ry` (vertical):
+
+**Syntax:**
+```markdown
+{{ui:swatch:accent:width=60:height=40:rx=0/}}     <!-- Sharp corners -->
+{{ui:swatch:accent:width=60:height=40:rx=5/}}     <!-- Slightly rounded -->
+{{ui:swatch:accent:width=60:height=40:rx=10/}}    <!-- More rounded -->
+{{ui:swatch:accent:width=60:height=40:rx=20/}}    <!-- Pill shape -->
+```
+
+### Elliptical Corners
+
+Use different `rx` and `ry` values for elliptical corners:
+
+**Syntax:**
+```markdown
+{{ui:swatch:3B82F6:width=80:height=40:rx=20:ry=5/}}   <!-- Wide ellipse corners -->
+{{ui:swatch:22C55E:width=80:height=40:rx=5:ry=20/}}   <!-- Tall ellipse corners -->
+```
+
+---
+
+## Shadows (SVG Backend Only)
+
+> ⚠️ **SVG backend required.** Use `mdfx process --backend svg` to enable drop shadows.
+
+Add drop shadows with `shadow`. Format: "color:blur:offset_x:offset_y"
+
+- **color**: Shadow color (hex without #)
+- **blur**: Blur radius in pixels
+- **offset_x**: Horizontal offset (can be negative)
+- **offset_y**: Vertical offset (can be negative)
+
+**Syntax:**
+```markdown
+{{ui:swatch:F41C80:width=80:height=40:shadow=000000:4:2:2/}}    <!-- Standard shadow -->
+{{ui:swatch:3B82F6:width=80:height=40:shadow=000000:8:4:4/}}    <!-- Larger shadow -->
+{{ui:swatch:22C55E:width=80:height=40:shadow=000000:2:0:2/}}    <!-- Bottom shadow only -->
+```
+
+### Glow Effects
+
+Use colored shadows for glow effects:
+
+**Syntax:**
+```markdown
+{{ui:swatch:F41C80:width=80:height=40:shadow=F41C80:8:0:0/}}    <!-- Pink glow -->
+{{ui:swatch:3B82F6:width=80:height=40:shadow=3B82F6:8:0:0/}}    <!-- Blue glow -->
+{{ui:swatch:22C55E:width=80:height=40:shadow=22C55E:8:0:0/}}    <!-- Green glow -->
+```
+
+---
+
+## Gradients (SVG Backend Only)
+
+> ⚠️ **SVG backend required.** Use `mdfx process --backend svg` to enable gradient fills.
+
+Add gradient fills with `gradient`. Format: "direction:color1:color2"
+
+**Directions:**
+- `horizontal` - Left to right gradient
+- `vertical` - Top to bottom gradient
+- `diagonal` - Top-left to bottom-right gradient
+
+**Syntax:**
+```markdown
+{{ui:swatch:000000:width=120:height=40:gradient=horizontal:FF0000:0000FF/}}   <!-- Red to blue -->
+{{ui:swatch:000000:width=120:height=40:gradient=vertical:22C55E:1a1a2e/}}     <!-- Green to dark -->
+{{ui:swatch:000000:width=120:height=40:gradient=diagonal:F41C80:3B82F6/}}     <!-- Pink to blue diagonal -->
+```
+
+### Sunset Gradient
+
+**Syntax:**
+```markdown
+{{ui:swatch:000000:width=200:height=60:gradient=vertical:FF6B35:1a1a2e/}}
+```
+
+### Metallic Effect
+
+Combine gradients with borders for metallic buttons:
+
+**Syntax:**
+```markdown
+{{ui:swatch:000000:width=100:height=40:gradient=vertical:666666:333333:border=888888/}}
+```
+
 ---
 
 ## Labels
@@ -313,6 +425,22 @@ Add Simple Icons logos with `icon` and optional `icon_color`. **Icons work with 
 ![](https://img.shields.io/badge/-%20-FC6D26?style=flat-square&logo=gitlab&logoColor=FFFFFF&label=&labelColor=FC6D26)
 
 **Note:** Uses [Simple Icons](https://simpleicons.org/) via shields.io. Browse the site for available logos.
+
+### Logo Size (Shields.io)
+
+Control logo size with `logo_size`. Use `auto` for adaptive sizing that scales with badge style.
+
+**Syntax:**
+
+```markdown
+{{ui:swatch:000000:icon=rust:icon_color=DEA584:logo_size=auto/}}
+{{ui:swatch:3178C6:icon=typescript:icon_color=FFFFFF:logo_size=auto/}}
+```
+
+**Rendered:**
+
+![](https://img.shields.io/badge/-%20-000000?style=flat-square&logo=rust&logoColor=DEA584&label=&labelColor=000000&logoSize=auto)
+![](https://img.shields.io/badge/-%20-3178C6?style=flat-square&logo=typescript&logoColor=FFFFFF&label=&labelColor=3178C6&logoSize=auto)
 
 ---
 
@@ -468,7 +596,10 @@ The following examples require `--backend svg` for full effect.
 SVG backend features not available in shields.io:
 - **Custom dimensions** - width and height in pixels
 - **Opacity** - transparency from 0.0 to 1.0
-- **Borders** - colored borders with custom width
+- **Borders** - colored borders with custom width, dashed patterns
+- **Corner radius** - custom rx/ry for precise rounded corners
+- **Drop shadows** - shadows with custom color, blur, and offset
+- **Gradients** - horizontal, vertical, and diagonal gradient fills
 - **Pixel art** - precise small swatches for creating graphics
 
 ---
@@ -482,6 +613,7 @@ Uses shields.io badges. Supports:
 - Style (5 badge styles)
 - Labels (text on badges)
 - Icons (Simple Icons logos)
+- Logo size (`logo_size=auto` for adaptive sizing)
 
 ```bash
 mdfx process template.md --target github
@@ -499,6 +631,10 @@ Additional SVG-only features:
 - Custom width/height
 - Opacity/transparency
 - Borders with custom colors/width
+- Dashed borders (`stroke_dash`)
+- Custom corner radius (`rx`/`ry`)
+- Drop shadows (`shadow`)
+- Gradient fills (`gradient`)
 
 ---
 

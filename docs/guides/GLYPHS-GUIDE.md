@@ -2,6 +2,22 @@
 
 Named Unicode characters for use in templates, separators, and frames.
 
+## Quick Navigation
+
+| Category | Sections |
+|----------|----------|
+| **Basics** | [Separators](#separators) · [Block Elements](#block-elements) · [Shades](#shades) · [Quadrants](#quadrants) |
+| **Drawing** | [Box Drawing](#box-drawing) · [Braille Patterns](#braille-patterns) |
+| **Numbers** | [Number Badges](#number-badges) · [Roman Numerals](#roman-numerals) · [Fractions](#fractions) |
+| **Shapes** | [Squares](#shapes) · [Circles](#shapes) · [Triangles](#shapes) · [Diamonds](#shapes) |
+| **Symbols** | [Checkboxes](#checkboxes) · [Arrows](#arrows) · [Stars](#stars) |
+| **Games** | [Dice](#dice) · [Card Suits](#card-suits) |
+| **Music** | [Music](#music) |
+| **Math** | [Math Symbols](#math-symbols) · [Superscript & Subscript](#superscript--subscript) · [Greek Letters](#greek-letters) |
+| **Other** | [Currency](#currency) · [Miscellaneous](#miscellaneous-symbols) |
+
+---
+
 ## Syntax
 
 ```markdown

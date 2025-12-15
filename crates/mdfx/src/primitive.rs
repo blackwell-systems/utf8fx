@@ -28,14 +28,26 @@ pub enum Primitive {
         border_color: Option<String>,
         /// Border width in pixels (default: 0 = no border). SVG-only.
         border_width: Option<u32>,
-        /// Text label inside swatch. SVG-only.
+        /// Text label inside swatch.
         label: Option<String>,
-        /// Label text color (hex or palette name). Default: white. SVG-only.
+        /// Label text color (hex or palette name). Default: white.
         label_color: Option<String>,
         /// Simple Icons logo name (e.g., "rust", "python", "docker").
         icon: Option<String>,
         /// Icon color (hex or palette name). Default: white.
         icon_color: Option<String>,
+        /// Horizontal corner radius in pixels. SVG-only.
+        rx: Option<u32>,
+        /// Vertical corner radius in pixels (defaults to rx if not set). SVG-only.
+        ry: Option<u32>,
+        /// Drop shadow: "color:blur:offset_x:offset_y" (e.g., "000000:4:2:2"). SVG-only.
+        shadow: Option<String>,
+        /// Gradient fill: "direction:color1:color2" (e.g., "horizontal:FF0000:0000FF"). SVG-only.
+        gradient: Option<String>,
+        /// Border dash pattern: "dash:gap" (e.g., "4:2" for dashed). SVG-only.
+        stroke_dash: Option<String>,
+        /// Logo size for shields.io ("auto" for adaptive). Shields-only.
+        logo_size: Option<String>,
     },
 
     /// Multi-color divider bar for section separation
@@ -73,6 +85,12 @@ impl Primitive {
             label_color: None,
             icon: None,
             icon_color: None,
+            rx: None,
+            ry: None,
+            shadow: None,
+            gradient: None,
+            stroke_dash: None,
+            logo_size: None,
         }
     }
 }
@@ -83,35 +101,13 @@ mod tests {
 
     #[test]
     fn test_primitive_swatch() {
-        let swatch = Primitive::Swatch {
-            color: "ff6b35".to_string(),
-            style: "flat-square".to_string(),
-            opacity: None,
-            width: None,
-            height: None,
-            border_color: None,
-            border_width: None,
-            label: None,
-            label_color: None,
-            icon: None,
-            icon_color: None,
-        };
-        assert_eq!(
-            swatch,
-            Primitive::Swatch {
-                color: "ff6b35".to_string(),
-                style: "flat-square".to_string(),
-                opacity: None,
-                width: None,
-                height: None,
-                border_color: None,
-                border_width: None,
-                label: None,
-                label_color: None,
-                icon: None,
-                icon_color: None,
-            }
-        );
+        let swatch = Primitive::simple_swatch("ff6b35", "flat-square");
+        if let Primitive::Swatch { color, style, .. } = swatch {
+            assert_eq!(color, "ff6b35");
+            assert_eq!(style, "flat-square");
+        } else {
+            panic!("Expected Swatch primitive");
+        }
     }
 
     #[test]
@@ -128,23 +124,33 @@ mod tests {
             label_color: Some("000000".to_string()),
             icon: Some("rust".to_string()),
             icon_color: Some("FFFFFF".to_string()),
+            rx: Some(5),
+            ry: Some(10),
+            shadow: Some("000000:4:2:2".to_string()),
+            gradient: Some("horizontal:FF0000:0000FF".to_string()),
+            stroke_dash: Some("4:2".to_string()),
+            logo_size: Some("auto".to_string()),
         };
         if let Primitive::Swatch {
             opacity,
             width,
             label,
-            label_color,
-            icon,
-            icon_color,
+            rx,
+            shadow,
+            gradient,
+            stroke_dash,
+            logo_size,
             ..
         } = swatch
         {
             assert_eq!(opacity, Some(0.5));
             assert_eq!(width, Some(40));
             assert_eq!(label, Some("v1".to_string()));
-            assert_eq!(label_color, Some("000000".to_string()));
-            assert_eq!(icon, Some("rust".to_string()));
-            assert_eq!(icon_color, Some("FFFFFF".to_string()));
+            assert_eq!(rx, Some(5));
+            assert_eq!(shadow, Some("000000:4:2:2".to_string()));
+            assert_eq!(gradient, Some("horizontal:FF0000:0000FF".to_string()));
+            assert_eq!(stroke_dash, Some("4:2".to_string()));
+            assert_eq!(logo_size, Some("auto".to_string()));
         } else {
             panic!("Expected Swatch primitive");
         }

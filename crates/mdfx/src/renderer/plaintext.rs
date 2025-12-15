@@ -107,6 +107,12 @@ mod tests {
             label_color: None,
             icon: None,
             icon_color: None,
+            rx: None,
+            ry: None,
+            shadow: None,
+            gradient: None,
+            stroke_dash: None,
+            logo_size: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#FF6B35 v1.0]");
@@ -127,6 +133,12 @@ mod tests {
             label_color: None,
             icon: Some("rust".to_string()),
             icon_color: None,
+            rx: None,
+            ry: None,
+            shadow: None,
+            gradient: None,
+            stroke_dash: None,
+            logo_size: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#F41C80 rust]");

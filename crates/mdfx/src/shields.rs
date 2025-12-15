@@ -194,13 +194,38 @@ impl ShieldsRenderer {
         logo_color: &str,
         style: &str,
     ) -> Result<String> {
+        self.render_icon_with_size(logo, bg_color, logo_color, style, None)
+    }
+
+    /// Render an icon chip with optional logo size
+    ///
+    /// # Arguments
+    ///
+    /// * `logo` - Simple Icons slug (e.g., "rust", "python", "amazonaws")
+    /// * `bg_color` - Background color (palette name or hex)
+    /// * `logo_color` - Logo color (palette name or hex)
+    /// * `style` - Shield style
+    /// * `logo_size` - Optional logo size ("auto" for adaptive sizing)
+    pub fn render_icon_with_size(
+        &self,
+        logo: &str,
+        bg_color: &str,
+        logo_color: &str,
+        style: &str,
+        logo_size: Option<&str>,
+    ) -> Result<String> {
         let bg = self.resolve_color(bg_color)?;
         let logo_col = self.resolve_color(logo_color)?;
         let resolved_style = self.resolve_style(style)?;
 
+        let logo_size_param = match logo_size {
+            Some(size) => format!("&logoSize={}", size),
+            None => String::new(),
+        };
+
         let url = format!(
-            "https://img.shields.io/badge/-%20-{}?style={}&logo={}&logoColor={}&label=&labelColor={}",
-            bg, resolved_style, logo, logo_col, bg
+            "https://img.shields.io/badge/-%20-{}?style={}&logo={}&logoColor={}&label=&labelColor={}{}",
+            bg, resolved_style, logo, logo_col, bg, logo_size_param
         );
 
         Ok(format!("![]({})", url))
@@ -386,5 +411,25 @@ mod tests {
         let colors = renderer.list_palette();
         assert!(!colors.is_empty());
         assert!(colors.iter().any(|(name, _)| *name == "cobalt"));
+    }
+
+    #[test]
+    fn test_render_icon_with_logo_size() {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let result = renderer
+            .render_icon_with_size("rust", "000000", "FFFFFF", "flat-square", Some("auto"))
+            .unwrap();
+        assert!(result.contains("logo=rust"));
+        assert!(result.contains("logoSize=auto"));
+    }
+
+    #[test]
+    fn test_render_icon_without_logo_size() {
+        let renderer = ShieldsRenderer::new().unwrap();
+        let result = renderer
+            .render_icon_with_size("rust", "000000", "FFFFFF", "flat-square", None)
+            .unwrap();
+        assert!(result.contains("logo=rust"));
+        assert!(!result.contains("logoSize="));
     }
 }

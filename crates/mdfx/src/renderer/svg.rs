@@ -72,6 +72,11 @@ struct SwatchOptions<'a> {
     label_color: Option<&'a str>,
     icon: Option<&'a str>,
     icon_color: Option<&'a str>,
+    rx: Option<u32>,
+    ry: Option<u32>,
+    shadow: Option<&'a str>,
+    gradient: Option<&'a str>,
+    stroke_dash: Option<&'a str>,
 }
 
 impl SvgBackend {
@@ -99,6 +104,12 @@ impl SvgBackend {
                 label_color,
                 icon,
                 icon_color,
+                rx,
+                ry,
+                shadow,
+                gradient,
+                stroke_dash,
+                logo_size: _, // shields-only, not relevant for SVG
             } => {
                 "swatch".hash(&mut hasher);
                 color.hash(&mut hasher);
@@ -115,6 +126,11 @@ impl SvgBackend {
                 label_color.hash(&mut hasher);
                 icon.hash(&mut hasher);
                 icon_color.hash(&mut hasher);
+                rx.hash(&mut hasher);
+                ry.hash(&mut hasher);
+                shadow.hash(&mut hasher);
+                gradient.hash(&mut hasher);
+                stroke_dash.hash(&mut hasher);
             }
             Primitive::Divider { colors, style } => {
                 "divider".hash(&mut hasher);
@@ -153,6 +169,34 @@ impl SvgBackend {
         format!("{}_{:x}.svg", type_name, hash)
     }
 
+    /// Parse shadow config: "color:blur:offset_x:offset_y" (e.g., "000000:4:2:2")
+    fn parse_shadow(shadow: &str) -> Option<(String, u32, i32, i32)> {
+        let parts: Vec<&str> = shadow.split(':').collect();
+        if parts.len() >= 4 {
+            let color = parts[0].to_string();
+            let blur = parts[1].parse().ok()?;
+            let offset_x = parts[2].parse().ok()?;
+            let offset_y = parts[3].parse().ok()?;
+            Some((color, blur, offset_x, offset_y))
+        } else {
+            None
+        }
+    }
+
+    /// Parse gradient config: "direction:color1:color2" (e.g., "horizontal:FF0000:0000FF")
+    fn parse_gradient(gradient: &str) -> Option<(String, String, String)> {
+        let parts: Vec<&str> = gradient.split(':').collect();
+        if parts.len() >= 3 {
+            Some((
+                parts[0].to_string(),
+                parts[1].to_string(),
+                parts[2].to_string(),
+            ))
+        } else {
+            None
+        }
+    }
+
     /// Render a swatch (single colored rectangle with optional enhancements)
     fn render_swatch_svg(opts: SwatchOptions) -> String {
         let metrics = SvgMetrics::from_style(opts.style);
@@ -161,31 +205,130 @@ impl SvgBackend {
         let width = opts.width.unwrap_or(20);
         let height = opts.height.unwrap_or(metrics.height);
 
+        // Use custom corner radius or style default
+        let rx = opts.rx.unwrap_or(metrics.rx);
+        let ry = opts.ry.unwrap_or(rx); // ry defaults to rx if not specified
+
         // Build opacity attribute
         let opacity_attr = match opts.opacity {
             Some(o) if o < 1.0 => format!(" fill-opacity=\"{}\"", o),
             _ => String::new(),
         };
 
+        // Build stroke dash attribute
+        let stroke_dash_attr = match opts.stroke_dash {
+            Some(dash) => format!(" stroke-dasharray=\"{}\"", dash.replace(':', ",")),
+            None => String::new(),
+        };
+
         // Build border attributes
         let (border_attrs, border_offset) = match (opts.border_color, opts.border_width) {
-            (Some(bc), Some(bw)) if bw > 0 => {
-                (format!(" stroke=\"#{}\" stroke-width=\"{}\"", bc, bw), bw)
-            }
-            (Some(bc), None) => (format!(" stroke=\"#{}\" stroke-width=\"1\"", bc), 1),
+            (Some(bc), Some(bw)) if bw > 0 => (
+                format!(
+                    " stroke=\"#{}\" stroke-width=\"{}\"{}",
+                    bc, bw, stroke_dash_attr
+                ),
+                bw,
+            ),
+            (Some(bc), None) => (
+                format!(" stroke=\"#{}\" stroke-width=\"1\"{}", bc, stroke_dash_attr),
+                1,
+            ),
             _ => (String::new(), 0),
         };
 
-        // Adjust viewBox for border
-        let vb_width = width + border_offset * 2;
-        let vb_height = height + border_offset * 2;
+        // Calculate shadow offset for viewBox expansion
+        let shadow_offset: u32 = if let Some(shadow_str) = opts.shadow {
+            if let Some((_, blur, ox, oy)) = Self::parse_shadow(shadow_str) {
+                (blur + ox.unsigned_abs() + oy.unsigned_abs()) as u32
+            } else {
+                0
+            }
+        } else {
+            0
+        };
+
+        // Adjust viewBox for border and shadow
+        let total_offset = border_offset + shadow_offset;
+        let vb_width = width + total_offset * 2;
+        let vb_height = height + total_offset * 2;
+        let rect_x = total_offset;
+        let rect_y = total_offset;
+
+        // Build defs section (for gradients, shadows, plastic shine)
+        let mut defs_content = String::new();
+        let mut has_defs = false;
+
+        // Add shadow filter if specified
+        let filter_attr = if let Some(shadow_str) = opts.shadow {
+            if let Some((color, blur, offset_x, offset_y)) = Self::parse_shadow(shadow_str) {
+                has_defs = true;
+                defs_content.push_str(&format!(
+                    "    <filter id=\"shadow\" x=\"-50%\" y=\"-50%\" width=\"200%\" height=\"200%\">\n\
+      <feDropShadow dx=\"{}\" dy=\"{}\" stdDeviation=\"{}\" flood-color=\"#{}\"/>\n\
+    </filter>\n",
+                    offset_x, offset_y, blur, color
+                ));
+                " filter=\"url(#shadow)\"".to_string()
+            } else {
+                String::new()
+            }
+        } else {
+            String::new()
+        };
+
+        // Add gradient if specified (overrides solid fill)
+        let (fill_attr, gradient_def) = if let Some(gradient_str) = opts.gradient {
+            if let Some((direction, color1, color2)) = Self::parse_gradient(gradient_str) {
+                has_defs = true;
+                let (x1, y1, x2, y2) = match direction.as_str() {
+                    "vertical" => ("0%", "0%", "0%", "100%"),
+                    "diagonal" => ("0%", "0%", "100%", "100%"),
+                    "radial" => ("50%", "50%", "50%", "100%"), // Not true radial, but mimics it
+                    _ => ("0%", "0%", "100%", "0%"),           // horizontal default
+                };
+                let grad_def = format!(
+                    "    <linearGradient id=\"grad\" x1=\"{}\" y1=\"{}\" x2=\"{}\" y2=\"{}\">\n\
+      <stop offset=\"0%\" stop-color=\"#{}\"/>\n\
+      <stop offset=\"100%\" stop-color=\"#{}\"/>\n\
+    </linearGradient>\n",
+                    x1, y1, x2, y2, color1, color2
+                );
+                ("url(#grad)".to_string(), grad_def)
+            } else {
+                (format!("#{}", opts.color), String::new())
+            }
+        } else {
+            (format!("#{}", opts.color), String::new())
+        };
+
+        if !gradient_def.is_empty() {
+            defs_content.push_str(&gradient_def);
+        }
+
+        // Add plastic shine gradient
+        if metrics.plastic {
+            has_defs = true;
+            defs_content.push_str(
+                "    <linearGradient id=\"shine\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n\
+      <stop offset=\"0%\" style=\"stop-color:#ffffff;stop-opacity:0.2\" />\n\
+      <stop offset=\"100%\" style=\"stop-color:#000000;stop-opacity:0.1\" />\n\
+    </linearGradient>\n",
+            );
+        }
+
+        let defs = if has_defs {
+            format!("  <defs>\n{}</defs>\n", defs_content)
+        } else {
+            String::new()
+        };
 
         // Build text content element (icon takes precedence over label)
         let label_elem = if let Some(icon_name) = opts.icon {
             // Render icon as text (fallback - actual icons would require bundling SVG paths)
             let font_size = if height > 24 { 12 } else { 8 };
-            let y_pos = height / 2 + font_size / 3 + border_offset;
-            let x_pos = width / 2 + border_offset;
+            let y_pos = height / 2 + font_size / 3 + rect_y;
+            let x_pos = width / 2 + rect_x;
             let fill_color = opts.icon_color.unwrap_or("white");
             let fill = if fill_color.chars().all(|c| c.is_ascii_hexdigit()) && fill_color.len() == 6
             {
@@ -205,8 +348,8 @@ impl SvgBackend {
             )
         } else if let Some(text) = opts.label {
             let font_size = if height > 24 { 14 } else { 10 };
-            let y_pos = height / 2 + font_size / 3 + border_offset;
-            let x_pos = width / 2 + border_offset;
+            let y_pos = height / 2 + font_size / 3 + rect_y;
+            let x_pos = width / 2 + rect_x;
             let fill_color = opts.label_color.unwrap_or("white");
             // If it's a hex color without #, add it
             let fill = if fill_color.chars().all(|c| c.is_ascii_hexdigit()) && fill_color.len() == 6
@@ -223,46 +366,42 @@ impl SvgBackend {
             String::new()
         };
 
-        // Build defs for plastic effect
-        let defs = if metrics.plastic {
-            "  <defs>\n\
-    <linearGradient id=\"shine\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n\
-      <stop offset=\"0%\" style=\"stop-color:#ffffff;stop-opacity:0.2\" />\n\
-      <stop offset=\"100%\" style=\"stop-color:#000000;stop-opacity:0.1\" />\n\
-    </linearGradient>\n\
-  </defs>\n"
-                .to_string()
+        // Build shine overlay for plastic
+        let shine_overlay = if metrics.plastic {
+            format!(
+                "\n  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"url(#shine)\" rx=\"{}\" ry=\"{}\"/>",
+                rect_x, rect_y, width, height, rx, ry
+            )
         } else {
             String::new()
         };
 
-        // Build shine overlay for plastic
-        let shine_overlay = if metrics.plastic {
-            format!(
-                "\n  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"url(#shine)\" rx=\"{}\"/>",
-                border_offset, border_offset, width, height, metrics.rx
-            )
+        // Build ry attribute only if different from rx
+        let ry_attr = if ry != rx {
+            format!(" ry=\"{}\"", ry)
         } else {
             String::new()
         };
 
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-{}  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}{}/>{}{}
+{}  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"{}\" rx=\"{}\"{}{}{}{}/>{}{}
 </svg>",
             vb_width,
             vb_height,
             vb_width,
             vb_height,
             defs,
-            border_offset,
-            border_offset,
+            rect_x,
+            rect_y,
             width,
             height,
-            opts.color,
-            metrics.rx,
+            fill_attr,
+            rx,
+            ry_attr,
             opacity_attr,
             border_attrs,
+            filter_attr,
             shine_overlay,
             label_elem
         )
@@ -340,6 +479,12 @@ impl Renderer for SvgBackend {
                 label_color,
                 icon,
                 icon_color,
+                rx,
+                ry,
+                shadow,
+                gradient,
+                stroke_dash,
+                logo_size: _, // shields-only
             } => Self::render_swatch_svg(SwatchOptions {
                 color,
                 style,
@@ -352,6 +497,11 @@ impl Renderer for SvgBackend {
                 label_color: label_color.as_deref(),
                 icon: icon.as_deref(),
                 icon_color: icon_color.as_deref(),
+                rx: *rx,
+                ry: *ry,
+                shadow: shadow.as_deref(),
+                gradient: gradient.as_deref(),
+                stroke_dash: stroke_dash.as_deref(),
             }),
 
             Primitive::Divider { colors, style } => Self::render_divider_svg(colors, style),
@@ -370,6 +520,11 @@ impl Renderer for SvgBackend {
                     label_color: None,
                     icon: None,
                     icon_color: None,
+                    rx: None,
+                    ry: None,
+                    shadow: None,
+                    gradient: None,
+                    stroke_dash: None,
                 })
             }
 
