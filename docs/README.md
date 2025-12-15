@@ -28,7 +28,7 @@ mdfx process input.md -o output.md
 | [Components](guides/COMPONENTS-GUIDE.md) | divider, tech, status, row |
 | [Frames](guides/FRAMES-GUIDE.md) | Decorative Unicode borders |
 | [Text Styles](guides/TEXT-STYLES-GUIDE.md) | Unicode typography |
-| [Badges](guides/BADGES-GUIDE.md) | Numbered list markers |
+| [Glyphs](guides/GLYPHS-GUIDE.md) | Unicode glyphs and symbols |
 
 ## Reference
 

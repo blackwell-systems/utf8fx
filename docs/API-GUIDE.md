@@ -242,7 +242,7 @@ let renderer = ComponentsRenderer::new()?;
 **Error:** Returns `Error::ParseError` if `registry.json` is malformed.
 
 **Data Source:**
-- `data/registry.json` - Unified registry (components, palette, styles, frames, badges, separators)
+- `data/registry.json` - Unified registry (components, palette, styles, frames, separators)
 
 ### Methods
 
@@ -2111,11 +2111,6 @@ for (id, frame) in &registry.frames {
     println!("{}: {}{{}}{}", id, frame.prefix, frame.suffix);
 }
 
-// Badges
-for (id, badge) in &registry.badges {
-    println!("{}: {}", id, badge.name);
-}
-
 // Separators
 for (id, sep) in &registry.separators {
     println!("{}: {} ({})", id, sep.char, sep.unicode);
@@ -2143,7 +2138,6 @@ let registry = Registry::new()?;
 if let Some(resolved) = registry.resolve("gradient", EvalContext::GitHub) {
     match resolved {
         ResolvedRenderable::Frame(f) => println!("Frame: {}{{}}{}", f.prefix, f.suffix),
-        ResolvedRenderable::Badge(b) => println!("Badge: {}", b.name),
         ResolvedRenderable::Style(s) => println!("Style: {}", s.name),
         ResolvedRenderable::Component(c) => println!("Component: {}", c.description),
     }
@@ -2484,7 +2478,6 @@ for line in input.lines() {
 - Style conversion: O(n) where n = input length
 - Template parsing: O(n) single-pass
 - Frame application: O(1) string concatenation
-- Badge lookup: O(1) HashMap lookup
 
 **Memory:**
 - JSON data embedded in binary: ~50KB
