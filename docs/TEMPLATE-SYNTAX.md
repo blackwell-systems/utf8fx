@@ -453,6 +453,9 @@ Adds decorative prefix/suffix around content.
 {{fr:glyph:NAME*COUNT/pad=VALUE}}CONTENT{{/}}
 {{fr:a}}{{fr:b}}{{fr:c}}NESTED{{//}}       <!-- close-all -->
 {{fr:frame_type:CONTENT/}}                 <!-- self-closing -->
+{{fr:outer+inner}}CONTENT{{/}}             <!-- frame combo -->
+{{fr:frame/separator=X}}CONTENT{{/}}       <!-- with separator -->
+{{fr:frame/spacing=N}}CONTENT{{/}}         <!-- with spacing -->
 ```
 
 ### Self-Closing Frames
@@ -481,6 +484,7 @@ This is equivalent to `{{fr:STYLE}}CONTENT{{/}}` but more compact.
 - `gradient` - ▓▒░ TEXT ░▒▓
 - `gradient-light` - ▒░ TEXT ░▒
 - `gradient-reverse` - ░▒▓ TEXT ▓▒░
+- `gradient-wave` - ▓▒░ TEXT ▒░▓ (alternate mode: rotated suffix)
 
 **Solid Frames:**
 - `solid-left` - █▌TEXT
@@ -536,6 +540,52 @@ Create symmetric frames from any glyph:
 - `{{frame:glyph:bullet}}Item{{/}}` → • Item •
 - `{{frame:glyph:star*3}}Title{{/}}` → ★★★ Title ★★★
 - `{{frame:glyph:arrow*2/pad=0}}Go{{/}}` → →→Go→→
+
+### Frame Combos
+
+Combine multiple frames with `+` for nested effects:
+
+```markdown
+{{fr:outer+inner}}CONTENT{{/}}          → Nested frames
+{{fr:gradient+star}}TITLE{{/}}          → ▓▒░ ★ TITLE ☆ ░▒▓
+{{fr:gradient+star+diamond}}VIP{{/}}    → ▓▒░ ★ ◆ VIP ◇ ☆ ░▒▓
+```
+
+**Order:** Outer frames wrap inner frames. Prefix builds left-to-right, suffix builds right-to-left.
+
+**Equivalent to:**
+```markdown
+{{fr:gradient}}{{fr:star}}TITLE{{/}}{{/}}
+```
+
+### Frame Modifiers
+
+Frames support separator and spacing modifiers:
+
+**Separator (`/separator=X`):**
+```markdown
+{{fr:gradient/separator=·}}Title{{/}}   → ▓·▒·░ Title ░·▒·▓
+{{fr:gradient/separator=dot}}Title{{/}} → ▓·▒·░ Title ░·▒·▓
+```
+
+Named separators: `dot`, `dash`, `space`, `pipe`, `colon`
+
+**Spacing (`/spacing=N`):**
+```markdown
+{{fr:gradient/spacing=1}}Title{{/}}     → ▓ ▒ ░ Title ░ ▒ ▓
+{{fr:gradient/spacing=2}}Wide{{/}}      → ▓  ▒  ░ Wide ░  ▒  ▓
+```
+
+**Combined:**
+```markdown
+{{fr:gradient/separator=·/spacing=1}}X{{/}} → ▓ · ▒ · ░ X ░ · ▒ · ▓
+```
+
+**Glyph frames also support modifiers:**
+```markdown
+{{fr:glyph:star*3/separator=·}}Title{{/}}  → ★·★·★ Title ★·★·★
+{{fr:glyph:diamond*4/spacing=1}}Gem{{/}}   → ◆ ◆ ◆ ◆ Gem ◆ ◆ ◆ ◆
+```
 
 ### Examples
 
@@ -900,6 +950,7 @@ line = { character } newline ;
 | Component | Yes | Yes | `{{/ui}}` or `{{/}}` | `{{ui:divider/}}` |
 | Style | No | Yes | `{{/style}}` | `{{mathbold}}TEXT{{/mathbold}}` |
 | Frame | Yes | Yes | `{{/}}` or `{{//}}` | `{{fr:gradient:Title/}}` or `{{fr:gradient}}TEXT{{/}}` |
+| Frame Combo | No | Yes | `{{/}}` or `{{//}}` | `{{fr:gradient+star}}TEXT{{/}}` |
 | Primitive | Yes | No | N/A | `{{shields:block:color=F41C80/}}` |
 
 **Parameter Syntax:**
@@ -908,6 +959,8 @@ line = { character } newline ;
 |------|--------|---------|
 | Positional | `:arg` | `{{ui:tech:rust/}}` |
 | Named | `:key=value` | `{{mathbold:separator=dot}}` |
+| Frame Modifier | `/key=value` | `{{fr:gradient/spacing=1}}` |
+| Frame Combo | `+` | `{{fr:gradient+star}}` |
 | Mixed | N/A | Not supported |
 
 ---

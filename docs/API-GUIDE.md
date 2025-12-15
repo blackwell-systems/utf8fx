@@ -1018,6 +1018,9 @@ Frames add decorative prefix/suffix around text. mdfx provides multiple syntax o
 {{fr:gradient}}TEXT{{/}}               <!-- Shorthand + universal closer -->
 {{fr:gradient:Inline Text/}}           <!-- Self-closing -->
 {{fr:a}}{{fr:b}}Nested{{//}}           <!-- Close-all -->
+{{fr:gradient+star}}TEXT{{/}}          <!-- Frame combo -->
+{{fr:gradient/spacing=1}}TEXT{{/}}     <!-- With spacing -->
+{{fr:gradient/separator=·}}TEXT{{/}}   <!-- With separator -->
 ```
 
 ### Shorthand `{{fr:}}`
@@ -1072,12 +1075,40 @@ Create dynamic frames from any Unicode glyph:
 **Options:**
 - `*N` - Repeat glyph N times
 - `/pad=CHAR` - Custom padding character (default: space)
+- `/separator=X` - Character between glyphs
+- `/spacing=N` - Spaces between glyphs
+
+### Frame Combos
+
+Combine multiple frames with `+` for nested effects:
+
+```markdown
+{{fr:gradient+star}}TITLE{{/}}         <!-- ▓▒░ ★ TITLE ☆ ░▒▓ -->
+{{fr:gradient+star+diamond}}VIP{{/}}   <!-- ▓▒░ ★ ◆ VIP ◇ ☆ ░▒▓ -->
+```
+
+Equivalent to:
+```markdown
+{{fr:gradient}}{{fr:star}}TITLE{{/}}{{/}}
+```
+
+### Frame Modifiers
+
+Add separator or spacing to frame patterns:
+
+```markdown
+{{fr:gradient/separator=·}}Title{{/}}  <!-- ▓·▒·░ Title ░·▒·▓ -->
+{{fr:gradient/spacing=1}}Title{{/}}    <!-- ▓ ▒ ░ Title ░ ▒ ▓ -->
+```
+
+Named separators: `dot`, `dash`, `space`, `pipe`, `colon`
 
 ### Available Frames
 
 | Frame | Output | Description |
 |-------|--------|-------------|
 | `gradient` | ▓▒░ X ░▒▓ | Block gradient |
+| `gradient-wave` | ▓▒░ X ▒░▓ | Gradient with rotated suffix |
 | `solid-left` | █▌X | Left solid bar |
 | `solid-right` | X▐█ | Right solid bar |
 | `star` | ★ X ☆ | Star bookends |

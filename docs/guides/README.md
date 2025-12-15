@@ -30,6 +30,8 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 **Frame:**
 ```markdown
 {{frame:gradient}}HEADER{{/frame}}
+{{fr:gradient+star}}TITLE{{/}}           <!-- frame combo -->
+{{fr:gradient/spacing=1}}Spaced{{/}}     <!-- with spacing -->
 ```
 
 **Text Style:**
