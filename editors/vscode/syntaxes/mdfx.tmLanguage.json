@@ -1,0 +1,77 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "mdfx",
+  "scopeName": "source.mdfx.injection",
+  "injectionSelector": "L:text.html.markdown",
+  "patterns": [
+    { "include": "#template" }
+  ],
+  "repository": {
+    "template": {
+      "patterns": [
+        { "include": "#self-closing-template" },
+        { "include": "#block-template" }
+      ]
+    },
+    "self-closing-template": {
+      "name": "meta.template.self-closing.mdfx",
+      "match": "(\\{\\{)(glyph|frame)(:)([a-zA-Z0-9._-]+)(/)(\\}\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.template.begin.mdfx" },
+        "2": { "name": "entity.name.tag.mdfx" },
+        "3": { "name": "punctuation.separator.mdfx" },
+        "4": { "name": "string.unquoted.mdfx" },
+        "5": { "name": "punctuation.definition.template.self-close.mdfx" },
+        "6": { "name": "punctuation.definition.template.end.mdfx" }
+      }
+    },
+    "block-template": {
+      "name": "meta.template.block.mdfx",
+      "begin": "(\\{\\{)([a-zA-Z-]+)(?:(:)([^}]*))?(?<!/)?(\\}\\})",
+      "end": "(\\{\\{)(/)([a-zA-Z-]+)(\\}\\})",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.template.begin.mdfx" },
+        "2": { "name": "entity.name.tag.mdfx" },
+        "3": { "name": "punctuation.separator.mdfx" },
+        "4": { "name": "variable.parameter.mdfx", "patterns": [{ "include": "#parameters" }] },
+        "5": { "name": "punctuation.definition.template.end.mdfx" }
+      },
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.template.begin.mdfx" },
+        "2": { "name": "punctuation.definition.template.close.mdfx" },
+        "3": { "name": "entity.name.tag.mdfx" },
+        "4": { "name": "punctuation.definition.template.end.mdfx" }
+      },
+      "contentName": "markup.bold.mdfx"
+    },
+    "component-template": {
+      "name": "meta.template.component.mdfx",
+      "match": "(\\{\\{)(swatch|divider|tech|status|callout|header|section|statusitem)(:)([^/}]*)?(/)(\\}\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.template.begin.mdfx" },
+        "2": { "name": "support.function.mdfx" },
+        "3": { "name": "punctuation.separator.mdfx" },
+        "4": { "name": "variable.parameter.mdfx", "patterns": [{ "include": "#parameters" }] },
+        "5": { "name": "punctuation.definition.template.self-close.mdfx" },
+        "6": { "name": "punctuation.definition.template.end.mdfx" }
+      }
+    },
+    "parameters": {
+      "patterns": [
+        {
+          "name": "meta.parameter.mdfx",
+          "match": "([a-zA-Z_]+)(=)([a-zA-Z0-9_-]+)",
+          "captures": {
+            "1": { "name": "entity.other.attribute-name.mdfx" },
+            "2": { "name": "punctuation.separator.key-value.mdfx" },
+            "3": { "name": "string.unquoted.mdfx" }
+          }
+        },
+        {
+          "name": "variable.other.mdfx",
+          "match": "[a-zA-Z0-9._-]+"
+        }
+      ]
+    }
+  }
+}

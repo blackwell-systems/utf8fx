@@ -1,0 +1,405 @@
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-15T07:33:30.575095408+00:00",
+  "backend": "svg",
+  "assets_dir": "docs/guides/assets/svg-examples",
+  "total_assets": 36,
+  "assets": [
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_36d01a24e0f55a64.svg",
+      "sha256": "4e913196726a7f91e8485667febaf7dc11e5fe567fcbd58044fbfe8328c3a75f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_9ea2717f5b5cc819.svg",
+      "sha256": "4c7c1b781869236346821e8dfd263dca6a0c617db0bf6beb3ca628f3af65cece",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_e5bbf5782fc7e158.svg",
+      "sha256": "535b2d4335a0dcb2af5b94f775e51dcb41acb58cb7a0db33af7e1b2b3468bb1c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_5e298f656c446b8a.svg",
+      "sha256": "6d2556e04d89dc1663eec6d0293e7eaa97166f78c4abb6f64e03da2a3dfd6aaf",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_afe404fd521ec43.svg",
+      "sha256": "559c76dd3668bd243e7d6719369216b225116ad4fa44916ae28478d474b34fff",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_6bc02d5d66952aba.svg",
+      "sha256": "3d01fc8d072cc7091f9df6c89ec8fa31d578614c428cfb6314736c11645e4c5f",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_acf7a1fc77da0ccd.svg",
+      "sha256": "cc48411ca1ad946a7b6cb9cedaa1a21fc8e7413b2a3bdc27fc8b6e4d46232251",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_242c79eb49f4eaf2.svg",
+      "sha256": "d081aafc8b0e20947166e236261f5a3a19b50289125182076bbb25dc015fc6ba",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_c83c318841b4e5c.svg",
+      "sha256": "5f505da83a085a22f4237e854881643bd3b58f2f1e76f85430deb2099f965667",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_3a36c4034887f848.svg",
+      "sha256": "575de32209298126ba6b343cde18bf668bbf602fe45d4c2a22f70c3780756ec5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_26cbb2410c090cab.svg",
+      "sha256": "fd92a366696eaa0955bfe08622e263bb34e60b7f74789674affd06f3362d2c69",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_2a3692caae3b7dc0.svg",
+      "sha256": "fdbd0cc23a95c4417b2fd7f7325aa42f4bd7366f78bb63e084a0f34dd6fc9307",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_7cdbfc555f0481b.svg",
+      "sha256": "56cf0a92a2593dfeb87094a3d83554988d2d60ab840cbf036dc42292b42982d3",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 177
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_28f70963a1378ba5.svg",
+      "sha256": "671fcbeb13ae628798af6e24e95777f65687195154b2f5219d886647271d3105",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 176
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_3545e8258efb8fd7.svg",
+      "sha256": "a78f2eb0bb9714e20266ef70651d08d0f403f26da41e39050b87a70991128d28",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 177
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_dfff9f8f7824cf7d.svg",
+      "sha256": "fa7f0c856987a2b10a9fa0ef82b4e5494261bcfc3374a94040f5640877a28d05",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_55f3fbddd62dec13.svg",
+      "sha256": "062b74b04189ad7e9085f3b4e724146ef14558c93452e919fd756fdad7dc9a95",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 180
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_61665e6085afafb0.svg",
+      "sha256": "41637a2790a2001609280fd7c2dce3fce5c32a14d0533242c544d3240046f696",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 179
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_e452e47d7636f152.svg",
+      "sha256": "1377d6d8926ea2d66150e0c6803ce3bdb86e064f3fa69610046f704293df8946",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 180
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_ad75887dc00504a2.svg",
+      "sha256": "ecc0a6733603699a88fbe0f6f3e165b0838c5329439266c24a8f89fac630b7e9",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1a2e",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_63ff0da97f0a697e.svg",
+      "sha256": "be2603b18597ad4279757f6cb03c0c977e12c473532e9b7c2158aa9da8bd66f4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1a2e",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_5855eab472031e09.svg",
+      "sha256": "ae4ff1d77f37493d1e6c3544904fcf2affb21428e6c33f7ef17d1c6d38d18a8a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1a2e",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_fff6796cb20d2c07.svg",
+      "sha256": "5ed8b1f18802aed3f851946c0b852a5385bba4bce719d10f9484d4ed63ff6259",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "292A2D",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_35004c7e54c3bf47.svg",
+      "sha256": "9e9d01c47c6a8e9851db5f6e9bc46c713799c5c81a1e4a525d3118aa1f94f6f9",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "292A2D",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_f1f5afc327f4598f.svg",
+      "sha256": "0dcc138cd6cac2f97f066d8efc07ea987927fd63bad726502afbd4029129688c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "292A2D",
+        "style": "flat-square"
+      },
+      "size_bytes": 191
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_8d3e9297f25688e7.svg",
+      "sha256": "458fa8f7368dab4a07ec6151aaf9830998e08e6a68cf365801745efdd4b7194b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 214
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_ca4bfb542715012b.svg",
+      "sha256": "542fde6fdaad56bead0586aa29f9b7f3020b06e9a495de3aedb4f8dec41326f6",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FF0000",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_5d7f188fa7fe8b82.svg",
+      "sha256": "3c31ebba30359436a5849287ff15d790dab05210198769ef8fa510668a8674b3",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "00FF00",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_e50858fc3f7e3b84.svg",
+      "sha256": "d69fb5ed87d932a32803cef43627c5d319f819b1ff4a7748d21649360d171972",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "0000FF",
+        "style": "flat-square"
+      },
+      "size_bytes": 151
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_f0e70bd99ed82e61.svg",
+      "sha256": "c22e75916de26ef5e1e0d647705d64613bad6d931698853be1477aa51df2c85a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "0a0a0a",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_1fe886d7cd6e37c7.svg",
+      "sha256": "ccb71aaf82d67c796dc8e0974722f437fb2d57009556e36b5fd4961c150fbc7d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "708090",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_ff6169e7c702f65f.svg",
+      "sha256": "4d335b9f708356908b86117948afb95af2f289a87fc44cc456268ba6c4316654",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "B0C4DE",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_500a319e888e8802.svg",
+      "sha256": "80e541959073b3e6db67a177e07d4874e1e80591a18876ebd1935ca0ba41159e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_7d8dee1884fa410.svg",
+      "sha256": "7cc813962afeefaceb21bcf5ab82ef3f81feee40848e0fc54b8879eca99576dc",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 160
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_7cede18a96b13cb0.svg",
+      "sha256": "845b33d2994cc67a9a68eb635f0743bb5f4fc5ed6acfaa0633eb3ef4a37ef39a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "333333",
+        "style": "flat-square"
+      },
+      "size_bytes": 157
+    },
+    {
+      "path": "docs/guides/assets/svg-examples/swatch_79ca3e482e563e47.svg",
+      "sha256": "6be4a7b164cd7eddca6ecc2c29d5b6ab830c886e30a59dc9be695ee5ec220994",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 302
+    }
+  ]
+}
