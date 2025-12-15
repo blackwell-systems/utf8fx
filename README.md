@@ -140,7 +140,6 @@ mdfx convert --style mathbold --separator dot "TITLE"
 # List available styles
 mdfx list
 mdfx frames list
-mdfx badges list
 ```
 
 ## Rendering Backends
@@ -165,7 +164,7 @@ See [Architecture](docs/ARCHITECTURE.md) for backend details.
 | [Components](docs/guides/COMPONENTS-GUIDE.md) | divider, tech, status, row |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 decorative Unicode borders |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 19 Unicode typography styles |
-| [Badges](docs/guides/BADGES-GUIDE.md) | Numbered/lettered markers |
+| [Glyphs](docs/guides/GLYPHS-GUIDE.md) | Unicode glyphs and symbols |
 | [Template Syntax](docs/TEMPLATE-SYNTAX.md) | Full syntax reference |
 | [API Guide](docs/API-GUIDE.md) | Library usage |
 
