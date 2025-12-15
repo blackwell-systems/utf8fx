@@ -819,12 +819,42 @@ impl TemplateParser {
             i += 1; // skip ':'
 
             // Parse arg value (until next : or } or /)
+            // For key=value args, allow / in the value part (e.g., gradient=horizontal/FF6B35/1a1a2e)
             let mut arg = String::new();
+            let mut has_equals = false;
+
             while i < chars.len() {
                 let ch = chars[i];
-                if ch == ':' || ch == '}' || ch == '/' {
+
+                // Track if we've seen '=' to know if we're in a key=value argument
+                if ch == '=' {
+                    has_equals = true;
+                    arg.push(ch);
+                    i += 1;
+                    continue;
+                }
+
+                // For key=value args, only stop at : or }
+                // For positional args, also stop at /
+                if ch == ':' || ch == '}' {
                     break;
                 }
+
+                // For positional args (no =), stop at /
+                // For key=value args, allow / in values
+                if ch == '/' && !has_equals {
+                    break;
+                }
+
+                // Special case: if we see /}} it's the self-closing marker
+                if ch == '/'
+                    && i + 2 < chars.len()
+                    && chars[i + 1] == '}'
+                    && chars[i + 2] == '}'
+                {
+                    break;
+                }
+
                 arg.push(ch);
                 i += 1;
             }
