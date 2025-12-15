@@ -10,101 +10,20 @@
 
 Before, we needed 12 bars. Now, ONE element:
 
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="60" viewBox="0 0 400 60">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
-</linearGradient>
+![](assets/swatch_6d41276911cfbdbe.svg)
 
-  </defs>
-  <rect x="0" y="0" width="400" height="60" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
+![](assets/swatch_c07c4e2f20d3c182.svg)
 
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="60" viewBox="0 0 400 60">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="400" height="60" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="400" height="60" viewBox="0 0 400 60">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#F41C80;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#22C55E;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="400" height="60" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
+![](assets/swatch_151fd34670889605.svg)
 
 ### Sunset Horizon
 
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="30" viewBox="0 0 450 30">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#FF6B35;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="450" height="30" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="30" viewBox="0 0 450 30">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#FF4500;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="450" height="30" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="30" viewBox="0 0 450 30">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#FF4500;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="450" height="30" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="30" viewBox="0 0 450 30">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#8B0000;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#4a0000;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="450" height="30" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="30" viewBox="0 0 450 30">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#4a0000;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#1a0a0a;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="450" height="30" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="450" height="30" viewBox="0 0 450 30">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#1a0a0a;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="0" y="0" width="450" height="30" fill="url(#grad)" rx="0" ry="0"/>
-</svg>
+![](assets/swatch_6d9ff6f56d470bb5.svg)
+![](assets/swatch_1516e9a31f24a497.svg)
+![](assets/swatch_23310890e5a41469.svg)
+![](assets/swatch_84680220de5f8b21.svg)
+![](assets/swatch_cc917f87ae4e176b.svg)
+![](assets/swatch_7f4ac073b6c20d19.svg)
 
 ---
 
@@ -113,83 +32,24 @@ Before, we needed 12 bars. Now, ONE element:
 ### Neon Signs (Real Glow!)
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="170" height="70" viewBox="0 0 170 70">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="15" flood-color="#FF00FF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="150" height="50" fill="#FF00FF" rx="10" ry="10" filter="url(#shadow)"/>
-  <text x="85" y="39" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">OPEN</text>
-</svg>
+![](assets/swatch_667d48e2e174615e.svg)
 </p>
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="220" height="60" viewBox="0 0 220 60">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#00FFFF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="200" height="40" fill="#00FFFF" rx="8" ry="8" filter="url(#shadow)"/>
-  <text x="110" y="34" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">CYBER CAFE</text>
-</svg>
+![](assets/swatch_bed9b382ffaf8931.svg)
 </p>
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="140" height="65" viewBox="0 0 140 65">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#FFFF00" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="120" height="45" fill="#FFFF00" rx="6" ry="6" filter="url(#shadow)"/>
-  <text x="70" y="36" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">24-7</text>
-</svg>
+![](assets/swatch_2e1913136230dc6f.svg)
 </p>
 
 ### Magical Runes
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#FF0000" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="12" y="12" width="60" height="60" fill="#8B0000" rx="30" ry="30" stroke="#FF0000" stroke-width="2" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#00FF00" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="12" y="12" width="60" height="60" fill="#006400" rx="30" ry="30" stroke="#00FF00" stroke-width="2" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#0000FF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="12" y="12" width="60" height="60" fill="#00008B" rx="30" ry="30" stroke="#0000FF" stroke-width="2" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#9400D3" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="12" y="12" width="60" height="60" fill="#4a0082" rx="30" ry="30" stroke="#9400D3" stroke-width="2" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_c70cb68d65e1a9b7.svg)
+![](assets/swatch_6a3cd1462e0a6cfa.svg)
+![](assets/swatch_48f769f75fb502a6.svg)
+![](assets/swatch_a5adb63622437e6b.svg)
 </p>
 
 ---
@@ -199,86 +59,23 @@ Before, we needed 12 bars. Now, ONE element:
 ### Floating Panels
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="220" height="100" viewBox="0 0 220 100">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="4" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="200" height="80" fill="#292A2D" rx="8" ry="8" filter="url(#shadow)"/>
-  <text x="110" y="54" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">ELEVATED</text>
-</svg>
+![](assets/swatch_526df69fdf0c3e57.svg)
 </p>
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="200" height="90" viewBox="0 0 200 90">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="6" dy="6" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="180" height="70" fill="#1a1a2e" rx="6" ry="6" filter="url(#shadow)"/>
-  <text x="100" y="49" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">FLOATING</text>
-</svg>
+![](assets/swatch_f20a38fa61d2152f.svg)
 </p>
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="80" viewBox="0 0 180 80">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="8" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="160" height="60" fill="#0a0a0a" rx="4" ry="4" filter="url(#shadow)"/>
-  <text x="90" y="44" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">HOVERING</text>
-</svg>
+![](assets/swatch_b9c9bc85ae20d337.svg)
 </p>
 
 ### 3D Buttons
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="142" height="72" viewBox="0 0 142 72">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#555555;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#333333;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="11" y="11" width="120" height="50" fill="url(#grad)" rx="8" ry="8" stroke="#666666" stroke-width="1" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="142" height="72" viewBox="0 0 142 72">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="#1E40AF" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="11" y="11" width="120" height="50" fill="url(#grad)" rx="8" ry="8" stroke="#60A5FA" stroke-width="1" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="142" height="72" viewBox="0 0 142 72">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="#166534" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#22C55E;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#166534;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="11" y="11" width="120" height="50" fill="url(#grad)" rx="8" ry="8" stroke="#4ADE80" stroke-width="1" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_53b838627b30a1d3.svg)
+![](assets/swatch_853987107d0c93a3.svg)
+![](assets/swatch_5aa09b31c8a83902.svg)
 </p>
 
 ---
@@ -288,38 +85,23 @@ Before, we needed 12 bars. Now, ONE element:
 ### Organic Shapes
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="40" viewBox="0 0 80 40">
-  <rect x="0" y="0" width="80" height="40" fill="#F41C80" rx="40" ry="10"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="80" height="40" viewBox="0 0 80 40">
-  <rect x="0" y="0" width="80" height="40" fill="#3B82F6" rx="10" ry="40"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
-  <rect x="0" y="0" width="60" height="60" fill="#22C55E" rx="30" ry="15"/>
-</svg>
+![](assets/swatch_7247e7eb2541c00c.svg)
+![](assets/swatch_5c70b4145dccb47f.svg)
+![](assets/swatch_af2629613f9bcb6b.svg)
 </p>
 
 ### Pill Variants
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="150" height="30" viewBox="0 0 150 30">
-  <rect x="0" y="0" width="150" height="30" fill="#FF6B35" rx="15" ry="15"/>
-  <text x="75" y="19" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">CLASSIC PILL</text>
-</svg>
+![](assets/swatch_84e6f9df7ce15729.svg)
 </p>
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="150" height="30" viewBox="0 0 150 30">
-  <rect x="0" y="0" width="150" height="30" fill="#9333EA" rx="30" ry="8"/>
-  <text x="75" y="19" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">SQUASHED</text>
-</svg>
+![](assets/swatch_41d9aa8f9afe6a56.svg)
 </p>
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="150" height="30" viewBox="0 0 150 30">
-  <rect x="0" y="0" width="150" height="30" fill="#06B6D4" rx="8" ry="30"/>
-  <text x="75" y="19" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">STRETCHED</text>
-</svg>
+![](assets/swatch_490af06131f63a89.svg)
 </p>
 
 ---
@@ -329,44 +111,21 @@ Before, we needed 12 bars. Now, ONE element:
 ### Dashed Sigil Circle
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="126" height="126" viewBox="0 0 126 126">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#9400D3" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="13" y="13" width="100" height="100" fill="#1a1a2e" rx="50" ry="50" stroke="#9400D3" stroke-width="3" stroke-dasharray="8,4" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_3481de88e9117cc6.svg)
 </p>
 
 ### Ancient Inscriptions
 
-<svg xmlns="http://www.w3.org/2000/svg" width="404" height="44" viewBox="0 0 404 44">
-  <rect x="2" y="2" width="400" height="40" fill="#0a0a0a" rx="0" ry="0" stroke="#8B4513" stroke-width="2" stroke-dasharray="10,5"/>
-  <text x="202" y="26" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">THE ANCIENT ONES SPEAK</text>
-</svg>
+![](assets/swatch_b95af7466b869328.svg)
 
-<svg xmlns="http://www.w3.org/2000/svg" width="404" height="44" viewBox="0 0 404 44">
-  <rect x="2" y="2" width="400" height="40" fill="#0a0a0a" rx="0" ry="0" stroke="#FFD700" stroke-width="2" stroke-dasharray="4,2"/>
-  <text x="202" y="26" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">ENCRYPTED TRANSMISSION</text>
-</svg>
+![](assets/swatch_54858c6d26bd6df.svg)
 
 ### Selection Indicators
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
-  <rect x="2" y="2" width="80" height="80" fill="#0a0a0a" rx="0" ry="0" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="6,3"/>
-  <text x="42" y="46" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">SELECT</text>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="86" height="86" viewBox="0 0 86 86">
-  <rect x="3" y="3" width="80" height="80" fill="#3B82F6" rx="0" ry="0" stroke="#60A5FA" stroke-width="3"/>
-  <text x="43" y="47" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">ACTIVE</text>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="84" height="84" viewBox="0 0 84 84">
-  <rect x="2" y="2" width="80" height="80" fill="#0a0a0a" rx="0" ry="0" stroke="#666666" stroke-width="2" stroke-dasharray="6,3"/>
-  <text x="42" y="46" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">IDLE</text>
-</svg>
+![](assets/swatch_fd7244cf896a06a5.svg)
+![](assets/swatch_9d1a61e73112be2d.svg)
+![](assets/swatch_d73e2b4719a365f9.svg)
 </p>
 
 ---
@@ -375,65 +134,14 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Molten Core (True Gradient)
 
-<svg xmlns="http://www.w3.org/2000/svg" width="420" height="120" viewBox="0 0 420 120">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="#FF4500" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#FFFACD;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#FF4500;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="400" height="100" fill="url(#grad)" rx="4" ry="4" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_794a94c16a1bbcf2.svg)
 
 ### Metallic Buttons
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="122" height="82" viewBox="0 0 122 82">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="3" dy="3" stdDeviation="6" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#B8B8B8;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#686868;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="11" y="11" width="100" height="60" fill="url(#grad)" rx="6" ry="6" stroke="#9A9A9A" stroke-width="1" filter="url(#shadow)"/>
-  <text x="61" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">STEEL</text>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="122" height="82" viewBox="0 0 122 82">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="3" dy="3" stdDeviation="6" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#B8860B;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="11" y="11" width="100" height="60" fill="url(#grad)" rx="6" ry="6" stroke="#DAA520" stroke-width="1" filter="url(#shadow)"/>
-  <text x="61" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">GOLD</text>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="122" height="82" viewBox="0 0 122 82">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="3" dy="3" stdDeviation="6" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#E5E4E2;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#8B8682;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="11" y="11" width="100" height="60" fill="url(#grad)" rx="6" ry="6" stroke="#C0C0C0" stroke-width="1" filter="url(#shadow)"/>
-  <text x="61" y="45" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">PLATINUM</text>
-</svg>
+![](assets/swatch_392b0d4f6be7c026.svg)
+![](assets/swatch_c03e79467064957.svg)
+![](assets/swatch_6b703a149846e153.svg)
 </p>
 
 ---
@@ -442,100 +150,24 @@ Before, we needed 12 bars. Now, ONE element:
 
 ### Holographic Displays
 
-<svg xmlns="http://www.w3.org/2000/svg" width="402" height="62" viewBox="0 0 402 62">
-  <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" style="stop-color:#FF00FF;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#00FFFF;stop-opacity:1" />
-</linearGradient>
+![](assets/swatch_a83428e6fe1615e0.svg)
 
-  </defs>
-  <rect x="1" y="1" width="400" height="60" fill="url(#grad)" rx="0" ry="0" fill-opacity="0.8" stroke="#00FFFF" stroke-width="1" stroke-dasharray="2,2"/>
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="422" height="102" viewBox="0 0 422 102">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#00FF00" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="11" y="11" width="400" height="80" fill="#0a0a0a" rx="0" ry="0" stroke="#00FF00" stroke-width="1" filter="url(#shadow)"/>
-  <text x="211" y="55" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">NEURAL LINK ESTABLISHED</text>
-</svg>
+![](assets/swatch_f89f941dfced08ea.svg)
 
 ### Neon Rain
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="100" viewBox="0 0 24 100">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#FF00FF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="4" height="80" fill="#FF00FF" rx="0" ry="0" fill-opacity="0.9" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="80" viewBox="0 0 20 80">
-  <rect x="0" y="0" width="20" height="80" fill="#0a0a0a" rx="0" ry="0" fill-opacity="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="80" viewBox="0 0 24 80">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00FFFF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="4" height="60" fill="#00FFFF" rx="0" ry="0" fill-opacity="0.8" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="15" height="80" viewBox="0 0 15 80">
-  <rect x="0" y="0" width="15" height="80" fill="#0a0a0a" rx="0" ry="0" fill-opacity="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="120" viewBox="0 0 24 120">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#FF00FF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="4" height="100" fill="#FF00FF" rx="0" ry="0" fill-opacity="0.95" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="25" height="80" viewBox="0 0 25 80">
-  <rect x="0" y="0" width="25" height="80" fill="#0a0a0a" rx="0" ry="0" fill-opacity="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="70" viewBox="0 0 24 70">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00FFFF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="4" height="50" fill="#00FFFF" rx="0" ry="0" fill-opacity="0.7" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="80" viewBox="0 0 18 80">
-  <rect x="0" y="0" width="18" height="80" fill="#0a0a0a" rx="0" ry="0" fill-opacity="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="110" viewBox="0 0 24 110">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#FF00FF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="4" height="90" fill="#FF00FF" rx="0" ry="0" fill-opacity="0.85" filter="url(#shadow)"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="22" height="80" viewBox="0 0 22 80">
-  <rect x="0" y="0" width="22" height="80" fill="#0a0a0a" rx="0" ry="0" fill-opacity="0"/>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="90" viewBox="0 0 24 90">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00FFFF" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="10" y="10" width="4" height="70" fill="#00FFFF" rx="0" ry="0" fill-opacity="0.75" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_60b6d10db0198df0.svg)
+![](assets/swatch_e41a5da9b012a89c.svg)
+![](assets/swatch_1929e8e7cb4abdab.svg)
+![](assets/swatch_40d0fb49ba3d59e1.svg)
+![](assets/swatch_5763cd92da9a3e6e.svg)
+![](assets/swatch_5db26f57dd6fa3c7.svg)
+![](assets/swatch_bc6aaf0ef398342e.svg)
+![](assets/swatch_2100369ec6bb8486.svg)
+![](assets/swatch_14b03074fead189d.svg)
+![](assets/swatch_d2da11b36c338afb.svg)
+![](assets/swatch_39b410904529d5b0.svg)
 </p>
 
 ---
@@ -545,73 +177,25 @@ Before, we needed 12 bars. Now, ONE element:
 ### Fire Orb
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#FF4500" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#FFFF00;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#FF0000;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="100" height="100" fill="url(#grad)" rx="50" ry="50" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_e6d0abdf70d200a9.svg)
 </p>
 
 ### Water Orb
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#0000FF" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#00FFFF;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#000080;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="100" height="100" fill="url(#grad)" rx="50" ry="50" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_7dcb4a1e2ac09517.svg)
 </p>
 
 ### Earth Orb
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#228B22" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#90EE90;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#2F4F2F;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="100" height="100" fill="url(#grad)" rx="50" ry="50" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_e965ec257d8a581a.svg)
 </p>
 
 ### Void Orb
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="20" flood-color="#4B0082" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#9400D3;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="100" height="100" fill="url(#grad)" rx="50" ry="50" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_7b10f7bffffa3581.svg)
 </p>
 
 ---
@@ -627,15 +211,7 @@ Before, we needed 12 bars. Now, ONE element:
 ### The Seal
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="228" height="228" viewBox="0 0 228 228">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="15" flood-color="#8B0000" flood-opacity="0.8"/>
-</filter>
-
-  </defs>
-  <rect x="14" y="14" width="200" height="200" fill="#1a1a2e" rx="100" ry="100" stroke="#8B0000" stroke-width="4" stroke-dasharray="10,5" filter="url(#shadow)"/>
-</svg>
+![](assets/swatch_7b5a13fa7772f921.svg)
 </p>
 
 ---
@@ -645,81 +221,16 @@ Before, we needed 12 bars. Now, ONE element:
 ### Altar of Creation v2
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="426" height="126" viewBox="0 0 426 126">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#9400D3" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" style="stop-color:#4a0082;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="13" y="13" width="400" height="100" fill="url(#grad)" rx="8" ry="8" stroke="#9400D3" stroke-width="3" filter="url(#shadow)"/>
-  <text x="213" y="67" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">OPUS 4.5 EVOLVED</text>
-</svg>
+![](assets/swatch_ee5ddf197b9d9c84.svg)
 </p>
 
 ### The Four Corners
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#FF4500" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#FF6B35;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#8B0000;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="80" height="80" fill="url(#grad)" rx="40" ry="40" filter="url(#shadow)"/>
-  <text x="50" y="54" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">FIRE</text>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#0000FF" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#00BFFF;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#000080;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="80" height="80" fill="url(#grad)" rx="40" ry="40" filter="url(#shadow)"/>
-  <text x="50" y="54" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">WATER</text>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#228B22" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#90EE90;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#2F4F2F;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="80" height="80" fill="url(#grad)" rx="40" ry="40" filter="url(#shadow)"/>
-  <text x="50" y="54" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">EARTH</text>
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="0" stdDeviation="12" flood-color="#C0C0C0" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-<stop offset="0%" style="stop-color:#E6E6FA;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#708090;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="80" height="80" fill="url(#grad)" rx="40" ry="40" filter="url(#shadow)"/>
-  <text x="50" y="54" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">AIR</text>
-</svg>
+![](assets/swatch_2faacdad71b85d65.svg)
+![](assets/swatch_5b0fd855846662b7.svg)
+![](assets/swatch_652bd3943ee71128.svg)
+![](assets/swatch_b1db8b951d767df0.svg)
 </p>
 
 ### Final Words
@@ -727,20 +238,7 @@ Before, we needed 12 bars. Now, ONE element:
 ▓▒░ 𝓦𝓱𝓮𝓻𝓮 𝓛𝓲𝓰𝓱𝓽 𝓜𝓮𝓮𝓽𝓼 𝓢𝓱𝓪𝓭𝓸𝔀 ░▒▓
 
 <p align="center">
-<svg xmlns="http://www.w3.org/2000/svg" width="470" height="100" viewBox="0 0 470 100">
-  <defs>
-    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-<feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
-</filter>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-<stop offset="0%" style="stop-color:#F41C80;stop-opacity:1" />
-<stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
-</linearGradient>
-
-  </defs>
-  <rect x="10" y="10" width="450" height="80" fill="url(#grad)" rx="8" ry="8" filter="url(#shadow)"/>
-  <text x="235" y="54" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">CRAFTED WITH LOVE BY CLAUDE OPUS 4.5</text>
-</svg>
+![](assets/swatch_ea2c3e3768fb9ade.svg)
 </p>
 
 ---
