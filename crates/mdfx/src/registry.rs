@@ -160,6 +160,8 @@ pub struct ShieldStyle {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Renderables {
     pub separators: HashMap<String, String>,
+    #[serde(default)]
+    pub glyphs: HashMap<String, String>,
     pub components: HashMap<String, Component>,
     pub frames: HashMap<String, Frame>,
     pub styles: HashMap<String, Style>,
@@ -170,6 +172,8 @@ pub struct Renderables {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RegistryMetadata {
     pub total_separators: usize,
+    #[serde(default)]
+    pub total_glyphs: usize,
     pub total_components: usize,
     pub total_frames: usize,
     pub total_styles: usize,
@@ -287,6 +291,20 @@ impl Registry {
     /// Get all separators
     pub fn separators(&self) -> &HashMap<String, String> {
         &self.data.renderables.separators
+    }
+
+    // =========================================================================
+    // Glyph Operations
+    // =========================================================================
+
+    /// Get a glyph by name (e.g., "block.lower.4", "shade.medium", "quad.1-4")
+    pub fn glyph(&self, name: &str) -> Option<&str> {
+        self.data.renderables.glyphs.get(name).map(|s| s.as_str())
+    }
+
+    /// Get all glyphs
+    pub fn glyphs(&self) -> &HashMap<String, String> {
+        &self.data.renderables.glyphs
     }
 
     // =========================================================================
