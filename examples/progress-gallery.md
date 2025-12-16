@@ -67,7 +67,7 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 ## With Labels
 
 **Basic Label:**
-{{ui:progress:75:width=120:label=true/}}
+{{ui:progress:75:width=120:height=16:label=true/}}
 
 **Tall with Label:**
 {{ui:progress:50:width=150:height=20:label=true/}}
@@ -122,10 +122,10 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 | Component | Completion |
 |-----------|------------|
-| Core Engine | {{ui:progress:100:width=120:fill=success:label=true/}} |
-| API | {{ui:progress:85:width=120:fill=accent:label=true/}} |
-| Documentation | {{ui:progress:60:width=120:fill=warning:label=true/}} |
-| Testing | {{ui:progress:40:width=120:fill=error:label=true/}} |
+| Core Engine | {{ui:progress:100:width=120:height=16:fill=success:label=true/}} |
+| API | {{ui:progress:85:width=120:height=16:fill=accent:label=true/}} |
+| Documentation | {{ui:progress:60:width=120:height=16:fill=warning:label=true/}} |
+| Testing | {{ui:progress:40:width=120:height=16:fill=error:label=true/}} |
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-16T10:58:01.042865726+00:00",
+  "created_at": "2025-12-16T11:22:02.884210559+00:00",
   "backend": "svg",
   "assets_dir": "assets",
   "total_assets": 54,
@@ -174,20 +174,20 @@
       "size_bytes": 211
     },
     {
-      "path": "assets/progress_8539fcd160d01d07.svg",
-      "sha256": "7557c46e1e124abca0fa95acae7576d81ee3f36c2a43b618612f98695f2fe088",
+      "path": "assets/progress_27a2cbd1121d121e.svg",
+      "sha256": "a0443c5fbb60a545ef8f714296b0d8d89af5e3ac40f1482175453c6b6ce07417",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
         "percent": 75,
         "width": 120,
-        "height": 10
+        "height": 16
       },
-      "size_bytes": 344
+      "size_bytes": 365
     },
     {
       "path": "assets/progress_c5147bd6a7167b13.svg",
-      "sha256": "fad8d48482ebe0843d381c5203b6f61357e0304e52220922ce645286a9b84e3b",
+      "sha256": "d1cecfd87d3dfbee04f4c6022da011ce170690bcc5af8796b99ae4271a8743c3",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
@@ -195,11 +195,11 @@
         "width": 150,
         "height": 20
       },
-      "size_bytes": 346
+      "size_bytes": 365
     },
     {
       "path": "assets/progress_cf6f54671a95ce72.svg",
-      "sha256": "5f9ffa9fbae153e1a9afabc74eeb3f927c6692396120040ff0391c368b20c24c",
+      "sha256": "6a3a147b2206235dade421839ff69adf28f165daf617ad4c79cb70efa151c641",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
@@ -207,7 +207,7 @@
         "width": 150,
         "height": 18
       },
-      "size_bytes": 347
+      "size_bytes": 366
     },
     {
       "path": "assets/progress_e317e1f147b1ddd6.svg",
@@ -354,52 +354,52 @@
       "size_bytes": 211
     },
     {
-      "path": "assets/progress_99a9d578adb6df48.svg",
-      "sha256": "edce909133c488dd8d070f31e7be666173a9a160cefb647612071142ae4d325f",
+      "path": "assets/progress_cdc476b1c656de20.svg",
+      "sha256": "2c74dbb2dac633f047adc1bea7985ba458cf75b3cca696908bd2999616376544",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
         "percent": 100,
         "width": 120,
-        "height": 10
+        "height": 16
       },
-      "size_bytes": 346
+      "size_bytes": 367
     },
     {
-      "path": "assets/progress_a9f0101ae3283c94.svg",
-      "sha256": "dc7e5833701ad20cd9b5892e1ed0f8558cc738323122b49b8e24e21d5e8e1eaf",
+      "path": "assets/progress_3566a832bed03fcc.svg",
+      "sha256": "61fe3d001a6d8ab984de141178857c56c87c4b88c7fa19beee20c076ad9c339e",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
         "percent": 85,
         "width": 120,
-        "height": 10
+        "height": 16
       },
-      "size_bytes": 345
+      "size_bytes": 366
     },
     {
-      "path": "assets/progress_ac745b08de3225c5.svg",
-      "sha256": "16ed68268f43f7ec3ad3ea05139e33a537d6e2097a2a99496e8871b400125f6e",
+      "path": "assets/progress_a18e2bd6e99bf7eb.svg",
+      "sha256": "cd16b68e728fa77bb0cbfc9b0b2e5e970312dd2ef0a8ff4d9cb538ecd626e238",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
         "percent": 60,
         "width": 120,
-        "height": 10
+        "height": 16
       },
-      "size_bytes": 344
+      "size_bytes": 365
     },
     {
-      "path": "assets/progress_d224edd92359413e.svg",
-      "sha256": "9568500c5a8daac387e25bae335abe1c792529a39f4e14a5340243afb6d98b72",
+      "path": "assets/progress_e320a77ded84bf0d.svg",
+      "sha256": "7cdfa08343971ac1e7cd05d1d9c68f7753bc24cbac4b47a60e25997c95685302",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
         "percent": 40,
         "width": 120,
-        "height": 10
+        "height": 16
       },
-      "size_bytes": 344
+      "size_bytes": 365
     },
     {
       "path": "assets/progress_eb078575c825ce18.svg",

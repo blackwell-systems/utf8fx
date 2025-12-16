@@ -67,7 +67,7 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 ## With Labels
 
 **Basic Label:**
-![](assets/progress_8539fcd160d01d07.svg)
+![](assets/progress_27a2cbd1121d121e.svg)
 
 **Tall with Label:**
 ![](assets/progress_c5147bd6a7167b13.svg)
@@ -122,10 +122,10 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 | Component | Completion |
 |-----------|------------|
-| Core Engine | ![](assets/progress_99a9d578adb6df48.svg) |
-| API | ![](assets/progress_a9f0101ae3283c94.svg) |
-| Documentation | ![](assets/progress_ac745b08de3225c5.svg) |
-| Testing | ![](assets/progress_d224edd92359413e.svg) |
+| Core Engine | ![](assets/progress_cdc476b1c656de20.svg) |
+| API | ![](assets/progress_3566a832bed03fcc.svg) |
+| Documentation | ![](assets/progress_a18e2bd6e99bf7eb.svg) |
+| Testing | ![](assets/progress_e320a77ded84bf0d.svg) |
 
 ---
 

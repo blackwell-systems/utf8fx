@@ -537,13 +537,15 @@ impl SvgBackend {
         };
 
         // Build label element if requested
-        let label_elem = if show_label && width >= 40 {
+        // Require minimum dimensions for readable labels (50px wide, 14px tall)
+        let label_elem = if show_label && width >= 50 && height >= 14 {
             let label_col = label_color.unwrap_or("FFFFFF");
-            let font_size = if height >= 16 { 11 } else { 9 };
+            let font_size = if height >= 20 { 12 } else { 10 };
             let text_y = height / 2 + font_size / 3;
             let text_x = width / 2;
+            // Add letter-spacing for better readability
             format!(
-                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",
+                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\" letter-spacing=\"1\">{}%</text>",
                 text_x, text_y, label_col, font_size, percent
             )
         } else {
