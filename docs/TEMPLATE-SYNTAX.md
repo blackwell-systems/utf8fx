@@ -72,7 +72,6 @@ For templates without content:
 ```markdown
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
-{{ui:statusitem:Build:success:passing/}}
 ```
 
 #### Block Tags
@@ -94,7 +93,6 @@ For templates with content:
 ```markdown
 {{mathbold}}HELLO{{/mathbold}}
 {{ui:row:align=center}}badges{{/ui}}
-{{ui:callout-github:warning}}Message{{/ui}}
 {{frame:gradient}}{{script}}Text{{/script}}{{/frame}}
 ```
 
@@ -119,7 +117,7 @@ For templates with content:
 - Closes in reverse order (LIFO)
 
 **Why generic closers?**
-- Less typing: `{{/ui}}` instead of `{{/callout-github}}`
+- Less typing: `{{/ui}}` instead of `{{/row}}`
 - Easier refactoring: change opening tag without updating closer
 - Cleaner markdown: more scannable
 
@@ -141,7 +139,6 @@ Arguments separated by colons (`:`)
 ```markdown
 {{ui:tech:rust/}}                              ← 1 positional arg
 {{ui:swatch:success/}}                         ← 1 positional arg
-{{ui:statusitem:Label:Level:Text/}}            ← 3 positional args
 ```
 
 **Rules:**
@@ -213,7 +210,7 @@ Components are high-level semantic elements that expand to other templates.
 
 ### Badge Style Control
 
-All primitive-based components (swatch, tech, status) support optional `style=` parameter:
+All primitive-based components (swatch, tech) support optional `style=` parameter:
 
 | Style | Appearance | Shields.io | SVG |
 |-------|------------|-----------|-----|
@@ -250,8 +247,6 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 | `swatch` | color | self-closing | `{{ui:swatch:accent/}}` |
 | `tech` | logo_name | self-closing | `{{ui:tech:rust/}}` |
 | `row` | align | block | `{{ui:row:align=center}}badges{{/ui}}` |
-| `callout-github` | type | block | `{{ui:callout-github:info}}Msg{{/ui}}` |
-| `statusitem` | label, level, text | self-closing | `{{ui:statusitem:Build:success:passing/}}` |
 
 ### Component-Specific Rules
 
@@ -287,27 +282,6 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 - 1 arg: Simple Icons slug (lowercase)
 - Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
 - Examples: `{{ui:tech:rust/}}`, `{{ui:tech:python:style=plastic/}}`
-
-**callout-github:**
-```markdown
-{{ui:callout-github:TYPE}}
-CONTENT
-{{/ui}}
-```
-- 1 arg: `success`, `warning`, `error`, `info`
-- Uses blockquote post-processing (every line gets `> `)
-- Multiline content supported
-- Empty lines become `>`
-- GitHub Blocks feature
-
-**statusitem:**
-```markdown
-{{ui:statusitem:LABEL:LEVEL:TEXT/}}
-```
-- 3 args: label, level, text
-- Example: `{{ui:statusitem:Build:success:passing/}}`
-- Compose multiple with ` · ` separator for status rows
-- GitHub Blocks feature
 
 ---
 
@@ -664,46 +638,13 @@ Templates can be nested to create complex effects:
 
 ### Post-Processing
 
-Some components apply transformations after template expansion.
+Custom expand components can apply transformations after template expansion.
 
 **PostProcess enum:**
 - `None` - No post-processing (default)
 - `Blockquote` - Prefix every line with `"> "`
 
-**Components with post-processing:**
-- `callout-github` - Uses `Blockquote` post-processor
-
-**How it works:**
-
-```markdown
-{{ui:callout-github:info}}
-Line 1
-Line 2
-{{/ui}}
-```
-
-**Step 1 - Expand template:**
-```
-{{ui:swatch:info/}} **Note**
-Line 1
-Line 2
-```
-
-**Step 2 - Apply blockquote post-processing:**
-```
-> {{ui:swatch:info/}} **Note**
-> Line 1
-> Line 2
-```
-
-**Step 3 - Render primitives:**
-```
-> 🔵 **Note**
-> Line 1
-> Line 2
-```
-
-**Empty lines:** Become `>` (no trailing space) for GitHub compatibility.
+Post-processing is available for user-defined expand components in registry.json.
 
 ---
 
@@ -751,19 +692,18 @@ Next paragraph
 
 **Empty lines in block content:** Preserved
 ```markdown
-{{ui:callout-github:info}}
-First paragraph
+{{ui:row}}
+First line
 
-Second paragraph
+Second line
 {{/ui}}
 ```
 
 **Indentation:** Preserved in multiline content
 ```markdown
-{{ui:callout-github:warning}}
-- Item 1
-- Item 2
-  - Nested
+{{ui:row}}
+{{ui:swatch:success/}}
+{{ui:swatch:warning/}}
 {{/ui}}
 ```
 

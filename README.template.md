@@ -424,7 +424,7 @@ Colon-separated key=value pairs:
 
 **Shipped:**
 - 19 Unicode text styles with aliases
-- 6 UI components (swatch, tech, row, section, statusitem, callout-github)
+- 3 UI components (swatch, tech, row)
 - 27 inline frames
 - 6 alphanumeric badge types
 - Custom separators and spacing

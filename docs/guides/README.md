@@ -13,7 +13,7 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 | Guide | Description |
 |-------|-------------|
 | [Swatches](SWATCH-GUIDE.md) | Color blocks with 10 parameters, 5 styles, pixel art techniques |
-| [Components](COMPONENTS-GUIDE.md) | UI elements: swatch, tech, status, row, header, callout |
+| [Components](COMPONENTS-GUIDE.md) | UI elements: swatch, tech, row |
 | [Frames](FRAMES-GUIDE.md) | 30+ decorative frames with combos, modifiers, and glyph frames |
 
 ## Text & Symbols

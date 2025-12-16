@@ -129,7 +129,7 @@ Components are defined in `registry.json` under `renderables.components`:
 ### Fields
 
 **type** (`"expand"` or `"native"`)
-- `"expand"` - Template substitution components (section, statusitem, callout-github)
+- `"expand"` - Template substitution components (user-defined partials)
 - `"native"` - Rust-implemented logic (swatch, tech, row)
 
 **self_closing** (`boolean`)
@@ -150,7 +150,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components (6 total)
+### Shipped Components (3 total)
 
 #### swatch
 ```json
@@ -179,39 +179,6 @@ Components are defined in `registry.json` under `renderables.components`:
 **Usage:** `{{ui:tech:rust/}}`
 
 **Output:** shields.io badge with Simple Icons logo
-
-#### callout-github
-```json
-{
-  "type": "expand",
-  "self_closing": false,
-  "args": ["type"],
-  "template": "{{ui:swatch:$1/}} **Note**\n$content",
-  "post_process": "blockquote"
-}
-```
-
-**Usage:** `{{ui:callout-github:warning}}Breaking changes{{/ui}}`
-
-**Output:** Blockquote with colored status indicator (uses `post_process: blockquote` to wrap all lines with `> `)
-
-**Types:** `success` (green), `info` (blue), `warning` (yellow), `error` (red)
-
-#### statusitem
-```json
-{
-  "type": "expand",
-  "self_closing": true,
-  "args": ["label", "level", "text"],
-  "template": "{{ui:swatch:$2/}} **$1**: $3"
-}
-```
-
-**Usage:** `{{ui:statusitem:Build:success:passing/}}`
-
-**Output:** `![](badge) **Build**: passing`
-
-**Composing rows:** `{{ui:statusitem:Build:success:✓/}} · {{ui:statusitem:Tests:success:276/}}`
 
 #### row
 ```json
@@ -342,7 +309,6 @@ This groups related colors without requiring nested objects.
 **Example:**
 ```markdown
 {{ui:row:align=center}}badges{{/ui}}
-{{ui:callout-github:warning}}Message{{/ui}}
 ```
 
 ### Generic Closers

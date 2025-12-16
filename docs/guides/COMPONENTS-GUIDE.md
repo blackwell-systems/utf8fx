@@ -5,13 +5,10 @@ Components are reusable UI elements that render to visual primitives like badges
 ## Table of Contents
 
 - [Basic Syntax](#basic-syntax)
-- [Native Components](#native-components)
+- [Components](#components)
   - [swatch](#swatch)
   - [tech](#tech)
   - [row](#row)
-- [Expand Components](#expand-components)
-  - [callout-github](#callout-github)
-  - [statusitem](#statusitem)
 - [Badge Styles](#badge-styles)
 - [Practical Examples](#practical-examples)
 - [Component Reference](#component-reference)
@@ -36,7 +33,7 @@ Components are reusable UI elements that render to visual primitives like badges
 
 ---
 
-## Native Components
+## Components
 
 ### swatch
 
@@ -142,69 +139,6 @@ content
 
 ---
 
-## Expand Components
-
-Components that expand to templates with other mdfx syntax.
-
-### callout-github
-
-GitHub-style blockquote callout with status emoji.
-
-**Syntax:**
-```markdown
-{{ui:callout-github:type}}Content{{/ui}}
-```
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `type` | string | Status type (success, warning, error, info) |
-
-**Expands to:**
-```markdown
-> {{ui:swatch:type/}} **Note**
-> Content
-```
-
-**Example:**
-```markdown
-{{ui:callout-github:info}}Check the documentation for more details.{{/ui}}
-```
-
----
-
-### statusitem
-
-Inline status indicator with label and description.
-
-**Syntax:**
-```markdown
-{{ui:statusitem:Label:level:Description text/}}
-```
-
-**Parameters:**
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `label` | string | Display label |
-| `level` | string | Status color |
-| `text` | string | Description |
-
-**Expands to:**
-```markdown
-{{ui:swatch:level/}} **Label**: Description text
-```
-
-**Example:**
-```markdown
-{{ui:statusitem:Build:success:Completed in 2.3s/}}
-{{ui:statusitem:Tests:warning:3 skipped/}}
-{{ui:statusitem:Deploy:error:Connection failed/}}
-```
-
----
-
 ## Badge Styles
 
 All components that render badges support these styles:
@@ -245,23 +179,11 @@ All components that render badges support these styles:
 | Cache | {{ui:swatch:warning/}} |
 ```
 
-### GitHub Callout
-```markdown
-{{ui:callout-github:warning}}
-Breaking changes in v2.0. See migration guide.
-{{/ui}}
-```
-
 ### Color Palette Row
 ```markdown
 {{ui:row:align=center}}
 {{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:warning/}} {{ui:swatch:error/}} {{ui:swatch:info/}}
 {{/ui}}
-```
-
-### Build Status Line
-```markdown
-{{ui:statusitem:Build:success:v1.2.3/}} {{ui:statusitem:Coverage:info:94%/}}
 ```
 
 ---
@@ -273,8 +195,6 @@ Breaking changes in v2.0. See migration guide.
 | `swatch` | native | yes | inline, block |
 | `tech` | native | yes | inline, block |
 | `row` | native | no | block |
-| `callout-github` | expand | no | block |
-| `statusitem` | expand | yes | inline, block |
 
 ---
 

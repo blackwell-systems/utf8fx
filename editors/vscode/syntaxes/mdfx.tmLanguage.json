@@ -46,7 +46,7 @@
     },
     "component-template": {
       "name": "meta.template.component.mdfx",
-      "match": "(\\{\\{)(swatch|tech|status|callout|header|section|statusitem)(:)([^/}]*)?(/)(\\}\\})",
+      "match": "(\\{\\{)(swatch|tech|row)(:)([^/}]*)?(/)(\\}\\})",
       "captures": {
         "1": { "name": "punctuation.definition.template.begin.mdfx" },
         "2": { "name": "support.function.mdfx" },

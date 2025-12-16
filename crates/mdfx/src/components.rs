@@ -108,9 +108,7 @@ impl ComponentsRenderer {
     ///
     /// # Returns
     ///
-    /// Either:
-    /// - `ComponentOutput::Primitive` for image-based components (swatch, tech)
-    /// - `ComponentOutput::Template` for expand components (callout-github, statusitem)
+    /// Returns `ComponentOutput::Primitive` for image-based components (swatch, tech).
     ///
     /// # Examples
     ///
@@ -119,13 +117,13 @@ impl ComponentsRenderer {
     ///
     /// let renderer = ComponentsRenderer::new().unwrap();
     ///
-    /// // Swatch returns a Primitive
+    /// // Swatch returns a Primitive (shields.io badge)
     /// let result = renderer.expand("swatch", &["accent".to_string()], None).unwrap();
     /// assert!(matches!(result, ComponentOutput::Primitive(_)));
     ///
-    /// // Statusitem returns a Template
-    /// let result = renderer.expand("statusitem", &["Build".to_string(), "success".to_string(), "passing".to_string()], None).unwrap();
-    /// assert!(matches!(result, ComponentOutput::Template(_)));
+    /// // Tech badge also returns a Primitive
+    /// let result = renderer.expand("tech", &["rust".to_string()], None).unwrap();
+    /// assert!(matches!(result, ComponentOutput::Primitive(_)));
     /// ```
     pub fn expand(
         &self,

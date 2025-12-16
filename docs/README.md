@@ -24,7 +24,7 @@ mdfx process input.md -o output.md
 | Guide | Description |
 |-------|-------------|
 | [Swatches](guides/SWATCH-GUIDE.md) | Color blocks, pixel art |
-| [Components](guides/COMPONENTS-GUIDE.md) | swatch, tech, status, row |
+| [Components](guides/COMPONENTS-GUIDE.md) | swatch, tech, row |
 | [Frames](guides/FRAMES-GUIDE.md) | Decorative Unicode borders |
 | [Text Styles](guides/TEXT-STYLES-GUIDE.md) | Unicode typography |
 | [Glyphs](guides/GLYPHS-GUIDE.md) | Unicode glyphs and symbols |

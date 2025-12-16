@@ -23,7 +23,6 @@ mdfx is a **markdown compiler** that transforms template syntax into rich visual
 - [Enhanced Swatch Primitives](#enhanced-swatch-primitives) 🆕
 - [Separator System](#separator-system)
 - [Asset Manifest System](#asset-manifest-system)
-- [GitHub Blocks](#github-blocks)
 - [Data Packaging](#data-packaging)
 - [Custom Palette Support](#custom-palette-support) 🆕
 - [Performance Characteristics](#performance-characteristics)
@@ -465,7 +464,7 @@ let output = parser.process(&input)?;
 
 ### Overview
 
-UI components (swatch, tech, status) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
+UI components (swatch, tech, row) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
 
 The backend is selected at parser construction time:
 ```rust
@@ -654,15 +653,15 @@ Markdown output
 
 Not all components use primitives. Components fall into two categories:
 
-**1. Primitive-based (image rendering):**
-- `swatch`, `tech`, `status`
+**1. Native (image rendering):**
+- `swatch`, `tech`, `row`
 - Return `ComponentOutput::Primitive(Primitive)`
 - Rendered by backend trait
 
-**2. Template-based (text effects):**
-- `header`, `callout`
+**2. Expand (user-defined):**
+- User-defined components in registry
 - Return `ComponentOutput::Template(String)`
-- Recursively parsed (contain `{{frame:*}}`, `{{mathbold}}`)
+- Recursively parsed (can contain other templates)
 
 Example:
 ```rust
@@ -1085,207 +1084,6 @@ if file_exists && content_hash_matches {
 
 ---
 
-## GitHub Blocks
-
-**Version:** 1.0.0
-**Module:** `components.rs` (post-processing)
-**Data:** `registry.json` → `renderables.components`
-
-### Overview
-
-GitHub Blocks are specialized components optimized for GitHub's Markdown renderer constraints (no custom HTML/CSS). They use blockquotes and shields.io badges to create professional-looking READMEs that remain portable.
-
-### Architecture
-
-```mermaid
-graph TD
-    TEMPLATE[Template Syntax] --> PARSER[Parser]
-    PARSER --> EXPAND[Component Expansion]
-    EXPAND --> POSTPROC{Post-Process?}
-    POSTPROC -->|Blockquote| BQ[Apply Blockquote]
-    POSTPROC -->|None| DIRECT[Direct Output]
-    BQ --> RENDER[Rendered Markdown]
-    DIRECT --> RENDER
-
-    RENDER --> GITHUB[GitHub Renderer]
-    GITHUB --> DISPLAY[Visual Display]
-```
-
-### Component Types
-
-Two GitHub-optimized components:
-
-#### 1. callout-github
-
-**Purpose:** Blockquote callouts with status indicators
-
-**Syntax:** `{{ui:callout-github:TYPE}}CONTENT{{/ui}}`
-
-**Types:** `success`, `info`, `warning`, `error`
-
-**Expansion Process:**
-1. Template substitution: `{{ui:swatch:TYPE/}} **Note**\nCONTENT`
-2. Post-processing: Apply blockquote to every line
-
-**Output:**
-```markdown
-> ![](https://img.shields.io/badge/-%20-COLOR?style=flat-square) **Note**
-> CONTENT_LINE_1
-> CONTENT_LINE_2
->
-> CONTENT_LINE_4
-```
-
-**Post-Processing Rules:**
-- Prefix every line with `"> "`
-- Empty lines become `">"`  (no trailing space)
-- Preserves indentation within content
-
-**Color Mapping:**
-| Type | Color Hex | Visual |
-|------|-----------|--------|
-| `success` | `22C55E` | Green (achievements) |
-| `info` | `3B82F6` | Blue (information) |
-| `warning` | `EAB308` | Yellow (cautions) |
-| `error` | `EF4444` | Red (critical issues) |
-
-#### 2. statusitem
-
-**Purpose:** Inline status badges with labels
-
-**Syntax:** `{{ui:statusitem:LABEL:LEVEL:TEXT/}}`
-
-**Expansion:** `{{ui:swatch:LEVEL/}} **LABEL**: TEXT`
-
-**Output:** `![](badge_url) **LABEL**: TEXT`
-
-**Composition Pattern:**
-```markdown
-{{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}}
-```
-
-Outputs:
-```markdown
-![](badge1) **Build**: passing · ![](badge2) **Tests**: 217
-```
-
-### Post-Processing System
-
-**Implementation:** `components.rs`
-
-```rust
-#[derive(Debug, Clone, Deserialize, PartialEq, Default)]
-#[serde(rename_all = "snake_case")]
-pub enum PostProcess {
-    #[default]
-    None,
-    Blockquote,
-}
-```
-
-**Blockquote Processor:**
-```rust
-fn apply_blockquote(&self, content: &str) -> String {
-    content
-        .lines()
-        .map(|line| {
-            if line.trim().is_empty() {
-                ">".to_string()  // Empty blockquote line
-            } else {
-                format!("> {}", line)
-            }
-        })
-        .collect::<Vec<_>>()
-        .join("\n")
-}
-```
-
-**Execution Order:**
-1. Template string substitution (`$1`, `$2`, `$content`)
-2. Palette reference resolution
-3. **Post-processing** (blockquote, etc.)
-
-This ensures nested templates (like `{{ui:swatch:...}}`) are expanded before blockquote formatting is applied.
-
-### Why GitHub Blocks?
-
-**Constraints:**
-- GitHub Markdown doesn't support custom HTML/CSS
-- No JavaScript, no custom styling
-- Must work in rendered markdown view
-
-**Solutions:**
-| Constraint | Solution |
-|------------|----------|
-| No custom boxes | Use blockquotes (`>`) |
-| No colors | Use shields.io badge colors |
-| No icons | Use shield badge placeholders |
-| No click handlers | Static markdown only |
-
-**Benefits:**
-- ✅ Works on GitHub, GitLab, Bitbucket
-- ✅ Renders in email notifications
-- ✅ Accessible (screen readers work)
-- ✅ No dependencies (shields.io CDN)
-- ✅ Graceful degradation
-
-### Usage Examples
-
-**README Header:**
-```markdown
-# MyProject
-
-{{ui:statusitem:Version:info:2.1.0/}} · {{ui:statusitem:License:info:MIT/}}
-
-A blazingly fast markdown processor.
-
-## Features
-
-- Unicode text styling
-- Component-based templates
-```
-
-**Callout with Nested Markdown:**
-```markdown
-{{ui:callout-github:warning}}
-**Breaking Changes**
-
-- API v1 deprecated
-- New syntax required
-
-See [Migration Guide](MIGRATING.md).
-{{/ui}}
-```
-
-**Status Dashboard:**
-```markdown
-## Project Status
-
-{{ui:statusitem:Build:success:✓/}} {{ui:statusitem:Test:success:✓/}} {{ui:statusitem:Deploy:success:✓/}}
-```
-
-### Design Principles
-
-1. **Constraint-First** - Design within GitHub's limitations
-2. **Composable** - Mix and match blocks freely
-3. **Semantic** - Use appropriate types for content
-4. **Portable** - Works across markdown renderers
-5. **Maintainable** - No brittle HTML hacks
-
-### Future Enhancements
-
-**Planned (v1.2):**
-- `grid` component for table generation
-- `statusrow` with automatic joining
-- Custom title support for callouts
-
-**Considered:**
-- Auto-detect callout type from content
-- Nested callouts (blockquote within blockquote)
-- Icon support via Simple Icons integration
-
----
-
 ## Component Responsibilities
 
 ### 1. ComponentsRenderer (`src/components.rs`)
@@ -1304,20 +1102,20 @@ pub fn list_palette(&self) -> Vec<(&String, &String)>
 **ComponentOutput Enum:**
 ```rust
 pub enum ComponentOutput {
-    Primitive(Primitive),  // For image-based components (swatch, tech, status)
-    Template(String),      // For text-effect components (header, callout)
+    Primitive(Primitive),  // For image-based components (swatch, tech)
+    Template(String),      // For expand-type components (user-defined)
 }
 ```
 
 **Expansion Algorithm:**
 
-**For Primitive components (swatch, tech, status):**
+**For Native components (swatch, tech, row):**
 1. Resolve palette colors from args
 2. Construct Primitive enum variant directly
 3. Return `ComponentOutput::Primitive(primitive)`
 
-**For Template components (header, callout):**
-1. Load component definition from `components.json`
+**For Expand components (user-defined):**
+1. Load component definition from registry
 2. Substitute positional args (`$1`, `$2`, ...) with provided values
 3. Substitute content (`$content`) with inner text (if not self-closing)
 4. Resolve palette colors (e.g., `accent` → `F41C80`)
@@ -1610,7 +1408,6 @@ Parser detects `/}}` before `}}`, skips closer search.
 **2. Block with generic closer** (`{{/ui}}`)
 ```markdown
 {{ui:row:align=center}}CONTENT{{/ui}}
-{{ui:callout-github:warning}}MESSAGE{{/ui}}
 ```
 
 Parser uses stack to match `{{/ui}}` with most recent `ui:*` opener.
@@ -1923,7 +1720,7 @@ Target-locked, zero validation:
 - B) Self-closing for contentless: `{{ui:swatch:accent/}}`
 
 **Chose B** because:
-- Contentless components are common (swatches, icons, status)
+- Contentless components are common (swatches, tech badges)
 - Reduces verbosity by ~50% for these cases
 - Familiar syntax (XML/React JSX)
 
