@@ -873,6 +873,45 @@
             "description": "Dot radius in pixels (if dots=true)"
           }
         }
+      },
+      "rating": {
+        "type": "native",
+        "self_closing": true,
+        "description": "Star/heart/circle rating display with partial fill support",
+        "contexts": ["inline", "block"],
+        "args": ["value"],
+        "optional_params": {
+          "max": {
+            "type": "number",
+            "default": "5",
+            "description": "Maximum rating value (number of icons)"
+          },
+          "size": {
+            "type": "number",
+            "default": "20",
+            "description": "Size of each icon in pixels"
+          },
+          "fill": {
+            "type": "color",
+            "default": "warning",
+            "description": "Color for filled/partial icons"
+          },
+          "empty": {
+            "type": "color",
+            "default": "slate",
+            "description": "Color for empty icons"
+          },
+          "icon": {
+            "type": "string",
+            "default": "star",
+            "description": "Icon type: star, heart, or circle"
+          },
+          "spacing": {
+            "type": "number",
+            "default": "2",
+            "description": "Spacing between icons in pixels"
+          }
+        }
       }
     },
 

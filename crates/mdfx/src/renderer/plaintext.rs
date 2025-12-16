@@ -84,6 +84,34 @@ impl Renderer for PlainTextBackend {
                     .collect();
                 spark
             }
+
+            Primitive::Rating {
+                value, max, icon, ..
+            } => {
+                // Render as Unicode stars/hearts/circles
+                let (filled_char, empty_char) = match icon.as_str() {
+                    "heart" => ('♥', '♡'),
+                    "circle" => ('●', '○'),
+                    _ => ('★', '☆'), // star (default)
+                };
+
+                let filled = value.floor() as u32;
+                let has_half = (value - value.floor()) >= 0.5;
+                let empty = max.saturating_sub(filled).saturating_sub(if has_half { 1 } else { 0 });
+
+                let mut result = String::new();
+                for _ in 0..filled.min(*max) {
+                    result.push(filled_char);
+                }
+                if has_half && filled < *max {
+                    // Use a half character or just show empty for simplicity
+                    result.push(empty_char);
+                }
+                for _ in 0..empty {
+                    result.push(empty_char);
+                }
+                result
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(text))

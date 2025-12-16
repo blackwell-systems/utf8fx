@@ -55,6 +55,11 @@ pub enum PrimitiveInfo {
         height: u32,
         chart_type: String,
     },
+    Rating {
+        value: f32,
+        max: u32,
+        icon: String,
+    },
 }
 
 impl From<&Primitive> for PrimitiveInfo {
@@ -116,6 +121,13 @@ impl From<&Primitive> for PrimitiveInfo {
                 width: *width,
                 height: *height,
                 chart_type: chart_type.clone(),
+            },
+            Primitive::Rating {
+                value, max, icon, ..
+            } => PrimitiveInfo::Rating {
+                value: *value,
+                max: *max,
+                icon: icon.clone(),
             },
         }
     }

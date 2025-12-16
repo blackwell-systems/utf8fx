@@ -10,6 +10,7 @@
 /// - Donut: Circular progress/ring chart
 /// - Gauge: Semi-circular meter (half-donut)
 /// - Sparkline: Mini inline chart for data visualization
+/// - Rating: Star/heart rating display with partial fills
 ///
 /// Text-based transformations (frames, styles, badges) remain as direct
 /// Unicode rendering and don't use this abstraction.
@@ -170,6 +171,24 @@ pub enum Primitive {
         /// Dot radius (if show_dots is true)
         dot_radius: u32,
     },
+
+    /// Rating display (stars, hearts, etc.) with partial fill support
+    Rating {
+        /// Rating value (e.g., 3.5 out of 5)
+        value: f32,
+        /// Maximum rating (default: 5)
+        max: u32,
+        /// Size of each icon in pixels
+        size: u32,
+        /// Fill color for filled/partial icons
+        fill_color: String,
+        /// Color for empty icons
+        empty_color: String,
+        /// Icon type: "star", "heart", "circle"
+        icon: String,
+        /// Spacing between icons in pixels
+        spacing: u32,
+    },
 }
 
 impl Primitive {
@@ -281,6 +300,19 @@ impl Primitive {
             track_color: None,
             show_dots: false,
             dot_radius: 2,
+        }
+    }
+
+    /// Create a simple rating with defaults
+    pub fn simple_rating(value: f32, fill_color: impl Into<String>) -> Self {
+        Primitive::Rating {
+            value,
+            max: 5,
+            size: 20,
+            fill_color: fill_color.into(),
+            empty_color: "6B7280".to_string(), // slate
+            icon: "star".to_string(),
+            spacing: 2,
         }
     }
 }

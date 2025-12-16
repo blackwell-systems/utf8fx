@@ -134,6 +134,22 @@ impl Renderer for ShieldsBackend {
                     fill_color
                 )
             }
+
+            // Rating uses a star badge as shields.io fallback
+            // Full rating rendering requires SVG backend
+            Primitive::Rating {
+                value,
+                max,
+                fill_color,
+                ..
+            } => {
+                let label = format!("{:.1}/{}", value, max);
+                format!(
+                    "![](https://img.shields.io/badge/⭐-{}-{}?style=flat-square)",
+                    label.replace('.', "%2E"),
+                    fill_color
+                )
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(markdown))
