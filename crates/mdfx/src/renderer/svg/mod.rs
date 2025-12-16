@@ -537,9 +537,10 @@ mod tests {
         let result = backend.render(&primitive).unwrap();
         let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
 
-        // Should have text "RUST" (MVP mode)
-        assert!(svg.contains("RUST"));
+        // Should have icon path and colors
+        assert!(svg.contains("<path"));
         assert!(svg.contains("000000"));
+        assert!(svg.contains("FFFFFF"));
     }
 
     #[test]
