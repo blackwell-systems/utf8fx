@@ -67,6 +67,7 @@ impl Renderer for ShieldsBackend {
                 bg_color,
                 logo_color,
                 style,
+                label: _,
             } => self
                 .shields
                 .render_icon(name, bg_color, logo_color, style)?,
@@ -203,6 +204,7 @@ mod tests {
             bg_color: "000000".to_string(),
             logo_color: "FFFFFF".to_string(),
             style: "flat-square".to_string(),
+            label: None,
         };
 
         let result = backend.render(&primitive).unwrap();

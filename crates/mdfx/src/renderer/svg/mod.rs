@@ -108,12 +108,14 @@ impl SvgBackend {
                 bg_color,
                 logo_color,
                 style,
+                label,
             } => {
                 "tech".hash(&mut hasher);
                 name.hash(&mut hasher);
                 bg_color.hash(&mut hasher);
                 logo_color.hash(&mut hasher);
                 style.hash(&mut hasher);
+                label.hash(&mut hasher);
             }
             Primitive::Progress {
                 percent,
@@ -337,7 +339,8 @@ impl Renderer for SvgBackend {
                 bg_color,
                 logo_color,
                 style,
-            } => tech::render(name, bg_color, logo_color, style),
+                label,
+            } => tech::render_with_label(name, label.as_deref(), bg_color, logo_color, style),
 
             Primitive::Progress {
                 percent,
@@ -532,6 +535,7 @@ mod tests {
             bg_color: "000000".to_string(),
             logo_color: "FFFFFF".to_string(),
             style: "flat-square".to_string(),
+            label: None,
         };
 
         let result = backend.render(&primitive).unwrap();

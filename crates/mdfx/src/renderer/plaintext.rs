@@ -39,8 +39,12 @@ impl Renderer for PlainTextBackend {
                 }
             }
 
-            Primitive::Tech { name, .. } => {
-                format!("[{}]", name)
+            Primitive::Tech { name, label, .. } => {
+                if let Some(lbl) = label {
+                    format!("[{} | {}]", name, lbl)
+                } else {
+                    format!("[{}]", name)
+                }
             }
 
             Primitive::Progress { percent, .. } => {
@@ -222,9 +226,24 @@ mod tests {
             bg_color: "DEA584".to_string(),
             logo_color: "000000".to_string(),
             style: "flat-square".to_string(),
+            label: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust]");
+    }
+
+    #[test]
+    fn test_plaintext_tech_with_label() {
+        let backend = PlainTextBackend::new();
+        let primitive = Primitive::Tech {
+            name: "rust".to_string(),
+            bg_color: "DEA584".to_string(),
+            logo_color: "000000".to_string(),
+            style: "flat-square".to_string(),
+            label: Some("v1.80".to_string()),
+        };
+        let asset = backend.render(&primitive).unwrap();
+        assert_eq!(asset.to_markdown(), "[rust | v1.80]");
     }
 
 }

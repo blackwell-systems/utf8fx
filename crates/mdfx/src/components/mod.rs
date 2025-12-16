@@ -212,7 +212,7 @@ impl ComponentsRenderer {
 
         match component {
             "swatch" => handlers::swatch::handle(&positional, &params, &style, resolve),
-            "tech" => handlers::tech::handle(&positional, &style, resolve),
+            "tech" => handlers::tech::handle(&positional, &params, &style, resolve),
             "progress" => handlers::progress::handle(&positional, &params, resolve),
             "donut" => handlers::donut::handle(&positional, &params, resolve),
             "gauge" => handlers::gauge::handle(&positional, &params, resolve),

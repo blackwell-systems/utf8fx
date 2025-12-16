@@ -26,16 +26,11 @@ fn get_icon_path(name: &str) -> Option<&'static str> {
     }
 }
 
-/// Render a tech badge with Simple Icons logo
+/// Render a tech badge with optional label
 ///
 /// Supports two layouts:
 /// - Icon only: Just the logo on a colored background
 /// - Icon + label: Logo on left segment, text on right segment
-pub fn render(name: &str, bg_color: &str, logo_color: &str, style: &str) -> String {
-    render_with_label(name, None, bg_color, logo_color, style)
-}
-
-/// Render a tech badge with optional label
 pub fn render_with_label(
     name: &str,
     label: Option<&str>,

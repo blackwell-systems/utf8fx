@@ -101,16 +101,28 @@
 
 ## Tech Stack
 
-### Primary Technologies
+### Primary Technologies (Icon Only)
 
 {{ui:row:align=center}}
 {{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:react/}} {{ui:tech:postgresql/}}
 {{/ui}}
 
-### Infrastructure
+### Technologies with Versions (Two-Segment Badges)
 
 {{ui:row:align=center}}
-{{ui:tech:docker/}} {{ui:tech:kubernetes/}} {{ui:tech:amazonaws/}} {{ui:tech:terraform/}}
+{{ui:tech:rust:label=v1.80/}} {{ui:tech:typescript:label=v5.3/}} {{ui:tech:react:label=v18.2/}} {{ui:tech:nodejs:label=v20 LTS/}}
+{{/ui}}
+
+### Infrastructure with Labels
+
+{{ui:row:align=center}}
+{{ui:tech:docker:label=Container/}} {{ui:tech:kubernetes:label=K8s/}} {{ui:tech:amazonaws:label=AWS/}} {{ui:tech:terraform:label=IaC/}}
+{{/ui}}
+
+### DevOps Tools
+
+{{ui:row:align=center}}
+{{ui:tech:github:label=Source/}} {{ui:tech:gitlab:label=CI/CD/}} {{ui:tech:redis:label=Cache/}} {{ui:tech:mongodb:label=NoSQL/}}
 {{/ui}}
 
 ### Full Stack Banner

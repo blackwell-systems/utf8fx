@@ -69,6 +69,8 @@ pub enum Primitive {
         bg_color: String,
         logo_color: String,
         style: String,
+        /// Optional label for two-segment badge
+        label: Option<String>,
     },
 
     /// Progress bar with customizable track and fill
@@ -434,10 +436,29 @@ mod tests {
             bg_color: "000000".to_string(),
             logo_color: "ffffff".to_string(),
             style: "flat-square".to_string(),
+            label: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
             assert_eq!(name, "rust");
+        } else {
+            panic!("Expected Tech primitive");
+        }
+    }
+
+    #[test]
+    fn test_primitive_tech_with_label() {
+        let tech = Primitive::Tech {
+            name: "rust".to_string(),
+            bg_color: "000000".to_string(),
+            logo_color: "ffffff".to_string(),
+            style: "flat-square".to_string(),
+            label: Some("v1.80".to_string()),
+        };
+
+        if let Primitive::Tech { name, label, .. } = tech {
+            assert_eq!(name, "rust");
+            assert_eq!(label, Some("v1.80".to_string()));
         } else {
             panic!("Expected Tech primitive");
         }

@@ -79,6 +79,7 @@ impl From<&Primitive> for PrimitiveInfo {
                 bg_color,
                 logo_color,
                 style,
+                label: _,
             } => PrimitiveInfo::Tech {
                 name: name.clone(),
                 bg_color: bg_color.clone(),
@@ -331,6 +332,7 @@ mod tests {
             bg_color: "292A2D".to_string(),
             logo_color: "FFFFFF".to_string(),
             style: "flat-square".to_string(),
+            label: None,
         };
 
         let info = PrimitiveInfo::from(&primitive);

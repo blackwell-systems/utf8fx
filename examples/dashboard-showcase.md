@@ -95,16 +95,28 @@
 
 ## Tech Stack
 
-### Primary Technologies
+### Primary Technologies (Icon Only)
 
 <p align="center">
-<img alt="" src="assets/tech_fbdce4b79e1a713.svg"> <img alt="" src="assets/tech_6e9471de7d07910b.svg"> <img alt="" src="assets/tech_b4be8b0b03e40276.svg"> <img alt="" src="assets/tech_e9983d142755d267.svg">
+<img alt="" src="assets/tech_80ea43a1a1797e8a.svg"> <img alt="" src="assets/tech_ef1e1c4365bd302.svg"> <img alt="" src="assets/tech_361f2675721d6e24.svg"> <img alt="" src="assets/tech_ac28601ae14bc9d5.svg">
 </p>
 
-### Infrastructure
+### Technologies with Versions (Two-Segment Badges)
 
 <p align="center">
-<img alt="" src="assets/tech_d0f809ea0fc203bd.svg"> <img alt="" src="assets/tech_f8ae71d61dfa7ac.svg"> <img alt="" src="assets/tech_87eb79c5bd300657.svg"> <img alt="" src="assets/tech_d17416020b968a8c.svg">
+<img alt="" src="assets/tech_c4c0140b91a4cf58.svg"> <img alt="" src="assets/tech_be1b931b2ebb444.svg"> <img alt="" src="assets/tech_416af8357c06fb3d.svg"> <img alt="" src="assets/tech_2af63c69c2d17698.svg">
+</p>
+
+### Infrastructure with Labels
+
+<p align="center">
+<img alt="" src="assets/tech_e1d4e13a3ee4cbb9.svg"> <img alt="" src="assets/tech_69c5c80652950950.svg"> <img alt="" src="assets/tech_3619f64c54c8e6fc.svg"> <img alt="" src="assets/tech_472c93560a12849c.svg">
+</p>
+
+### DevOps Tools
+
+<p align="center">
+<img alt="" src="assets/tech_1f81a4aeacd640f8.svg"> <img alt="" src="assets/tech_2b071707eaee6a4.svg"> <img alt="" src="assets/tech_3ba013b5ded04e40.svg"> <img alt="" src="assets/tech_bf132402efb34666.svg">
 </p>
 
 ### Full Stack Banner
