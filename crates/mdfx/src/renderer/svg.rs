@@ -617,6 +617,17 @@ impl SvgBackend {
         let usable_width = width.saturating_sub(thumb_size);
         let thumb_x = thumb_radius + (usable_width as f32 * percent as f32 / 100.0) as u32;
 
+        // Fill element: colored portion from left edge to thumb position
+        let fill_width = thumb_x;
+        let fill_elem = if fill_width > 0 {
+            format!(
+                "\n  <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>",
+                track_y, fill_width, track_height, fill_color, track_rx
+            )
+        } else {
+            String::new()
+        };
+
         // Thumb color defaults to fill color
         let t_color = thumb_color.unwrap_or(fill_color);
 
@@ -655,11 +666,12 @@ impl SvgBackend {
 
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
+  <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>{}\n\
   {}\n\
 </svg>",
             width, svg_height, width, svg_height,
             track_y, width, track_height, track_color, track_rx, border_attr,
+            fill_elem,
             thumb_elem
         )
     }
