@@ -689,6 +689,16 @@
             "type": "color",
             "default": "white",
             "description": "Label text color"
+          },
+          "border": {
+            "type": "color",
+            "default": "none",
+            "description": "Border color (enables border when set)"
+          },
+          "border_width": {
+            "type": "number",
+            "default": "1",
+            "description": "Border width in pixels (when border is set)"
           }
         }
       }

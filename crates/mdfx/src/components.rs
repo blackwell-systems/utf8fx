@@ -354,6 +354,13 @@ impl ComponentsRenderer {
 
                 let label_color = params.get("label_color").map(|c| self.resolve_color(c));
 
+                let border_color = params.get("border").map(|c| self.resolve_color(c));
+
+                let border_width: u32 = params
+                    .get("border_width")
+                    .and_then(|v| v.parse().ok())
+                    .unwrap_or(if border_color.is_some() { 1 } else { 0 });
+
                 Ok(ComponentOutput::Primitive(Primitive::Progress {
                     percent,
                     width,
@@ -364,6 +371,8 @@ impl ComponentsRenderer {
                     rx,
                     show_label,
                     label_color,
+                    border_color,
+                    border_width,
                 }))
             }
 

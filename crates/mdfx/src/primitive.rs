@@ -86,6 +86,10 @@ pub enum Primitive {
         show_label: bool,
         /// Label color (if show_label is true)
         label_color: Option<String>,
+        /// Border color (optional)
+        border_color: Option<String>,
+        /// Border width in pixels (default: 0)
+        border_width: u32,
     },
 }
 
@@ -138,6 +142,8 @@ impl Primitive {
             rx: 3,
             show_label: false,
             label_color: None,
+            border_color: None,
+            border_width: 0,
         }
     }
 }

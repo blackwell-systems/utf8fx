@@ -182,6 +182,8 @@ impl SvgBackend {
                 rx,
                 show_label,
                 label_color,
+                border_color,
+                border_width,
             } => {
                 "progress".hash(&mut hasher);
                 percent.hash(&mut hasher);
@@ -193,6 +195,8 @@ impl SvgBackend {
                 rx.hash(&mut hasher);
                 show_label.hash(&mut hasher);
                 label_color.hash(&mut hasher);
+                border_color.hash(&mut hasher);
+                border_width.hash(&mut hasher);
             }
         }
 
@@ -488,6 +492,8 @@ impl SvgBackend {
         rx: u32,
         show_label: bool,
         label_color: Option<&str>,
+        border_color: Option<&str>,
+        border_width: u32,
     ) -> String {
         // Calculate fill width based on percentage
         let fill_width = (width as f32 * percent as f32 / 100.0) as u32;
@@ -520,13 +526,24 @@ impl SvgBackend {
             String::new()
         };
 
+        // Build border attribute if specified
+        let border_attr = if let Some(bc) = border_color {
+            if border_width > 0 {
+                format!(" stroke=\"#{}\" stroke-width=\"{}\"", bc, border_width)
+            } else {
+                String::new()
+            }
+        } else {
+            String::new()
+        };
+
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
   <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>{}\n\
 </svg>",
             width, height, width, height,
-            width, height, track_color, rx,
+            width, height, track_color, rx, border_attr,
             fill_y, fill_width, fill_height, fill_color, fill_rx,
             label_elem
         )
@@ -599,6 +616,8 @@ impl Renderer for SvgBackend {
                 rx,
                 show_label,
                 label_color,
+                border_color,
+                border_width,
             } => Self::render_progress_svg(
                 *percent,
                 *width,
@@ -609,6 +628,8 @@ impl Renderer for SvgBackend {
                 *rx,
                 *show_label,
                 label_color.as_deref(),
+                border_color.as_deref(),
+                *border_width,
             ),
         };
 
