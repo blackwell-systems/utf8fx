@@ -455,10 +455,7 @@ impl LanguageServer for MdfxLanguageServer {
             // Check for glyph
             if let Some(glyph_name) = template_start.strip_prefix("glyph:") {
                 // Find end of glyph name
-                let name = glyph_name
-                    .split(['/', '}'])
-                    .next()
-                    .unwrap_or(glyph_name);
+                let name = glyph_name.split(['/', '}']).next().unwrap_or(glyph_name);
                 let full_name = if let Some(end_pos) = after.find('/') {
                     format!("{}{}", name, &after[..end_pos])
                 } else {
@@ -482,10 +479,7 @@ impl LanguageServer for MdfxLanguageServer {
             }
 
             // Check for style
-            let style_name = template_start
-                .split([':', '}'])
-                .next()
-                .unwrap_or("");
+            let style_name = template_start.split([':', '}']).next().unwrap_or("");
             if let Some(style) = self.registry.style(style_name) {
                 return Ok(Some(Hover {
                     contents: HoverContents::Markup(MarkupContent {
@@ -505,10 +499,7 @@ impl LanguageServer for MdfxLanguageServer {
             }
 
             // Check for component
-            let comp_name = template_start
-                .split([':', '/', '}'])
-                .next()
-                .unwrap_or("");
+            let comp_name = template_start.split([':', '/', '}']).next().unwrap_or("");
             if let Some(component) = self.registry.component(comp_name) {
                 return Ok(Some(Hover {
                     contents: HoverContents::Markup(MarkupContent {
