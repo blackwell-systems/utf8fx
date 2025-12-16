@@ -131,9 +131,6 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 ## Creative Combinations
 
-**Neon Style:**
-![](examples/assets/progress_eb078575c825ce18.svg)
-
 **Minimal:**
 ![](examples/assets/progress_12d92b026f897b15.svg)
 
@@ -142,6 +139,70 @@ When `fill_height` is less than `height`, the fill "floats" inside the track:
 
 **Sunset Gradient Effect (using multiple bars):**
 ![](examples/assets/progress_e1b3607def46f2f9.svg)![](examples/assets/progress_81a4be965f833fec.svg)![](examples/assets/progress_91ec801428aee765.svg)
+
+---
+
+## Neon Collection
+
+Cyberpunk-inspired glowing progress bars with dark backgrounds and vibrant fills.
+
+**Neon Green (Matrix):**
+![](examples/assets/progress_47fd59ff6ac8bb9e.svg)
+
+**Neon Pink (Synthwave):**
+![](examples/assets/progress_acecfac29dc7fbd.svg)
+
+**Neon Cyan (Tron):**
+![](examples/assets/progress_c89114b39486f913.svg)
+
+**Neon Orange (Blade Runner):**
+![](examples/assets/progress_531893701431f78c.svg)
+
+**Neon Purple (Vaporwave):**
+![](examples/assets/progress_6d4b4e4cbeacbc10.svg)
+
+**Neon Yellow (Warning):**
+![](examples/assets/progress_15ddc4b05ebdd9c9.svg)
+
+---
+
+## Neon Sliders
+
+**Neon Green Slider:**
+![](examples/assets/progress_cd635c6d4b8a5955.svg)
+
+**Neon Pink Slider:**
+![](examples/assets/progress_9e9d8b053d78aed4.svg)
+
+**Neon Cyan Slider:**
+![](examples/assets/progress_51dec13925ab5cb4.svg)
+
+**Neon with Diamond:**
+![](examples/assets/progress_467c11a2151941fd.svg)
+
+---
+
+## Neon Dashboard
+
+| System | Status |
+|--------|--------|
+| CPU | ![](examples/assets/progress_645eb6e8f2f93229.svg) |
+| Memory | ![](examples/assets/progress_29ec22960462f132.svg) |
+| Disk | ![](examples/assets/progress_b46b3d7f8e5d2ef1.svg) |
+| Network | ![](examples/assets/progress_fabadd195b0d76cd.svg) |
+
+---
+
+## Neon Thick Bars
+
+**Thick Neon Green:**
+![](examples/assets/progress_424bf81492d10aa.svg)
+
+**Thick Neon Pink:**
+![](examples/assets/progress_469c524b1b0313d8.svg)
+
+**Thick Neon Cyan:**
+![](examples/assets/progress_2738178a11a72eb4.svg)
 
 ---
 
