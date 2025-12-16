@@ -17,7 +17,7 @@ The simplest way to use mdfx is through semantic UI components:
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
 
 ## Status
-{{ui:status:success/}} All systems operational
+{{ui:swatch:success/}} All systems operational
 ```
 
 **Renders as:**
@@ -62,10 +62,10 @@ Single colored blocks:
 Colored status badges:
 
 ```markdown
-{{ui:status:success/}} Service healthy
-{{ui:status:warning/}} Degraded performance
-{{ui:status:error/}} Service down
-{{ui:status:info/}} Maintenance scheduled
+{{ui:swatch:success/}} Service healthy
+{{ui:swatch:warning/}} Degraded performance
+{{ui:swatch:error/}} Service down
+{{ui:swatch:info/}} Maintenance scheduled
 ```
 
 **Use Cases:**
@@ -133,10 +133,10 @@ Enterprise-grade system architecture platform.
 
 ## System Status
 
-{{ui:status:success/}} API Server: Operational
-{{ui:status:success/}} Database: Healthy
-{{ui:status:warning/}} Cache: Degraded
-{{ui:status:success/}} Queue: Processing
+{{ui:swatch:success/}} API Server: Operational
+{{ui:swatch:success/}} Database: Healthy
+{{ui:swatch:warning/}} Cache: Degraded
+{{ui:swatch:success/}} Queue: Processing
 
 ## Quick Start
 
@@ -156,18 +156,18 @@ Enterprise-grade system architecture platform.
 
 ## Production Environment
 
-{{ui:status:success/}} **API Gateway** - 99.9% uptime
-{{ui:status:success/}} **Web Servers** - All 12 nodes healthy
-{{ui:status:warning/}} **Cache Layer** - 1 node degraded
-{{ui:status:success/}} **Database** - Primary + 2 replicas OK
+{{ui:swatch:success/}} **API Gateway** - 99.9% uptime
+{{ui:swatch:success/}} **Web Servers** - All 12 nodes healthy
+{{ui:swatch:warning/}} **Cache Layer** - 1 node degraded
+{{ui:swatch:success/}} **Database** - Primary + 2 replicas OK
 
 ## Staging Environment
 
-{{ui:status:success/}} All services operational
+{{ui:swatch:success/}} All services operational
 
 ## Development Environment
 
-{{ui:status:success/}} All services operational
+{{ui:swatch:success/}} All services operational
 
 **Last Updated:** 2025-12-12 10:30 UTC
 ```
@@ -201,7 +201,7 @@ Enterprise-grade system architecture platform.
 {{ui:tech:postgresql/}} PostgreSQL 16
 {{ui:tech:docker/}} Docker 24
 
-{{ui:status:success/}} All tests passing
+{{ui:swatch:success/}} All tests passing
 ```
 
 ### Documentation Page
@@ -244,7 +244,7 @@ cd project
 cargo build --release
 \`\`\`
 
-{{ui:status:success/}} Build complete!
+{{ui:swatch:success/}} Build complete!
 ```
 
 ---
@@ -421,7 +421,7 @@ Components use named colors from the palette:
 **Use in components:**
 ```markdown
 {{ui:swatch:accent/}}
-{{ui:status:success/}}
+{{ui:swatch:success/}}
 ```
 
 ---

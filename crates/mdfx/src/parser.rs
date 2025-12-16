@@ -2837,16 +2837,6 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     }
 
     #[test]
-    fn test_ui_status() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:status:success/}}";
-        let result = parser.process(input).unwrap();
-        // Should expand to shields:block with success color
-        assert!(result.contains("![]("));
-        assert!(result.contains("22C55E")); // success color (uppercased)
-    }
-
-    #[test]
     fn test_ui_multiple_inline() {
         let parser = TemplateParser::new().unwrap();
         let input = "{{ui:tech:rust/}} {{ui:tech:python/}}";
@@ -2914,7 +2904,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
 
         let parser =
             TemplateParser::with_backend(Box::new(SvgBackend::new("assets/test"))).unwrap();
-        let input = "{{frame:gradient}}\n{{ui:swatch:accent/}}\n{{ui:status:success/}}\n{{/frame}}";
+        let input = "{{frame:gradient}}\n{{ui:swatch:accent/}}\n{{ui:swatch:success/}}\n{{/frame}}";
         let result = parser.process_with_assets(input).unwrap();
 
         // Should process frame correctly
@@ -2923,8 +2913,8 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
 
         // Should generate assets for UI components
         assert_eq!(result.assets.len(), 2);
+        // Should generate assets for UI components (both swatches)
         assert!(result.markdown.contains("![](assets/test/swatch_"));
-        assert!(result.markdown.contains("![](assets/test/status_"));
     }
 
     #[test]
@@ -3366,14 +3356,6 @@ mod badge_style_tests {
         let output = parser.process(input).unwrap();
         assert!(output.contains("style=plastic"));
         assert!(output.contains("logo=rust"));
-    }
-
-    #[test]
-    fn test_status_with_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:status:success:style=flat/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=flat"));
     }
 
     #[test]

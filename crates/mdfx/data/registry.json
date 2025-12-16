@@ -628,20 +628,6 @@
           }
         }
       },
-      "status": {
-        "type": "native",
-        "self_closing": true,
-        "description": "Status indicator block (success, warning, error, info)",
-        "contexts": ["inline", "block"],
-        "args": ["level"],
-        "optional_params": {
-          "style": {
-            "type": "shield_style",
-            "default": "flat-square",
-            "description": "Badge style"
-          }
-        }
-      },
       "section": {
         "type": "expand",
         "self_closing": true,
@@ -656,7 +642,7 @@
         "description": "GitHub-style blockquote callout with status indicator",
         "contexts": ["block"],
         "args": ["type"],
-        "template": "{{ui:status:$1/}} **Note**\n$content",
+        "template": "{{ui:swatch:$1/}} **Note**\n$content",
         "post_process": "blockquote"
       },
       "statusitem": {
@@ -665,7 +651,7 @@
         "description": "Inline status indicator with label and text",
         "contexts": ["inline", "block"],
         "args": ["label", "level", "text"],
-        "template": "{{ui:status:$2/}} **$1**: $3"
+        "template": "{{ui:swatch:$2/}} **$1**: $3"
       },
       "row": {
         "type": "native",

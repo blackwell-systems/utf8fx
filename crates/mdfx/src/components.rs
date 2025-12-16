@@ -789,22 +789,6 @@ mod tests {
     }
 
     #[test]
-    fn test_expand_status() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer
-            .expand("status", &["success".to_string()], None)
-            .unwrap();
-
-        // Status should return a Primitive::Status with resolved color
-        match result {
-            ComponentOutput::Primitive(Primitive::Status { level, .. }) => {
-                assert_eq!(level, "22C55E"); // success → green
-            }
-            _ => panic!("Expected Primitive::Status"),
-        }
-    }
-
-    #[test]
     fn test_expand_unknown_component() {
         let renderer = ComponentsRenderer::new().unwrap();
         let result = renderer.expand("nonexistent", &[], None);

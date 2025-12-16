@@ -8,7 +8,6 @@ Components are reusable UI elements that render to visual primitives like badges
 - [Native Components](#native-components)
   - [swatch](#swatch)
   - [tech](#tech)
-  - [status](#status)
   - [row](#row)
 - [Expand Components](#expand-components)
   - [section](#section)
@@ -107,33 +106,6 @@ Displays a technology logo badge using Simple Icons.
 
 ---
 
-### status
-
-Renders a colored status indicator block.
-
-**Syntax:**
-```markdown
-{{ui:status:level/}}
-{{ui:status:level:style=value/}}
-```
-
-**Parameters:**
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `level` | string | required | Status level (success, warning, error, info) |
-| `style` | string | flat-square | Badge style |
-
-**Examples:**
-```markdown
-{{ui:status:success/}} All tests passing
-{{ui:status:warning/}} Deprecated feature
-{{ui:status:error/}} Build failed
-{{ui:status:info/}} New version available
-```
-
----
-
 ### row
 
 Wraps content in an HTML container with horizontal alignment. Converts markdown images to HTML for GitHub compatibility.
@@ -215,7 +187,7 @@ GitHub-style blockquote callout with status emoji.
 
 **Expands to:**
 ```markdown
-> {{ui:status:type/}} **Note**
+> {{ui:swatch:type/}} **Note**
 > Content
 ```
 
@@ -245,7 +217,7 @@ Inline status indicator with label and description.
 
 **Expands to:**
 ```markdown
-{{ui:status:level/}} **Label**: Description text
+{{ui:swatch:level/}} **Label**: Description text
 ```
 
 **Example:**
@@ -292,9 +264,9 @@ All components that render badges support these styles:
 ```markdown
 | Service | Status |
 |---------|--------|
-| API | {{ui:status:success/}} |
-| Database | {{ui:status:success/}} |
-| Cache | {{ui:status:warning/}} |
+| API | {{ui:swatch:success/}} |
+| Database | {{ui:swatch:success/}} |
+| Cache | {{ui:swatch:warning/}} |
 ```
 
 ### Section Heading
@@ -333,7 +305,6 @@ Breaking changes in v2.0. See migration guide.
 |-----------|------|--------------|---------|
 | `swatch` | native | yes | inline, block |
 | `tech` | native | yes | inline, block |
-| `status` | native | yes | inline, block |
 | `row` | native | no | block |
 | `section` | expand | yes | block |
 | `callout-github` | expand | no | block |
@@ -345,6 +316,6 @@ Breaking changes in v2.0. See migration guide.
 
 1. **Use row for centering** - `{{ui:row:align=center}}` creates GitHub-compatible centered layouts
 2. **Consistent styling** - Pick one badge style and use it throughout your document
-3. **Status semantics** - success=green, warning=yellow, error=red, info=blue
+3. **Palette colors** - Use named colors: `success` (green), `warning` (yellow), `error` (red), `info` (blue)
 4. **Section organization** - Use `{{ui:section:Title/}}` for consistent heading styles
 5. **Inline vs block** - Most components work in both contexts; row is block-only

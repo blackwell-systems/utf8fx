@@ -18,7 +18,7 @@ for READMEs, documentation, and presentations without images or external depende
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
 
 ## Status
-{{ui:status:success/}} All systems operational
+{{ui:swatch:success/}} All systems operational
 ```
 
 Renders as:
@@ -69,8 +69,8 @@ frames, and character transformations.
 
 **Status Indicators** - Colored badges
 ```markdown
-{{ui:status:success/}}  → 🟢 Green block
-{{ui:status:warning/}}  → 🟡 Yellow block
+{{ui:swatch:success/}}  → 🟢 Green block
+{{ui:swatch:warning/}}  → 🟡 Yellow block
 {{ui:status:error/}}    → 🔴 Red block
 ```
 
@@ -105,7 +105,7 @@ Components use named colors from `palette.json`:
 You can reference these in any component:
 ```markdown
 {{ui:swatch:accent/}}
-{{ui:status:success/}}
+{{ui:swatch:success/}}
 ```
 
 ## {{mathbold}}Text Styles{{/mathbold}}
@@ -326,9 +326,9 @@ UI components are recommended for most use cases.
 ```markdown
 ## System Status
 
-{{ui:status:success/}} API Server: Operational
-{{ui:status:success/}} Database: Healthy
-{{ui:status:warning/}} Cache: Degraded
+{{ui:swatch:success/}} API Server: Operational
+{{ui:swatch:success/}} Database: Healthy
+{{ui:swatch:warning/}} Cache: Degraded
 ```
 
 ## {{mathbold}}How It Works{{/mathbold}}
@@ -397,7 +397,7 @@ For contentless elements:
 ```markdown
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
-{{ui:status:success/}}
+{{ui:swatch:success/}}
 ```
 
 ### Block Tags
@@ -415,7 +415,7 @@ Colon-separated key=value pairs:
 ```markdown
 {{mathbold:separator=dot:spacing=1}}TEXT{{/mathbold}}
 {{ui:tech:rust/}}    ← Positional arg
-{{ui:status:success/}}    ← Positional arg
+{{ui:swatch:success/}}    ← Positional arg
 ```
 
 ## {{mathbold}}Project Status{{/mathbold}}
@@ -424,7 +424,7 @@ Colon-separated key=value pairs:
 
 **Shipped:**
 - 19 Unicode text styles with aliases
-- 7 UI components (swatch, tech, status, row, section, statusitem, callout-github)
+- 6 UI components (swatch, tech, row, section, statusitem, callout-github)
 - 27 inline frames
 - 6 alphanumeric badge types
 - Custom separators and spacing

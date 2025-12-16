@@ -373,7 +373,7 @@ let renderer = ComponentsRenderer::new()?;
 Expand a component into its primitive template.
 
 **Parameters:**
-- `component` - Component name (e.g., "swatch", "tech", "status")
+- `component` - Component name (e.g., "swatch", "tech", "row")
 - `args` - Positional arguments (e.g., `["rust"]` for `tech:rust`)
 - `content` - Inner content for non-self-closing components
 
@@ -392,7 +392,7 @@ let result = renderer.expand("tech", &["rust".to_string()], None)?;
 
 // Component with content (callout-github)
 let result = renderer.expand("callout-github", &["warning".to_string()], Some("Breaking change"))?;
-// Returns: "{{ui:status:warning/}} **Note**\nBreaking change"
+// Returns: "{{ui:swatch:warning/}} **Note**\nBreaking change"
 ```
 
 **Color Resolution:**
@@ -522,25 +522,6 @@ let result = renderer.expand("tech", &["rust".to_string()], None)?;
 ```
 
 **Available Logos:** 2000+ from [Simple Icons](https://simpleicons.org/) (rust, python, postgresql, docker, kubernetes, etc.)
-
-#### status
-
-**Type:** Self-closing
-**Args:** `[level]`
-**Usage:** `{{ui:status:success/}}`
-
-```rust
-let result = renderer.expand("status", &["success".to_string()], None)?;
-```
-
-**Output:** Colored status indicator
-
-**Common levels:** `success` (green), `warning` (yellow), `error` (red), `info` (blue)
-
-**Template:**
-```
-{{shields:block:color=$1:style=flat-square/}}
-```
 
 #### row
 
@@ -1905,7 +1886,7 @@ Creates GitHub-compatible blockquote callouts with status indicators.
 | `error` | Red (#EF4444) | Security notices, critical issues |
 
 **Expansion Process:**
-1. Template substitution: `{{ui:status:TYPE/}} **Note**\nCONTENT`
+1. Template substitution: `{{ui:swatch:TYPE/}} **Note**\nCONTENT`
 2. **Post-processing:** Apply blockquote formatter
 
 **Blockquote Post-Processor:**
@@ -1962,7 +1943,7 @@ Creates inline status badges with labels.
 
 **Template Expansion:**
 ```markdown
-{{ui:status:LEVEL/}} **LABEL**: TEXT
+{{ui:swatch:LEVEL/}} **LABEL**: TEXT
 ```
 
 **Example:**
@@ -2014,7 +1995,7 @@ pub enum PostProcess {
   "callout-github": {
     "type": "expand",
     "self_closing": false,
-    "template": "{{ui:status:$1/}} **Note**\n$content",
+    "template": "{{ui:swatch:$1/}} **Note**\n$content",
     "post_process": "blockquote"
   }
 }

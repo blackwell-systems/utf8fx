@@ -26,7 +26,7 @@ Create `README.template.md`:
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
 
 ## Status
-{{ui:status:success/}} All systems operational
+{{ui:swatch:success/}} All systems operational
 ```
 
 Process it:
@@ -54,7 +54,6 @@ High-level semantic components that compile to shields.io badges or local SVGs.
 | Component | Example | Output |
 |-----------|---------|--------|
 | `{{ui:tech:rust/}}` | Tech badge | ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF) |
-| `{{ui:status:success/}}` | Status indicator | ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) |
 | `{{ui:swatch:F41C80/}}` | Color block | ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) |
 
 See [Components Guide](docs/guides/COMPONENTS-GUIDE.md) for full reference.

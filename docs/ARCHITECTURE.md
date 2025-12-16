@@ -377,11 +377,10 @@ let output = parser.process(&input)?;
 ```markdown
 {{ui:swatch:accent/}}
 {{ui:tech:rust/}}
-{{ui:status:success/}}
 ```
 
 **Characteristics:**
-- Self-documenting names (`swatch`, `tech`, `status`)
+- Self-documenting names (`swatch`, `tech`, `row`)
 - Self-closing tags (`/}}`) for contentless elements
 - Generic closer (`{{/ui}}`) for ergonomics
 - Design token integration (palette colors)
@@ -1143,7 +1142,7 @@ Three GitHub-optimized components:
 **Types:** `success`, `info`, `warning`, `error`
 
 **Expansion Process:**
-1. Template substitution: `{{ui:status:TYPE/}} **Note**\nCONTENT`
+1. Template substitution: `{{ui:swatch:TYPE/}} **Note**\nCONTENT`
 2. Post-processing: Apply blockquote to every line
 
 **Output:**
@@ -1174,7 +1173,7 @@ Three GitHub-optimized components:
 
 **Syntax:** `{{ui:statusitem:LABEL:LEVEL:TEXT/}}`
 
-**Expansion:** `{{ui:status:LEVEL/}} **LABEL**: TEXT`
+**Expansion:** `{{ui:swatch:LEVEL/}} **LABEL**: TEXT`
 
 **Output:** `![](badge_url) **LABEL**: TEXT`
 
@@ -1224,7 +1223,7 @@ fn apply_blockquote(&self, content: &str) -> String {
 2. Palette reference resolution
 3. **Post-processing** (blockquote, etc.)
 
-This ensures nested templates (like `{{ui:status:...}}`) are expanded before blockquote formatting is applied.
+This ensures nested templates (like `{{ui:swatch:...}}`) are expanded before blockquote formatting is applied.
 
 ### Why GitHub Blocks?
 
@@ -1884,7 +1883,7 @@ Portable across all backends, validated, safe:
 ```markdown
 {{ui:swatch:accent/}}
 {{ui:tech:rust/}}
-{{ui:status:success/}}
+{{ui:swatch:success/}}
 ```
 
 ### Tier 2: Primitives (Per-Backend Control)

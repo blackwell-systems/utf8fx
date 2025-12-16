@@ -17,7 +17,6 @@ mdfx uses a **component-first architecture** where users write semantic `{{ui:*}
 ```markdown
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
-{{ui:status:success/}}
 ```
 
 **Purpose:** High-level semantic elements optimized for common use cases.
@@ -131,7 +130,7 @@ Components are defined in `registry.json` under `renderables.components`:
 
 **type** (`"expand"` or `"native"`)
 - `"expand"` - Template substitution components (section, statusitem, callout-github)
-- `"native"` - Rust-implemented logic (swatch, tech, status, row)
+- `"native"` - Rust-implemented logic (swatch, tech, row)
 
 **self_closing** (`boolean`)
 - `true` → `{{ui:component/}}` (no closing tag)
@@ -151,7 +150,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components (7 total)
+### Shipped Components (6 total)
 
 #### swatch
 ```json
@@ -181,20 +180,6 @@ Components are defined in `registry.json` under `renderables.components`:
 
 **Output:** shields.io badge with Simple Icons logo
 
-#### status
-```json
-{
-  "type": "expand",
-  "self_closing": true,
-  "args": ["level"],
-  "template": "{{shields:block:color=$1:style=flat-square/}}"
-}
-```
-
-**Usage:** `{{ui:status:success/}}`
-
-**Output:** Colored block (success → green, warning → yellow, error → red)
-
 #### section
 ```json
 {
@@ -215,7 +200,7 @@ Components are defined in `registry.json` under `renderables.components`:
   "type": "expand",
   "self_closing": false,
   "args": ["type"],
-  "template": "{{ui:status:$1/}} **Note**\n$content",
+  "template": "{{ui:swatch:$1/}} **Note**\n$content",
   "post_process": "blockquote"
 }
 ```
@@ -232,7 +217,7 @@ Components are defined in `registry.json` under `renderables.components`:
   "type": "expand",
   "self_closing": true,
   "args": ["label", "level", "text"],
-  "template": "{{ui:status:$2/}} **$1**: $3"
+  "template": "{{ui:swatch:$2/}} **$1**: $3"
 }
 ```
 
@@ -357,7 +342,6 @@ This groups related colors without requiring nested objects.
 ```markdown
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
-{{ui:status:success/}}
 ```
 
 ### Block Tags
@@ -392,7 +376,7 @@ This groups related colors without requiring nested objects.
 **Without `=`** → Positional arg
 ```markdown
 {{ui:tech:rust/}}           → args = ["rust"]
-{{ui:status:success/}}      → args = ["success"]
+{{ui:swatch:accent/}}       → args = ["accent"]
 {{ui:multi:a:b:c/}}         → args = ["a", "b", "c"]
 ```
 

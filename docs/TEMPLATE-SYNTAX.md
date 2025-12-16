@@ -141,7 +141,7 @@ Arguments separated by colons (`:`)
 **Examples:**
 ```markdown
 {{ui:tech:rust/}}                              ← 1 positional arg
-{{ui:status:success/}}                         ← 1 positional arg
+{{ui:swatch:success/}}                         ← 1 positional arg
 {{ui:statusitem:Label:Level:Text/}}            ← 3 positional args
 {{ui:section:Getting Started/}}                ← 1 positional arg
 ```
@@ -238,7 +238,7 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 **Applies to:**
 - `{{ui:swatch:COLOR:style=STYLE/}}`
 - `{{ui:tech:LOGO:style=STYLE/}}`
-- `{{ui:status:LEVEL:style=STYLE/}}`
+- `{{ui:swatch:LEVEL:style=STYLE/}}`
 
 **Mix styles for design variety ("Minecraft bricks"):**
 ```markdown
@@ -251,7 +251,6 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 |-----------|------|------|---------|
 | `swatch` | color | self-closing | `{{ui:swatch:accent/}}` |
 | `tech` | logo_name | self-closing | `{{ui:tech:rust/}}` |
-| `status` | level | self-closing | `{{ui:status:success/}}` |
 | `row` | align | block | `{{ui:row:align=center}}badges{{/ui}}` |
 | `section` | title | self-closing | `{{ui:section:Features/}}` |
 | `callout-github` | type | block | `{{ui:callout-github:info}}Msg{{/ui}}` |
@@ -291,15 +290,6 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 - 1 arg: Simple Icons slug (lowercase)
 - Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
 - Examples: `{{ui:tech:rust/}}`, `{{ui:tech:python:style=plastic/}}`
-
-**status:**
-```markdown
-{{ui:status:LEVEL/}}
-{{ui:status:LEVEL:style=STYLE/}}
-```
-- 1 arg: `success`, `warning`, `error`, `info`
-- Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
-- Renders colored block badge
 
 **section:**
 ```markdown
@@ -704,14 +694,14 @@ Line 2
 
 **Step 1 - Expand template:**
 ```
-{{ui:status:info/}} **Note**
+{{ui:swatch:info/}} **Note**
 Line 1
 Line 2
 ```
 
 **Step 2 - Apply blockquote post-processing:**
 ```
-> {{ui:status:info/}} **Note**
+> {{ui:swatch:info/}} **Note**
 > Line 1
 > Line 2
 ```
