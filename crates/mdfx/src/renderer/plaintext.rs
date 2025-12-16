@@ -63,6 +63,27 @@ impl Renderer for PlainTextBackend {
                 // Render as ASCII gauge: [75%]
                 format!("[{}%]", percent)
             }
+
+            Primitive::Sparkline { values, .. } => {
+                // Render as ASCII sparkline using braille-like characters
+                // ▁▂▃▄▅▆▇█
+                if values.is_empty() {
+                    return Ok(RenderedAsset::InlineMarkdown("▁".to_string()));
+                }
+                let min = values.iter().cloned().fold(f32::INFINITY, f32::min);
+                let max = values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+                let range = if (max - min).abs() < 0.001 { 1.0 } else { max - min };
+                let bars = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
+                let spark: String = values
+                    .iter()
+                    .map(|&v| {
+                        let normalized = (v - min) / range;
+                        let idx = ((normalized * 7.0).round() as usize).min(7);
+                        bars[idx]
+                    })
+                    .collect();
+                spark
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(text))

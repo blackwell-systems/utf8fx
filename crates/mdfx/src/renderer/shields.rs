@@ -112,6 +112,28 @@ impl Renderer for ShieldsBackend {
                     label, label, fill_color
                 )
             }
+
+            // Sparkline uses a chart indicator as shields.io fallback
+            // Full sparkline rendering requires SVG backend
+            Primitive::Sparkline {
+                values,
+                fill_color,
+                ..
+            } => {
+                // Create a simple text representation of the data range
+                let min = values.iter().cloned().fold(f32::INFINITY, f32::min);
+                let max = values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
+                let label = if values.is_empty() {
+                    "chart".to_string()
+                } else {
+                    format!("{:.0}..{:.0}", min, max)
+                };
+                format!(
+                    "![](https://img.shields.io/badge/📈-{}-{}?style=flat-square)",
+                    label.replace(' ', "%20"),
+                    fill_color
+                )
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(markdown))

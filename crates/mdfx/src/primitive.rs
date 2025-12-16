@@ -9,6 +9,7 @@
 /// - Progress: Progress bar with customizable track and fill
 /// - Donut: Circular progress/ring chart
 /// - Gauge: Semi-circular meter (half-donut)
+/// - Sparkline: Mini inline chart for data visualization
 ///
 /// Text-based transformations (frames, styles, badges) remain as direct
 /// Unicode rendering and don't use this abstraction.
@@ -145,6 +146,30 @@ pub enum Primitive {
         /// Thumb color (defaults to fill_color)
         thumb_color: Option<String>,
     },
+
+    /// Sparkline - mini inline chart for data visualization
+    Sparkline {
+        /// Data values (will be normalized to fit height)
+        values: Vec<f32>,
+        /// Total width in pixels
+        width: u32,
+        /// Total height in pixels
+        height: u32,
+        /// Chart type: "line", "bar", "area"
+        chart_type: String,
+        /// Line/bar/area fill color
+        fill_color: String,
+        /// Line stroke color (for line/area types)
+        stroke_color: Option<String>,
+        /// Line stroke width
+        stroke_width: u32,
+        /// Background/track color (optional)
+        track_color: Option<String>,
+        /// Show dots at data points (line type only)
+        show_dots: bool,
+        /// Dot radius (if show_dots is true)
+        dot_radius: u32,
+    },
 }
 
 impl Primitive {
@@ -240,6 +265,22 @@ impl Primitive {
             label_color: None,
             thumb_size: None,
             thumb_color: None,
+        }
+    }
+
+    /// Create a simple sparkline with defaults
+    pub fn simple_sparkline(values: Vec<f32>, fill_color: impl Into<String>) -> Self {
+        Primitive::Sparkline {
+            values,
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: fill_color.into(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
         }
     }
 }

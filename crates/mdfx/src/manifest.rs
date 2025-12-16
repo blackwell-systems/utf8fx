@@ -49,6 +49,12 @@ pub enum PrimitiveInfo {
         size: u32,
         thickness: u32,
     },
+    Sparkline {
+        point_count: usize,
+        width: u32,
+        height: u32,
+        chart_type: String,
+    },
 }
 
 impl From<&Primitive> for PrimitiveInfo {
@@ -98,6 +104,18 @@ impl From<&Primitive> for PrimitiveInfo {
                 percent: *percent,
                 size: *size,
                 thickness: *thickness,
+            },
+            Primitive::Sparkline {
+                values,
+                width,
+                height,
+                chart_type,
+                ..
+            } => PrimitiveInfo::Sparkline {
+                point_count: values.len(),
+                width: *width,
+                height: *height,
+                chart_type: chart_type.clone(),
             },
         }
     }

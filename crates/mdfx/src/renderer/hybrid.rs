@@ -55,6 +55,8 @@ impl HybridBackend {
             Primitive::Donut { .. } => true,
             // Gauge (half-donut) always uses SVG for proper rendering
             Primitive::Gauge { .. } => true,
+            // Sparklines always use SVG for proper rendering
+            Primitive::Sparkline { .. } => true,
         }
     }
 }

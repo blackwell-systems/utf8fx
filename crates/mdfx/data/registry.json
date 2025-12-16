@@ -819,6 +819,60 @@
             "description": "Thumb color (defaults to fill color)"
           }
         }
+      },
+      "sparkline": {
+        "type": "native",
+        "self_closing": true,
+        "description": "Mini inline chart for data visualization",
+        "contexts": ["inline", "block"],
+        "args": ["values"],
+        "optional_params": {
+          "width": {
+            "type": "number",
+            "default": "100",
+            "description": "Chart width in pixels"
+          },
+          "height": {
+            "type": "number",
+            "default": "20",
+            "description": "Chart height in pixels"
+          },
+          "type": {
+            "type": "string",
+            "default": "line",
+            "description": "Chart type: line, bar, or area"
+          },
+          "fill": {
+            "type": "color",
+            "default": "accent",
+            "description": "Line/bar/area fill color"
+          },
+          "stroke": {
+            "type": "color",
+            "default": "fill",
+            "description": "Line stroke color (for line/area types)"
+          },
+          "stroke_width": {
+            "type": "number",
+            "default": "2",
+            "description": "Line stroke width in pixels"
+          },
+          "track": {
+            "type": "color",
+            "default": "none",
+            "description": "Background color (optional)"
+          },
+          "dots": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Show dots at data points (line type only)"
+          },
+          "dot_radius": {
+            "type": "number",
+            "default": "2",
+            "description": "Dot radius in pixels (if dots=true)"
+          }
+        }
       }
     },
 

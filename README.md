@@ -58,6 +58,7 @@ High-level semantic components that compile to shields.io badges or local SVGs.
 | `{{ui:progress:75/}}` | Progress bar | Horizontal progress indicator |
 | `{{ui:donut:80/}}` | Donut chart | Circular progress ring |
 | `{{ui:gauge:65/}}` | Gauge meter | Semi-circular dashboard meter |
+| `{{ui:sparkline:1,3,2,6,4,8/}}` | Sparkline | Mini inline chart for data |
 
 **Progress bars with sliders:**
 ```markdown
@@ -70,6 +71,14 @@ High-level semantic components that compile to shields.io badges or local SVGs.
 ```markdown
 {{ui:donut:75:thumb=12:thumb_color=accent/}}        # Donut slider
 {{ui:gauge:50:thumb=16:thumb_color=warning/}}       # Gauge slider
+```
+
+**Sparkline charts:**
+```markdown
+{{ui:sparkline:1,3,2,6,4,8,5,7/}}                   # Line chart (default)
+{{ui:sparkline:1,3,2,6,4,8:type=bar/}}              # Bar chart
+{{ui:sparkline:1,3,2,6,4,8:type=area/}}             # Area chart
+{{ui:sparkline:1,3,2,6,4,8:dots=true/}}             # Line with dots
 ```
 
 See [Components Guide](docs/guides/COMPONENTS-GUIDE.md) for full reference.
@@ -235,6 +244,9 @@ See [Architecture](docs/ARCHITECTURE.md) for backend details.
 | Guide | Description |
 |-------|-------------|
 | [Swatches](docs/guides/SWATCH-GUIDE.md) | Color blocks, pixel art |
+| [Progress Bars](docs/guides/PROGRESS-GUIDE.md) | Progress indicators with sliders |
+| [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts and meters |
+| [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Mini inline data charts |
 | [Components](docs/guides/COMPONENTS-GUIDE.md) | swatch, tech, row |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 decorative Unicode borders |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 23 Unicode typography styles |

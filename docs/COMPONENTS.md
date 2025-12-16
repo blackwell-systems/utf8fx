@@ -150,7 +150,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components (5 total)
+### Shipped Components (6 total)
 
 #### swatch
 ```json
@@ -341,6 +341,52 @@ Components are defined in `registry.json` under `renderables.components`:
 2. Arc goes from left to right (9 o'clock to 3 o'clock)
 3. Fill percentage determines arc length
 4. Optional thumb positioned at fill endpoint
+
+#### sparkline
+```json
+{
+  "type": "native",
+  "self_closing": true,
+  "description": "Mini inline chart for data visualization",
+  "contexts": ["inline", "block"],
+  "args": ["values (comma-separated)"],
+  "optional_params": {
+    "width": { "type": "number", "default": "100" },
+    "height": { "type": "number", "default": "20" },
+    "type": { "type": "enum", "values": ["line", "bar", "area"], "default": "line" },
+    "fill": { "type": "color", "default": "accent" },
+    "stroke": { "type": "color", "default": "same as fill" },
+    "stroke_width": { "type": "number", "default": "2" },
+    "track": { "type": "color", "default": "none" },
+    "dots": { "type": "boolean", "default": "false" },
+    "dot_radius": { "type": "number", "default": "2" }
+  }
+}
+```
+
+**Basic usage:** `{{ui:sparkline:1,3,2,6,4,8,5,7/}}`
+
+**Bar chart:** `{{ui:sparkline:1,3,2,6,4,8,5,7:type=bar/}}`
+
+**Area chart:** `{{ui:sparkline:1,3,2,6,4,8,5,7:type=area/}}`
+
+**With dots:** `{{ui:sparkline:1,3,2,6,4,8,5,7:dots=true/}}`
+
+**Custom size:** `{{ui:sparkline:1,3,2,6,4,8,5,7:width=200:height=40/}}`
+
+**Custom colors:** `{{ui:sparkline:1,3,2,6,4,8,5,7:fill=success:stroke=warning/}}`
+
+**How it works:**
+1. Values are normalized to fit within the height (auto-scaling)
+2. For **line** type: renders polyline with optional dots at data points
+3. For **bar** type: renders vertical rectangles for each value
+4. For **area** type: renders filled polygon under the line
+5. All chart types support track color for background
+
+**Backends:**
+- **SVG:** Full rendering with all features (line, bar, area charts)
+- **Shields.io:** Fallback badge showing data range (min..max)
+- **Plaintext:** Unicode sparkline using block characters (▁▂▃▄▅▆▇█)
 
 ## Design Tokens
 
@@ -739,4 +785,4 @@ echo "{{ui:swatch:accent/}}" | mdfx process -
 
 ---
 
-**Document Status:** Reflects v1.0.0 shipped implementation with unified registry, enhanced swatches, custom palette support, target system, donut/gauge components, slider thumb support, and thumb_width for progress bars
+**Document Status:** Reflects v1.0.0 shipped implementation with unified registry, enhanced swatches, custom palette support, target system, donut/gauge components, slider thumb support, thumb_width for progress bars, and sparkline charts
