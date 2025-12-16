@@ -1,456 +1,170 @@
 # {{frame:gradient}}{{mathbold:separator=dot}}MDFX{{/mathbold}}{{/frame}}
 
-[![Blackwell Systems™](https://raw.githubusercontent.com/blackwell-systems/blackwell-docs-theme/main/badge-trademark.svg)](https://github.com/blackwell-systems)
-[![Rust](https://img.shields.io/badge/Rust-1.70%2B-orange?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Tests](https://img.shields.io/badge/tests-174_passing-22c55e?style=flat-square)](https://github.com/blackwell-systems/mdfx/actions)
+{{ui:row}}
+{{ui:tech:rust/}} {{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:info/}} {{ui:swatch:warning/}}
+{{/ui}}
 
-{{sans-serif-bold}}Unicode text effects for markdown and beyond{{/sans-serif-bold}}
+**Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
 
-Transform text into various Unicode styles through a powerful template system. Create distinctive visual elements
-for READMEs, documentation, and presentations without images or external dependencies.
+---
 
-## {{mathbold}}Quick Start{{/mathbold}}
+## {{frame:lenticular}}At a Glance{{/frame}}
 
+{{ui:row}}
+{{ui:progress:85:width=100:height=10:fill=success/}} {{ui:donut:72:size=28:thickness=3:fill=info/}} {{ui:gauge:58:size=44:thickness=5:fill=warning/}} {{ui:sparkline:2,5,3,8,4,9,6,7:width=80:height=16:fill=accent/}}
+{{/ui}}
+
+Write this:
 ```markdown
-# {{frame:gradient}}{{mathbold:separator=dot}}PROJECT NAME{{/mathbold}}{{/frame}}
-
-## Tech Stack
-{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
-
-## Status
-{{ui:swatch:success/}} All systems operational
+{{mathbold}}CHAPTER ONE{{/mathbold}}
+{{ui:progress:75/}}
+{{frame:star}}FEATURED{{/frame}}
 ```
 
-Renders as:
+Get this:
 
-# ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓·𝐍·𝐀·𝐌·𝐄 ░▒▓
+> {{mathbold}}CHAPTER ONE{{/mathbold}}
+>
+> {{ui:progress:75:width=80:height=8/}}
+>
+> {{frame:star}}FEATURED{{/frame}}
 
-![](https://img.shields.io/badge/...) (colorful divider bar)
+---
 
-🦀 🐍 🐘 (tech badges)
-
-🟢 All systems operational
-
-## {{mathbold}}Motivation{{/mathbold}}
-
-Unicode offers diverse styling options—from elegant 𝓼𝓬𝓻𝓲𝓹𝓽 to bold 𝔣𝔯𝔞𝔨𝔱𝔲𝔯 to playful Ⓒⓘⓡⓒⓛⓔⓢ—but they're
-cumbersome to use. Finding glyphs requires hunting through Unicode tables and manually spacing them.
-
-**mdfx** makes Unicode styling simple and repeatable. Use intuitive templates like `{{mathbold}}TITLE{{/mathbold}}`
-or CLI commands like `mdfx convert --style script "Elegant"`.
-
-Transform Unicode styling from a frustrating manual process into something as easy as markdown formatting.
-
-## {{mathbold}}Why mdfx?{{/mathbold}}
-
-**Why not just copy/paste Unicode characters?**
-
-- **Repeatability**: Reuse `{{mathbold}}TITLE{{/mathbold}}` across dozens of files
-- **Consistency**: Change style once, regenerate all docs - instant rebrand
-- **Maintainability**: Source files remain readable ASCII, styled output is generated
-- **Search & Replace**: Find/replace works on template names, not opaque glyphs
-- **Version Control**: Diffs show intent, not character code changes
-- **Composability**: Combine components in ways copy/paste can't match
-
-Think of it like CSS for text: separate content from presentation, gain power through abstraction.
-
-## {{mathbold}}UI Components{{/mathbold}}
-
-mdfx provides high-level semantic components for common use cases. These compile down to shields.io badges,
-frames, and character transformations.
-
-### Visual Elements
-
-**Color Swatches** - Single color blocks
-```markdown
-{{ui:swatch:accent/}}
-{{ui:swatch:success/}}
-```
-
-**Status Indicators** - Colored badges
-```markdown
-{{ui:swatch:success/}}  → 🟢 Green block
-{{ui:swatch:warning/}}  → 🟡 Yellow block
-{{ui:swatch:error/}}    → 🔴 Red block
-```
-
-### Tech Stack Badges
-
-**Technology Logos** - Simple Icons integration
-```markdown
-{{ui:tech:rust/}}
-{{ui:tech:python/}}
-{{ui:tech:postgresql/}}
-{{ui:tech:docker/}}
-{{ui:tech:kubernetes/}}
-```
-
-Uses [Simple Icons](https://simpleicons.org/) logo library (2000+ logos available).
-
-### Design Tokens
-
-Components use named colors from `palette.json`:
-
-| Token | Hex | Use |
-|-------|-----|-----|
-| `accent` | F41C80 | Primary brand color |
-| `success` | 22C55E | Success states |
-| `warning` | EAB308 | Warning states |
-| `error` | EF4444 | Error states |
-| `slate` | 6B7280 | Neutral gray |
-| `ui.bg` | 292A2D | Dark background |
-| `ui.surface` | 292C34 | Elevated surface |
-| `ui.panel` | 282F3C | Panel background |
-
-You can reference these in any component:
-```markdown
-{{ui:swatch:accent/}}
-{{ui:swatch:success/}}
-```
-
-## {{mathbold}}Text Styles{{/mathbold}}
-
-Transform text into 23 different Unicode character styles.
-
-### Bold & Emphasis
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `mathbold` | 𝐁𝐋𝐀𝐂𝐊𝐃𝐎𝐓 | Professional headers |
-| `fullwidth` | ＢＬＡＣＫＤＯＴ | Substantial emphasis |
-| `sans-serif-bold` | 𝗕𝗟𝗔𝗖𝗞𝗗𝗢𝗧 | Modern, strong |
-| `sans-serif-bold-italic` | 𝘽𝙇𝘼𝘾𝙆𝘿𝙊𝙏 | Maximum emphasis |
-
-### Boxed Styles
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `negative-squared` | 🅱🅻🅰🅲🅺🅳🅾🆃 | Maximum contrast |
-| `negative-circled` | 🅑🅛🅐🅒🅚🅓🅞🅣 | Bold, rounded |
-| `squared-latin` | 🄱🄻🄰🄲🄺🄳🄾🅃 | Elegant boxes |
-| `circled-latin` | Ⓑⓛⓐⓒⓚⓓⓞⓣ | Playful circles |
-
-### Elegant & Script
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `script` | 𝐵𝐿𝒜𝒞𝒦𝒟𝒪𝒯 | Elegant cursive |
-| `bold-script` | 𝓑𝓛𝓐𝓒𝓚𝓓𝓞𝓣 | Heavy cursive |
-| `fraktur` | 𝔅𝔏𝔄ℭ𝔎𝔇𝔒𝔗 | Gothic/blackletter |
-| `bold-fraktur` | 𝕭𝕷𝕬𝕮𝕶𝕯𝕺𝕿 | Heavy Gothic |
-| `italic` | 𝐵𝐿𝐴𝐶𝐾𝐷𝑂𝑇 | Flowing emphasis |
-| `bold-italic` | 𝑩𝑳𝑨𝑪𝑲𝑫𝑶𝑻 | Strong + flow |
-| `small-caps` | ʙʟᴀᴄᴋᴅᴏᴛ | Subtle elegance |
-
-### Technical
-| Style | Example | Use Case |
-|-------|---------|----------|
-| `monospace` | 𝚋𝚕𝚊𝚌𝚔𝚍𝚘𝚝 | Code-like |
-| `double-struck` | 𝔹𝕃𝔸ℂ𝕂𝔻𝕆𝕋 | Outline style |
-| `sans-serif` | 𝖡𝖫𝖠𝖢𝖪𝖣𝖮𝖳 | Clean, modern |
-| `sans-serif-italic` | 𝘉𝘓𝘈𝘊𝘒𝘋𝘖𝘛 | Modern slant |
-
-### Style Modifiers
-
-**Separators** - Add characters between letters
-```markdown
-{{mathbold:separator=dot}}TITLE{{/mathbold}}     → 𝐓·𝐈·𝐓·𝐋·𝐄
-{{mathbold:separator=bullet}}CODE{{/mathbold}}   → 𝐂•𝐎•𝐃•𝐄
-{{mathbold:separator=arrow}}FLOW{{/mathbold}}    → 𝐅→𝐎→𝐖
-```
-
-Available separators: `dot` (·), `bullet` (•), `dash` (─), `bolddash` (━), `arrow` (→)
-
-**Spacing** - Add spaces between characters
-```markdown
-{{mathbold:spacing=1}}HELLO{{/mathbold}}  → 𝐇 𝐄 𝐋 𝐋 𝐎
-{{mathbold:spacing=2}}WIDE{{/mathbold}}   → 𝐖  𝐈  𝐃  𝐄
-```
-
-## {{mathbold}}Installation{{/mathbold}}
-
-mdfx is distributed as two packages: a library crate (`mdfx`) and a CLI tool (`mdfx-cli`).
-
-### CLI Tool
-
-Install the command-line tool:
+## {{mathbold}}Install{{/mathbold}}
 
 ```bash
 cargo install mdfx-cli
 ```
 
-### Library
+---
 
-Add to your Rust project:
+## {{frame:diamond}}Typography{{/frame}}
 
-```toml
-[dependencies]
-mdfx = "1.0"
-```
+23 Unicode text styles. No fonts required.
 
-### From Source
+| | |
+|---|---|
+| {{mathbold}}MATHBOLD{{/mathbold}} | {{fraktur}}FRAKTUR{{/fraktur}} |
+| {{script}}SCRIPT{{/script}} | {{double-struck}}DOUBLESTRUCK{{/double-struck}} |
+| {{circled-latin}}circled{{/circled-latin}} | {{monospace}}MONOSPACE{{/monospace}} |
+| {{small-caps}}smallcaps{{/small-caps}} | {{negative-squared}}NEG{{/negative-squared}} |
 
-```bash
-git clone https://github.com/blackwell-systems/mdfx
-cd mdfx
-cargo build --release --workspace
-./target/release/mdfx --version
-```
+**Separators and spacing:**
 
-## {{mathbold}}Project Structure{{/mathbold}}
+{{mathbold:separator=dot}}DOTTED{{/mathbold}} · {{script:separator=arrow}}ARROWS{{/script}} · {{small-caps:spacing=1}}S P A C E D{{/small-caps}}
 
-Cargo workspace with two crates:
-- **`crates/mdfx`** - Core library (4 dependencies)
-- **`crates/mdfx-cli`** - CLI tool (binary: `mdfx`)
+---
+
+## {{frame:diamond}}Frames{{/frame}}
+
+29 decorative borders. Pure Unicode.
+
+| | |
+|---|---|
+| {{frame:gradient}}GRADIENT{{/frame}} | {{frame:lenticular}}LENTICULAR{{/frame}} |
+| {{frame:star}}STARRED{{/frame}} | {{frame:guillemet}}QUOTED{{/frame}} |
+| {{frame:triangle-right}}TRIANGLES{{/frame}} | {{frame:line-double}}DOUBLE{{/frame}} |
+| {{frame:finger}}POINTED{{/frame}} | {{frame:angle}}ANGLED{{/frame}} |
+
+---
+
+## {{frame:diamond}}Components{{/frame}}
+
+### Progress
+
+{{ui:progress:20:width=200:height=10:fill=error/}}
+{{ui:progress:50:width=200:height=10:fill=warning/}}
+{{ui:progress:80:width=200:height=10:fill=success/}}
+
+### Sliders
+
+{{ui:progress:40:width=200:height=6:thumb=12:thumb_color=accent/}}
+{{ui:progress:70:width=200:height=6:thumb=10:thumb_width=18:fill=info/}}
+
+### Circular
+
+{{ui:row}}
+{{ui:donut:25:size=40:thickness=4:fill=error/}} {{ui:donut:50:size=40:thickness=4:fill=warning/}} {{ui:donut:75:size=40:thickness=4:fill=info/}} {{ui:donut:100:size=40:thickness=4:fill=success/}}
+{{/ui}}
+
+### Gauges
+
+{{ui:row}}
+{{ui:gauge:25:size=60:thickness=6:fill=error/}} {{ui:gauge:55:size=60:thickness=6:fill=warning/}} {{ui:gauge:85:size=60:thickness=6:fill=success/}}
+{{/ui}}
+
+### Sparklines
+
+| Type | Chart |
+|------|-------|
+| Line | {{ui:sparkline:3,7,2,9,5,8,4,6:width=100:height=16:fill=accent/}} |
+| Bar | {{ui:sparkline:3,7,2,9,5,8,4,6:type=bar:width=100:height=16:fill=info/}} |
+| Area | {{ui:sparkline:3,7,2,9,5,8,4,6:type=area:width=100:height=16:fill=plum/}} |
+
+### Swatches
+
+{{ui:row}}
+{{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:warning/}} {{ui:swatch:error/}} {{ui:swatch:info/}} {{ui:swatch:cobalt/}} {{ui:swatch:plum/}} {{ui:swatch:slate/}}
+{{/ui}}
+
+### Tech
+
+{{ui:row}}
+{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:typescript/}} {{ui:tech:go/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}}
+{{/ui}}
+
+---
 
 ## {{mathbold}}Usage{{/mathbold}}
 
-### Library API
-
-```rust
-use mdfx::{Converter, TemplateParser};
-
-let converter = Converter::new()?;
-let result = converter.convert("HELLO", "mathbold")?;
-// "𝐇𝐄𝐋𝐋𝐎"
-```
-
-### CLI - Process Markdown Files
 ```bash
-# Process a template file
-mdfx process README.template.md > README.md
+# Process a template
+mdfx process README.template.md -o README.md
 
-# Process and save
-mdfx process input.md --output output.md
+# SVG backend for local docs
+mdfx process input.md -o output.md --backend svg --assets-dir assets/
 
-# Process from stdin
-echo "{{mathbold}}HELLO{{/mathbold}}" | mdfx process -
+# Multi-target build
+mdfx build input.md --all-targets
 ```
 
-### CLI - Direct Conversion
-```bash
-# Convert text directly
-mdfx convert --style mathbold "HELLO WORLD"
-# Output: 𝐇𝐄𝐋𝐋𝐎 𝐖𝐎𝐑𝐋𝐃
+**Targets:**
+- `github` / `gitlab` → shields.io badges
+- `local` → SVG files
+- `pypi` → Unicode plaintext
 
-# With separator
-mdfx convert --style mathbold --separator dot "TITLE"
-# Output: 𝐓·𝐈·𝐓·𝐋·𝐄
+---
 
-# With spacing
-mdfx convert --style script --spacing 2 "Elegant"
-# Output: 𝐸  𝓁  𝑒  𝑔  𝒶  𝓃  𝓉
-```
+## {{mathbold}}Palette{{/mathbold}}
 
-### CLI - List Styles
-```bash
-mdfx list                    # List all styles
-mdfx list --category bold    # Filter by category
-mdfx frames list             # List frame styles
-mdfx badges list             # List badge types
-```
+| Token | Hex | |
+|-------|-----|---|
+| accent | F41C80 | {{ui:swatch:accent/}} |
+| success | 22C55E | {{ui:swatch:success/}} |
+| warning | EAB308 | {{ui:swatch:warning/}} |
+| error | EF4444 | {{ui:swatch:error/}} |
+| info | 3B82F6 | {{ui:swatch:info/}} |
+| cobalt | 2B6CB0 | {{ui:swatch:cobalt/}} |
+| plum | 6B46C1 | {{ui:swatch:plum/}} |
 
-### Rust Library
-```rust
-use mdfx::TemplateParser;
+Custom: `mdfx process --palette brand.json input.md`
 
-fn main() {
-    let parser = TemplateParser::new().unwrap();
+---
 
-    // Process templates
-    let input = "# {{mathbold}}PROJECT{{/mathbold}}";
-    let output = parser.process(input).unwrap();
+## {{mathbold}}Documentation{{/mathbold}}
 
-    println!("{}", output);
-}
-```
+| | |
+|---|---|
+| [Components](docs/guides/COMPONENTS-GUIDE.md) | UI primitives |
+| [Progress](docs/guides/PROGRESS-GUIDE.md) | Progress bars |
+| [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
+| [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
+| [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 23 styles |
+| [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
+| [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
+| [CLI](docs/guides/CLI-GUIDE.md) | Commands |
 
-### Direct Conversion API
-```rust
-use mdfx::Converter;
+---
 
-fn main() {
-    let converter = Converter::new().unwrap();
-
-    // Convert with style
-    let result = converter.convert("HELLO", "mathbold").unwrap();
-    println!("{}", result);  // 𝐇𝐄𝐋𝐋𝐎
-
-    // Convert with separator
-    let result = converter.convert_with_separator(
-        "TITLE", "mathbold", "·", 1
-    ).unwrap();
-    println!("{}", result);  // 𝐓·𝐈·𝐓·𝐋·𝐄
-}
-```
-
-## {{mathbold}}Advanced Features{{/mathbold}}
-
-### Composition
-
-Nest templates for complex effects:
-```markdown
-{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
-```
-Output: `▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓`
-
-### Inline Frames
-
-Add decorative prefix/suffix around text:
-```markdown
-{{frame:gradient}}TITLE{{/frame}}       → ▓▒░ TITLE ░▒▓
-{{frame:solid-left}}WARNING{{/frame}}   → █▌ WARNING
-{{frame:line-double}}HEADER{{/frame}}   → ═ HEADER ═
-```
-
-27 frame styles available. See `mdfx frames list`.
-
-### Low-Level Primitives (Escape Hatch)
-
-For advanced users, direct shield rendering is available:
-```markdown
-{{shields:block:color=F41C80:style=flat-square/}}
-{{shields:bar:colors=success,warning,error:style=flat-square/}}
-```
-
-UI components are recommended for most use cases.
-
-## {{mathbold}}Examples{{/mathbold}}
-
-### Project README Header
-```markdown
-# {{frame:gradient}}{{mathbold:separator=dot}}BLACKWELL SYSTEMS{{/mathbold}}{{/frame}}
-
-## Built With
-{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:postgresql/}}
-```
-
-### Status Dashboard
-```markdown
-## System Status
-
-{{ui:swatch:success/}} API Server: Operational
-{{ui:swatch:success/}} Database: Healthy
-{{ui:swatch:warning/}} Cache: Degraded
-```
-
-## {{mathbold}}How It Works{{/mathbold}}
-
-mdfx uses a three-layer architecture:
-
-1. **UI Components** (`{{ui:*}}`) - High-level semantic elements you author
-2. **Primitives** (`{{shields:*}}`, `{{frame:*}}` / `{{fr:*}}`) - Rendering engines
-3. **Styles** (`{{mathbold}}`) - Character transformations
-
-When you write `{{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}`, mdfx:
-1. Parses the nested templates (frame → style)
-2. Applies the frame decoration (gradient prefix/suffix)
-3. Transforms characters with mathbold
-4. Adds dot separators
-
-This composition model keeps your markdown readable while enabling powerful visual effects.
-
-## {{mathbold}}Configuration{{/mathbold}}
-
-### Custom Palette
-
-Create `palette.json` in your project:
-```json
-{
-  "version": "1.0.0",
-  "colors": {
-    "brand": "FF6B35",
-    "accent": "F41C80",
-    "success": "22C55E"
-  }
-}
-```
-
-Then use in components:
-```markdown
-{{ui:swatch:brand/}}
-{{ui:swatch:accent/}}
-```
-
-### Custom Components
-
-Create `components.json`:
-```json
-{
-  "version": "1.0.0",
-  "components": {
-    "myheader": {
-      "type": "expand",
-      "self_closing": false,
-      "template": "{{frame:solid-left}}{{mathbold}}$content{{/mathbold}}{{/frame}}"
-    }
-  }
-}
-```
-
-Use as:
-```markdown
-{{ui:myheader}}CUSTOM{{/ui}}
-```
-
-## {{mathbold}}Template Syntax{{/mathbold}}
-
-### Self-Closing Tags
-For contentless elements:
-```markdown
-{{ui:tech:rust/}}
-{{ui:swatch:accent/}}
-{{ui:swatch:success/}}
-```
-
-### Block Tags
-For elements with content:
-```markdown
-{{mathbold}}TEXT{{/mathbold}}
-{{frame:gradient}}TITLE{{/frame}}
-{{ui:row:align=center}}badges{{/ui}}
-```
-
-Note: UI components use generic `{{/ui}}` closer. Other templates use specific closers (`{{/mathbold}}`, `{{/frame}}`).
-
-### Parameters
-Colon-separated key=value pairs:
-```markdown
-{{mathbold:separator=dot:spacing=1}}TEXT{{/mathbold}}
-{{ui:tech:rust/}}    ← Positional arg
-{{ui:swatch:success/}}    ← Positional arg
-```
-
-## {{mathbold}}Project Status{{/mathbold}}
-
-**Current Version:** v0.1.0 (Pre-release)
-
-**Shipped:**
-- 23 Unicode text styles with aliases
-- 4 UI components (swatch, tech, row, progress)
-- 27 inline frames
-- 6 alphanumeric badge types
-- Custom separators and spacing
-- Design token system (palette.json)
-- Template composition and nesting
-- CLI and Rust library
-
-**Planned:**
-- Additional UI components (tables, diagrams)
-- WASM bindings for browser/Node.js
-- VS Code extension with preview
-- Watch mode for live regeneration
-- Component marketplace/gallery
-
-## {{mathbold}}Contributing{{/mathbold}}
-
-Contributions welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-## {{mathbold}}License{{/mathbold}}
-
-MIT License - see [LICENSE](LICENSE) for details.
-
-## {{mathbold}}Links{{/mathbold}}
-
-- [Documentation](docs/)
-- [Examples](examples/)
-- [Architecture Design](docs/ARCHITECTURE.md)
-- [API Guide](docs/API-GUIDE.md)
-- [Components Design](docs/COMPONENTS.md)
+{{frame:gradient-light}}{{small-caps}}MIT License{{/small-caps}}{{/frame}} · [GitHub](https://github.com/blackwell-systems/mdfx) · [Changelog](CHANGELOG.md)
