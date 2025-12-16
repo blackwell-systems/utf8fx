@@ -600,20 +600,6 @@
     },
 
     "components": {
-      "divider": {
-        "type": "native",
-        "self_closing": true,
-        "description": "Visual divider bar with themed colors",
-        "contexts": ["block"],
-        "args": [],
-        "optional_params": {
-          "style": {
-            "type": "shield_style",
-            "default": "flat-square",
-            "description": "Badge style (flat, flat-square, for-the-badge, plastic, social)"
-          }
-        }
-      },
       "swatch": {
         "type": "native",
         "self_closing": true,
@@ -675,10 +661,10 @@
       "section": {
         "type": "expand",
         "self_closing": true,
-        "description": "Section header with divider (GitHub-optimized)",
+        "description": "Section header (GitHub-optimized)",
         "contexts": ["block"],
         "args": ["title"],
-        "template": "## $1\n{{ui:divider/}}"
+        "template": "## $1"
       },
       "callout-github": {
         "type": "expand",

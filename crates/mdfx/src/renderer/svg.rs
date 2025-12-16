@@ -160,18 +160,6 @@ impl SvgBackend {
                 border_bottom.hash(&mut hasher);
                 border_left.hash(&mut hasher);
             }
-            Primitive::Divider {
-                colors,
-                style,
-                separator,
-            } => {
-                "divider".hash(&mut hasher);
-                for color in colors {
-                    color.hash(&mut hasher);
-                }
-                style.hash(&mut hasher);
-                separator.hash(&mut hasher);
-            }
             Primitive::Status { level, style } => {
                 "status".hash(&mut hasher);
                 level.hash(&mut hasher);
@@ -194,7 +182,6 @@ impl SvgBackend {
         let hash = hasher.finish();
         let type_name = match primitive {
             Primitive::Swatch { .. } => "swatch",
-            Primitive::Divider { .. } => "divider",
             Primitive::Status { .. } => "status",
             Primitive::Tech { .. } => "tech",
         };
@@ -454,41 +441,6 @@ impl SvgBackend {
         )
     }
 
-    /// Render a divider (multiple colored rectangles inline)
-    fn render_divider_svg(colors: &[String], style: &str) -> String {
-        let metrics = SvgMetrics::from_style(style);
-        let width_per_block = 20;
-        let total_width = colors.len() * width_per_block;
-
-        let mut rects = String::new();
-        for (i, color) in colors.iter().enumerate() {
-            let x = i * width_per_block;
-            rects.push_str(&format!(
-                "  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n",
-                x, width_per_block, metrics.height, color, metrics.rx
-            ));
-        }
-
-        // Add plastic shine overlay if needed
-        if metrics.plastic {
-            rects.push_str(&format!(
-                "  <defs>\n\
-    <linearGradient id=\"shine\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n\
-      <stop offset=\"0%\" style=\"stop-color:#ffffff;stop-opacity:0.2\" />\n\
-      <stop offset=\"100%\" style=\"stop-color:#000000;stop-opacity:0.1\" />\n\
-    </linearGradient>\n\
-  </defs>\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"url(#shine)\" rx=\"{}\"/>\n",
-                total_width, metrics.height, metrics.rx
-            ));
-        }
-
-        format!(
-            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n{}</svg>",
-            total_width, metrics.height, total_width, metrics.height, rects
-        )
-    }
-
     /// Render a tech badge (with placeholder for logo)
     fn render_tech_svg(name: &str, bg_color: &str, _logo_color: &str, style: &str) -> String {
         let metrics = SvgMetrics::from_style(style);
@@ -556,8 +508,6 @@ impl Renderer for SvgBackend {
                 border_bottom: border_bottom.as_deref(),
                 border_left: border_left.as_deref(),
             }),
-
-            Primitive::Divider { colors, style, .. } => Self::render_divider_svg(colors, style),
 
             Primitive::Status { level, style } => {
                 // Status uses simplified swatch (no extra options)
@@ -637,29 +587,6 @@ mod tests {
         assert!(svg.contains("F41C80"));
         assert!(svg.contains("<svg"));
         assert!(svg.contains("</svg>"));
-    }
-
-    #[test]
-    fn test_render_divider_primitive() {
-        let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Divider {
-            colors: vec![
-                "FF0000".to_string(),
-                "00FF00".to_string(),
-                "0000FF".to_string(),
-            ],
-            style: "flat-square".to_string(),
-            separator: None,
-        };
-
-        let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
-
-        // Should have 3 rectangles
-        assert_eq!(svg.matches("<rect").count(), 3);
-        assert!(svg.contains("FF0000"));
-        assert!(svg.contains("00FF00"));
-        assert!(svg.contains("0000FF"));
     }
 
     #[test]
@@ -770,25 +697,6 @@ mod tests {
 
         // Should be very rounded (rx="10")
         assert!(svg.contains("rx=\"10\""));
-    }
-
-    #[test]
-    fn test_svg_divider_with_style() {
-        let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Divider {
-            colors: vec!["FF0000".to_string(), "00FF00".to_string()],
-            style: "for-the-badge".to_string(),
-            separator: None,
-        };
-
-        let result = backend.render(&primitive).unwrap();
-        let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
-
-        // Should apply tall height to all blocks
-        assert!(svg.contains("height=\"28\""));
-        // Should have multiple blocks
-        assert!(svg.contains("#FF0000"));
-        assert!(svg.contains("#00FF00"));
     }
 
     #[test]

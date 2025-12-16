@@ -574,13 +574,13 @@ mod tests {
     fn test_component_contexts() {
         let registry = Registry::new().unwrap();
 
-        // Divider is block-only
-        let component = registry.component("divider").unwrap();
-        assert!(component.contexts.contains(&EvalContext::Block));
-        assert!(!component.contexts.contains(&EvalContext::Inline));
-
         // Swatch works in both inline and block
         let component = registry.component("swatch").unwrap();
+        assert!(component.contexts.contains(&EvalContext::Block));
+        assert!(component.contexts.contains(&EvalContext::Inline));
+
+        // Tech works in both inline and block
+        let component = registry.component("tech").unwrap();
         assert!(component.contexts.contains(&EvalContext::Block));
         assert!(component.contexts.contains(&EvalContext::Inline));
     }
@@ -590,7 +590,7 @@ mod tests {
         let registry = Registry::new().unwrap();
 
         // Component resolution
-        match registry.resolve("divider", EvalContext::Block) {
+        match registry.resolve("swatch", EvalContext::Block) {
             ResolvedRenderable::Component(c) => assert_eq!(c.component_type, "native"),
             _ => panic!("Expected component"),
         }

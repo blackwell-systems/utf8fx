@@ -5,7 +5,6 @@
 ///
 /// Each primitive corresponds to a high-level UI concept:
 /// - Swatch: Single colored block
-/// - Divider: Multi-color separator bar
 /// - Tech: Technology logo badge
 /// - Status: Colored status indicator
 ///
@@ -57,14 +56,6 @@ pub enum Primitive {
         border_bottom: Option<String>,
         /// Left border: "color/width" (e.g., "FF0000/2") or just "color". SVG-only.
         border_left: Option<String>,
-    },
-
-    /// Multi-color divider bar for section separation
-    Divider {
-        colors: Vec<String>,
-        style: String,
-        /// Optional separator between color blocks (e.g., " " for space)
-        separator: Option<String>,
     },
 
     /// Technology badge with logo (uses Simple Icons)
@@ -175,25 +166,6 @@ mod tests {
             assert_eq!(logo_size, Some("auto".to_string()));
         } else {
             panic!("Expected Swatch primitive");
-        }
-    }
-
-    #[test]
-    fn test_primitive_divider() {
-        let divider = Primitive::Divider {
-            colors: vec![
-                "ff0000".to_string(),
-                "00ff00".to_string(),
-                "0000ff".to_string(),
-            ],
-            style: "flat".to_string(),
-            separator: None,
-        };
-
-        if let Primitive::Divider { colors, .. } = divider {
-            assert_eq!(colors.len(), 3);
-        } else {
-            panic!("Expected Divider primitive");
         }
     }
 

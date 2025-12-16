@@ -8,8 +8,8 @@ use std::collections::HashMap;
 /// ComponentsRenderer provides a semantic layer on top of primitives (shields, frames, badges).
 /// Components are defined in `components.json` and expand to primitive templates at parse time.
 ///
-/// This allows users to write concise, semantic markup like `{{ui:divider/}}` instead of
-/// verbose primitive calls like `{{shields:bar:colors=...}}`.
+/// This allows users to write concise, semantic markup like `{{ui:swatch:accent/}}` instead of
+/// verbose primitive calls like `{{shields:block:color=...}}`.
 pub struct ComponentsRenderer {
     palette: HashMap<String, String>,
     components: HashMap<String, ComponentDef>,
@@ -102,14 +102,14 @@ impl ComponentsRenderer {
     ///
     /// # Arguments
     ///
-    /// * `component` - Component name (e.g., "divider", "tech", "header")
+    /// * `component` - Component name (e.g., "swatch", "tech", "header")
     /// * `args` - Positional arguments (e.g., ["rust"] for tech:rust)
     /// * `content` - Optional content between tags (for non-self-closing components)
     ///
     /// # Returns
     ///
     /// Either:
-    /// - `ComponentOutput::Primitive` for image-based components (divider, swatch, tech, status)
+    /// - `ComponentOutput::Primitive` for image-based components (swatch, tech, status)
     /// - `ComponentOutput::Template` for components using frames/styles (header, callout)
     ///
     /// # Examples
@@ -205,20 +205,6 @@ impl ComponentsRenderer {
         let (args, style) = Self::split_style_arg(args);
 
         match component {
-            "divider" => {
-                let colors = vec![
-                    self.resolve_color("ui.bg"),
-                    self.resolve_color("ui.surface"),
-                    self.resolve_color("accent"),
-                    self.resolve_color("ui.panel"),
-                ];
-                Ok(ComponentOutput::Primitive(Primitive::Divider {
-                    colors,
-                    style,
-                    separator: None,
-                }))
-            }
-
             "swatch" => {
                 // Extract all key=value params from args
                 let (positional, params) = Self::extract_params(&args);
@@ -594,22 +580,6 @@ mod tests {
     }
 
     #[test]
-    fn test_expand_divider() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer.expand("divider", &[], None).unwrap();
-
-        // Divider should return a Primitive::Divider
-        match result {
-            ComponentOutput::Primitive(Primitive::Divider { colors, .. }) => {
-                assert_eq!(colors.len(), 4);
-                assert_eq!(colors[0], "292A2D"); // ui.bg
-                assert_eq!(colors[2], "F41C80"); // accent
-            }
-            _ => panic!("Expected Primitive::Divider"),
-        }
-    }
-
-    #[test]
     fn test_expand_swatch_with_arg() {
         let renderer = ComponentsRenderer::new().unwrap();
         let result = renderer
@@ -884,7 +854,7 @@ mod tests {
     #[test]
     fn test_has_component() {
         let renderer = ComponentsRenderer::new().unwrap();
-        assert!(renderer.has("divider"));
+        assert!(renderer.has("swatch"));
         assert!(renderer.has("tech"));
         assert!(!renderer.has("nonexistent"));
     }
@@ -895,7 +865,7 @@ mod tests {
         let components = renderer.list();
 
         assert!(!components.is_empty());
-        assert!(components.iter().any(|(name, _)| *name == "divider"));
+        assert!(components.iter().any(|(name, _)| *name == "swatch"));
         assert!(components.iter().any(|(name, _)| *name == "tech"));
     }
 
@@ -1014,10 +984,10 @@ mod style_tests {
         let renderer = ComponentsRenderer::new().unwrap();
 
         // Test getting a known component
-        let divider = renderer.get("divider");
-        assert!(divider.is_some());
-        let divider = divider.unwrap();
-        assert!(!divider.description.is_empty());
+        let swatch = renderer.get("swatch");
+        assert!(swatch.is_some());
+        let swatch = swatch.unwrap();
+        assert!(!swatch.description.is_empty());
 
         // Test getting unknown component returns None
         let unknown = renderer.get("nonexistent_component");

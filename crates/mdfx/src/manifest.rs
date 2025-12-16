@@ -11,7 +11,7 @@ pub struct AssetEntry {
     pub path: String,
     /// SHA-256 hash of file contents
     pub sha256: String,
-    /// Asset type (swatch, divider, tech, status)
+    /// Asset type (swatch, tech, status)
     #[serde(rename = "type")]
     pub asset_type: String,
     /// Primitive parameters that generated this asset
@@ -26,10 +26,6 @@ pub struct AssetEntry {
 pub enum PrimitiveInfo {
     Swatch {
         color: String,
-        style: String,
-    },
-    Divider {
-        colors: Vec<String>,
         style: String,
     },
     Tech {
@@ -49,10 +45,6 @@ impl From<&Primitive> for PrimitiveInfo {
         match p {
             Primitive::Swatch { color, style, .. } => PrimitiveInfo::Swatch {
                 color: color.clone(),
-                style: style.clone(),
-            },
-            Primitive::Divider { colors, style, .. } => PrimitiveInfo::Divider {
-                colors: colors.clone(),
                 style: style.clone(),
             },
             Primitive::Tech {
@@ -262,24 +254,6 @@ mod tests {
         let info = PrimitiveInfo::from(&primitive);
         match info {
             PrimitiveInfo::Tech { name, .. } => assert_eq!(name, "rust"),
-            _ => panic!("Wrong variant"),
-        }
-    }
-
-    #[test]
-    fn test_primitive_info_divider() {
-        let primitive = Primitive::Divider {
-            colors: vec!["FF0000".to_string(), "00FF00".to_string()],
-            style: "flat".to_string(),
-            separator: None,
-        };
-
-        let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Divider { colors, style } => {
-                assert_eq!(colors.len(), 2);
-                assert_eq!(style, "flat");
-            }
             _ => panic!("Wrong variant"),
         }
     }

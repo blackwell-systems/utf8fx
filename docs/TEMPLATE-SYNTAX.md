@@ -66,11 +66,10 @@ For templates without content:
 **Rules:**
 - End with `/}}`
 - Cannot have closing tag
-- Used for: dividers, swatches, tech badges, status indicators
+- Used for: swatches, tech badges, status indicators
 
 **Examples:**
 ```markdown
-{{ui:divider/}}
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
 {{ui:section:Installation/}}
@@ -173,7 +172,7 @@ Key-value pairs with equals (`=`)
 {{mathbold:separator=dot:spacing=1}}TEXT{{/mathbold}}
 {{shields:block:color=F41C80:style=flat-square/}}
 {{ui:swatch:F41C80:style=flat/}}
-{{ui:divider:style=for-the-badge/}}
+{{ui:tech:rust:style=for-the-badge/}}
 ```
 
 **Rules:**
@@ -187,7 +186,7 @@ In component definitions (`components.json`), parameters are substituted:
 
 ```json
 {
-  "template": "## $1\n{{ui:divider/}}",
+  "template": "## $1",
   "args": ["title"]
 }
 ```
@@ -216,7 +215,7 @@ Components are high-level semantic elements that expand to other templates.
 
 ### Badge Style Control
 
-All primitive-based components (divider, swatch, tech, status) support optional `style=` parameter:
+All primitive-based components (swatch, tech, status) support optional `style=` parameter:
 
 | Style | Appearance | Shields.io | SVG |
 |-------|------------|-----------|-----|
@@ -237,7 +236,6 @@ All primitive-based components (divider, swatch, tech, status) support optional 
 ```
 
 **Applies to:**
-- `{{ui:divider:style=STYLE/}}`
 - `{{ui:swatch:COLOR:style=STYLE/}}`
 - `{{ui:tech:LOGO:style=STYLE/}}`
 - `{{ui:status:LEVEL:style=STYLE/}}`
@@ -251,7 +249,6 @@ All primitive-based components (divider, swatch, tech, status) support optional 
 
 | Component | Args | Type | Example |
 |-----------|------|------|---------|
-| `divider` | none | self-closing | `{{ui:divider/}}` |
 | `swatch` | color | self-closing | `{{ui:swatch:accent/}}` |
 | `tech` | logo_name | self-closing | `{{ui:tech:rust/}}` |
 | `status` | level | self-closing | `{{ui:status:success/}}` |
@@ -262,15 +259,6 @@ All primitive-based components (divider, swatch, tech, status) support optional 
 | `statusitem` | label, level, text | self-closing | `{{ui:statusitem:Build:success:passing/}}` |
 
 ### Component-Specific Rules
-
-**divider:**
-```markdown
-{{ui:divider/}}
-{{ui:divider:style=STYLE/}}
-```
-- No positional arguments
-- Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
-- Expands to multi-color bar with theme colors
 
 **swatch:**
 ```markdown
@@ -335,7 +323,6 @@ All primitive-based components (divider, swatch, tech, status) support optional 
 {{ui:section:TITLE/}}
 ```
 - 1 arg: section title (becomes `## TITLE`)
-- Automatically adds divider below
 - GitHub Blocks feature
 
 **callout-github:**
@@ -669,8 +656,8 @@ Low-level shield rendering (escape hatch for advanced users).
 ### When to Use Primitives
 
 **Prefer UI components:**
-- `{{ui:divider/}}` instead of `{{shields:bar:...}}`
 - `{{ui:tech:rust/}}` instead of `{{shields:icon:logo=rust:...}}`
+- `{{ui:swatch:accent/}}` instead of `{{shields:block:color=accent:...}}`
 
 **Use primitives when:**
 - Component doesn't exist for your use case
@@ -794,7 +781,7 @@ Use `{{mathbold}}TEXT{{/mathbold}}` in your markdown.
 
 **Trailing newlines:** Preserved
 ```markdown
-{{ui:divider/}}
+{{ui:swatch:accent/}}
 
 Next paragraph
 ```
@@ -902,10 +889,10 @@ Available: dot, bullet, dash, bolddash, arrow, ...
 ### Invalid Self-Closing Syntax
 
 ```
-Error: Invalid syntax: {{ui:divider}}{{/ui}} (expected {{ui:divider/}})
+Error: Invalid syntax: {{ui:swatch:accent}}{{/ui}} (expected {{ui:swatch:accent/}})
 ```
 
-**Fix:** Use self-closing syntax: `{{ui:divider/}}`
+**Fix:** Use self-closing syntax: `{{ui:swatch:accent/}}`
 
 ---
 
@@ -928,7 +915,7 @@ closing_tag = "{{/" closer_name "}}" ;
 content = { text | template | code_block } ;
 
 (* Template names *)
-template_name = identifier [ ":" identifier ] ;  (* e.g., "ui:divider" *)
+template_name = identifier [ ":" identifier ] ;  (* e.g., "ui:swatch" *)
 identifier = letter { letter | digit | "-" | "_" } ;
 
 (* Parameters *)
@@ -1023,7 +1010,7 @@ Use `$1` or `$content` as placeholders for the content between tags:
 
 | Template Type | Self-Closing | Block | Closer | Example |
 |---------------|--------------|-------|--------|---------|
-| Component | Yes | Yes | `{{/ui}}` or `{{/}}` | `{{ui:divider/}}` |
+| Component | Yes | Yes | `{{/ui}}` or `{{/}}` | `{{ui:swatch:accent/}}` |
 | Style | No | Yes | `{{/style}}` | `{{mathbold}}TEXT{{/mathbold}}` |
 | Frame | No | Yes | `{{/frame}}` | `{{frame:gradient}}TEXT{{/frame}}` |
 | Badge | No | Yes | `{{/badge}}` | `{{badge:circle}}1{{/badge}}` |

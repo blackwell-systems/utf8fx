@@ -62,14 +62,6 @@ impl Renderer for ShieldsBackend {
                 }
             }
 
-            Primitive::Divider {
-                colors,
-                style,
-                separator,
-            } => self
-                .shields
-                .render_bar_with_separator(colors, style, separator.as_deref())?,
-
             Primitive::Tech {
                 name,
                 bg_color,
@@ -111,28 +103,6 @@ mod tests {
         assert!(markdown.contains("2B6CB0"));
         assert!(markdown.contains("style=flat-square"));
         assert!(!result.is_file_based());
-    }
-
-    #[test]
-    fn test_render_divider_primitive() {
-        let backend = ShieldsBackend::new().unwrap();
-        let primitive = Primitive::Divider {
-            colors: vec![
-                "22C55E".to_string(),
-                "F59E0B".to_string(),
-                "334155".to_string(),
-            ],
-            style: "flat-square".to_string(),
-            separator: None,
-        };
-
-        let result = backend.render(&primitive).unwrap();
-        let markdown = result.to_markdown();
-
-        assert!(markdown.contains("22C55E"));
-        assert!(markdown.contains("F59E0B"));
-        assert!(markdown.contains("334155"));
-        assert_eq!(markdown.matches("![](").count(), 3);
     }
 
     #[test]

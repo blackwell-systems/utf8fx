@@ -199,7 +199,7 @@ impl TemplateParser {
     ///
     /// let backend = Box::new(SvgBackend::new("assets"));
     /// let parser = TemplateParser::with_backend(backend).unwrap();
-    /// let processed = parser.process_with_assets("{{ui:divider/}}").unwrap();
+    /// let processed = parser.process_with_assets("{{ui:swatch:accent/}}").unwrap();
     ///
     /// // Write assets to disk
     /// for asset in processed.assets {
@@ -1548,7 +1548,7 @@ impl TemplateParser {
     /// Returns: Some(UIData) or None if not a valid UI template
     ///
     /// Supports both self-closing and block-style:
-    /// - Self-closing: {{ui:divider/}}
+    /// - Self-closing: {{ui:swatch:accent/}}
     /// - Block: {{ui:header}}CONTENT{{/ui}}
     /// - With args: {{ui:tech:rust/}}
     fn parse_ui_at(&self, chars: &[char], start: usize) -> Result<Option<UIData>> {
@@ -2710,7 +2710,7 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
     fn test_universal_close_all_self_closing_ignored() {
         let parser = TemplateParser::new().unwrap();
         // Self-closing tags should not be tracked
-        let input = "{{fr:gradient}}{{ui:divider/}}text{{//}}";
+        let input = "{{fr:gradient}}{{ui:swatch:accent/}}text{{//}}";
         let result = parser.process(input).unwrap();
         // Only the frame should be closed
         assert!(result.contains("▓▒░"));
@@ -2817,16 +2817,6 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     // UI Component Tests
 
     #[test]
-    fn test_ui_divider() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:divider/}}";
-        let result = parser.process(input).unwrap();
-        // Should expand to shields:bar and render as Markdown image
-        assert!(result.contains("![]("));
-        assert!(result.contains("img.shields.io"));
-    }
-
-    #[test]
     fn test_ui_swatch() {
         let parser = TemplateParser::new().unwrap();
         let input = "{{ui:swatch:accent/}}";
@@ -2890,7 +2880,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     #[test]
     fn test_ui_in_markdown() {
         let parser = TemplateParser::new().unwrap();
-        let input = "# Header\n\n{{ui:divider/}}\n\n## Section";
+        let input = "# Header\n\n{{ui:swatch:accent/}}\n\n## Section";
         let result = parser.process(input).unwrap();
         assert!(result.contains("# Header"));
         assert!(result.contains("![]("));
@@ -3022,8 +3012,8 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     fn test_preserves_blank_lines_around_components() {
         let parser = TemplateParser::new().unwrap();
 
-        // Test with self-closing component (divider)
-        let input = "Paragraph 1\n\n{{ui:divider/}}\n\nParagraph 2";
+        // Test with self-closing component (swatch)
+        let input = "Paragraph 1\n\n{{ui:swatch:accent/}}\n\nParagraph 2";
         let result = parser.process(input).unwrap();
 
         // Should preserve blank lines before and after component
@@ -3134,7 +3124,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let parser = TemplateParser::new().unwrap();
 
         // Component at end of document with trailing newline
-        let input = "Text before\n{{ui:divider/}}\n";
+        let input = "Text before\n{{ui:swatch:accent/}}\n";
         let result = parser.process(input).unwrap();
 
         // Should preserve trailing newline
@@ -3146,7 +3136,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let parser = TemplateParser::new().unwrap();
 
         // Component at end without trailing newline
-        let input = "Text before\n{{ui:divider/}}";
+        let input = "Text before\n{{ui:swatch:accent/}}";
         let result = parser.process(input).unwrap();
 
         // Should NOT add trailing newline
@@ -3178,9 +3168,8 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         let input = "{{ui:section:Installation/}}";
         let result = parser.process(input).unwrap();
 
-        // Should generate header + divider
+        // Should generate header
         assert!(result.contains("## Installation"));
-        assert!(result.contains("![](https://img.shields.io/badge/"));
     }
 
     #[test]
@@ -3388,15 +3377,6 @@ mod badge_style_tests {
         let output = parser.process(input).unwrap();
         // Should default to flat-square
         assert!(output.contains("style=flat-square"));
-    }
-
-    #[test]
-    fn test_divider_with_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:divider:style=for-the-badge/}}";
-        let output = parser.process(input).unwrap();
-        // All divider blocks should have the same style
-        assert!(output.contains("style=for-the-badge"));
     }
 
     #[test]

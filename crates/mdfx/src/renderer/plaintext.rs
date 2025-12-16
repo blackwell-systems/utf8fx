@@ -11,7 +11,6 @@ use crate::renderer::{RenderedAsset, Renderer};
 ///
 /// Renders primitives as ASCII-compatible text representations:
 /// - Swatches: `[#RRGGBB]` color codes
-/// - Dividers: ASCII line separators
 /// - Tech badges: `[Technology]` text labels
 /// - Status: `[OK]`, `[WARN]`, `[ERR]` indicators
 #[derive(Debug, Clone, Default)]
@@ -37,20 +36,6 @@ impl Renderer for PlainTextBackend {
                     format!("[#{} {}]", color, lbl)
                 } else {
                     format!("[#{}]", color)
-                }
-            }
-
-            Primitive::Divider { colors, .. } => {
-                if colors.is_empty() {
-                    "---".to_string()
-                } else {
-                    // Show colors in divider
-                    let color_str = colors
-                        .iter()
-                        .map(|c| format!("#{}", c))
-                        .collect::<Vec<_>>()
-                        .join(" ");
-                    format!("--- {} ---", color_str)
                 }
             }
 
@@ -150,30 +135,6 @@ mod tests {
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[#F41C80 rust]");
-    }
-
-    #[test]
-    fn test_plaintext_divider() {
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::Divider {
-            colors: vec!["F41C80".to_string(), "2B6CB0".to_string()],
-            style: "flat-square".to_string(),
-            separator: None,
-        };
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "--- #F41C80 #2B6CB0 ---");
-    }
-
-    #[test]
-    fn test_plaintext_divider_empty() {
-        let backend = PlainTextBackend::new();
-        let primitive = Primitive::Divider {
-            colors: vec![],
-            style: "flat-square".to_string(),
-            separator: None,
-        };
-        let asset = backend.render(&primitive).unwrap();
-        assert_eq!(asset.to_markdown(), "---");
     }
 
     #[test]

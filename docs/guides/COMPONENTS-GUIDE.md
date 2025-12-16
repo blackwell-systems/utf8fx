@@ -1,13 +1,12 @@
 # Components Guide
 
-Components are reusable UI elements that render to visual primitives like badges, dividers, and status indicators. They use the `{{ui:component}}` namespace.
+Components are reusable UI elements that render to visual primitives like badges and status indicators. They use the `{{ui:component}}` namespace.
 
 ## Table of Contents
 
 - [Basic Syntax](#basic-syntax)
 - [Native Components](#native-components)
   - [swatch](#swatch)
-  - [divider](#divider)
   - [tech](#tech)
   - [status](#status)
   - [row](#row)
@@ -78,34 +77,6 @@ Renders a colored block. The foundation for visual elements.
 ```
 
 See [SWATCH-GUIDE.md](SWATCH-GUIDE.md) for complete documentation.
-
----
-
-### divider
-
-Creates a gradient color bar for section separation.
-
-**Syntax:**
-```markdown
-{{ui:divider/}}
-{{ui:divider:style=plastic/}}
-```
-
-**Parameters:**
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `style` | string | flat-square | Badge style |
-
-**Colors:** Uses theme gradient: `ui.bg` → `ui.surface` → `accent` → `ui.panel`
-
-**Example:**
-```markdown
-## Section Title
-{{ui:divider/}}
-
-Content goes here...
-```
 
 ---
 
@@ -234,7 +205,7 @@ Section header with gradient frame and bold mathematical text.
 
 ### section
 
-Creates a markdown heading with gradient divider underneath.
+Creates a styled markdown heading.
 
 **Syntax:**
 ```markdown
@@ -244,7 +215,6 @@ Creates a markdown heading with gradient divider underneath.
 **Expands to:**
 ```markdown
 ## Title Text
-{{ui:divider/}}
 ```
 
 **Example:**
@@ -382,7 +352,7 @@ All components that render badges support these styles:
 | Cache | {{ui:status:warning/}} |
 ```
 
-### Section with Divider
+### Section Heading
 ```markdown
 {{ui:section:Features/}}
 
@@ -417,7 +387,6 @@ Breaking changes in v2.0. See migration guide.
 | Component | Type | Self-Closing | Context |
 |-----------|------|--------------|---------|
 | `swatch` | native | yes | inline, block |
-| `divider` | native | yes | block |
 | `tech` | native | yes | inline, block |
 | `status` | native | yes | inline, block |
 | `row` | native | no | block |

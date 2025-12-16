@@ -16,8 +16,8 @@ mdfx uses a **component-first architecture** where users write semantic `{{ui:*}
 **What users write:**
 ```markdown
 {{ui:header}}TITLE{{/ui}}
-{{ui:divider/}}
 {{ui:tech:rust/}}
+{{ui:swatch:accent/}}
 ```
 
 **Purpose:** High-level semantic elements optimized for common use cases.
@@ -132,7 +132,7 @@ Components are defined in `registry.json` under `renderables.components`:
 
 **type** (`"expand"` or `"native"`)
 - `"expand"` - Template substitution components (header, callout, section, etc.)
-- `"native"` - Rust-implemented logic (divider, swatch, tech, status, row)
+- `"native"` - Rust-implemented logic (swatch, tech, status, row)
 
 **self_closing** (`boolean`)
 - `true` → `{{ui:component/}}` (no closing tag)
@@ -152,20 +152,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components (10 total)
-
-#### divider
-```json
-{
-  "type": "expand",
-  "self_closing": true,
-  "template": "{{shields:bar:colors=ui.bg,ui.surface,accent,ui.panel:style=flat-square/}}"
-}
-```
-
-**Usage:** `{{ui:divider/}}`
-
-**Output:** 4 inline colored blocks forming a visual separator
+### Shipped Components (9 total)
 
 #### swatch
 ```json
@@ -242,13 +229,13 @@ Components are defined in `registry.json` under `renderables.components`:
   "type": "expand",
   "self_closing": true,
   "args": ["title"],
-  "template": "## $1\n{{ui:divider/}}"
+  "template": "## $1"
 }
 ```
 
 **Usage:** `{{ui:section:Features/}}`
 
-**Output:** Markdown header (`##`) followed by divider badge row
+**Output:** Markdown header (`##`)
 
 #### callout-github
 ```json
@@ -396,9 +383,9 @@ This groups related colors without requiring nested objects.
 
 **Example:**
 ```markdown
-{{ui:divider/}}
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
+{{ui:status:success/}}
 ```
 
 ### Block Tags
@@ -492,7 +479,7 @@ Custom components are defined in `registry.json` under the `components` key. To 
 
 **Naming conventions:**
 - Lowercase, hyphen-separated: `tech-stack`, `status-badge`
-- Verb or noun, not adjective: `divider` (✓), `colorful` (✗)
+- Verb or noun, not adjective: `header` (✓), `colorful` (✗)
 - Self-explanatory: `header` (✓), `h1` (✗)
 
 ## Implementation Details
@@ -644,21 +631,21 @@ mdfx process --target local docs/guide.md  # SVG backend
 **Component expansion tests:**
 ```rust
 #[test]
-fn test_expand_divider() {
+fn test_expand_swatch() {
     let renderer = ComponentsRenderer::new().unwrap();
-    let result = renderer.expand("divider", &[], None).unwrap();
+    let result = renderer.expand("swatch", &["accent"], None).unwrap();
 
-    assert!(result.contains("{{shields:bar"));
-    assert!(result.contains("292a2d"));  // ui.bg resolved
+    assert!(result.contains("{{shields:block"));
+    assert!(result.contains("F41C80"));  // accent color resolved
 }
 ```
 
 **Parser integration tests:**
 ```rust
 #[test]
-fn test_ui_divider() {
+fn test_ui_swatch() {
     let parser = TemplateParser::new().unwrap();
-    let input = "{{ui:divider/}}";
+    let input = "{{ui:swatch:accent/}}";
     let result = parser.process(input).unwrap();
 
     assert!(result.contains("![]("));  // Shields rendered to Markdown

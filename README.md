@@ -22,8 +22,6 @@ Create `README.template.md`:
 ```markdown
 # {{ui:header}}PROJECT NAME{{/ui}}
 
-{{ui:divider/}}
-
 ## Tech Stack
 {{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:postgresql/}}
 
@@ -39,8 +37,6 @@ mdfx process README.template.md -o README.md
 Output:
 
 # ▓▒░ 𝐏·𝐑·𝐎·𝐉·𝐄·𝐂·𝐓· ·𝐍·𝐀·𝐌·𝐄 ░▒▓
-
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
 
 ## Tech Stack
 ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=python&logoColor=FFFFFF&label=&labelColor=292A2D) ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=postgresql&logoColor=FFFFFF&label=&labelColor=292A2D)
@@ -58,7 +54,6 @@ High-level semantic components that compile to shields.io badges or local SVGs.
 | Component | Example | Output |
 |-----------|---------|--------|
 | `{{ui:header}}TEXT{{/ui}}` | Section header | `▓▒░ 𝐓·𝐄·𝐗·𝐓 ░▒▓` |
-| `{{ui:divider/}}` | Color bar separator | ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square) |
 | `{{ui:tech:rust/}}` | Tech badge | ![](https://img.shields.io/badge/-%20-292A2D?style=flat-square&logo=rust&logoColor=FFFFFF) |
 | `{{ui:status:success/}}` | Status indicator | ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) |
 | `{{ui:swatch:F41C80/}}` | Color block | ![](https://img.shields.io/badge/-%20-F41C80?style=flat-square) |
