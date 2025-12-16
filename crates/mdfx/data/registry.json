@@ -628,14 +628,6 @@
           }
         }
       },
-      "section": {
-        "type": "expand",
-        "self_closing": true,
-        "description": "Section header (GitHub-optimized)",
-        "contexts": ["block"],
-        "args": ["title"],
-        "template": "## $1"
-      },
       "callout-github": {
         "type": "expand",
         "self_closing": false,
@@ -1459,11 +1451,11 @@
 
   "metadata": {
     "total_glyphs": 493,
-    "total_components": 9,
+    "total_components": 5,
     "total_frames": 27,
     "total_styles": 23,
     "total_palette_colors": 15,
     "total_shield_styles": 5,
-    "last_updated": "2025-12-15"
+    "last_updated": "2025-12-16"
   }
 }

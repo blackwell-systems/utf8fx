@@ -109,8 +109,8 @@ impl ComponentsRenderer {
     /// # Returns
     ///
     /// Either:
-    /// - `ComponentOutput::Primitive` for image-based components (swatch, tech, status)
-    /// - `ComponentOutput::Template` for expand components (section, callout-github)
+    /// - `ComponentOutput::Primitive` for image-based components (swatch, tech)
+    /// - `ComponentOutput::Template` for expand components (callout-github, statusitem)
     ///
     /// # Examples
     ///
@@ -123,8 +123,8 @@ impl ComponentsRenderer {
     /// let result = renderer.expand("swatch", &["accent".to_string()], None).unwrap();
     /// assert!(matches!(result, ComponentOutput::Primitive(_)));
     ///
-    /// // Section returns a Template
-    /// let result = renderer.expand("section", &["TITLE".to_string()], None).unwrap();
+    /// // Statusitem returns a Template
+    /// let result = renderer.expand("statusitem", &["Build".to_string(), "success".to_string(), "passing".to_string()], None).unwrap();
     /// assert!(matches!(result, ComponentOutput::Template(_)));
     /// ```
     pub fn expand(

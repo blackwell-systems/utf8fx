@@ -1834,40 +1834,9 @@ GitHub Blocks are specialized components optimized for GitHub's Markdown rendere
 
 ### Overview
 
-Three components provide GitHub-compatible layouts:
-- **section** - Section headers
+Two components provide GitHub-compatible layouts:
 - **callout-github** - Blockquote callouts
 - **statusitem** - Inline status badges
-
-### section Component
-
-Creates section headers.
-
-**Syntax:** `{{ui:section:TITLE/}}`
-
-**Component Type:** Expand (self-closing)
-
-**Template Expansion:**
-```markdown
-## TITLE
-```
-
-**Example:**
-```rust
-use mdfx::TemplateParser;
-
-let parser = TemplateParser::new()?;
-let input = "{{ui:section:Installation/}}";
-let result = parser.process(input)?;
-
-// Outputs:
-// ## Installation
-```
-
-**Use Cases:**
-- README section organization
-- Documentation structure
-- Visual hierarchy
 
 ### callout-github Component
 
@@ -2022,7 +1991,7 @@ pub enum PostProcess {
 **Complete README Section:**
 ```rust
 let template = r#"
-{{ui:section:Features/}}
+## Features
 
 {{ui:callout-github:success}}
 **Production Ready**

@@ -3131,32 +3131,6 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     // ========================================
 
     #[test]
-    fn test_section_component() {
-        let parser = TemplateParser::new().unwrap();
-
-        // Section with title (using positional arg syntax)
-        let input = "{{ui:section:Installation/}}";
-        let result = parser.process(input).unwrap();
-
-        // Should generate header
-        assert!(result.contains("## Installation"));
-    }
-
-    #[test]
-    fn test_section_in_document_context() {
-        let parser = TemplateParser::new().unwrap();
-
-        // Section in full document
-        let input = "Intro text\n\n{{ui:section:Features/}}\n\nFeature list here";
-        let result = parser.process(input).unwrap();
-
-        // Should preserve structure
-        assert!(result.contains("Intro text"));
-        assert!(result.contains("## Features"));
-        assert!(result.contains("Feature list here"));
-    }
-
-    #[test]
     fn test_callout_github_simple() {
         let parser = TemplateParser::new().unwrap();
 
@@ -3272,9 +3246,9 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
     fn test_github_blocks_combined() {
         let parser = TemplateParser::new().unwrap();
 
-        // Full document using all GitHub blocks
+        // Full document using GitHub blocks
         let input = r#"
-{{ui:section:Project Status/}}
+## Project Status
 
 {{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:189/}}
 
@@ -3288,7 +3262,7 @@ All blocks work with standard Markdown.
 
         // Should have all components
         assert!(result.contains("## Project Status"));
-        assert!(result.contains("![](")); // Divider and status badges
+        assert!(result.contains("![](")); // Status badges
         assert!(result.contains("> ")); // Blockquote callout
         assert!(result.contains("**Build**"));
         assert!(result.contains("**Tests**"));

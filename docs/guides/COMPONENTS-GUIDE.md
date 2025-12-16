@@ -10,7 +10,6 @@ Components are reusable UI elements that render to visual primitives like badges
   - [tech](#tech)
   - [row](#row)
 - [Expand Components](#expand-components)
-  - [section](#section)
   - [callout-github](#callout-github)
   - [statusitem](#statusitem)
 - [Badge Styles](#badge-styles)
@@ -147,29 +146,6 @@ content
 
 Components that expand to templates with other mdfx syntax.
 
-### section
-
-Creates a styled markdown heading.
-
-**Syntax:**
-```markdown
-{{ui:section:Title Text/}}
-```
-
-**Expands to:**
-```markdown
-## Title Text
-```
-
-**Example:**
-```markdown
-{{ui:section:Installation/}}
-
-Follow these steps to install...
-```
-
----
-
 ### callout-github
 
 GitHub-style blockquote callout with status emoji.
@@ -269,15 +245,6 @@ All components that render badges support these styles:
 | Cache | {{ui:swatch:warning/}} |
 ```
 
-### Section Heading
-```markdown
-{{ui:section:Features/}}
-
-- Fast compilation
-- Type safety
-- Zero-cost abstractions
-```
-
 ### GitHub Callout
 ```markdown
 {{ui:callout-github:warning}}
@@ -306,7 +273,6 @@ Breaking changes in v2.0. See migration guide.
 | `swatch` | native | yes | inline, block |
 | `tech` | native | yes | inline, block |
 | `row` | native | no | block |
-| `section` | expand | yes | block |
 | `callout-github` | expand | no | block |
 | `statusitem` | expand | yes | inline, block |
 
@@ -317,5 +283,4 @@ Breaking changes in v2.0. See migration guide.
 1. **Use row for centering** - `{{ui:row:align=center}}` creates GitHub-compatible centered layouts
 2. **Consistent styling** - Pick one badge style and use it throughout your document
 3. **Palette colors** - Use named colors: `success` (green), `warning` (yellow), `error` (red), `info` (blue)
-4. **Section organization** - Use `{{ui:section:Title/}}` for consistent heading styles
-5. **Inline vs block** - Most components work in both contexts; row is block-only
+4. **Inline vs block** - Most components work in both contexts; row is block-only

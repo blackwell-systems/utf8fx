@@ -180,20 +180,6 @@ Components are defined in `registry.json` under `renderables.components`:
 
 **Output:** shields.io badge with Simple Icons logo
 
-#### section
-```json
-{
-  "type": "expand",
-  "self_closing": true,
-  "args": ["title"],
-  "template": "## $1"
-}
-```
-
-**Usage:** `{{ui:section:Features/}}`
-
-**Output:** Markdown header (`##`)
-
 #### callout-github
 ```json
 {

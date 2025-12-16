@@ -4,7 +4,7 @@ This document demonstrates all GitHub-optimized block components in mdfx.
 These components are specifically designed to work within GitHub's Markdown constraints
 while maintaining clean, semantic markup.
 
-{{ui:section:Installation/}}
+## Installation
 
 Install mdfx via cargo:
 
@@ -24,11 +24,11 @@ mdfx = "1.0"
 Process this template file to see the rendered output with shields.io badges.
 {{/ui}}
 
-{{ui:section:Project Status/}}
+## Project Status
 
 {{ui:statusitem:Build:success:passing/}} · {{ui:statusitem:Tests:success:217/}} · {{ui:statusitem:Coverage:success:94%/}} · {{ui:statusitem:License:info:MIT/}}
 
-{{ui:section:Features/}}
+## Features
 
 {{ui:callout-github:success}}
 **What Makes GitHub Blocks Special?**
@@ -38,24 +38,11 @@ No HTML, no CSS, just pure Markdown plus shields.io badges.
 
 Core features of mdfx GitHub blocks:
 
-- **Section Headers**: Automatic dividers for visual separation
 - **Blockquote Callouts**: GitHub-compatible callouts with status indicators
 - **Status Rows**: Inline status badges for project metadata
 - **Composable**: Mix and match blocks in any combination
 
-{{ui:section:Component Gallery/}}
-
-### Section Headers
-
-The section component creates visual hierarchy:
-
-{{ui:section:Getting Started/}}
-
-Content goes here...
-
-{{ui:section:Advanced Topics/}}
-
-More content...
+## Component Gallery
 
 ### Blockquote Callouts
 
@@ -99,20 +86,13 @@ Different status levels:
 
 {{ui:statusitem:CI:success:passing/}} {{ui:statusitem:Deploy:success:done/}} {{ui:statusitem:Uptime:success:99.9%/}}
 
-{{ui:section:Best Practices/}}
+## Best Practices
 
 {{ui:callout-github:info}}
 **Composition Guidelines**
-Use section for major headings, callout-github for important notes, and statusitem for project metadata.
+Use callout-github for important notes and statusitem for project metadata.
 Keep callouts concise (2-4 lines ideal).
 {{/ui}}
-
-### Section Headers
-
-- Use descriptive, action-oriented titles
-- Keep titles short (1-3 words)
-- Use sentence case, not title case
-- Place sections at natural document breaks
 
 ### Callouts
 
@@ -131,7 +111,7 @@ Keep status rows focused on related metrics. Group similar items together:
 
 {{ui:statusitem:Build:success:✓/}} {{ui:statusitem:Test:success:✓/}} {{ui:statusitem:Deploy:success:✓/}}
 
-{{ui:section:Real-World Examples/}}
+## Real-World Examples
 
 ### README Header
 
@@ -144,15 +124,7 @@ A typical project README might start with:
 Version 2.0 brings GitHub blocks, asset manifests, and 3x faster processing!
 {{/ui}}
 
-{{ui:section:Component Reference/}}
-
-### section
-
-**Syntax:** Use positional arg for title
-
-**Output:** Markdown header (##) plus visual divider
-
-**Example:** `{{ui:section:Contributing/}}`
+## Component Reference
 
 ### callout-github
 
@@ -174,7 +146,7 @@ Callouts support full Markdown inside the content block.
 
 Compose multiple items manually with ` · ` separator for status rows.
 
-{{ui:section:Troubleshooting/}}
+## Troubleshooting
 
 {{ui:callout-github:warning}}
 **Common Issues**
@@ -190,7 +162,7 @@ Check that you're using the correct positional syntax with colons.
 
 Ensure you're using `callout-github` (blockquotes) not `callout` (frames).
 
-{{ui:section:Advanced Usage/}}
+## Advanced Usage
 
 ### Nested Markdown in Callouts
 
@@ -210,7 +182,7 @@ Check the API guide for complete documentation.
 
 {{ui:statusitem:Frontend:success:ready/}} {{ui:statusitem:Backend:success:ready/}} {{ui:statusitem:DB:success:ready/}} · {{ui:statusitem:Deploy:info:staging/}}
 
-{{ui:section:Contributing/}}
+## Contributing
 
 {{ui:callout-github:success}}
 **We Welcome Contributions**
@@ -220,7 +192,7 @@ See CONTRIBUTING.md for guidelines.
 
 {{ui:statusitem:Issues:info:open/}} · {{ui:statusitem:PRs:success:welcome/}} · {{ui:statusitem:Response:success:< 48h/}}
 
-{{ui:section:License/}}
+## License
 
 MIT License - See LICENSE for details.
 

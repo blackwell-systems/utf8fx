@@ -72,7 +72,6 @@ For templates without content:
 ```markdown
 {{ui:tech:rust/}}
 {{ui:swatch:accent/}}
-{{ui:section:Installation/}}
 {{ui:statusitem:Build:success:passing/}}
 ```
 
@@ -143,7 +142,6 @@ Arguments separated by colons (`:`)
 {{ui:tech:rust/}}                              ← 1 positional arg
 {{ui:swatch:success/}}                         ← 1 positional arg
 {{ui:statusitem:Label:Level:Text/}}            ← 3 positional args
-{{ui:section:Getting Started/}}                ← 1 positional arg
 ```
 
 **Rules:**
@@ -252,7 +250,6 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 | `swatch` | color | self-closing | `{{ui:swatch:accent/}}` |
 | `tech` | logo_name | self-closing | `{{ui:tech:rust/}}` |
 | `row` | align | block | `{{ui:row:align=center}}badges{{/ui}}` |
-| `section` | title | self-closing | `{{ui:section:Features/}}` |
 | `callout-github` | type | block | `{{ui:callout-github:info}}Msg{{/ui}}` |
 | `statusitem` | label, level, text | self-closing | `{{ui:statusitem:Build:success:passing/}}` |
 
@@ -290,13 +287,6 @@ All primitive-based components (swatch, tech, status) support optional `style=` 
 - 1 arg: Simple Icons slug (lowercase)
 - Optional: `style=` (flat, flat-square, for-the-badge, plastic, social)
 - Examples: `{{ui:tech:rust/}}`, `{{ui:tech:python:style=plastic/}}`
-
-**section:**
-```markdown
-{{ui:section:TITLE/}}
-```
-- 1 arg: section title (becomes `## TITLE`)
-- GitHub Blocks feature
 
 **callout-github:**
 ```markdown

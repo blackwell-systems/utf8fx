@@ -1113,27 +1113,9 @@ graph TD
 
 ### Component Types
 
-Three GitHub-optimized components:
+Two GitHub-optimized components:
 
-#### 1. section
-
-**Purpose:** Section headers
-
-**Syntax:** `{{ui:section:TITLE/}}`
-
-**Expansion:**
-```
-## TITLE
-```
-
-**Output:** Markdown header (`##`)
-
-**Use Cases:**
-- Organizing long READMEs
-- Creating visual hierarchy
-- Separating major document sections
-
-#### 2. callout-github
+#### 1. callout-github
 
 **Purpose:** Blockquote callouts with status indicators
 
@@ -1167,7 +1149,7 @@ Three GitHub-optimized components:
 | `warning` | `EAB308` | Yellow (cautions) |
 | `error` | `EF4444` | Red (critical issues) |
 
-#### 3. statusitem
+#### 2. statusitem
 
 **Purpose:** Inline status badges with labels
 
@@ -1257,7 +1239,7 @@ This ensures nested templates (like `{{ui:swatch:...}}`) are expanded before blo
 
 A blazingly fast markdown processor.
 
-{{ui:section:Features/}}
+## Features
 
 - Unicode text styling
 - Component-based templates
@@ -1277,7 +1259,7 @@ See [Migration Guide](MIGRATING.md).
 
 **Status Dashboard:**
 ```markdown
-{{ui:section:Project Status/}}
+## Project Status
 
 {{ui:statusitem:Build:success:✓/}} {{ui:statusitem:Test:success:✓/}} {{ui:statusitem:Deploy:success:✓/}}
 ```

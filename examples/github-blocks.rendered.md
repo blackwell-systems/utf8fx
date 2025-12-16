@@ -41,27 +41,11 @@ mdfx = "1.0"
 
 Core features of mdfx GitHub blocks:
 
-- **Section Headers**: Automatic dividers for visual separation
 - **Blockquote Callouts**: GitHub-compatible callouts with status indicators
 - **Status Rows**: Inline status badges for project metadata
 - **Composable**: Mix and match blocks in any combination
 
 ## Component Gallery
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
-
-### Section Headers
-
-The section component creates visual hierarchy:
-
-## Getting Started
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
-
-Content goes here...
-
-## Advanced Topics
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
-
-More content...
 
 ### Blockquote Callouts
 
@@ -106,20 +90,12 @@ Different status levels:
 ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) **CI**: passing ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) **Deploy**: done ![](https://img.shields.io/badge/-%20-22C55E?style=flat-square) **Uptime**: 99.9%
 
 ## Best Practices
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
 
 > ![](https://img.shields.io/badge/-%20-3B82F6?style=flat-square) **Note**
 >
 > **Composition Guidelines**
-> Use section for major headings, callout-github for important notes, and statusitem for project metadata.
+> Use callout-github for important notes and statusitem for project metadata.
 > Keep callouts concise (2-4 lines ideal).
-
-### Section Headers
-
-- Use descriptive, action-oriented titles
-- Keep titles short (1-3 words)
-- Use sentence case, not title case
-- Place sections at natural document breaks
 
 ### Callouts
 
@@ -153,15 +129,6 @@ A typical project README might start with:
 > Version 2.0 brings GitHub blocks, asset manifests, and 3x faster processing!
 
 ## Component Reference
-![](https://img.shields.io/badge/-%20-292A2D?style=flat-square)![](https://img.shields.io/badge/-%20-292C34?style=flat-square)![](https://img.shields.io/badge/-%20-F41C80?style=flat-square)![](https://img.shields.io/badge/-%20-282F3C?style=flat-square)
-
-### section
-
-**Syntax:** Use positional arg for title
-
-**Output:** Markdown header (##) plus visual divider
-
-**Example:** `{{ui:section:Contributing/}}`
 
 ### callout-github
 
