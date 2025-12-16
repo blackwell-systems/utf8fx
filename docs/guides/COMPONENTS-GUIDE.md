@@ -8,6 +8,7 @@ Components are reusable UI elements that render to visual primitives like badges
 - [Components](#components)
   - [swatch](#swatch)
   - [tech](#tech)
+  - [progress](#progress)
   - [row](#row)
 - [Badge Styles](#badge-styles)
 - [Practical Examples](#practical-examples)
@@ -102,6 +103,61 @@ Displays a technology logo badge using Simple Icons.
 
 ---
 
+### progress
+
+Renders a progress bar or slider with customizable colors, sizes, and optional slider mode.
+
+**Syntax:**
+```markdown
+{{ui:progress:percent/}}
+{{ui:progress:percent:param=value/}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `percent` | number | required | Progress percentage (0-100) |
+| `width` | number | 100 | Total width in pixels |
+| `height` | number | 10 | Track height in pixels |
+| `track` | color | slate | Track (background) color |
+| `fill` | color | accent | Fill (progress) color |
+| `fill_height` | number | height | Fill height (less creates floating effect) |
+| `rx` | number | 3 | Corner radius |
+| `label` | boolean | false | Show percentage label |
+| `label_color` | color | white | Label text color |
+| `border` | color | none | Border color |
+| `border_width` | number | 1 | Border width in pixels |
+| `thumb` | number | none | Thumb size (enables slider mode) |
+| `thumb_color` | color | fill | Thumb color |
+| `thumb_shape` | string | circle | Thumb shape: circle, square, diamond |
+
+**Basic Examples:**
+```markdown
+{{ui:progress:75/}}
+{{ui:progress:50:width=200:fill=success/}}
+{{ui:progress:80:height=12:fill_height=8/}}
+{{ui:progress:65:label=true/}}
+```
+
+**With Border:**
+```markdown
+{{ui:progress:70:border=accent/}}
+{{ui:progress:85:border=success:border_width=2/}}
+```
+
+**Slider Mode:**
+```markdown
+{{ui:progress:50:thumb=14/}}
+{{ui:progress:75:thumb=16:thumb_color=accent/}}
+{{ui:progress:30:thumb=14:thumb_shape=square/}}
+{{ui:progress:60:thumb=14:thumb_shape=diamond:thumb_color=warning/}}
+```
+
+**Note:** When `thumb` is set, the progress bar renders as a slider with a thin track and positioned thumb indicator.
+
+---
+
 ### row
 
 Wraps content in an HTML container with horizontal alignment. Converts markdown images to HTML for GitHub compatibility.
@@ -186,6 +242,20 @@ All components that render badges support these styles:
 {{/ui}}
 ```
 
+### Skill Bars
+```markdown
+| Skill | Level |
+|-------|-------|
+| Rust | {{ui:progress:90:width=120:fill=success/}} |
+| Python | {{ui:progress:75:width=120/}} |
+| Go | {{ui:progress:60:width=120:fill=info/}} |
+```
+
+### Volume Slider
+```markdown
+Volume: {{ui:progress:65:width=150:thumb=12/}}
+```
+
 ---
 
 ## Component Reference
@@ -194,6 +264,7 @@ All components that render badges support these styles:
 |-----------|------|--------------|---------|
 | `swatch` | native | yes | inline, block |
 | `tech` | native | yes | inline, block |
+| `progress` | native | yes | inline, block |
 | `row` | native | no | block |
 
 ---

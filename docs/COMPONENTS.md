@@ -231,7 +231,12 @@ Components are defined in `registry.json` under `renderables.components`:
     "fill": { "type": "color", "default": "accent" },
     "rx": { "type": "number", "default": "3" },
     "label": { "type": "boolean", "default": "false" },
-    "label_color": { "type": "color", "default": "white" }
+    "label_color": { "type": "color", "default": "white" },
+    "border": { "type": "color", "default": "none" },
+    "border_width": { "type": "number", "default": "1" },
+    "thumb": { "type": "number", "default": "none" },
+    "thumb_color": { "type": "color", "default": "same as fill" },
+    "thumb_shape": { "type": "string", "default": "circle" }
   }
 }
 ```
@@ -244,11 +249,23 @@ Components are defined in `registry.json` under `renderables.components`:
 
 **With label:** `{{ui:progress:65:width=150:label=true/}}`
 
+**With border:** `{{ui:progress:70:width=150:border=accent/}}`
+
+**Slider mode (thumb):** `{{ui:progress:50:width=200:thumb=14/}}`
+
+**Slider with shapes:** `{{ui:progress:60:thumb=14:thumb_shape=diamond:thumb_color=warning/}}`
+
 **How it works:**
 1. Generates SVG with two overlapping rectangles (track + fill)
 2. Fill width calculated as `(width * percent / 100)`
 3. If `fill_height < height`, fill is vertically centered
 4. Label shows percentage text centered on the bar
+5. When `thumb` is set, renders slider mode: thin track with positioned thumb
+
+**Slider mode:**
+- `thumb=14` enables slider mode with 14px thumb
+- `thumb_shape`: circle (default), square, or diamond
+- `thumb_color`: defaults to fill color
 
 **Backends:**
 - **SVG:** Full rendering with all features
