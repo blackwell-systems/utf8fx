@@ -172,12 +172,15 @@ enum Commands {
 
     /// Clean unreferenced assets
     ///
-    /// Remove asset files that are not referenced in manifest.json.
-    /// Useful for cleaning up old assets after refactoring.
+    /// Remove asset files that are not referenced in manifest.json or markdown files.
+    /// Without --scan, removes files not in manifest.json.
+    /// With --scan, removes files not referenced in any markdown file.
     ///
     /// Examples:
     ///   mdfx clean --assets-dir assets/mdfx
     ///   mdfx clean --dry-run  # Show what would be deleted
+    ///   mdfx clean --scan "docs/**/*.md"  # Scan markdown files for references
+    ///   mdfx clean --scan "*.md" --dry-run  # Preview what would be deleted
     Clean {
         /// Assets directory containing manifest.json
         #[arg(long, default_value = "assets/mdfx")]
@@ -186,6 +189,11 @@ enum Commands {
         /// Show what would be deleted without actually deleting
         #[arg(long)]
         dry_run: bool,
+
+        /// Glob pattern for markdown files to scan for asset references
+        /// When set, only assets referenced in matching files are kept
+        #[arg(long)]
+        scan: Option<String>,
     },
 
     /// Build markdown to multiple targets at once
@@ -337,8 +345,9 @@ fn run(cli: Cli) -> Result<(), Error> {
         Commands::Clean {
             assets_dir,
             dry_run,
+            scan,
         } => {
-            clean_assets(&assets_dir, dry_run)?;
+            clean_assets(&assets_dir, dry_run, scan.as_deref())?;
         }
 
         Commands::Build {
@@ -775,7 +784,7 @@ fn verify_assets(assets_dir: &str) -> Result<(), Error> {
     Ok(())
 }
 
-fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
+fn clean_assets(assets_dir: &str, dry_run: bool, scan_pattern: Option<&str>) -> Result<(), Error> {
     let manifest_path = format!("{}/manifest.json", assets_dir);
 
     println!(
@@ -788,22 +797,36 @@ fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
     );
     println!();
 
-    // Load manifest
-    let manifest = match AssetManifest::load(std::path::Path::new(&manifest_path)) {
-        Ok(m) => m,
-        Err(_) => {
-            eprintln!("{} manifest.json not found", "Error:".red().bold());
-            eprintln!("Run with --backend svg to generate a manifest.");
-            process::exit(1);
-        }
+    // Determine which assets are referenced
+    let referenced: std::collections::HashSet<String> = if let Some(pattern) = scan_pattern {
+        // Scan markdown files for asset references
+        println!("{} Scanning markdown files: {}", "Info:".cyan(), pattern);
+        scan_markdown_for_assets(pattern, assets_dir)?
+    } else {
+        // Load manifest
+        let manifest = match AssetManifest::load(std::path::Path::new(&manifest_path)) {
+            Ok(m) => m,
+            Err(_) => {
+                eprintln!("{} manifest.json not found", "Error:".red().bold());
+                eprintln!("Run with --backend svg to generate a manifest.");
+                process::exit(1);
+            }
+        };
+
+        // Get referenced asset paths from manifest
+        manifest
+            .asset_paths()
+            .into_iter()
+            .map(|s| s.to_string())
+            .collect()
     };
 
-    // Get referenced asset paths
-    let referenced: std::collections::HashSet<String> = manifest
-        .asset_paths()
-        .into_iter()
-        .map(|s| s.to_string())
-        .collect();
+    println!(
+        "{} Found {} referenced assets",
+        "Info:".cyan(),
+        referenced.len()
+    );
+    println!();
 
     // Find all SVG files in assets directory
     let assets_path = std::path::Path::new(assets_dir);
@@ -814,6 +837,7 @@ fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
 
     let mut deleted_count = 0;
     let mut total_bytes = 0;
+    let mut kept_count = 0;
 
     for entry in fs::read_dir(assets_path).map_err(Error::IoError)? {
         let entry = entry.map_err(Error::IoError)?;
@@ -831,8 +855,17 @@ fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
 
         let relative_path = path.to_str().unwrap().to_string();
 
-        // Check if this asset is in the manifest
-        if !referenced.contains(&relative_path) {
+        // Also check just the filename (some refs may use different paths)
+        let filename = path
+            .file_name()
+            .and_then(|n| n.to_str())
+            .unwrap_or_default();
+
+        // Check if this asset is referenced (by full path or filename)
+        let is_referenced = referenced.contains(&relative_path)
+            || referenced.iter().any(|r| r.ends_with(filename));
+
+        if !is_referenced {
             let metadata = fs::metadata(&path).map_err(Error::IoError)?;
             let size = metadata.len();
 
@@ -852,12 +885,15 @@ fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
 
             deleted_count += 1;
             total_bytes += size;
+        } else {
+            kept_count += 1;
         }
     }
 
     println!();
     if deleted_count == 0 {
         println!("{}", "✓ No unreferenced assets found.".green());
+        println!("  {} assets kept", kept_count);
     } else {
         let size_kb = total_bytes as f64 / 1024.0;
         println!(
@@ -870,7 +906,128 @@ fn clean_assets(assets_dir: &str, dry_run: bool) -> Result<(), Error> {
             deleted_count,
             size_kb
         );
+        println!("  {} assets kept", kept_count);
     }
+
+    // Update manifest if we're in scan mode and not dry-run
+    if scan_pattern.is_some() && !dry_run && deleted_count > 0 {
+        update_manifest_after_clean(assets_dir, &referenced)?;
+    }
+
+    Ok(())
+}
+
+/// Scan markdown files for asset references and return set of referenced paths
+fn scan_markdown_for_assets(
+    pattern: &str,
+    assets_dir: &str,
+) -> Result<std::collections::HashSet<String>, Error> {
+    use regex::Regex;
+
+    let mut referenced = std::collections::HashSet::new();
+
+    // Pattern to match image references: ![...](path) or <img src="path">
+    let img_regex = Regex::new(r#"!\[[^\]]*\]\(([^)]+)\)|<img[^>]+src=["']([^"']+)["']"#)
+        .map_err(|e| Error::ParseError(format!("Invalid regex: {}", e)))?;
+
+    // Get assets directory basename for matching
+    let assets_basename = std::path::Path::new(assets_dir)
+        .file_name()
+        .and_then(|n| n.to_str())
+        .unwrap_or("assets");
+
+    // Use glob to find matching files
+    let glob_pattern = glob::glob(pattern)
+        .map_err(|e| Error::ParseError(format!("Invalid glob pattern '{}': {}", pattern, e)))?;
+
+    let mut files_scanned = 0;
+
+    for entry in glob_pattern {
+        let path = entry
+            .map_err(|e| Error::ParseError(format!("Glob error: {}", e)))?;
+
+        // Read markdown file
+        let content = match fs::read_to_string(&path) {
+            Ok(c) => c,
+            Err(_) => continue, // Skip files we can't read
+        };
+
+        files_scanned += 1;
+
+        // Find all image references
+        for cap in img_regex.captures_iter(&content) {
+            let src = cap.get(1).or_else(|| cap.get(2));
+            if let Some(m) = src {
+                let asset_path = m.as_str();
+
+                // Check if this looks like one of our assets
+                if asset_path.contains(assets_basename) && asset_path.ends_with(".svg") {
+                    // Normalize the path
+                    let normalized = asset_path
+                        .trim_start_matches("./")
+                        .trim_start_matches("../");
+                    referenced.insert(normalized.to_string());
+
+                    // Also add just the filename
+                    if let Some(filename) = std::path::Path::new(asset_path)
+                        .file_name()
+                        .and_then(|n| n.to_str())
+                    {
+                        referenced.insert(filename.to_string());
+                    }
+                }
+            }
+        }
+    }
+
+    println!("  Scanned {} markdown file(s)", files_scanned);
+
+    Ok(referenced)
+}
+
+/// Update manifest.json after cleaning to only include kept assets
+fn update_manifest_after_clean(
+    assets_dir: &str,
+    referenced: &std::collections::HashSet<String>,
+) -> Result<(), Error> {
+    let manifest_path = format!("{}/manifest.json", assets_dir);
+
+    // Load existing manifest
+    let manifest = match AssetManifest::load(std::path::Path::new(&manifest_path)) {
+        Ok(m) => m,
+        Err(_) => return Ok(()), // No manifest to update
+    };
+
+    // Filter assets to only those still referenced
+    let kept_assets: Vec<_> = manifest
+        .assets
+        .into_iter()
+        .filter(|a| {
+            let filename = std::path::Path::new(&a.path)
+                .file_name()
+                .and_then(|n| n.to_str())
+                .unwrap_or_default();
+            referenced.contains(&a.path) || referenced.iter().any(|r| r.ends_with(filename))
+        })
+        .collect();
+
+    // Create updated manifest
+    let updated = AssetManifest {
+        version: manifest.version,
+        created_at: chrono::Utc::now().to_rfc3339(),
+        backend: manifest.backend,
+        assets_dir: manifest.assets_dir,
+        total_assets: kept_assets.len(),
+        assets: kept_assets,
+    };
+
+    // Write updated manifest
+    updated.write(std::path::Path::new(&manifest_path))?;
+    println!(
+        "  {} Updated manifest.json ({} assets)",
+        "Info:".cyan(),
+        updated.total_assets
+    );
 
     Ok(())
 }

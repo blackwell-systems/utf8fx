@@ -58,6 +58,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 {{ui:progress:75:thumb=10:thumb_width=24:thumb_color=accent/}}
 ```
 
+#### Enhanced Asset Cleanup
+
+- **Markdown scanning** - `mdfx clean --scan` now scans markdown files to find actually referenced assets
+- **Automatic cleanup** - Removes orphaned assets not referenced in any markdown file
+- **Manifest update** - Automatically updates manifest.json after cleaning
+- **Dry-run preview** - Use `--dry-run` to see what would be deleted before committing
+
+**Usage:**
+```bash
+mdfx clean --assets-dir examples/assets --scan "examples/*-rendered.md" --dry-run
+mdfx clean --assets-dir docs/assets --scan "docs/**/*.md"
+```
+
 #### Template Partials
 
 - **User-defined reusable templates** - Define partials in `.mdfx.json` config file
