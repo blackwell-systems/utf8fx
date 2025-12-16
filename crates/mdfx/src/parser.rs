@@ -1,5 +1,4 @@
-use crate::badges::BadgeRenderer;
-use crate::components::{ComponentOutput, ComponentsRenderer};
+use crate::components::{ComponentOutput, ComponentsRenderer, PostProcess};
 use crate::config::{expand_partial, MdfxConfig};
 use crate::converter::Converter;
 use crate::error::{Error, Result};
@@ -27,6 +26,14 @@ struct FrameData {
     content: String,
 }
 
+/// Badge template data
+#[derive(Debug, Clone)]
+struct BadgeData {
+    end_pos: usize,
+    badge_type: String,
+    content: String,
+}
+
 /// UI component template data
 #[derive(Debug, Clone)]
 struct UIData {
@@ -50,6 +57,30 @@ struct PartialData {
     end_pos: usize,
     partial_name: String,
     content: String,
+}
+
+/// Glyph template data
+#[derive(Debug, Clone)]
+struct GlyphData {
+    end_pos: usize,
+    glyph_name: String,
+}
+
+/// Kbd (keyboard) template data
+#[derive(Debug, Clone)]
+struct KbdData {
+    end_pos: usize,
+    keys: String,
+}
+
+/// Frame modifiers parsed from style string
+#[derive(Debug, Clone)]
+struct FrameModifiers {
+    style: String,
+    separator: Option<String>,
+    spacing: Option<usize>,
+    reverse: bool,
+    count: Option<usize>,
 }
 
 /// Result of processing markdown with file-based assets
@@ -454,7 +485,10 @@ impl TemplateParser {
                             combined_suffix.push_str(&frame.suffix);
                         }
 
-                        format!("{}{}{}", combined_prefix, processed_content, combined_suffix)
+                        format!(
+                            "{}{}{}",
+                            combined_prefix, processed_content, combined_suffix
+                        )
                     } else {
                         // Extract modifiers from frame style
                         let mods = Self::parse_frame_modifiers(&frame_data.frame_style);
@@ -474,7 +508,11 @@ impl TemplateParser {
                             let repeated_suffix = suffix_pattern.repeat(count);
                             // Preserve original spacing
                             let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
-                            let suffix_space = if frame.suffix.starts_with(' ') { " " } else { "" };
+                            let suffix_space = if frame.suffix.starts_with(' ') {
+                                " "
+                            } else {
+                                ""
+                            };
                             (
                                 format!("{}{}", repeated_prefix, prefix_space),
                                 format!("{}{}", suffix_space, repeated_suffix),
@@ -495,7 +533,7 @@ impl TemplateParser {
                                 self.registry
                                     .separator(sep)
                                     .map(|s| s.to_string())
-                                    .unwrap_or_else(|| sep.clone())
+                                    .unwrap_or_else(|| sep.to_string())
                             } else if let Some(n) = mods.spacing {
                                 " ".repeat(n)
                             } else {
@@ -532,8 +570,7 @@ impl TemplateParser {
                             format!("{}{}{}", prefix, processed_content, suffix)
                         } else {
                             // No modifiers, use standard apply_frame
-                            self.registry
-                                .apply_frame(&processed_content, &mods.style)?
+                            self.registry.apply_frame(&processed_content, &mods.style)?
                         }
                     };
                     result.push_str(&framed);
@@ -1035,7 +1072,9 @@ impl TemplateParser {
 
     /// Parse glyph frame spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE][/spacing=N]
     /// Returns (glyph_name, count, padding_string, separator_option, spacing_option)
-    fn parse_glyph_frame_spec(spec: &str) -> (String, usize, String, Option<String>, Option<usize>) {
+    fn parse_glyph_frame_spec(
+        spec: &str,
+    ) -> (String, usize, String, Option<String>, Option<usize>) {
         let mut remaining = spec.to_string();
         let mut count: usize = 1;
         let mut pad = " ".to_string(); // default: single space

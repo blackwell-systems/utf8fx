@@ -8,7 +8,7 @@ use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
 use mdfx::{
     available_targets, detect_target_from_path, get_target, BackendType, Converter, Error,
-    MdfxConfig, SeparatorsData, StyleCategory, Target, TemplateParser,
+    MdfxConfig, StyleCategory, Target, TemplateParser,
 };
 use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher};
 use std::fs;
@@ -255,9 +255,9 @@ enum Commands {
         #[arg(long, default_value = "100")]
         debounce: u64,
 
-        /// Embed SVG assets as base64 data URIs (works everywhere, no external files)
+        /// mdfx configuration file (default: auto-discover .mdfx.json)
         #[arg(long)]
-        inline: bool,
+        config: Option<PathBuf>,
     },
 
     /// Start the Language Server Protocol (LSP) server
@@ -365,7 +365,7 @@ fn run(cli: Cli) -> Result<(), Error> {
             assets_dir,
             palette,
             debounce,
-            inline,
+            config,
         } => {
             watch_file(
                 input,
@@ -375,7 +375,7 @@ fn run(cli: Cli) -> Result<(), Error> {
                 &assets_dir,
                 palette.as_deref(),
                 debounce,
-                inline,
+                config.as_deref(),
             )?;
         }
 
@@ -450,66 +450,6 @@ fn list_styles(
     Ok(())
 }
 
-fn list_separators(show_examples: bool) -> Result<(), Error> {
-    let separators_data = SeparatorsData::load()?;
-
-    println!("{}", "Available separators:".bold());
-    println!();
-    println!(
-        "{}",
-        "Use with: {{mathbold:separator=NAME}}TEXT{{/mathbold}}".dimmed()
-    );
-    println!(
-        "{}",
-        "Or use any single Unicode character directly: {{mathbold:separator=⚡}}TEXT{{/mathbold}}"
-            .dimmed()
-    );
-    println!();
-
-    for sep in &separators_data.separators {
-        // Show ID and character
-        print!("  {} ", sep.id.green());
-        print!("({}) ", sep.char.cyan().bold());
-
-        // Show Unicode code point
-        print!("[{}] ", sep.unicode.dimmed());
-
-        // Show description
-        println!("- {}", sep.description.dimmed());
-
-        // Show example if requested
-        if show_examples {
-            let example = format!("A {} B", sep.char);
-            println!("    Example: {}", example.yellow());
-            println!(
-                "    {}",
-                format!("{{{{mathbold:separator={}}}}}TEXT{{{{/mathbold}}}}", sep.id).dimmed()
-            );
-        }
-    }
-
-    println!();
-    println!("{}", "💡 Tip:".bold());
-    println!(
-        "  {}",
-        "Any single Unicode character works as a separator:".dimmed()
-    );
-    println!(
-        "  {}",
-        "{{mathbold:separator=⚡}}LIGHTNING{{/mathbold}}".dimmed()
-    );
-    println!(
-        "  {}",
-        "{{mathbold:separator=★}}STARS{{/mathbold}}".dimmed()
-    );
-    println!(
-        "  {}",
-        "{{mathbold:separator=|}}PIPES{{/mathbold}}".dimmed()
-    );
-
-    Ok(())
-}
-
 #[allow(clippy::too_many_arguments)]
 fn process_file(
     input: Option<PathBuf>,
@@ -570,9 +510,9 @@ fn process_file(
     let mut parser = match backend_type {
         BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
         BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
-        BackendType::PlainText => {
-            // Fall back to shields for now (PlainText backend not implemented)
-            TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?
+        BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
+        BackendType::Hybrid => {
+            TemplateParser::with_backend(Box::new(HybridBackend::new(assets_dir)?))?
         }
     };
 
@@ -1075,7 +1015,7 @@ fn watch_file(
     assets_dir: &str,
     palette_path: Option<&std::path::Path>,
     debounce_ms: u64,
-    inline: bool,
+    config_path: Option<&std::path::Path>,
 ) -> Result<(), Error> {
     // Validate input file exists
     if !input.exists() {
@@ -1106,7 +1046,7 @@ fn watch_file(
         backend_override,
         assets_dir,
         palette_path,
-        inline,
+        config_path,
     ) {
         Ok(()) => println!("{} Build complete", "[watch]".green()),
         Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),
@@ -1147,7 +1087,7 @@ fn watch_file(
                         backend_override,
                         assets_dir,
                         palette_path,
-                        inline,
+                        config_path,
                     ) {
                         Ok(()) => println!("{} Build complete", "[watch]".green()),
                         Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),
