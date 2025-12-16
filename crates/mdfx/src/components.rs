@@ -363,6 +363,8 @@ impl ComponentsRenderer {
 
                 // Slider/thumb mode params
                 let thumb_size: Option<u32> = params.get("thumb").and_then(|v| v.parse().ok());
+                let thumb_width: Option<u32> =
+                    params.get("thumb_width").and_then(|v| v.parse().ok());
 
                 let thumb_color = params.get("thumb_color").map(|c| self.resolve_color(c));
 
@@ -384,6 +386,7 @@ impl ComponentsRenderer {
                     border_color,
                     border_width,
                     thumb_size,
+                    thumb_width,
                     thumb_color,
                     thumb_shape,
                 }))

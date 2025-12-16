@@ -46,6 +46,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 {{ui:gauge:50:thumb=14:thumb_color=accent/}}
 ```
 
+#### Custom Thumb Width for Progress Bar
+
+- **Oval/pill-shaped thumbs** - Progress bar sliders now support `thumb_width` parameter
+- **Independent width control** - Set thumb width separately from height for non-circular shapes
+- **Ellipse rendering** - Circle shape becomes ellipse when width differs from height
+
+**Usage:**
+```markdown
+{{ui:progress:50:thumb=12:thumb_width=20/}}
+{{ui:progress:75:thumb=10:thumb_width=24:thumb_color=accent/}}
+```
+
 #### Template Partials
 
 - **User-defined reusable templates** - Define partials in `.mdfx.json` config file

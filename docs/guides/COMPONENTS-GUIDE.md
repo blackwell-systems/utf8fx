@@ -130,7 +130,8 @@ Renders a progress bar or slider with customizable colors, sizes, and optional s
 | `label_color` | color | white | Label text color |
 | `border` | color | none | Border color |
 | `border_width` | number | 1 | Border width in pixels |
-| `thumb` | number | none | Thumb size (enables slider mode) |
+| `thumb` | number | none | Thumb height (enables slider mode) |
+| `thumb_width` | number | thumb | Thumb width (defaults to thumb for circle) |
 | `thumb_color` | color | fill | Thumb color |
 | `thumb_shape` | string | circle | Thumb shape: circle, square, diamond |
 
@@ -156,7 +157,13 @@ Renders a progress bar or slider with customizable colors, sizes, and optional s
 {{ui:progress:60:thumb=14:thumb_shape=diamond:thumb_color=warning/}}
 ```
 
-**Note:** When `thumb` is set, the progress bar renders as a slider with a thin track and positioned thumb indicator.
+**Wide/Pill-shaped Thumb:**
+```markdown
+{{ui:progress:50:thumb=12:thumb_width=20/}}
+{{ui:progress:75:thumb=10:thumb_width=24:thumb_color=accent/}}
+```
+
+**Note:** When `thumb` is set, the progress bar renders as a slider with a thin track and positioned thumb indicator. Use `thumb_width` to create oval or pill-shaped thumbs.
 
 ---
 

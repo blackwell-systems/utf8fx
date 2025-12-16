@@ -92,8 +92,10 @@ pub enum Primitive {
         border_color: Option<String>,
         /// Border width in pixels (default: 0)
         border_width: u32,
-        /// Thumb/slider size in pixels (enables slider mode when set)
+        /// Thumb/slider height in pixels (enables slider mode when set)
         thumb_size: Option<u32>,
+        /// Thumb width in pixels (defaults to thumb_size if not set)
+        thumb_width: Option<u32>,
         /// Thumb color (defaults to fill_color)
         thumb_color: Option<String>,
         /// Thumb shape: "circle", "square", "diamond"
@@ -197,6 +199,7 @@ impl Primitive {
             border_color: None,
             border_width: 0,
             thumb_size: None,
+            thumb_width: None,
             thumb_color: None,
             thumb_shape: "circle".to_string(),
         }

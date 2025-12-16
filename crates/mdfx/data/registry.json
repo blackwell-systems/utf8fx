@@ -703,7 +703,12 @@
           "thumb": {
             "type": "number",
             "default": "none",
-            "description": "Thumb/slider size in pixels (enables slider mode when set)"
+            "description": "Thumb height in pixels (enables slider mode when set)"
+          },
+          "thumb_width": {
+            "type": "number",
+            "default": "same as thumb",
+            "description": "Thumb width in pixels (defaults to thumb height for circle/square)"
           },
           "thumb_color": {
             "type": "color",

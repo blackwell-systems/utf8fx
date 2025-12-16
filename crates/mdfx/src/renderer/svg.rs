@@ -185,6 +185,7 @@ impl SvgBackend {
                 border_color,
                 border_width,
                 thumb_size,
+                thumb_width,
                 thumb_color,
                 thumb_shape,
             } => {
@@ -201,6 +202,7 @@ impl SvgBackend {
                 border_color.hash(&mut hasher);
                 border_width.hash(&mut hasher);
                 thumb_size.hash(&mut hasher);
+                thumb_width.hash(&mut hasher);
                 thumb_color.hash(&mut hasher);
                 thumb_shape.hash(&mut hasher);
             }
@@ -547,6 +549,7 @@ impl SvgBackend {
         border_color: Option<&str>,
         border_width: u32,
         thumb_size: Option<u32>,
+        thumb_width: Option<u32>,
         thumb_color: Option<&str>,
         thumb_shape: &str,
     ) -> String {
@@ -559,6 +562,7 @@ impl SvgBackend {
                 track_color,
                 fill_color,
                 thumb_sz,
+                thumb_width,
                 thumb_color,
                 thumb_shape,
                 border_color,
@@ -631,14 +635,18 @@ impl SvgBackend {
         height: u32,
         track_color: &str,
         fill_color: &str,
-        thumb_size: u32,
+        thumb_height: u32,
+        thumb_width: Option<u32>,
         thumb_color: Option<&str>,
         thumb_shape: &str,
         border_color: Option<&str>,
         border_width: u32,
     ) -> String {
+        // Thumb width defaults to thumb_height (square/circle) if not specified
+        let thumb_w = thumb_width.unwrap_or(thumb_height);
+
         // SVG height must accommodate the thumb
-        let svg_height = height.max(thumb_size);
+        let svg_height = height.max(thumb_height);
         let center_y = svg_height / 2;
 
         // Track uses the specified height (can be thin or thick)
@@ -659,9 +667,9 @@ impl SvgBackend {
 
         // Thumb position based on percentage
         // Ensure thumb stays within bounds (half thumb width from edges)
-        let thumb_radius = thumb_size / 2;
-        let usable_width = width.saturating_sub(thumb_size);
-        let thumb_x = thumb_radius + (usable_width as f32 * percent as f32 / 100.0) as u32;
+        let thumb_half_w = thumb_w / 2;
+        let usable_width = width.saturating_sub(thumb_w);
+        let thumb_x = thumb_half_w + (usable_width as f32 * percent as f32 / 100.0) as u32;
 
         // Fill element: colored portion from left edge to thumb position
         let fill_width = thumb_x;
@@ -680,32 +688,39 @@ impl SvgBackend {
         // Render thumb based on shape
         let thumb_elem = match thumb_shape {
             "square" => {
-                let half = thumb_size / 2;
+                let half_h = thumb_height / 2;
+                let half_w = thumb_w / 2;
+                // Use smaller dimension for rx to create pill shape when width != height
+                let rx = half_h.min(half_w).min(4);
                 format!(
-                    "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"2\"/>",
-                    thumb_x - half,
-                    center_y - half,
-                    thumb_size,
-                    thumb_size,
-                    t_color
+                    "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>",
+                    thumb_x - half_w,
+                    center_y - half_h,
+                    thumb_w,
+                    thumb_height,
+                    t_color,
+                    rx
                 )
             }
             "diamond" => {
-                let half = thumb_size / 2;
+                let half_h = thumb_height / 2;
+                let half_w = thumb_w / 2;
                 format!(
                     "<polygon points=\"{},{} {},{} {},{} {},{}\" fill=\"#{}\"/>",
-                    thumb_x, center_y - half,        // top
-                    thumb_x + half, center_y,        // right
-                    thumb_x, center_y + half,        // bottom
-                    thumb_x - half, center_y,        // left
+                    thumb_x, center_y - half_h,        // top
+                    thumb_x + half_w, center_y,        // right
+                    thumb_x, center_y + half_h,        // bottom
+                    thumb_x - half_w, center_y,        // left
                     t_color
                 )
             }
             _ => {
-                // Default: circle
+                // Default: ellipse (or circle if width == height)
+                let rx = thumb_w as f32 / 2.0;
+                let ry = thumb_height as f32 / 2.0;
                 format!(
-                    "<circle cx=\"{}\" cy=\"{}\" r=\"{}\" fill=\"#{}\"/>",
-                    thumb_x, center_y, thumb_radius, t_color
+                    "<ellipse cx=\"{}\" cy=\"{}\" rx=\"{:.1}\" ry=\"{:.1}\" fill=\"#{}\"/>",
+                    thumb_x, center_y, rx, ry, t_color
                 )
             }
         };
@@ -954,6 +969,7 @@ impl Renderer for SvgBackend {
                 border_color,
                 border_width,
                 thumb_size,
+                thumb_width,
                 thumb_color,
                 thumb_shape,
             } => Self::render_progress_svg(
@@ -969,6 +985,7 @@ impl Renderer for SvgBackend {
                 border_color.as_deref(),
                 *border_width,
                 *thumb_size,
+                *thumb_width,
                 thumb_color.as_deref(),
                 thumb_shape,
             ),
