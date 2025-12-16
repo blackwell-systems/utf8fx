@@ -1,7 +1,7 @@
 # Components Design Document
 
 **Status:** v1.0.0 Shipped
-**Last Updated:** 2025-12-14
+**Last Updated:** 2025-12-16
 
 ---
 
@@ -150,7 +150,7 @@ Components are defined in `registry.json` under `renderables.components`:
   - `$1`, `$2`, ... → positional args
   - `$content` → inner content (non-self-closing only)
 
-### Shipped Components (3 total)
+### Shipped Components (5 total)
 
 #### swatch
 ```json
@@ -264,6 +264,7 @@ Components are defined in `registry.json` under `renderables.components`:
 
 **Slider mode:**
 - `thumb=14` enables slider mode with 14px thumb
+- `thumb_width`: independent width for oval/pill shapes (defaults to thumb)
 - `thumb_shape`: circle (default), square, or diamond
 - `thumb_color`: defaults to fill color
 
@@ -271,6 +272,75 @@ Components are defined in `registry.json` under `renderables.components`:
 - **SVG:** Full rendering with all features
 - **Shields.io:** Fallback badge showing "XX%"
 - **Plaintext:** ASCII bar `[=====>    ] 50%`
+
+#### donut
+```json
+{
+  "type": "native",
+  "self_closing": true,
+  "description": "Circular progress ring/donut chart",
+  "contexts": ["inline", "block"],
+  "args": ["percent"],
+  "optional_params": {
+    "size": { "type": "number", "default": "40" },
+    "thickness": { "type": "number", "default": "4" },
+    "track": { "type": "color", "default": "slate" },
+    "fill": { "type": "color", "default": "accent" },
+    "label": { "type": "boolean", "default": "false" },
+    "label_color": { "type": "color", "default": "white" },
+    "thumb": { "type": "number", "default": "none" },
+    "thumb_color": { "type": "color", "default": "same as fill" }
+  }
+}
+```
+
+**Basic usage:** `{{ui:donut:75/}}`
+
+**Customized:** `{{ui:donut:50:size=60:thickness=8:fill=success/}}`
+
+**With label:** `{{ui:donut:85:label=true/}}`
+
+**Slider mode:** `{{ui:donut:75:thumb=12:thumb_color=accent/}}`
+
+**How it works:**
+1. Generates SVG with circular arc using stroke-dasharray
+2. Fill percentage determines arc length (clockwise from top)
+3. Optional thumb positioned at fill endpoint using trigonometry
+
+#### gauge
+```json
+{
+  "type": "native",
+  "self_closing": true,
+  "description": "Semi-circular gauge/meter for dashboards",
+  "contexts": ["inline", "block"],
+  "args": ["percent"],
+  "optional_params": {
+    "size": { "type": "number", "default": "80" },
+    "thickness": { "type": "number", "default": "8" },
+    "track": { "type": "color", "default": "slate" },
+    "fill": { "type": "color", "default": "accent" },
+    "label": { "type": "boolean", "default": "false" },
+    "label_color": { "type": "color", "default": "white" },
+    "thumb": { "type": "number", "default": "none" },
+    "thumb_color": { "type": "color", "default": "same as fill" }
+  }
+}
+```
+
+**Basic usage:** `{{ui:gauge:75/}}`
+
+**Speedometer style:** `{{ui:gauge:50:size=100:thickness=10:fill=warning/}}`
+
+**With label:** `{{ui:gauge:85:label=true/}}`
+
+**Slider mode:** `{{ui:gauge:50:thumb=16:thumb_color=warning/}}`
+
+**How it works:**
+1. Generates SVG with semi-circular arc (180° span)
+2. Arc goes from left to right (9 o'clock to 3 o'clock)
+3. Fill percentage determines arc length
+4. Optional thumb positioned at fill endpoint
 
 ## Design Tokens
 
@@ -669,4 +739,4 @@ echo "{{ui:swatch:accent/}}" | mdfx process -
 
 ---
 
-**Document Status:** Reflects v1.0.0 shipped implementation with unified registry, enhanced swatches, custom palette support, and target system
+**Document Status:** Reflects v1.0.0 shipped implementation with unified registry, enhanced swatches, custom palette support, target system, donut/gauge components, slider thumb support, and thumb_width for progress bars
