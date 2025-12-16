@@ -2,6 +2,35 @@
 
 Named Unicode characters for use in templates, separators, and frames.
 
+## Table of Contents
+
+- [Syntax](#syntax)
+- [Available Glyphs](#available-glyphs)
+  - [Separators](#separators)
+  - [Block Elements](#block-elements)
+  - [Shades](#shades)
+  - [Quadrants](#quadrants)
+  - [Braille Patterns](#braille-patterns)
+  - [Box Drawing](#box-drawing)
+  - [Number Badges](#number-badges)
+  - [Shapes](#shapes)
+  - [Checkboxes](#checkboxes)
+  - [Arrows](#arrows)
+  - [Dice](#dice)
+  - [Card Suits](#card-suits)
+  - [Music](#music)
+  - [Math Symbols](#math-symbols)
+  - [Superscript & Subscript](#superscript--subscript)
+  - [Roman Numerals](#roman-numerals)
+  - [Stars](#stars)
+  - [Currency](#currency)
+  - [Greek Letters](#greek-letters)
+  - [Fractions](#fractions)
+  - [Miscellaneous Symbols](#miscellaneous-symbols)
+- [Examples](#examples)
+
+---
+
 ## Syntax
 
 ```markdown

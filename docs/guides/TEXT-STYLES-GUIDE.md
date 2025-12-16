@@ -2,6 +2,25 @@
 
 Transform ordinary text into stunning Unicode typography. Text styles map ASCII characters to mathematically-defined Unicode symbols that render beautifully across platforms.
 
+## Table of Contents
+
+- [Basic Syntax](#basic-syntax)
+- [All Text Styles](#all-text-styles)
+  - [Bold Styles](#bold-styles)
+  - [Boxed & Enclosed Styles](#boxed--enclosed-styles)
+  - [Elegant & Stylistic](#elegant--stylistic)
+  - [Gothic & Blackletter](#gothic--blackletter)
+  - [Technical & Mathematical](#technical--mathematical)
+- [Separator Parameter](#separator-parameter)
+- [Support Matrix](#support-matrix)
+- [Combining with Frames](#combining-with-frames)
+- [Practical Examples](#practical-examples)
+- [Style Categories](#style-categories)
+- [Unicode Blocks Reference](#unicode-blocks-reference)
+- [Tips](#tips)
+
+---
+
 ## Basic Syntax
 
 ```markdown
