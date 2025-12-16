@@ -325,400 +325,411 @@ impl TemplateParser {
         Ok(self.process_templates_with_assets(text)?.0)
     }
 
+    // ========================================================================
+    // Template Handlers - each returns Option<(output, assets, end_pos)>
+    // ========================================================================
+
+    /// Handle partial template expansion
+    fn handle_partial(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(String, Vec<RenderedAsset>, usize)>> {
+        if let Some(data) = self.parse_partial_at(chars, start)? {
+            if let Some(template) = self.partials.get(&data.partial_name) {
+                let expanded = expand_partial(template, &data.content);
+                let (processed, assets) = self.process_templates_with_assets(&expanded)?;
+                return Ok(Some((processed, assets, data.end_pos)));
+            }
+        }
+        Ok(None)
+    }
+
+    /// Handle UI component expansion
+    fn handle_ui(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(String, Vec<RenderedAsset>, usize)>> {
+        let Some(data) = self.parse_ui_at(chars, start)? else {
+            return Ok(None);
+        };
+
+        let output = self
+            .components_renderer
+            .expand(&data.component_name, &data.args, data.content.as_deref())?;
+
+        let (result, assets) = match output {
+            ComponentOutput::Primitive(primitive) => {
+                let rendered = self.backend.render(&primitive)?;
+                let markdown = rendered.to_markdown().to_string();
+                let assets = if rendered.is_file_based() {
+                    vec![rendered]
+                } else {
+                    vec![]
+                };
+                (markdown, assets)
+            }
+            ComponentOutput::Template(template) => self.process_templates_with_assets(&template)?,
+            ComponentOutput::TemplateDelayed {
+                template,
+                post_process,
+            } => {
+                let (processed, assets) = self.process_templates_with_assets(&template)?;
+                let final_output = match post_process {
+                    PostProcess::Row { align } => {
+                        ComponentsRenderer::apply_row(&processed, &align)
+                    }
+                    _ => processed,
+                };
+                (final_output, assets)
+            }
+        };
+
+        Ok(Some((result, assets, data.end_pos)))
+    }
+
+    /// Handle frame template expansion
+    fn handle_frame(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(String, Vec<RenderedAsset>, usize)>> {
+        let Some(data) = self.parse_frame_at(chars, start)? else {
+            return Ok(None);
+        };
+
+        // Process content recursively
+        let (content, assets) = self.process_templates_with_assets(&data.content)?;
+
+        let framed = if data.frame_style.starts_with("glyph:") {
+            self.apply_glyph_frame(&data.frame_style[6..], &content)?
+        } else if data.frame_style.contains('+') {
+            self.apply_combo_frame(&data.frame_style, &content)?
+        } else {
+            self.apply_standard_frame(&data.frame_style, &content)?
+        };
+
+        Ok(Some((framed, assets, data.end_pos)))
+    }
+
+    /// Handle shields template (escape hatch)
+    fn handle_shields(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(String, Vec<RenderedAsset>, usize)>> {
+        let Some(data) = self.parse_shields_at(chars, start)? else {
+            return Ok(None);
+        };
+
+        let rendered = match data.shield_type.as_str() {
+            "block" => {
+                let color = data.params.get("color").ok_or_else(|| {
+                    Error::MissingShieldParam("color".to_string(), "block".to_string())
+                })?;
+                let style = data.params.get("style").ok_or_else(|| {
+                    Error::MissingShieldParam("style".to_string(), "block".to_string())
+                })?;
+                self.shields_renderer.render_block(color, style)?
+            }
+            "twotone" => {
+                let left = data.params.get("left").ok_or_else(|| {
+                    Error::MissingShieldParam("left".to_string(), "twotone".to_string())
+                })?;
+                let right = data.params.get("right").ok_or_else(|| {
+                    Error::MissingShieldParam("right".to_string(), "twotone".to_string())
+                })?;
+                let style = data.params.get("style").ok_or_else(|| {
+                    Error::MissingShieldParam("style".to_string(), "twotone".to_string())
+                })?;
+                self.shields_renderer.render_twotone(left, right, style)?
+            }
+            "bar" => {
+                let colors_str = data.params.get("colors").ok_or_else(|| {
+                    Error::MissingShieldParam("colors".to_string(), "bar".to_string())
+                })?;
+                let colors: Vec<String> = colors_str.split(',').map(|s| s.to_string()).collect();
+                let style = data.params.get("style").ok_or_else(|| {
+                    Error::MissingShieldParam("style".to_string(), "bar".to_string())
+                })?;
+                let separator = data.params.get("separator").map(|s| {
+                    self.registry
+                        .separator(s)
+                        .map(|r| r.to_string())
+                        .unwrap_or_else(|| s.clone())
+                });
+                self.shields_renderer
+                    .render_bar_with_separator(&colors, style, separator.as_deref())?
+            }
+            "icon" => {
+                let logo = data.params.get("logo").ok_or_else(|| {
+                    Error::MissingShieldParam("logo".to_string(), "icon".to_string())
+                })?;
+                let bg = data.params.get("bg").ok_or_else(|| {
+                    Error::MissingShieldParam("bg".to_string(), "icon".to_string())
+                })?;
+                let logo_color = data.params.get("logoColor").ok_or_else(|| {
+                    Error::MissingShieldParam("logoColor".to_string(), "icon".to_string())
+                })?;
+                let style = data.params.get("style").ok_or_else(|| {
+                    Error::MissingShieldParam("style".to_string(), "icon".to_string())
+                })?;
+                self.shields_renderer
+                    .render_icon(logo, bg, logo_color, style)?
+            }
+            _ => return Err(Error::UnknownShieldType(data.shield_type)),
+        };
+
+        Ok(Some((rendered, vec![], data.end_pos)))
+    }
+
+    /// Handle glyph template
+    fn handle_glyph(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(String, Vec<RenderedAsset>, usize)>> {
+        let Some(data) = self.parse_glyph_at(chars, start)? else {
+            return Ok(None);
+        };
+
+        let glyph_char = self
+            .registry
+            .glyph(&data.glyph_name)
+            .ok_or_else(|| Error::UnknownGlyph(data.glyph_name.clone()))?;
+
+        Ok(Some((glyph_char.to_string(), vec![], data.end_pos)))
+    }
+
+    /// Handle kbd template
+    fn handle_kbd(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(String, Vec<RenderedAsset>, usize)>> {
+        let Some(data) = self.parse_kbd_at(chars, start)? else {
+            return Ok(None);
+        };
+
+        let expanded = self.expand_kbd(&data.keys);
+        Ok(Some((expanded, vec![], data.end_pos)))
+    }
+
+    /// Handle style template
+    fn handle_style(
+        &self,
+        chars: &[char],
+        start: usize,
+    ) -> Result<Option<(String, Vec<RenderedAsset>, usize)>> {
+        let Some(data) = self.parse_template_at(chars, start)? else {
+            return Ok(None);
+        };
+
+        if self.registry.style(&data.style).is_none() {
+            return Err(Error::UnknownStyle(data.style));
+        }
+
+        let converted = if let Some(ref sep) = data.separator {
+            self.converter
+                .convert_with_separator(&data.content, &data.style, sep, 1)?
+        } else if data.spacing > 0 {
+            self.converter
+                .convert_with_spacing(&data.content, &data.style, data.spacing)?
+        } else {
+            self.converter.convert(&data.content, &data.style)?
+        };
+
+        Ok(Some((converted, vec![], data.end_pos)))
+    }
+
+    // ========================================================================
+    // Frame application helpers
+    // ========================================================================
+
+    /// Apply glyph-based frame (e.g., glyph:star*3/pad=0)
+    fn apply_glyph_frame(&self, spec: &str, content: &str) -> Result<String> {
+        let (glyph_name, count, pad, separator, spacing) = Self::parse_glyph_frame_spec(spec);
+
+        let glyph_char = self
+            .registry
+            .glyph(&glyph_name)
+            .ok_or_else(|| Error::UnknownGlyph(glyph_name.clone()))?;
+
+        let glyphs: String = if let Some(sep) = separator {
+            let sep_char = self.registry.separator(&sep).unwrap_or(&sep);
+            (0..count)
+                .map(|_| glyph_char)
+                .collect::<Vec<_>>()
+                .join(sep_char)
+        } else if let Some(n) = spacing {
+            let spaces = " ".repeat(n);
+            (0..count)
+                .map(|_| glyph_char)
+                .collect::<Vec<_>>()
+                .join(&spaces)
+        } else {
+            glyph_char.repeat(count)
+        };
+
+        Ok(format!("{}{}{}{}{}", glyphs, pad, content, pad, glyphs))
+    }
+
+    /// Apply combo frame (e.g., gradient+star)
+    fn apply_combo_frame(&self, style: &str, content: &str) -> Result<String> {
+        let frames: Vec<&str> = style.split('+').collect();
+        let mut prefix = String::new();
+        let mut suffix = String::new();
+
+        for frame_name in &frames {
+            let frame = self
+                .registry
+                .frame(frame_name.trim())
+                .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
+            prefix.push_str(&frame.prefix);
+        }
+
+        for frame_name in frames.iter().rev() {
+            let frame = self
+                .registry
+                .frame(frame_name.trim())
+                .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
+            suffix.push_str(&frame.suffix);
+        }
+
+        Ok(format!("{}{}{}", prefix, content, suffix))
+    }
+
+    /// Apply standard frame with modifiers
+    fn apply_standard_frame(&self, style: &str, content: &str) -> Result<String> {
+        let mods = Self::parse_frame_modifiers(style);
+
+        let frame = self
+            .registry
+            .frame(&mods.style)
+            .ok_or_else(|| Error::UnknownFrame(mods.style.clone()))?;
+
+        // Get base prefix/suffix, applying count if specified
+        let (mut prefix, mut suffix) = if let Some(count) = mods.count {
+            let prefix_pattern: String = frame.prefix.trim().to_string();
+            let suffix_pattern: String = frame.suffix.trim().to_string();
+            let repeated_prefix = prefix_pattern.repeat(count);
+            let repeated_suffix = suffix_pattern.repeat(count);
+            let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
+            let suffix_space = if frame.suffix.starts_with(' ') { " " } else { "" };
+            (
+                format!("{}{}", repeated_prefix, prefix_space),
+                format!("{}{}", suffix_space, repeated_suffix),
+            )
+        } else {
+            (frame.prefix.clone(), frame.suffix.clone())
+        };
+
+        // Apply reverse modifier
+        if mods.reverse {
+            std::mem::swap(&mut prefix, &mut suffix);
+        }
+
+        // Apply separator or spacing
+        if mods.separator.is_some() || mods.spacing.is_some() {
+            let join_str = if let Some(sep) = &mods.separator {
+                self.registry
+                    .separator(sep)
+                    .map(|s| s.to_string())
+                    .unwrap_or_else(|| sep.to_string())
+            } else if let Some(n) = mods.spacing {
+                " ".repeat(n)
+            } else {
+                String::new()
+            };
+
+            use unicode_segmentation::UnicodeSegmentation;
+            let prefix_with_sep: String = prefix
+                .trim()
+                .graphemes(true)
+                .collect::<Vec<_>>()
+                .join(&join_str);
+            let suffix_with_sep: String = suffix
+                .trim()
+                .graphemes(true)
+                .collect::<Vec<_>>()
+                .join(&join_str);
+
+            let prefix_space = if prefix.ends_with(' ') { " " } else { "" };
+            let suffix_space = if suffix.starts_with(' ') { " " } else { "" };
+
+            Ok(format!(
+                "{}{}{}{}{}",
+                prefix_with_sep, prefix_space, content, suffix_space, suffix_with_sep
+            ))
+        } else if mods.count.is_some() || mods.reverse {
+            Ok(format!("{}{}{}", prefix, content, suffix))
+        } else {
+            self.registry.apply_frame(content, &mods.style)
+        }
+    }
+
+    // ========================================================================
+    // Main parsing loop
+    // ========================================================================
+
     /// Process templates in a text segment with asset collection
     fn process_templates_with_assets(&self, text: &str) -> Result<(String, Vec<RenderedAsset>)> {
-        // Pre-process to expand {{//}} into appropriate closing tags
         let text = self.expand_close_all(text);
-
+        let chars: Vec<char> = text.chars().collect();
         let mut result = String::new();
         let mut assets = Vec::new();
-        let chars: Vec<char> = text.chars().collect();
         let mut i = 0;
 
         while i < chars.len() {
-            // Look for opening tag {{ (could be ui, frame, badge, or style template)
+            // Check for template start
             if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
-                // Try to parse a partial template first (highest priority for user-defined)
-                if let Some(partial_data) = self.parse_partial_at(&chars, i)? {
-                    // Get the partial template
-                    if let Some(template) = self.partials.get(&partial_data.partial_name) {
-                        // Expand the partial with content
-                        let expanded = expand_partial(template, &partial_data.content);
-
-                        // Recursively process the expanded template
-                        let (processed, nested_assets) =
-                            self.process_templates_with_assets(&expanded)?;
-                        result.push_str(&processed);
-                        assets.extend(nested_assets);
-
-                        // Skip past the partial template
-                        i = partial_data.end_pos;
-                        continue;
-                    }
-                    // Partial name not found - fall through to try other parsers
-                }
-
-                // Try to parse a UI component first (highest priority)
-                if let Some(ui_data) = self.parse_ui_at(&chars, i)? {
-                    // Expand the UI component
-                    let output = self.components_renderer.expand(
-                        &ui_data.component_name,
-                        &ui_data.args,
-                        ui_data.content.as_deref(),
-                    )?;
-
-                    match output {
-                        ComponentOutput::Primitive(primitive) => {
-                            // Render the primitive using the backend
-                            let rendered = self.backend.render(&primitive)?;
-                            result.push_str(rendered.to_markdown());
-
-                            // Collect file-based assets
-                            if rendered.is_file_based() {
-                                assets.push(rendered);
-                            }
-                        }
-                        ComponentOutput::Template(template) => {
-                            // Recursively process the template
-                            // (it may contain shields, frames, or styles)
-                            let (processed, nested_assets) =
-                                self.process_templates_with_assets(&template)?;
-                            result.push_str(&processed);
-                            assets.extend(nested_assets);
-                        }
-                        ComponentOutput::TemplateDelayed {
-                            template,
-                            post_process,
-                        } => {
-                            // First recursively process the template
-                            let (processed, nested_assets) =
-                                self.process_templates_with_assets(&template)?;
-                            assets.extend(nested_assets);
-
-                            // Then apply delayed post-processing
-                            let final_output = match post_process {
-                                PostProcess::Row { align } => {
-                                    ComponentsRenderer::apply_row(&processed, &align)
-                                }
-                                // Other post-processors run before recursion, not here
-                                _ => processed,
-                            };
-                            result.push_str(&final_output);
-                        }
-                    }
-
-                    // Skip past the UI template
-                    i = ui_data.end_pos;
+                // Try each handler in priority order
+                if let Some((out, new_assets, end)) = self.handle_partial(&chars, i)? {
+                    result.push_str(&out);
+                    assets.extend(new_assets);
+                    i = end;
                     continue;
                 }
-
-                // Try to parse a frame template
-                if let Some(frame_data) = self.parse_frame_at(&chars, i)? {
-                    // Process content recursively (may contain style templates and primitives)
-                    let (processed_content, nested_assets) =
-                        self.process_templates_with_assets(&frame_data.content)?;
-                    assets.extend(nested_assets);
-
-                    // Check for glyph frame shorthand: {{frame:glyph:NAME[*COUNT][/pad=VALUE][/separator=VALUE][/spacing=N]}}
-                    let framed = if frame_data.frame_style.starts_with("glyph:") {
-                        // Parse glyph spec: NAME[*COUNT][/pad=VALUE][/separator=VALUE][/spacing=N]
-                        let spec = &frame_data.frame_style[6..];
-                        let (glyph_name, count, pad, separator, spacing) =
-                            Self::parse_glyph_frame_spec(spec);
-
-                        let glyph_char = self
-                            .registry
-                            .glyph(&glyph_name)
-                            .ok_or_else(|| Error::UnknownGlyph(glyph_name.clone()))?;
-
-                        // Build repeated glyph string with separator or spacing
-                        let glyphs: String = if let Some(sep) = separator {
-                            // Resolve separator from registry or use as literal
-                            let sep_char = self.registry.separator(&sep).unwrap_or(&sep);
-                            (0..count)
-                                .map(|_| glyph_char)
-                                .collect::<Vec<_>>()
-                                .join(sep_char)
-                        } else if let Some(n) = spacing {
-                            // spacing=N adds N spaces between glyphs
-                            let spaces = " ".repeat(n);
-                            (0..count)
-                                .map(|_| glyph_char)
-                                .collect::<Vec<_>>()
-                                .join(&spaces)
-                        } else {
-                            glyph_char.repeat(count)
-                        };
-
-                        // Apply glyphs as both prefix and suffix with padding
-                        format!("{}{}{}{}{}", glyphs, pad, processed_content, pad, glyphs)
-                    } else if frame_data.frame_style.contains('+') {
-                        // Frame combo: fr:outer+inner applies both frames nested
-                        // e.g., fr:gradient+star → ▓▒░ ★ TITLE ☆ ░▒▓
-                        let frames: Vec<&str> = frame_data.frame_style.split('+').collect();
-                        let mut combined_prefix = String::new();
-                        let mut combined_suffix = String::new();
-
-                        // Build nested prefix: outer to inner
-                        for frame_name in &frames {
-                            let frame = self
-                                .registry
-                                .frame(frame_name.trim())
-                                .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
-                            combined_prefix.push_str(&frame.prefix);
-                        }
-
-                        // Build nested suffix: inner to outer (reverse order)
-                        for frame_name in frames.iter().rev() {
-                            let frame = self
-                                .registry
-                                .frame(frame_name.trim())
-                                .ok_or_else(|| Error::UnknownFrame(frame_name.to_string()))?;
-                            combined_suffix.push_str(&frame.suffix);
-                        }
-
-                        format!(
-                            "{}{}{}",
-                            combined_prefix, processed_content, combined_suffix
-                        )
-                    } else {
-                        // Extract modifiers from frame style
-                        let mods = Self::parse_frame_modifiers(&frame_data.frame_style);
-
-                        // Get the frame
-                        let frame = self
-                            .registry
-                            .frame(&mods.style)
-                            .ok_or_else(|| Error::UnknownFrame(mods.style.clone()))?;
-
-                        // Get base prefix/suffix, applying count if specified
-                        let (mut prefix, mut suffix) = if let Some(count) = mods.count {
-                            // Repeat the pattern N times
-                            let prefix_pattern: String = frame.prefix.trim().to_string();
-                            let suffix_pattern: String = frame.suffix.trim().to_string();
-                            let repeated_prefix = prefix_pattern.repeat(count);
-                            let repeated_suffix = suffix_pattern.repeat(count);
-                            // Preserve original spacing
-                            let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
-                            let suffix_space = if frame.suffix.starts_with(' ') {
-                                " "
-                            } else {
-                                ""
-                            };
-                            (
-                                format!("{}{}", repeated_prefix, prefix_space),
-                                format!("{}{}", suffix_space, repeated_suffix),
-                            )
-                        } else {
-                            (frame.prefix.clone(), frame.suffix.clone())
-                        };
-
-                        // Apply reverse modifier (swap prefix and suffix)
-                        if mods.reverse {
-                            std::mem::swap(&mut prefix, &mut suffix);
-                        }
-
-                        // Apply separator or spacing if specified
-                        if mods.separator.is_some() || mods.spacing.is_some() {
-                            // Determine the join string: separator takes precedence over spacing
-                            let join_str = if let Some(sep) = &mods.separator {
-                                self.registry
-                                    .separator(sep)
-                                    .map(|s| s.to_string())
-                                    .unwrap_or_else(|| sep.to_string())
-                            } else if let Some(n) = mods.spacing {
-                                " ".repeat(n)
-                            } else {
-                                String::new()
-                            };
-
-                            // Insert join string between graphemes in prefix/suffix
-                            use unicode_segmentation::UnicodeSegmentation;
-                            let prefix_with_sep: String = prefix
-                                .trim()
-                                .graphemes(true)
-                                .collect::<Vec<_>>()
-                                .join(&join_str);
-                            let suffix_with_sep: String = suffix
-                                .trim()
-                                .graphemes(true)
-                                .collect::<Vec<_>>()
-                                .join(&join_str);
-
-                            // Preserve spacing around content
-                            let prefix_space = if prefix.ends_with(' ') { " " } else { "" };
-                            let suffix_space = if suffix.starts_with(' ') { " " } else { "" };
-
-                            format!(
-                                "{}{}{}{}{}",
-                                prefix_with_sep,
-                                prefix_space,
-                                processed_content,
-                                suffix_space,
-                                suffix_with_sep
-                            )
-                        } else if mods.count.is_some() || mods.reverse {
-                            // Count or reverse was applied, use modified prefix/suffix
-                            format!("{}{}{}", prefix, processed_content, suffix)
-                        } else {
-                            // No modifiers, use standard apply_frame
-                            self.registry.apply_frame(&processed_content, &mods.style)?
-                        }
-                    };
-                    result.push_str(&framed);
-
-                    // Skip past the frame template
-                    i = frame_data.end_pos;
+                if let Some((out, new_assets, end)) = self.handle_ui(&chars, i)? {
+                    result.push_str(&out);
+                    assets.extend(new_assets);
+                    i = end;
                     continue;
                 }
-
-                // Try to parse a shields template (escape hatch for primitives)
-                if let Some(shield_data) = self.parse_shields_at(&chars, i)? {
-                    // Render based on shield type
-                    let rendered = match shield_data.shield_type.as_str() {
-                        "block" => {
-                            let color = shield_data.params.get("color").ok_or_else(|| {
-                                Error::MissingShieldParam("color".to_string(), "block".to_string())
-                            })?;
-                            let style = shield_data.params.get("style").ok_or_else(|| {
-                                Error::MissingShieldParam("style".to_string(), "block".to_string())
-                            })?;
-                            self.shields_renderer.render_block(color, style)?
-                        }
-                        "twotone" => {
-                            let left = shield_data.params.get("left").ok_or_else(|| {
-                                Error::MissingShieldParam("left".to_string(), "twotone".to_string())
-                            })?;
-                            let right = shield_data.params.get("right").ok_or_else(|| {
-                                Error::MissingShieldParam(
-                                    "right".to_string(),
-                                    "twotone".to_string(),
-                                )
-                            })?;
-                            let style = shield_data.params.get("style").ok_or_else(|| {
-                                Error::MissingShieldParam(
-                                    "style".to_string(),
-                                    "twotone".to_string(),
-                                )
-                            })?;
-                            self.shields_renderer.render_twotone(left, right, style)?
-                        }
-                        "bar" => {
-                            let colors_str = shield_data.params.get("colors").ok_or_else(|| {
-                                Error::MissingShieldParam("colors".to_string(), "bar".to_string())
-                            })?;
-                            let colors: Vec<String> =
-                                colors_str.split(',').map(|s| s.to_string()).collect();
-                            let style = shield_data.params.get("style").ok_or_else(|| {
-                                Error::MissingShieldParam("style".to_string(), "bar".to_string())
-                            })?;
-                            // Get optional separator (can be named like "dot" or literal like " ")
-                            let separator = shield_data.params.get("separator").map(|s| {
-                                self.registry
-                                    .separator(s)
-                                    .map(|r| r.to_string())
-                                    .unwrap_or_else(|| s.clone())
-                            });
-                            self.shields_renderer.render_bar_with_separator(
-                                &colors,
-                                style,
-                                separator.as_deref(),
-                            )?
-                        }
-                        "icon" => {
-                            let logo = shield_data.params.get("logo").ok_or_else(|| {
-                                Error::MissingShieldParam("logo".to_string(), "icon".to_string())
-                            })?;
-                            let bg = shield_data.params.get("bg").ok_or_else(|| {
-                                Error::MissingShieldParam("bg".to_string(), "icon".to_string())
-                            })?;
-                            let logo_color =
-                                shield_data.params.get("logoColor").ok_or_else(|| {
-                                    Error::MissingShieldParam(
-                                        "logoColor".to_string(),
-                                        "icon".to_string(),
-                                    )
-                                })?;
-                            let style = shield_data.params.get("style").ok_or_else(|| {
-                                Error::MissingShieldParam("style".to_string(), "icon".to_string())
-                            })?;
-                            self.shields_renderer
-                                .render_icon(logo, bg, logo_color, style)?
-                        }
-                        _ => return Err(Error::UnknownShieldType(shield_data.shield_type)),
-                    };
-
-                    result.push_str(&rendered);
-
-                    // Skip past the shields template
-                    i = shield_data.end_pos;
+                if let Some((out, new_assets, end)) = self.handle_frame(&chars, i)? {
+                    result.push_str(&out);
+                    assets.extend(new_assets);
+                    i = end;
                     continue;
                 }
-
-                // Try to parse a glyph template
-                if let Some(glyph_data) = self.parse_glyph_at(&chars, i)? {
-                    // Resolve glyph from registry
-                    let glyph_char = self
-                        .registry
-                        .glyph(&glyph_data.glyph_name)
-                        .ok_or_else(|| Error::UnknownGlyph(glyph_data.glyph_name.clone()))?;
-
-                    result.push_str(glyph_char);
-
-                    // Skip past the glyph template
-                    i = glyph_data.end_pos;
+                if let Some((out, new_assets, end)) = self.handle_shields(&chars, i)? {
+                    result.push_str(&out);
+                    assets.extend(new_assets);
+                    i = end;
                     continue;
                 }
-
-                // Try to parse a kbd template
-                if let Some(kbd_data) = self.parse_kbd_at(&chars, i)? {
-                    // Expand keys to <kbd> HTML tags
-                    let expanded = self.expand_kbd(&kbd_data.keys);
-                    result.push_str(&expanded);
-
-                    // Skip past the kbd template
-                    i = kbd_data.end_pos;
+                if let Some((out, new_assets, end)) = self.handle_glyph(&chars, i)? {
+                    result.push_str(&out);
+                    assets.extend(new_assets);
+                    i = end;
                     continue;
                 }
-
-                // Try to parse a style template
-                if let Some(template_data) = self.parse_template_at(&chars, i)? {
-                    // Validate style exists via unified Registry
-                    if self.registry.style(&template_data.style).is_none() {
-                        return Err(Error::UnknownStyle(template_data.style));
-                    }
-
-                    // Convert content based on whether separator is specified
-                    let converted = if let Some(ref sep) = template_data.separator {
-                        // Use separator-based conversion
-                        self.converter.convert_with_separator(
-                            &template_data.content,
-                            &template_data.style,
-                            sep,
-                            1, // count = 1 for single separator between chars
-                        )?
-                    } else if template_data.spacing > 0 {
-                        // Use spacing-based conversion (spaces between chars)
-                        self.converter.convert_with_spacing(
-                            &template_data.content,
-                            &template_data.style,
-                            template_data.spacing,
-                        )?
-                    } else {
-                        // No spacing or separator, just convert normally
-                        self.converter
-                            .convert(&template_data.content, &template_data.style)?
-                    };
-
-                    result.push_str(&converted);
-
-                    // Skip past the template
-                    i = template_data.end_pos;
+                if let Some((out, new_assets, end)) = self.handle_kbd(&chars, i)? {
+                    result.push_str(&out);
+                    assets.extend(new_assets);
+                    i = end;
+                    continue;
+                }
+                if let Some((out, new_assets, end)) = self.handle_style(&chars, i)? {
+                    result.push_str(&out);
+                    assets.extend(new_assets);
+                    i = end;
                     continue;
                 }
             }
 
-            // Not a template (or invalid), add character as-is
+            // Not a template, add character as-is
             result.push(chars[i]);
             i += 1;
         }
