@@ -16,6 +16,7 @@
 - [Frame Templates](#frame-templates)
 - [Badge Templates](#badge-templates)
 - [Primitive Templates](#primitive-templates)
+- [Partial Templates](#partial-templates)
 - [Advanced Features](#advanced-features)
   - [Nesting and Composition](#nesting-and-composition)
   - [Post-Processing](#post-processing)
@@ -836,6 +837,62 @@ line = { character } newline ;
 
 ---
 
+## Partial Templates
+
+**Namespace:** `{{partial:*}}`
+
+User-defined reusable template snippets loaded from `.mdfx.json` configuration.
+
+### Syntax
+
+```markdown
+{{partial:name}}CONTENT{{/partial}}    ← Block with content
+{{partial:name/}}                       ← Self-closing (empty content)
+```
+
+### Configuration
+
+Define partials in `.mdfx.json`:
+
+```json
+{
+  "partials": {
+    "hero": {
+      "template": "{{frame:gradient}}{{mathbold}}$1{{/mathbold}}{{/frame}}",
+      "description": "Hero header with gradient frame"
+    },
+    "techstack": {
+      "template": "{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}}"
+    }
+  }
+}
+```
+
+### Content Substitution
+
+Use `$1` or `$content` as placeholders for the content between tags:
+
+```markdown
+{{partial:hero}}MY TITLE{{/partial}}
+→ {{frame:gradient}}{{mathbold}}MY TITLE{{/mathbold}}{{/frame}}
+→ ▓▒░ 𝐌𝐘 𝐓𝐈𝐓𝐋𝐄 ░▒▓
+```
+
+### Rules
+
+- Partial names: alphanumeric, hyphens, underscores
+- Templates can contain any valid mdfx syntax
+- Partials are expanded first, then the result is processed
+- Use `{{/partial}}` or `{{/}}` as closing tag
+
+### Use Cases
+
+- Project-wide branding (consistent headers, callouts)
+- Reusable component patterns
+- Team style guidelines
+
+---
+
 ## Quick Reference
 
 | Template Type | Self-Closing | Block | Closer | Example |
@@ -844,6 +901,7 @@ line = { character } newline ;
 | Style | No | Yes | `{{/style}}` | `{{mathbold}}TEXT{{/mathbold}}` |
 | Frame | No | Yes | `{{/frame}}` | `{{frame:gradient}}TEXT{{/frame}}` |
 | Badge | No | Yes | `{{/badge}}` | `{{badge:circle}}1{{/badge}}` |
+| Partial | Yes | Yes | `{{/partial}}` | `{{partial:hero}}TEXT{{/partial}}` |
 | Primitive | Yes | No | N/A | `{{shields:block:color=F41C80/}}` |
 
 **Parameter Syntax:**

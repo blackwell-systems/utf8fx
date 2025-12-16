@@ -36,6 +36,7 @@ mdfx uses a Cargo workspace with two packages:
 - [Getting Started](#getting-started)
 - [Target System](#target-system) 🆕
 - [Custom Palette Support](#custom-palette-support) 🆕
+- [Configuration & Partials](#configuration--partials) 🆕
 - [ComponentsRenderer API](#componentsrenderer-api) ⭐ **Primary API**
 - [ShieldsRenderer API](#shieldsrenderer-api)
 - [Converter API](#converter-api)
@@ -213,6 +214,127 @@ let output = parser.process("{{ui:swatch:brand/}}")?;
 1. Custom palette (highest priority)
 2. Built-in registry palette
 3. Direct hex code (6-digit, e.g., `FF6B35`)
+
+---
+
+## Configuration & Partials
+
+**Version:** 1.0.0
+
+mdfx supports project-level configuration via `.mdfx.json` files, including user-defined template partials.
+
+### MdfxConfig API
+
+```rust
+use mdfx::{MdfxConfig, PartialDef};
+
+// Load from file
+let config = MdfxConfig::load(".mdfx.json")?;
+
+// Auto-discover (searches current + parent directories)
+let config = MdfxConfig::discover();
+
+// Check partials
+if config.has_partial("hero") {
+    let partial = config.get_partial("hero").unwrap();
+    println!("Template: {}", partial.template);
+}
+
+// Iterate partials
+for name in config.partial_names() {
+    println!("Partial: {}", name);
+}
+```
+
+### Loading Config into Parser
+
+```rust
+use mdfx::{TemplateParser, MdfxConfig};
+
+let mut parser = TemplateParser::new()?;
+
+// Load from config file
+let config = MdfxConfig::load(".mdfx.json")?;
+parser.load_config(&config);
+
+// Or add partials programmatically
+parser.add_partial("hero", "{{frame:gradient}}{{mathbold}}$1{{/mathbold}}{{/frame}}");
+parser.add_partial("techstack", "{{ui:tech:rust/}} {{ui:tech:typescript/}}");
+
+// Check if partial exists
+if parser.has_partial("hero") {
+    println!("Hero partial loaded!");
+}
+
+// Process with partials
+let input = "{{partial:hero}}MY TITLE{{/partial}}";
+let output = parser.process(input)?;
+// Output: ▓▒░ 𝐌𝐘 𝐓𝐈𝐓𝐋𝐄 ░▒▓
+```
+
+### Config File Format
+
+```json
+{
+  "partials": {
+    "hero": {
+      "template": "{{frame:gradient}}{{mathbold}}$1{{/mathbold}}{{/frame}}",
+      "description": "Hero header with gradient frame"
+    },
+    "techstack": {
+      "template": "{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:docker/}}"
+    },
+    "warning-box": {
+      "template": "{{frame:solid-left}}⚠️ $content{{/frame}}"
+    }
+  },
+  "palette": {
+    "brand": "FF5500",
+    "primary": "2B6CB0"
+  }
+}
+```
+
+### Content Substitution
+
+Partials support `$1` and `$content` placeholders:
+
+```rust
+// Template: "Hello, $1!"
+// Input: {{partial:greeting}}World{{/partial}}
+// Output: Hello, World!
+
+// Template: "[ $content ]"
+// Input: {{partial:wrapper}}TEXT{{/partial}}
+// Output: [ TEXT ]
+```
+
+### PartialDef Struct
+
+```rust
+use mdfx::PartialDef;
+
+#[derive(Debug, Clone)]
+pub struct PartialDef {
+    /// The template string (may contain $1, $content placeholders)
+    pub template: String,
+
+    /// Optional description for documentation
+    pub description: Option<String>,
+}
+```
+
+### Merging Configs
+
+```rust
+use mdfx::MdfxConfig;
+
+let mut config1 = MdfxConfig::load("base.mdfx.json")?;
+let config2 = MdfxConfig::load("project.mdfx.json")?;
+
+// Merge (config2 takes precedence)
+config1.merge(config2);
+```
 
 ---
 
