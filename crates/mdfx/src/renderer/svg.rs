@@ -212,6 +212,8 @@ impl SvgBackend {
                 fill_color,
                 show_label,
                 label_color,
+                thumb_size,
+                thumb_color,
             } => {
                 "donut".hash(&mut hasher);
                 percent.hash(&mut hasher);
@@ -221,6 +223,8 @@ impl SvgBackend {
                 fill_color.hash(&mut hasher);
                 show_label.hash(&mut hasher);
                 label_color.hash(&mut hasher);
+                thumb_size.hash(&mut hasher);
+                thumb_color.hash(&mut hasher);
             }
             Primitive::Gauge {
                 percent,
@@ -230,6 +234,8 @@ impl SvgBackend {
                 fill_color,
                 show_label,
                 label_color,
+                thumb_size,
+                thumb_color,
             } => {
                 "gauge".hash(&mut hasher);
                 percent.hash(&mut hasher);
@@ -239,6 +245,8 @@ impl SvgBackend {
                 fill_color.hash(&mut hasher);
                 show_label.hash(&mut hasher);
                 label_color.hash(&mut hasher);
+                thumb_size.hash(&mut hasher);
+                thumb_color.hash(&mut hasher);
             }
         }
 
@@ -715,6 +723,7 @@ impl SvgBackend {
     }
 
     /// Render a donut/ring chart using stroke-dasharray trick
+    #[allow(clippy::too_many_arguments)]
     fn render_donut_svg(
         percent: u8,
         size: u32,
@@ -723,6 +732,8 @@ impl SvgBackend {
         fill_color: &str,
         show_label: bool,
         label_color: Option<&str>,
+        thumb_size: Option<u32>,
+        thumb_color: Option<&str>,
     ) -> String {
         // Use radius ~15.9 so circumference ≈ 100 (makes percentage math easy)
         // Scale radius based on size: r = (size/2 - thickness/2)
@@ -734,14 +745,37 @@ impl SvgBackend {
         let fill_length = circumference * (percent as f32 / 100.0);
         let gap_length = circumference - fill_length;
 
+        // Calculate viewbox padding for thumb (thumb might extend beyond circle)
+        let thumb_padding = thumb_size.map(|t| (t / 2).saturating_sub(thickness / 2)).unwrap_or(0);
+        let svg_size = size + thumb_padding * 2;
+        let adjusted_center = center + thumb_padding as f32;
+
         // Build label element if requested (and size is large enough)
         let label_elem = if show_label && size >= 30 {
             let label_col = label_color.unwrap_or("FFFFFF");
             // Font size scales with donut size
             let font_size = (size / 4).max(10).min(16);
             format!(
-                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",
-                center, center, label_col, font_size, percent
+                "\n  <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",
+                adjusted_center, adjusted_center, label_col, font_size, percent
+            )
+        } else {
+            String::new()
+        };
+
+        // Build thumb element if requested
+        let thumb_elem = if let Some(thumb_sz) = thumb_size {
+            let t_color = thumb_color.unwrap_or(fill_color);
+            // Calculate thumb position on the circle
+            // Angle: starts at top (-90°), progresses clockwise
+            let angle_deg = -90.0 + (percent as f32 * 360.0 / 100.0);
+            let angle_rad = angle_deg * std::f32::consts::PI / 180.0;
+            let thumb_x = adjusted_center + radius * angle_rad.cos();
+            let thumb_y = adjusted_center + radius * angle_rad.sin();
+            let thumb_r = thumb_sz as f32 / 2.0;
+            format!(
+                "\n  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"#{}\"/>",
+                thumb_x, thumb_y, thumb_r, t_color
             )
         } else {
             String::new()
@@ -749,17 +783,18 @@ impl SvgBackend {
 
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <circle cx=\"{}\" cy=\"{}\" r=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\"/>\n\
-  <circle cx=\"{}\" cy=\"{}\" r=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-dasharray=\"{:.2} {:.2}\" transform=\"rotate(-90 {} {})\"/>{}\n\
+  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\"/>\n\
+  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-dasharray=\"{:.2} {:.2}\" transform=\"rotate(-90 {:.1} {:.1})\"/>{}{}\n\
 </svg>",
-            size, size, size, size,
-            center, center, radius, track_color, thickness,
-            center, center, radius, fill_color, thickness, fill_length, gap_length, center, center,
-            label_elem
+            svg_size, svg_size, svg_size, svg_size,
+            adjusted_center, adjusted_center, radius, track_color, thickness,
+            adjusted_center, adjusted_center, radius, fill_color, thickness, fill_length, gap_length, adjusted_center, adjusted_center,
+            thumb_elem, label_elem
         )
     }
 
     /// Render a gauge (semi-circular meter) using SVG arc paths
+    #[allow(clippy::too_many_arguments)]
     fn render_gauge_svg(
         percent: u8,
         size: u32,
@@ -768,6 +803,8 @@ impl SvgBackend {
         fill_color: &str,
         show_label: bool,
         label_color: Option<&str>,
+        thumb_size: Option<u32>,
+        thumb_color: Option<&str>,
     ) -> String {
         // Gauge is a half-circle (180 degrees) arc
         // Size is the width, height is approximately size/2 + space for label
@@ -780,11 +817,14 @@ impl SvgBackend {
         let end_x = center_x + radius;
         let arc_y = radius + (thickness as f32 / 2.0);
 
-        // SVG height: half circle height + space for label if shown
+        // Calculate padding for thumb (thumb might extend beyond arc)
+        let thumb_padding = thumb_size.map(|t| (t / 2).saturating_sub(thickness / 2)).unwrap_or(0);
+
+        // SVG height: half circle height + space for label if shown + thumb padding
         let svg_height = if show_label {
-            (size / 2) + thickness + 20
+            (size / 2) + thickness + 20 + thumb_padding
         } else {
-            (size / 2) + thickness
+            (size / 2) + thickness + thumb_padding
         };
 
         // Semi-circle circumference = π × radius
@@ -814,15 +854,33 @@ impl SvgBackend {
             String::new()
         };
 
+        // Build thumb element if requested
+        let thumb_elem = if let Some(thumb_sz) = thumb_size {
+            let t_color = thumb_color.unwrap_or(fill_color);
+            // Calculate thumb position on the semi-circle arc
+            // Angle: starts at left (180°), progresses to right (0°)
+            let angle_deg = 180.0 - (percent as f32 * 180.0 / 100.0);
+            let angle_rad = angle_deg * std::f32::consts::PI / 180.0;
+            let thumb_x = center_x + radius * angle_rad.cos();
+            let thumb_y = arc_y - radius * angle_rad.sin();
+            let thumb_r = thumb_sz as f32 / 2.0;
+            format!(
+                "\n  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"#{}\"/>",
+                thumb_x, thumb_y, thumb_r, t_color
+            )
+        } else {
+            String::new()
+        };
+
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
   <path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"round\"/>\n\
-  <path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"round\" stroke-dasharray=\"{:.2} {:.2}\"/>{}\n\
+  <path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" stroke-linecap=\"round\" stroke-dasharray=\"{:.2} {:.2}\"/>{}{}\n\
 </svg>",
             size, svg_height, size, svg_height,
             track_path, track_color, thickness,
             track_path, fill_color, thickness, fill_length, gap_length,
-            label_elem
+            thumb_elem, label_elem
         )
     }
 }
@@ -923,6 +981,8 @@ impl Renderer for SvgBackend {
                 fill_color,
                 show_label,
                 label_color,
+                thumb_size,
+                thumb_color,
             } => Self::render_donut_svg(
                 *percent,
                 *size,
@@ -931,6 +991,8 @@ impl Renderer for SvgBackend {
                 fill_color,
                 *show_label,
                 label_color.as_deref(),
+                *thumb_size,
+                thumb_color.as_deref(),
             ),
 
             Primitive::Gauge {
@@ -941,6 +1003,8 @@ impl Renderer for SvgBackend {
                 fill_color,
                 show_label,
                 label_color,
+                thumb_size,
+                thumb_color,
             } => Self::render_gauge_svg(
                 *percent,
                 *size,
@@ -949,6 +1013,8 @@ impl Renderer for SvgBackend {
                 fill_color,
                 *show_label,
                 label_color.as_deref(),
+                *thumb_size,
+                thumb_color.as_deref(),
             ),
         };
 

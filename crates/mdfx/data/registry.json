@@ -753,6 +753,16 @@
             "type": "color",
             "default": "white",
             "description": "Label text color"
+          },
+          "thumb": {
+            "type": "number",
+            "default": "none",
+            "description": "Thumb size in pixels (enables slider mode)"
+          },
+          "thumb_color": {
+            "type": "color",
+            "default": "fill",
+            "description": "Thumb color (defaults to fill color)"
           }
         }
       },
@@ -792,6 +802,16 @@
             "type": "color",
             "default": "white",
             "description": "Label text color"
+          },
+          "thumb": {
+            "type": "number",
+            "default": "none",
+            "description": "Thumb size in pixels (enables slider mode)"
+          },
+          "thumb_color": {
+            "type": "color",
+            "default": "fill",
+            "description": "Thumb color (defaults to fill color)"
           }
         }
       }

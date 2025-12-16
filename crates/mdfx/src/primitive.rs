@@ -116,6 +116,10 @@ pub enum Primitive {
         show_label: bool,
         /// Label color
         label_color: Option<String>,
+        /// Thumb size in pixels (enables slider mode when set)
+        thumb_size: Option<u32>,
+        /// Thumb color (defaults to fill_color)
+        thumb_color: Option<String>,
     },
 
     /// Gauge/half-donut showing percentage as semi-circular meter
@@ -134,6 +138,10 @@ pub enum Primitive {
         show_label: bool,
         /// Label color
         label_color: Option<String>,
+        /// Thumb size in pixels (enables slider mode when set)
+        thumb_size: Option<u32>,
+        /// Thumb color (defaults to fill_color)
+        thumb_color: Option<String>,
     },
 }
 
@@ -208,6 +216,8 @@ impl Primitive {
             fill_color: fill_color.into(),
             show_label: false,
             label_color: None,
+            thumb_size: None,
+            thumb_color: None,
         }
     }
 
@@ -225,6 +235,8 @@ impl Primitive {
             fill_color: fill_color.into(),
             show_label: false,
             label_color: None,
+            thumb_size: None,
+            thumb_color: None,
         }
     }
 }

@@ -33,6 +33,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Use cases:** CPU/memory meters, speedometers, dashboard widgets, loading indicators
 
+#### Thumb Support for Donut and Gauge
+
+- **Slider mode** - Both donut and gauge components now support `thumb` parameter
+- **Visual indicator** - Circular thumb positioned at fill endpoint
+- **Customizable color** - Use `thumb_color` to override the default fill color
+- **Consistent with progress bar** - Same slider pattern as `{{ui:progress:75:thumb=12/}}`
+
+**Usage:**
+```markdown
+{{ui:donut:75:thumb=12/}}
+{{ui:gauge:50:thumb=14:thumb_color=accent/}}
+```
+
 #### Template Partials
 
 - **User-defined reusable templates** - Define partials in `.mdfx.json` config file

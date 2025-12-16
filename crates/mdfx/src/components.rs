@@ -437,6 +437,10 @@ impl ComponentsRenderer {
 
                 let label_color = params.get("label_color").map(|c| self.resolve_color(c));
 
+                // Thumb (slider mode)
+                let thumb_size: Option<u32> = params.get("thumb").and_then(|v| v.parse().ok());
+                let thumb_color = params.get("thumb_color").map(|c| self.resolve_color(c));
+
                 Ok(ComponentOutput::Primitive(Primitive::Donut {
                     percent,
                     size,
@@ -445,6 +449,8 @@ impl ComponentsRenderer {
                     fill_color,
                     show_label,
                     label_color,
+                    thumb_size,
+                    thumb_color,
                 }))
             }
 
@@ -496,6 +502,10 @@ impl ComponentsRenderer {
 
                 let label_color = params.get("label_color").map(|c| self.resolve_color(c));
 
+                // Thumb (slider mode)
+                let thumb_size: Option<u32> = params.get("thumb").and_then(|v| v.parse().ok());
+                let thumb_color = params.get("thumb_color").map(|c| self.resolve_color(c));
+
                 Ok(ComponentOutput::Primitive(Primitive::Gauge {
                     percent,
                     size,
@@ -504,6 +514,8 @@ impl ComponentsRenderer {
                     fill_color,
                     show_label,
                     label_color,
+                    thumb_size,
+                    thumb_color,
                 }))
             }
 

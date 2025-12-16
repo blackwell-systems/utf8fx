@@ -181,6 +181,8 @@ Renders a circular progress/ring chart showing a percentage.
 | `fill` | color | accent | Fill (progress) color |
 | `label` | boolean | false | Show percentage label in center |
 | `label_color` | color | white | Label text color |
+| `thumb` | number | none | Thumb size in pixels (enables slider mode) |
+| `thumb_color` | color | fill | Thumb color (defaults to fill color) |
 
 **Basic Examples:**
 ```markdown
@@ -201,7 +203,13 @@ Renders a circular progress/ring chart showing a percentage.
 {{ui:donut:25:fill=warning:track=error/}}
 ```
 
-**Note:** Donuts use SVG stroke-dasharray for smooth, scalable rendering. The percentage fills clockwise from the top.
+**Slider Mode (with thumb):**
+```markdown
+{{ui:donut:75:thumb=12/}}
+{{ui:donut:50:size=60:thumb=16:thumb_color=accent/}}
+```
+
+**Note:** Donuts use SVG stroke-dasharray for smooth, scalable rendering. The percentage fills clockwise from the top. When `thumb` is set, a circular indicator appears at the fill endpoint.
 
 ---
 
@@ -226,6 +234,8 @@ Renders a semi-circular gauge/meter showing a percentage. Perfect for dashboards
 | `fill` | color | accent | Fill (progress) color |
 | `label` | boolean | false | Show percentage label below arc |
 | `label_color` | color | white | Label text color |
+| `thumb` | number | none | Thumb size in pixels (enables slider mode) |
+| `thumb_color` | color | fill | Thumb color (defaults to fill color) |
 
 **Basic Examples:**
 ```markdown
@@ -252,7 +262,13 @@ Renders a semi-circular gauge/meter showing a percentage. Perfect for dashboards
 {{ui:gauge:75:fill=00FF41:track=0D0D0D:size=100:thickness=8/}}
 ```
 
-**Note:** Gauges use SVG arc paths with stroke-dasharray for smooth semi-circular rendering. The arc spans from left to right (180°).
+**Slider Mode (with thumb):**
+```markdown
+{{ui:gauge:75:thumb=14/}}
+{{ui:gauge:50:size=100:thumb=18:thumb_color=accent/}}
+```
+
+**Note:** Gauges use SVG arc paths with stroke-dasharray for smooth semi-circular rendering. The arc spans from left to right (180°). When `thumb` is set, a circular indicator appears at the fill endpoint.
 
 ---
 
