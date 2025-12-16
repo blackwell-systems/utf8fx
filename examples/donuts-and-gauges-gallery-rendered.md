@@ -268,6 +268,27 @@ Both donut and gauge components support a `thumb` parameter that adds a circular
 
 ---
 
+### Custom Thumb Colors
+
+Demonstrating `thumb_color` to create contrasting thumb indicators:
+
+**Donut with Accent Thumb:**
+![](assets/donut_850200dd1f0e20d.svg)
+
+**Donut with White Thumb:**
+![](assets/donut_7553af5b4f85dbe9.svg)
+
+**Gauge with Warning Thumb:**
+![](assets/gauge_e116545e8338da76.svg)
+
+**Gauge with Error Thumb:**
+![](assets/gauge_98224ec22799c117.svg)
+
+**Contrasting Palette:**
+![](assets/donut_9cdc1690d460c101.svg) ![](assets/donut_a0a64dbdfc245276.svg) ![](assets/donut_1e07d001c9aff095.svg)
+
+---
+
 ### Neon Sliders
 
 **Neon Donut:**
@@ -284,9 +305,9 @@ Same data, different visualizations:
 
 | Task | Donut | Gauge | Bar |
 |------|-------|-------|-----|
-| API | ![](assets/donut_f93d19d3265f9216.svg) | ![](assets/gauge_baca01a9bb105e80.svg) | ![](assets/progress_19f127e8d6d92884.svg) |
-| Tests | ![](assets/donut_9d69435c4383e4fe.svg) | ![](assets/gauge_8f94c8a55d793b6e.svg) | ![](assets/progress_31f31271bdbb5327.svg) |
-| Docs | ![](assets/donut_faab25effff769cd.svg) | ![](assets/gauge_96adc6bc8e44a1e7.svg) | ![](assets/progress_f309f49e8efed1ff.svg) |
+| API | ![](assets/donut_f93d19d3265f9216.svg) | ![](assets/gauge_baca01a9bb105e80.svg) | ![](assets/progress_e7f5b75bbf0a1a9e.svg) |
+| Tests | ![](assets/donut_9d69435c4383e4fe.svg) | ![](assets/gauge_8f94c8a55d793b6e.svg) | ![](assets/progress_1dcb85164099b0a.svg) |
+| Docs | ![](assets/donut_faab25effff769cd.svg) | ![](assets/gauge_96adc6bc8e44a1e7.svg) | ![](assets/progress_a41686b9cb0a298a.svg) |
 
 ---
 

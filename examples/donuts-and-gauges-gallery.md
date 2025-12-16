@@ -268,6 +268,27 @@ Both donut and gauge components support a `thumb` parameter that adds a circular
 
 ---
 
+### Custom Thumb Colors
+
+Demonstrating `thumb_color` to create contrasting thumb indicators:
+
+**Donut with Accent Thumb:**
+{{ui:donut:65:size=60:thickness=5:fill=info:thumb=14:thumb_color=accent/}}
+
+**Donut with White Thumb:**
+{{ui:donut:80:size=60:thickness=5:fill=success:thumb=14:thumb_color=white/}}
+
+**Gauge with Warning Thumb:**
+{{ui:gauge:50:size=100:thickness=8:fill=cobalt:thumb=16:thumb_color=warning/}}
+
+**Gauge with Error Thumb:**
+{{ui:gauge:75:size=100:thickness=8:fill=success:thumb=16:thumb_color=error/}}
+
+**Contrasting Palette:**
+{{ui:donut:40:size=50:thickness=4:fill=info:thumb=12:thumb_color=error/}} {{ui:donut:60:size=50:thickness=4:fill=warning:thumb=12:thumb_color=cobalt/}} {{ui:donut:80:size=50:thickness=4:fill=success:thumb=12:thumb_color=accent/}}
+
+---
+
 ### Neon Sliders
 
 **Neon Donut:**

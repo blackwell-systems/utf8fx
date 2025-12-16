@@ -378,4 +378,56 @@ When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 
 ---
 
+## Oval/Pill-Shaped Thumbs
+
+Using `thumb_width` to create non-circular slider thumbs:
+
+**Wide Oval Thumb:**
+{{ui:progress:50:width=200:height=8:thumb=12:thumb_width=24/}}
+
+**Horizontal Pill:**
+{{ui:progress:75:width=200:height=6:thumb=10:thumb_width=28:thumb_color=accent/}}
+
+**Tall Oval Thumb:**
+{{ui:progress:60:width=200:height=10:thumb=18:thumb_width=10/}}
+
+**Wide Square (Rounded Rectangle):**
+{{ui:progress:40:width=200:height=8:thumb=12:thumb_width=20:thumb_shape=square/}}
+
+**Wide Diamond:**
+{{ui:progress:65:width=200:height=8:thumb=14:thumb_width=22:thumb_shape=diamond:thumb_color=warning/}}
+
+---
+
+## Thumb Width Variations
+
+| Style | Slider |
+|-------|--------|
+| Circle (default) | {{ui:progress:50:width=150:height=6:thumb=14/}} |
+| Wide Oval | {{ui:progress:50:width=150:height=6:thumb=14:thumb_width=24/}} |
+| Extra Wide | {{ui:progress:50:width=150:height=6:thumb=12:thumb_width=32/}} |
+| Tall Oval | {{ui:progress:50:width=150:height=6:thumb=20:thumb_width=10/}} |
+
+---
+
+## iOS-Style Wide Thumbs
+
+**Light Theme:**
+{{ui:progress:60:width=200:height=8:track=ui.panel:fill=info:thumb=16:thumb_width=28:thumb_color=white/}}
+
+**Dark Theme:**
+{{ui:progress:45:width=200:height=8:track=ink:fill=accent:thumb=16:thumb_width=28:thumb_color=slate/}}
+
+---
+
+## Music Player Seek Bar
+
+**Wide Thumb Seek Bar:**
+{{ui:progress:35:width=250:height=4:track=slate:fill=success:thumb=12:thumb_width=20/}}
+
+**Pill Thumb Volume:**
+{{ui:progress:70:width=150:height=4:track=ink:fill=cobalt:thumb=10:thumb_width=24:thumb_color=white/}}
+
+---
+
 *Generated with mdfx progress bar component*

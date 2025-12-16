@@ -378,4 +378,56 @@ When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 
 ---
 
+## Oval/Pill-Shaped Thumbs
+
+Using `thumb_width` to create non-circular slider thumbs:
+
+**Wide Oval Thumb:**
+![](assets/progress_219a9beac25c3a8d.svg)
+
+**Horizontal Pill:**
+![](assets/progress_589f38eab01a4975.svg)
+
+**Tall Oval Thumb:**
+![](assets/progress_b6ed255a366fdcdd.svg)
+
+**Wide Square (Rounded Rectangle):**
+![](assets/progress_f6049bb73848c02e.svg)
+
+**Wide Diamond:**
+![](assets/progress_2bb083c1aaf56adb.svg)
+
+---
+
+## Thumb Width Variations
+
+| Style | Slider |
+|-------|--------|
+| Circle (default) | ![](assets/progress_8ba0321996398e4.svg) |
+| Wide Oval | ![](assets/progress_847c66de4c788559.svg) |
+| Extra Wide | ![](assets/progress_f94060f43fb10522.svg) |
+| Tall Oval | ![](assets/progress_5b3df1b0b42286dd.svg) |
+
+---
+
+## iOS-Style Wide Thumbs
+
+**Light Theme:**
+![](assets/progress_2bca7a98260dacc8.svg)
+
+**Dark Theme:**
+![](assets/progress_fa5c1e4211d9faea.svg)
+
+---
+
+## Music Player Seek Bar
+
+**Wide Thumb Seek Bar:**
+![](assets/progress_2bd6ae1c6401b8f0.svg)
+
+**Pill Thumb Volume:**
+![](assets/progress_19dcf4b4dab52499.svg)
+
+---
+
 *Generated with mdfx progress bar component*
