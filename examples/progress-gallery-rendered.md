@@ -186,8 +186,17 @@ When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 **Large Thumb:**
 ![](assets/progress_467f8a5c03ec5881.svg)
 
-**Minimal Slider:**
-![](assets/progress_799c83b8784c9c60.svg)
+**Minimal Slider (thin track):**
+![](assets/progress_ef53e6264ac96851.svg)
+
+**Thick Track Slider:**
+![](assets/progress_5f1dcb3bfc952abf.svg)
+
+**Barely Larger Thumb:**
+![](assets/progress_774f7ffea44b43c4.svg)
+
+**iOS-style Slider:**
+![](assets/progress_8621812da61ba03f.svg)
 
 ---
 

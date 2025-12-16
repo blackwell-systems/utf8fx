@@ -186,8 +186,17 @@ When `thumb` is set, the progress bar becomes a slider with a thumb indicator:
 **Large Thumb:**
 {{ui:progress:40:width=200:thumb=20:thumb_color=success/}}
 
-**Minimal Slider:**
-{{ui:progress:65:width=200:thumb=10:track=CCCCCC:thumb_color=333333/}}
+**Minimal Slider (thin track):**
+{{ui:progress:65:width=200:height=4:thumb=10:track=CCCCCC:thumb_color=333333/}}
+
+**Thick Track Slider:**
+{{ui:progress:50:width=200:height=10:thumb=14/}}
+
+**Barely Larger Thumb:**
+{{ui:progress:70:width=200:height=12:thumb=16:thumb_color=cobalt/}}
+
+**iOS-style Slider:**
+{{ui:progress:45:width=200:height=8:thumb=20:track=DDDDDD:thumb_color=FFFFFF:border=CCCCCC/}}
 
 ---
 

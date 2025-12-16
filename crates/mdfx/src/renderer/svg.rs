@@ -504,7 +504,7 @@ impl SvgBackend {
         thumb_color: Option<&str>,
         thumb_shape: &str,
     ) -> String {
-        // Slider mode: thin track with thumb at position
+        // Slider mode: track with thumb at position
         if let Some(thumb_sz) = thumb_size {
             return Self::render_slider_svg(
                 percent,
@@ -515,6 +515,8 @@ impl SvgBackend {
                 thumb_sz,
                 thumb_color,
                 thumb_shape,
+                border_color,
+                border_width,
             );
         }
 
@@ -575,7 +577,7 @@ impl SvgBackend {
         )
     }
 
-    /// Render a slider with thin track and thumb at position
+    /// Render a slider with track and thumb at position
     #[allow(clippy::too_many_arguments)]
     fn render_slider_svg(
         percent: u8,
@@ -586,15 +588,28 @@ impl SvgBackend {
         thumb_size: u32,
         thumb_color: Option<&str>,
         thumb_shape: &str,
+        border_color: Option<&str>,
+        border_width: u32,
     ) -> String {
         // SVG height must accommodate the thumb
         let svg_height = height.max(thumb_size);
         let center_y = svg_height / 2;
 
-        // Track is a thin line centered vertically
-        let track_height = 4.min(height); // Track is thin (4px or less)
+        // Track uses the specified height (can be thin or thick)
+        let track_height = height;
         let track_y = center_y - track_height / 2;
-        let track_rx = track_height / 2;
+        let track_rx = (track_height / 2).min(3);
+
+        // Build border attribute for track if specified
+        let border_attr = if let Some(bc) = border_color {
+            if border_width > 0 {
+                format!(" stroke=\"#{}\" stroke-width=\"{}\"", bc, border_width)
+            } else {
+                String::new()
+            }
+        } else {
+            String::new()
+        };
 
         // Thumb position based on percentage
         // Ensure thumb stays within bounds (half thumb width from edges)
@@ -640,11 +655,11 @@ impl SvgBackend {
 
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
   {}\n\
 </svg>",
             width, svg_height, width, svg_height,
-            track_y, width, track_height, track_color, track_rx,
+            track_y, width, track_height, track_color, track_rx, border_attr,
             thumb_elem
         )
     }
