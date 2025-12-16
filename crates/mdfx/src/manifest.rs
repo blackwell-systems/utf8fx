@@ -11,7 +11,7 @@ pub struct AssetEntry {
     pub path: String,
     /// SHA-256 hash of file contents
     pub sha256: String,
-    /// Asset type (swatch, tech, status)
+    /// Asset type (swatch, tech, progress)
     #[serde(rename = "type")]
     pub asset_type: String,
     /// Primitive parameters that generated this asset
@@ -34,6 +34,11 @@ pub enum PrimitiveInfo {
         logo_color: String,
         style: String,
     },
+    Progress {
+        percent: u8,
+        width: u32,
+        height: u32,
+    },
 }
 
 impl From<&Primitive> for PrimitiveInfo {
@@ -53,6 +58,16 @@ impl From<&Primitive> for PrimitiveInfo {
                 bg_color: bg_color.clone(),
                 logo_color: logo_color.clone(),
                 style: style.clone(),
+            },
+            Primitive::Progress {
+                percent,
+                width,
+                height,
+                ..
+            } => PrimitiveInfo::Progress {
+                percent: *percent,
+                width: *width,
+                height: *height,
             },
         }
     }

@@ -622,6 +622,7 @@ fn process_file(
                             let asset_type = match primitive.as_ref() {
                                 mdfx::Primitive::Swatch { .. } => "swatch",
                                 mdfx::Primitive::Tech { .. } => "tech",
+                                mdfx::Primitive::Progress { .. } => "progress",
                             };
                             m.add_asset(
                                 relative_path.clone(),

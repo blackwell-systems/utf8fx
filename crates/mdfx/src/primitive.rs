@@ -6,6 +6,7 @@
 /// Each primitive corresponds to a high-level UI concept:
 /// - Swatch: Single colored block
 /// - Tech: Technology logo badge
+/// - Progress: Progress bar with customizable track and fill
 ///
 /// Text-based transformations (frames, styles, badges) remain as direct
 /// Unicode rendering and don't use this abstraction.
@@ -64,6 +65,28 @@ pub enum Primitive {
         logo_color: String,
         style: String,
     },
+
+    /// Progress bar with customizable track and fill
+    Progress {
+        /// Percentage complete (0-100)
+        percent: u8,
+        /// Total width in pixels
+        width: u32,
+        /// Track (background) height in pixels
+        height: u32,
+        /// Track (background) color
+        track_color: String,
+        /// Fill (slider) color
+        fill_color: String,
+        /// Fill height in pixels (can be less than track height for "floating" effect)
+        fill_height: u32,
+        /// Corner radius
+        rx: u32,
+        /// Show percentage label
+        show_label: bool,
+        /// Label color (if show_label is true)
+        label_color: Option<String>,
+    },
 }
 
 impl Primitive {
@@ -96,6 +119,25 @@ impl Primitive {
             border_right: None,
             border_bottom: None,
             border_left: None,
+        }
+    }
+
+    /// Create a simple progress bar with defaults
+    pub fn simple_progress(
+        percent: u8,
+        track_color: impl Into<String>,
+        fill_color: impl Into<String>,
+    ) -> Self {
+        Primitive::Progress {
+            percent: percent.min(100),
+            width: 100,
+            height: 10,
+            track_color: track_color.into(),
+            fill_color: fill_color.into(),
+            fill_height: 10,
+            rx: 3,
+            show_label: false,
+            label_color: None,
         }
     }
 }
@@ -181,4 +223,35 @@ mod tests {
         }
     }
 
+    #[test]
+    fn test_primitive_progress() {
+        let progress = Primitive::simple_progress(75, "slate", "accent");
+
+        if let Primitive::Progress {
+            percent,
+            width,
+            height,
+            fill_height,
+            ..
+        } = progress
+        {
+            assert_eq!(percent, 75);
+            assert_eq!(width, 100);
+            assert_eq!(height, 10);
+            assert_eq!(fill_height, 10);
+        } else {
+            panic!("Expected Progress primitive");
+        }
+    }
+
+    #[test]
+    fn test_primitive_progress_clamped() {
+        let progress = Primitive::simple_progress(150, "slate", "accent");
+
+        if let Primitive::Progress { percent, .. } = progress {
+            assert_eq!(percent, 100); // Clamped to 100
+        } else {
+            panic!("Expected Progress primitive");
+        }
+    }
 }

@@ -424,7 +424,7 @@ Colon-separated key=value pairs:
 
 **Shipped:**
 - 23 Unicode text styles with aliases
-- 3 UI components (swatch, tech, row)
+- 4 UI components (swatch, tech, row, progress)
 - 27 inline frames
 - 6 alphanumeric badge types
 - Custom separators and spacing
@@ -433,7 +433,7 @@ Colon-separated key=value pairs:
 - CLI and Rust library
 
 **Planned:**
-- Additional UI components (progress bars, tables, diagrams)
+- Additional UI components (tables, diagrams)
 - WASM bindings for browser/Node.js
 - VS Code extension with preview
 - Watch mode for live regeneration

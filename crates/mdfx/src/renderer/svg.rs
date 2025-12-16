@@ -172,12 +172,35 @@ impl SvgBackend {
                 logo_color.hash(&mut hasher);
                 style.hash(&mut hasher);
             }
+            Primitive::Progress {
+                percent,
+                width,
+                height,
+                track_color,
+                fill_color,
+                fill_height,
+                rx,
+                show_label,
+                label_color,
+            } => {
+                "progress".hash(&mut hasher);
+                percent.hash(&mut hasher);
+                width.hash(&mut hasher);
+                height.hash(&mut hasher);
+                track_color.hash(&mut hasher);
+                fill_color.hash(&mut hasher);
+                fill_height.hash(&mut hasher);
+                rx.hash(&mut hasher);
+                show_label.hash(&mut hasher);
+                label_color.hash(&mut hasher);
+            }
         }
 
         let hash = hasher.finish();
         let type_name = match primitive {
             Primitive::Swatch { .. } => "swatch",
             Primitive::Tech { .. } => "tech",
+            Primitive::Progress { .. } => "progress",
         };
 
         format!("{}_{:x}.svg", type_name, hash)
@@ -452,6 +475,62 @@ impl SvgBackend {
             name.to_uppercase()
         )
     }
+
+    /// Render a progress bar with track and fill
+    #[allow(clippy::too_many_arguments)]
+    fn render_progress_svg(
+        percent: u8,
+        width: u32,
+        height: u32,
+        track_color: &str,
+        fill_color: &str,
+        fill_height: u32,
+        rx: u32,
+        show_label: bool,
+        label_color: Option<&str>,
+    ) -> String {
+        // Calculate fill width based on percentage
+        let fill_width = (width as f32 * percent as f32 / 100.0) as u32;
+
+        // Center the fill vertically if it's shorter than track
+        let fill_y = if fill_height < height {
+            (height - fill_height) / 2
+        } else {
+            0
+        };
+
+        // Use a slightly smaller rx for the fill if height differs
+        let fill_rx = if fill_height < height {
+            rx.min(fill_height / 2)
+        } else {
+            rx
+        };
+
+        // Build label element if requested
+        let label_elem = if show_label && width >= 40 {
+            let label_col = label_color.unwrap_or("FFFFFF");
+            let font_size = if height >= 16 { 11 } else { 9 };
+            let text_y = height / 2 + font_size / 3;
+            let text_x = width / 2;
+            format!(
+                "\n  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"Arial, sans-serif\" font-size=\"{}\" font-weight=\"bold\">{}%</text>",
+                text_x, text_y, label_col, font_size, percent
+            )
+        } else {
+            String::new()
+        };
+
+        format!(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <rect x=\"0\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>{}\n\
+</svg>",
+            width, height, width, height,
+            width, height, track_color, rx,
+            fill_y, fill_width, fill_height, fill_color, fill_rx,
+            label_elem
+        )
+    }
 }
 
 impl Renderer for SvgBackend {
@@ -509,6 +588,28 @@ impl Renderer for SvgBackend {
                 logo_color,
                 style,
             } => Self::render_tech_svg(name, bg_color, logo_color, style),
+
+            Primitive::Progress {
+                percent,
+                width,
+                height,
+                track_color,
+                fill_color,
+                fill_height,
+                rx,
+                show_label,
+                label_color,
+            } => Self::render_progress_svg(
+                *percent,
+                *width,
+                *height,
+                track_color,
+                fill_color,
+                *fill_height,
+                *rx,
+                *show_label,
+                label_color.as_deref(),
+            ),
         };
 
         // Handle inline mode (raw SVG) vs file mode

@@ -130,7 +130,7 @@ Components are defined in `registry.json` under `renderables.components`:
 
 **type** (`"expand"` or `"native"`)
 - `"expand"` - Template substitution components (user-defined partials)
-- `"native"` - Rust-implemented logic (swatch, tech, row)
+- `"native"` - Rust-implemented logic (swatch, tech, row, progress)
 
 **self_closing** (`boolean`)
 - `true` → `{{ui:component/}}` (no closing tag)
@@ -214,6 +214,46 @@ Components are defined in `registry.json` under `renderables.components`:
 3. Wraps in `<p align="...">` for GitHub compatibility
 
 **Why HTML output?** GitHub Flavored Markdown doesn't parse markdown syntax inside HTML blocks, so we must emit `<img>` tags directly for alignment to work.
+
+#### progress
+```json
+{
+  "type": "native",
+  "self_closing": true,
+  "description": "Progress bar with customizable track and fill",
+  "contexts": ["inline", "block"],
+  "args": ["percent"],
+  "optional_params": {
+    "width": { "type": "number", "default": "100" },
+    "height": { "type": "number", "default": "10" },
+    "fill_height": { "type": "number", "default": "same as height" },
+    "track": { "type": "color", "default": "slate" },
+    "fill": { "type": "color", "default": "accent" },
+    "rx": { "type": "number", "default": "3" },
+    "label": { "type": "boolean", "default": "false" },
+    "label_color": { "type": "color", "default": "white" }
+  }
+}
+```
+
+**Basic usage:** `{{ui:progress:75/}}`
+
+**Customized:** `{{ui:progress:50:width=200:height=16:fill=success/}}`
+
+**Floating fill effect:** `{{ui:progress:80:height=12:fill_height=8/}}`
+
+**With label:** `{{ui:progress:65:width=150:label=true/}}`
+
+**How it works:**
+1. Generates SVG with two overlapping rectangles (track + fill)
+2. Fill width calculated as `(width * percent / 100)`
+3. If `fill_height < height`, fill is vertically centered
+4. Label shows percentage text centered on the bar
+
+**Backends:**
+- **SVG:** Full rendering with all features
+- **Shields.io:** Fallback badge showing "XX%"
+- **Plaintext:** ASCII bar `[=====>    ] 50%`
 
 ## Design Tokens
 

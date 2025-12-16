@@ -70,6 +70,20 @@ impl Renderer for ShieldsBackend {
             } => self
                 .shields
                 .render_icon(name, bg_color, logo_color, style)?,
+
+            // Progress bars use a simple percentage badge as shields.io fallback
+            // Full progress bar rendering requires SVG backend
+            Primitive::Progress {
+                percent,
+                fill_color,
+                ..
+            } => {
+                let label = format!("{}%25", percent); // URL-encoded %
+                format!(
+                    "![](https://img.shields.io/badge/{}-{}-{}?style=flat-square)",
+                    label, label, fill_color
+                )
+            }
         };
 
         Ok(RenderedAsset::InlineMarkdown(markdown))

@@ -295,6 +295,78 @@ impl ComponentsRenderer {
                 }))
             }
 
+            "progress" => {
+                if args.is_empty() {
+                    return Err(Error::ParseError(
+                        "progress component requires a percentage argument".to_string(),
+                    ));
+                }
+
+                // Parse percentage (first arg)
+                let percent: u8 = args[0]
+                    .parse()
+                    .map_err(|_| {
+                        Error::ParseError(format!(
+                            "Invalid percentage '{}' - must be a number 0-100",
+                            args[0]
+                        ))
+                    })?;
+                let percent = percent.min(100);
+
+                // Extract optional parameters
+                let (_, params) = Self::extract_params(&args);
+
+                let width: u32 = params
+                    .get("width")
+                    .and_then(|v| v.parse().ok())
+                    .unwrap_or(100);
+
+                let height: u32 = params
+                    .get("height")
+                    .and_then(|v| v.parse().ok())
+                    .unwrap_or(10);
+
+                let fill_height: u32 = params
+                    .get("fill_height")
+                    .and_then(|v| v.parse().ok())
+                    .unwrap_or(height);
+
+                let track_color = params
+                    .get("track")
+                    .or(params.get("color"))
+                    .map(|c| self.resolve_color(c))
+                    .unwrap_or_else(|| self.resolve_color("slate"));
+
+                let fill_color = params
+                    .get("fill")
+                    .map(|c| self.resolve_color(c))
+                    .unwrap_or_else(|| self.resolve_color("accent"));
+
+                let rx: u32 = params
+                    .get("rx")
+                    .and_then(|v| v.parse().ok())
+                    .unwrap_or(3);
+
+                let show_label = params
+                    .get("label")
+                    .map(|v| v == "true" || v == "1")
+                    .unwrap_or(false);
+
+                let label_color = params.get("label_color").map(|c| self.resolve_color(c));
+
+                Ok(ComponentOutput::Primitive(Primitive::Progress {
+                    percent,
+                    width,
+                    height,
+                    track_color,
+                    fill_color,
+                    fill_height,
+                    rx,
+                    show_label,
+                    label_color,
+                }))
+            }
+
             "row" => {
                 // Extract align parameter (default: center)
                 let (_, params) = Self::extract_params(&args);

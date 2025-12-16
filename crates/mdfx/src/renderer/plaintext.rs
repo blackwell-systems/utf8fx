@@ -12,6 +12,7 @@ use crate::renderer::{RenderedAsset, Renderer};
 /// Renders primitives as ASCII-compatible text representations:
 /// - Swatches: `[#RRGGBB]` color codes
 /// - Tech badges: `[Technology]` text labels
+/// - Progress: `[=====>    ] 50%` ASCII bars
 #[derive(Debug, Clone, Default)]
 pub struct PlainTextBackend;
 
@@ -40,6 +41,17 @@ impl Renderer for PlainTextBackend {
 
             Primitive::Tech { name, .. } => {
                 format!("[{}]", name)
+            }
+
+            Primitive::Progress { percent, .. } => {
+                // Render as ASCII progress bar: [=====>    ] 50%
+                let width = 10;
+                let filled = (*percent as usize * width / 100).min(width);
+                let empty = width - filled;
+                let bar: String = "=".repeat(filled.saturating_sub(1))
+                    + if filled > 0 { ">" } else { "" }
+                    + &" ".repeat(empty);
+                format!("[{}] {}%", bar, percent)
             }
         };
 

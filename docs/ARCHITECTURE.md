@@ -464,7 +464,7 @@ let output = parser.process(&input)?;
 
 ### Overview
 
-UI components (swatch, tech, row) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
+UI components (swatch, tech, row, progress) render to **semantic primitives** which are then processed by a pluggable **rendering backend**. This architecture allows the same `{{ui:*}}` templates to generate different output formats without changing user code.
 
 The backend is selected at parser construction time:
 ```rust
@@ -1109,7 +1109,7 @@ pub enum ComponentOutput {
 
 **Expansion Algorithm:**
 
-**For Native components (swatch, tech, row):**
+**For Native components (swatch, tech, row, progress):**
 1. Resolve palette colors from args
 2. Construct Primitive enum variant directly
 3. Return `ComponentOutput::Primitive(primitive)`

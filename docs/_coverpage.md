@@ -16,7 +16,7 @@ mdfx = "1.0"
 - **23 Unicode Styles** - mathbold, script, fraktur, subscript, superscript, and more
 - **Template Syntax** - `{{mathbold}}TEXT{{/mathbold}}` transforms automatically
 - **30+ Frames** - Combos, modifiers, glyph frames with reverse & count
-- **3 UI Components** - Swatches, tech badges, rows
+- **4 UI Components** - Swatches, tech badges, rows, progress bars
 - **5 Targets** - GitHub, GitLab, npm, PyPI, local docs
 - **4 Backends** - shields.io, SVG, plaintext, hybrid (auto-select)
 - **LSP Server** - IDE autocompletion for VS Code and others

@@ -642,6 +642,55 @@
             "description": "Horizontal alignment of the row"
           }
         }
+      },
+      "progress": {
+        "type": "native",
+        "self_closing": true,
+        "description": "Progress bar with customizable track and fill colors/heights",
+        "contexts": ["inline", "block"],
+        "args": ["percent"],
+        "optional_params": {
+          "width": {
+            "type": "number",
+            "default": "100",
+            "description": "Total width in pixels"
+          },
+          "height": {
+            "type": "number",
+            "default": "10",
+            "description": "Track height in pixels"
+          },
+          "fill_height": {
+            "type": "number",
+            "default": "same as height",
+            "description": "Fill height in pixels (can be less than track for floating effect)"
+          },
+          "track": {
+            "type": "color",
+            "default": "slate",
+            "description": "Track (background) color"
+          },
+          "fill": {
+            "type": "color",
+            "default": "accent",
+            "description": "Fill (progress) color"
+          },
+          "rx": {
+            "type": "number",
+            "default": "3",
+            "description": "Corner radius"
+          },
+          "label": {
+            "type": "boolean",
+            "default": "false",
+            "description": "Show percentage label"
+          },
+          "label_color": {
+            "type": "color",
+            "default": "white",
+            "description": "Label text color"
+          }
+        }
       }
     },
 
@@ -1434,7 +1483,7 @@
 
   "metadata": {
     "total_glyphs": 493,
-    "total_components": 3,
+    "total_components": 4,
     "total_frames": 27,
     "total_styles": 23,
     "total_palette_colors": 15,
