@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-17T20:50:05.467754142+00:00",
+  "created_at": "2025-12-17T20:57:08.095957265+00:00",
   "backend": "svg",
   "assets_dir": "assets",
   "total_assets": 41,
@@ -63,8 +63,8 @@
       "size_bytes": 164
     },
     {
-      "path": "assets/progress_8194cde2c1037a78.svg",
-      "sha256": "1d4d4089765eae001f82364ff466cb2dae160775f911fdd638cbd554e2087985",
+      "path": "assets/progress_852a234fef787503.svg",
+      "sha256": "68c6c4955941da135b939507215c59e932cae331a51af1000755338556c1d209",
       "type": "progress",
       "primitive": {
         "kind": "Progress",
@@ -75,8 +75,8 @@
       "size_bytes": 211
     },
     {
-      "path": "assets/donut_d37f8d60de67187.svg",
-      "sha256": "d151a475f248c9ae8548c1384980e2f67c49cdbe7b1cb9d31113a808708839b7",
+      "path": "assets/donut_6edc7eef1bdce5bc.svg",
+      "sha256": "104b70bc10e58070e0b940e6d4187f13b3c5e41407e639eab1ac41e0d7ff5855",
       "type": "donut",
       "primitive": {
         "kind": "Donut",
@@ -87,8 +87,8 @@
       "size_bytes": 325
     },
     {
-      "path": "assets/gauge_d7c8db8eb599f329.svg",
-      "sha256": "3956064ae1e3170a2922fa525e5912e22e1b7f2ae99abf3150af83ad28e5a34a",
+      "path": "assets/gauge_3b0f180b75d1bb16.svg",
+      "sha256": "7b7f043b9981ef141c3e7ab2bcce812951b9e8313114ce75d315ba2fdea9fdf3",
       "type": "gauge",
       "primitive": {
         "kind": "Gauge",
@@ -99,8 +99,8 @@
       "size_bytes": 361
     },
     {
-      "path": "assets/sparkline_6c20f5563ba6eebd.svg",
-      "sha256": "d1efd2f9e27eeaffc58399db349db09701262c6d91b0f8ac4d75e2faa7d89796",
+      "path": "assets/sparkline_f927d7bae307e7ac.svg",
+      "sha256": "b85a84fd46f342eb67ab5cbfeae3a7cb87d8a6f0bd729749cc6d8d679d24a70c",
       "type": "sparkline",
       "primitive": {
         "kind": "Sparkline",
@@ -109,7 +109,7 @@
         "height": 16,
         "chart_type": "line"
       },
-      "size_bytes": 280
+      "size_bytes": 328
     },
     {
       "path": "assets/progress_8c3ecedcea0c2152.svg",
