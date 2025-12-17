@@ -178,6 +178,7 @@ mdfx build input.md --all-targets
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
+| [Tech Badges](docs/guides/TECH-GUIDE.md) | Brand logos |
 | [CLI](docs/guides/CLI-GUIDE.md) | Commands |
 
 ---
