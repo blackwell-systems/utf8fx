@@ -9,6 +9,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Incremental Asset Generation
+
+- **Skip existing assets** - SVG backend now checks if files exist before writing
+- **Hash-based filenames** - Same component parameters produce identical filenames, so existing files have correct content
+- **Progress reporting** - CLI shows "N written, M unchanged" instead of listing every file
+- **Faster rebuilds** - Repeated `mdfx process` runs skip all unchanged assets
+
+**Before:**
+```
+Info: Writing 41 asset(s) to assets/
+  Wrote: assets/swatch_abc123.svg
+  ... (writes all files every time)
+```
+
+**After:**
+```
+Info: Assets: 41 unchanged (assets/)           # Second run
+Info: Assets: 2 written, 39 unchanged (assets/)  # Only new assets
+```
+
+#### Intelligent Tech Badge Colors
+
+- **Auto logo color** - Logo color automatically selects black or white based on background luminance
+- **ITU-R BT.709 luminance** - Uses standard formula: `0.2126*R + 0.7152*G + 0.0722*B`
+- **Light backgrounds** - Rust (orange), Go (cyan) get black logos for contrast
+- **Dark backgrounds** - PostgreSQL (blue), Docker (blue) get white logos
+- **Manual override** - Use `logo=000000` or `logo=FFFFFF` to override
+
+**Usage:**
+```markdown
+{{ui:tech:rust/}}        <!-- Orange bg → black logo (automatic) -->
+{{ui:tech:postgresql/}}  <!-- Blue bg → white logo (automatic) -->
+{{ui:tech:go:logo=white/}}  <!-- Override: force white logo -->
+```
+
+#### Tech Badge Text Customization
+
+- **Text color** - `text_color`, `text`, or `color` parameter for label color
+- **Font family** - `font` or `font_family` parameter for custom fonts
+- **Intelligent defaults** - Text color auto-selects based on right segment luminance
+
+**Usage:**
+```markdown
+{{ui:tech:rust:text_color=white/}}           <!-- White text -->
+{{ui:tech:python:font=Monaco,monospace/}}    <!-- Custom font -->
+{{ui:tech:go:text=000000:font=Arial/}}       <!-- Both customized -->
+```
+
 #### Gauge Component
 
 - **Semi-circular gauge meter** - Half-donut style visualization for dashboards
