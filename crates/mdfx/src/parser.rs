@@ -681,13 +681,13 @@ impl TemplateParser {
             let prefix_with_sep: String = prefix
                 .trim()
                 .graphemes(true)
-                .map(|g| text_style(g))
+                .map(text_style)
                 .collect::<Vec<_>>()
                 .join(&join_str);
             let suffix_with_sep: String = suffix
                 .trim()
                 .graphemes(true)
-                .map(|g| text_style(g))
+                .map(text_style)
                 .collect::<Vec<_>>()
                 .join(&join_str);
 
