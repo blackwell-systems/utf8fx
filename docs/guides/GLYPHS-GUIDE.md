@@ -497,6 +497,30 @@ For documenting keyboard shortcuts:
 ```
 Output: `⌘+C = Copy, ⌘+V = Paste`
 
+### Chess Pieces
+
+Full set of Unicode chess pieces:
+
+| Name | Char | Name | Char |
+|------|------|------|------|
+| `chess.king.white` | ♔ | `chess.king.black` | ♚ |
+| `chess.queen.white` | ♕ | `chess.queen.black` | ♛ |
+| `chess.rook.white` | ♖ | `chess.rook.black` | ♜ |
+| `chess.bishop.white` | ♗ | `chess.bishop.black` | ♝ |
+| `chess.knight.white` | ♘ | `chess.knight.black` | ♞ |
+| `chess.pawn.white` | ♙ | `chess.pawn.black` | ♟ |
+
+**Example - Starting position:**
+```markdown
+{{glyph:chess.rook.black/}}{{glyph:chess.knight.black/}}{{glyph:chess.bishop.black/}}{{glyph:chess.queen.black/}}{{glyph:chess.king.black/}}{{glyph:chess.bishop.black/}}{{glyph:chess.knight.black/}}{{glyph:chess.rook.black/}}
+{{glyph:chess.pawn.black/}}{{glyph:chess.pawn.black/}}{{glyph:chess.pawn.black/}}{{glyph:chess.pawn.black/}}{{glyph:chess.pawn.black/}}{{glyph:chess.pawn.black/}}{{glyph:chess.pawn.black/}}{{glyph:chess.pawn.black/}}
+```
+Output:
+```
+♜♞♝♛♚♝♞♜
+♟♟♟♟♟♟♟♟
+```
+
 ---
 
 ## Examples

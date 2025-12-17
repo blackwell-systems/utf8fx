@@ -612,7 +612,20 @@
       "key.space": "␣",
       "key.eject": "⏏",
       "key.power": "⏻",
-      "key.enter": "⌅"
+      "key.enter": "⌅",
+
+      "chess.king.white": "♔",
+      "chess.queen.white": "♕",
+      "chess.rook.white": "♖",
+      "chess.bishop.white": "♗",
+      "chess.knight.white": "♘",
+      "chess.pawn.white": "♙",
+      "chess.king.black": "♚",
+      "chess.queen.black": "♛",
+      "chess.rook.black": "♜",
+      "chess.bishop.black": "♝",
+      "chess.knight.black": "♞",
+      "chess.pawn.black": "♟"
     },
 
     "components": {
