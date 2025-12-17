@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="90" viewBox="0 0 200 90">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+<feDropShadow dx="6" dy="6" stdDeviation="12" flood-color="#000000" flood-opacity="0.8"/>
+</filter>
+
+  </defs>
+  <rect x="10" y="10" width="180" height="70" fill="#1a1a2e" rx="6" ry="6" filter="url(#shadow)"/>
+  <text x="100" y="49" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">FLOATING</text>
+</svg>

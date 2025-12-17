@@ -254,7 +254,7 @@ Depends on use case:
 - **Scripts**: 159 distinct writing systems
 
 ### UTF-8 Encoding
-mdfx uses UTF-8 encoding (hence the original name "utf8fx"):
+mdfx uses UTF-8 encoding:
 ```
 'A' (U+0041)     → 1 byte:  41
 '𝐀' (U+1D400)    → 4 bytes: F0 9D 90 80

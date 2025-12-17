@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.0.0] - 2025-12-17
 
 ### Added
 
@@ -612,9 +612,7 @@ mdfx process --target github --backend svg input.md  # Override backend
 - **Trailing newline preservation** - Parser now correctly preserves trailing newlines after components
 - **Whitespace handling** - Fixed edge cases in component expansion (empty lines, indentation, list contexts)
 
-## [1.0.0] - 2025-12-13
-
-### Added
+### Initial Release Foundation
 
 #### Badge Style Control
 

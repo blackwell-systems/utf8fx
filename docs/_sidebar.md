@@ -31,8 +31,8 @@
   - [VS Code Extension](/guides/VSCODE-PUBLISHING.md)
 
 - **🎨 Design Resources**
-  - [Unicode Elements](/unicode-design-elements.md)
-  - [Planning & Roadmap](/PLANNING.md)
+  - [Architecture](/ARCHITECTURE.md)
+  - [Roadmap](/ROADMAP.md)
 
 - **Links**
   - [GitHub](https://github.com/blackwell-systems/mdfx)
