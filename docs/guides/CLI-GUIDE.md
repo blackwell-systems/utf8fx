@@ -15,11 +15,15 @@ Command-line usage for mdfx, including multi-target rendering.
 - [Backends](#backends)
   - [Backend Selection](#backend-selection)
   - [Hybrid Backend](#hybrid-backend)
+  - [Incremental Asset Generation](#incremental-asset-generation)
 - [Configuration File](#configuration-file)
   - [Auto-Discovery](#auto-discovery)
   - [Config File Format](#config-file-format)
   - [Using Partials](#using-partials)
 - [Custom Palettes](#custom-palettes)
+- [Tech Badges](#tech-badges)
+  - [Intelligent Logo Colors](#intelligent-logo-colors)
+  - [Text Customization](#text-customization)
 - [Common Workflows](#common-workflows)
 - [Other Commands](#other-commands)
   - [mdfx verify](#mdfx-verify)
@@ -275,6 +279,21 @@ mdfx process input.md --backend hybrid -o output.md
 - Simple swatches → shields.io (fast, no files)
 - Gradients, shadows, custom borders → SVG (full features)
 
+### Incremental Asset Generation
+
+When using the SVG backend, mdfx only writes new assets:
+
+```bash
+$ mdfx process input.md --backend svg -o output.md
+Info: Assets: 2 written, 39 unchanged (assets/mdfx)
+```
+
+- **Hash-based filenames** - Same component parameters produce identical filenames
+- **Skip existing** - Files that already exist are not rewritten
+- **Faster rebuilds** - Repeated builds only write changed/new assets
+
+This makes watch mode and CI builds much faster when most assets haven't changed.
+
 ---
 
 ## Configuration File
@@ -361,6 +380,72 @@ Then reference in templates:
 ```markdown
 {{ui:swatch:brand/}}
 {{ui:swatch:primary/}}
+```
+
+---
+
+## Tech Badges
+
+Tech badges display technology logos with brand colors using Simple Icons.
+
+### Basic Usage
+
+```markdown
+{{ui:tech:rust/}}
+{{ui:tech:python/}}
+{{ui:tech:typescript/}}
+```
+
+### Intelligent Logo Colors
+
+Logo colors are automatically selected based on background luminance:
+
+| Background | Logo Color | Example |
+|------------|------------|---------|
+| Light (orange, cyan) | Black | Rust, Go |
+| Dark (blue, black) | White | PostgreSQL, Docker |
+
+Override with `logo` parameter:
+
+```markdown
+{{ui:tech:rust:logo=white/}}      <!-- Force white logo -->
+{{ui:tech:docker:logo=000000/}}   <!-- Force black logo -->
+```
+
+### Text Customization
+
+Customize the label text appearance:
+
+```markdown
+{{ui:tech:rust:text_color=white/}}           <!-- White text -->
+{{ui:tech:python:font=Monaco,monospace/}}    <!-- Custom font -->
+{{ui:tech:go:text=000000:font=Arial/}}       <!-- Both -->
+```
+
+**Parameters:**
+
+| Parameter | Aliases | Description |
+|-----------|---------|-------------|
+| `text_color` | `text`, `color` | Label text color (hex) |
+| `font` | `font_family` | Font family for label |
+| `logo` | - | Logo color override (hex) |
+| `bg` | - | Background color override |
+| `label` | - | Custom label text |
+
+### Examples
+
+```markdown
+<!-- Default: auto logo color based on brand -->
+{{ui:tech:rust/}}
+
+<!-- Custom styling -->
+{{ui:tech:postgresql:text_color=FFFFFF:font=monospace/}}
+
+<!-- Override background -->
+{{ui:tech:docker:bg=000000/}}
+
+<!-- Custom label -->
+{{ui:tech:typescript:label=TS/}}
 ```
 
 ---

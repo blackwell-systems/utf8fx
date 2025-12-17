@@ -14,6 +14,7 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 |-------|-------------|
 | [Colors](COLORS-GUIDE.md) | Palette tokens, custom palettes, hex passthrough |
 | [Swatches](SWATCH-GUIDE.md) | Color blocks with 10 parameters, 5 styles, pixel art techniques |
+| [Tech Badges](TECH-GUIDE.md) | Technology logos with brand colors, auto logo colors, text customization |
 | [Components](COMPONENTS-GUIDE.md) | UI elements: swatch, tech, row, progress |
 | [Frames](FRAMES-GUIDE.md) | 30+ decorative frames with combos, modifiers, and glyph frames |
 
@@ -23,7 +24,6 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 |-------|-------------|
 | [Text Styles](TEXT-STYLES-GUIDE.md) | 24 Unicode typography styles (bold, script, gothic, subscript, etc.) |
 | [Glyphs](GLYPHS-GUIDE.md) | 531 Unicode symbols organized by category |
-| [Badges](BADGES-GUIDE.md) | Circled numbers, squared letters, and enclosed characters |
 
 ## Data Visualization
 

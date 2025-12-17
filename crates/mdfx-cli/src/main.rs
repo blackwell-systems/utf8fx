@@ -598,13 +598,6 @@ fn process_file(
         // Ensure assets directory exists
         fs::create_dir_all(assets_dir).map_err(Error::IoError)?;
 
-        eprintln!(
-            "{} Writing {} asset(s) to {}",
-            "Info:".cyan(),
-            processed_result.assets.len(),
-            assets_dir
-        );
-
         // Build manifest for SVG backend
         let mut manifest = if matches!(backend_type, BackendType::Svg) {
             Some(AssetManifest::new("svg", assets_dir))
@@ -612,12 +605,21 @@ fn process_file(
             None
         };
 
+        let mut written = 0;
+        let mut skipped = 0;
+
         for asset in &processed_result.assets {
             if let Some(path) = asset.file_path() {
                 if let Some(bytes) = asset.file_bytes() {
-                    // Write the asset file
-                    fs::write(path, bytes).map_err(Error::IoError)?;
-                    eprintln!("  {} {}", "Wrote:".green(), path);
+                    // Skip if file already exists (hash-based names mean same content)
+                    let path_ref = std::path::Path::new(path);
+                    if path_ref.exists() {
+                        skipped += 1;
+                    } else {
+                        // Write the asset file
+                        fs::write(path, bytes).map_err(Error::IoError)?;
+                        written += 1;
+                    }
 
                     // Add to manifest if SVG backend
                     if let Some(ref mut m) = manifest {
@@ -654,7 +656,23 @@ fn process_file(
         if let Some(manifest) = manifest {
             let manifest_path = format!("{}/manifest.json", assets_dir);
             manifest.write(std::path::Path::new(&manifest_path))?;
-            eprintln!("  {} {}", "Wrote:".green(), manifest_path);
+        }
+
+        // Report asset generation results
+        if written > 0 || skipped > 0 {
+            let mut parts = Vec::new();
+            if written > 0 {
+                parts.push(format!("{} written", written));
+            }
+            if skipped > 0 {
+                parts.push(format!("{} unchanged", skipped));
+            }
+            eprintln!(
+                "{} Assets: {} ({})",
+                "Info:".cyan(),
+                parts.join(", "),
+                assets_dir
+            );
         }
     }
 
@@ -1134,12 +1152,15 @@ fn build_multi_target(
         // Process content
         let processed_result = parser.process_with_assets(&content)?;
 
-        // Write any file-based assets
+        // Write any file-based assets (skip existing)
         if !processed_result.assets.is_empty() {
             for asset in &processed_result.assets {
                 if let Some(path) = asset.file_path() {
                     if let Some(bytes) = asset.file_bytes() {
-                        fs::write(path, bytes).map_err(Error::IoError)?;
+                        let path_ref = std::path::Path::new(path);
+                        if !path_ref.exists() {
+                            fs::write(path, bytes).map_err(Error::IoError)?;
+                        }
                     }
                 }
             }
