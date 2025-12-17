@@ -12,8 +12,9 @@
 
 ## 【︎At a Glance】︎
 
+<!-- Neon showcase: manually curated assets, do not regenerate -->
 <p align="center">
-<img alt="" src="assets/progress_8194cde2c1037a78.svg"> <img alt="" src="assets/donut_d37f8d60de67187.svg"> <img alt="" src="assets/gauge_d7c8db8eb599f329.svg"> <img alt="" src="assets/sparkline_6c20f5563ba6eebd.svg">
+<img alt="" src="assets/progress_fc9e4dc664048574.svg"> <img alt="" src="assets/donut_2b901d88c0f805d6.svg"> <img alt="" src="assets/gauge_c0f052769cb69ff6.svg"> <img alt="" src="assets/sparkline_2e6de6cd98cb8040.svg">
 </p>
 
 Write this:

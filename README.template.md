@@ -12,9 +12,10 @@
 
 ## {{frame:lenticular}}At a Glance{{/frame}}
 
-{{ui:row}}
-{{ui:progress:85:width=100:height=10:fill=success/}} {{ui:donut:72:size=28:thickness=3:fill=info/}} {{ui:gauge:58:size=44:thickness=5:fill=warning/}} {{ui:sparkline:2,5,3,8,4,9,6,7:width=80:height=16:fill=accent/}}
-{{/ui}}
+<!-- Neon showcase: manually curated assets, do not regenerate -->
+<p align="center">
+<img alt="" src="assets/progress_fc9e4dc664048574.svg"> <img alt="" src="assets/donut_2b901d88c0f805d6.svg"> <img alt="" src="assets/gauge_c0f052769cb69ff6.svg"> <img alt="" src="assets/sparkline_2e6de6cd98cb8040.svg">
+</p>
 
 Write this:
 ```markdown
