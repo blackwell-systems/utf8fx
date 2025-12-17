@@ -6,6 +6,8 @@
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
 
+**Zero runtime dependencies.** Generate self-contained SVG assets that render anywhere—no shields.io, no CDNs, no external requests. Your documentation works offline, forever.
+
 ---
 
 ## {{frame:lenticular}}At a Glance{{/frame}}
@@ -102,6 +104,10 @@ cargo install mdfx-cli
 | Bar | {{ui:sparkline:3,7,2,9,5,8,4,6:type=bar:width=100:height=16:fill=info/}} |
 | Area | {{ui:sparkline:3,7,2,9,5,8,4,6:type=area:width=100:height=16:fill=plum/}} |
 
+### Waveforms
+
+{{ui:waveform:0.2,0.5,0.8,0.6,0.3,-0.2,-0.6,-0.9,-0.5,-0.2,0.1,0.4,0.7,0.5,0.2,-0.1,-0.4,-0.7,-0.4,-0.1,0.2,0.5,0.8,0.5:width=200:height=32:positive=accent:negative=accent:bar=2:spacing=1/}}
+
 ### Swatches
 
 {{ui:row}}
@@ -160,6 +166,7 @@ Custom: `mdfx process --palette brand.json input.md`
 | [Progress](docs/guides/PROGRESS-GUIDE.md) | Progress bars |
 | [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
+| [Waveforms](docs/guides/WAVEFORM-GUIDE.md) | Audio viz |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
