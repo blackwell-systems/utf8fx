@@ -450,6 +450,8 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            text_color: None,
+            font: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -470,6 +472,8 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            text_color: None,
+            font: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
@@ -491,6 +495,8 @@ mod tests {
             border_color: Some("F41C80".to_string()),
             border_width: Some(2),
             rx: Some(8),
+            text_color: None,
+            font: None,
         };
 
         if let Primitive::Tech {

@@ -336,6 +336,8 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            text_color: None,
+            font: None,
         };
 
         let info = PrimitiveInfo::from(&primitive);

@@ -612,11 +612,11 @@ mod tests {
             .expand("tech", &["rust".to_string()], None)
             .unwrap();
 
-        // Tech should return a Primitive::Tech
+        // Tech should return a Primitive::Tech with brand color
         match result {
             ComponentOutput::Primitive(Primitive::Tech { name, bg_color, .. }) => {
                 assert_eq!(name, "rust");
-                assert_eq!(bg_color, "292A2D"); // dark1 resolved
+                assert_eq!(bg_color, "DEA584"); // Rust brand color
             }
             _ => panic!("Expected Primitive::Tech"),
         }
