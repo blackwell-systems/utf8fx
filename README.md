@@ -148,7 +148,7 @@ cargo install mdfx-cli
 ### Tech
 
 <p align="center">
-<img alt="" src="assets/tech_280e4169ab654a30.svg"> <img alt="" src="assets/tech_e0a66117821b4ab4.svg"> <img alt="" src="assets/tech_9403fca3232fbd53.svg"> <img alt="" src="assets/tech_b3176b9aa0bc8dac.svg"> <img alt="" src="assets/tech_2cb657d0c91a4b65.svg"> <img alt="" src="assets/tech_f44b382c3419bb2a.svg">
+<img alt="" src="assets/swatch_d0bde72940f43f46.svg"> <img alt="" src="assets/swatch_9cd99a2098f17346.svg"> <img alt="" src="assets/swatch_91cc34f5d9e2006a.svg"> <img alt="" src="assets/swatch_eb1825990e42203a.svg"> <img alt="" src="assets/swatch_881a50fd59af5e6.svg"> <img alt="" src="assets/swatch_59c524997490f439.svg">
 </p>
 
 ---
