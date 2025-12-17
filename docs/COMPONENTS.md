@@ -388,6 +388,90 @@ Components are defined in `registry.json` under `renderables.components`:
 - **Shields.io:** Fallback badge showing data range (min..max)
 - **Plaintext:** Unicode sparkline using block characters (▁▂▃▄▅▆▇█)
 
+#### rating
+```json
+{
+  "type": "native",
+  "self_closing": true,
+  "description": "Star/heart/circle rating display with partial fill support",
+  "contexts": ["inline", "block"],
+  "args": ["value"],
+  "optional_params": {
+    "max": { "type": "number", "default": "5" },
+    "size": { "type": "number", "default": "20" },
+    "fill": { "type": "color", "default": "warning" },
+    "empty": { "type": "color", "default": "gray" },
+    "icon": { "type": "string", "default": "star", "values": ["star", "heart", "circle"] },
+    "spacing": { "type": "number", "default": "2" }
+  }
+}
+```
+
+**Basic usage:** `{{ui:rating:3.5/}}`
+
+**Full 5 stars:** `{{ui:rating:5/}}`
+
+**Hearts:** `{{ui:rating:4:icon=heart/}}`
+
+**Circles:** `{{ui:rating:3.5:icon=circle/}}`
+
+**Custom scale:** `{{ui:rating:7:max=10/}}`
+
+**Custom colors:** `{{ui:rating:4:fill=error:empty=ink/}}`
+
+**How it works:**
+1. Value determines how many icons are filled (supports decimals like 3.5)
+2. Partial fills show as half-filled icons
+3. Available icons: star (★), heart (♥), circle (●)
+4. Fill color applies to filled portion, empty color to unfilled
+
+**Backends:**
+- **SVG:** Full rendering with partial fill support using clip paths
+- **Shields.io:** Badge showing "X/Y" rating
+- **Plaintext:** Unicode stars (★★★☆☆)
+
+#### waveform
+```json
+{
+  "type": "native",
+  "self_closing": true,
+  "description": "Audio-style waveform visualization with bars above/below center",
+  "contexts": ["inline", "block"],
+  "args": ["values (comma-separated, can be negative)"],
+  "optional_params": {
+    "width": { "type": "number", "default": "100" },
+    "height": { "type": "number", "default": "40" },
+    "positive": { "type": "color", "default": "success", "alias": "up" },
+    "negative": { "type": "color", "default": "error", "alias": "down" },
+    "bar_width": { "type": "number", "default": "3", "alias": "bar" },
+    "spacing": { "type": "number", "default": "1" },
+    "track": { "type": "color", "default": "none" },
+    "center": { "type": "boolean", "default": "false" },
+    "center_color": { "type": "color", "default": "gray" }
+  }
+}
+```
+
+**Basic usage:** `{{ui:waveform:5,8,-3,6,-2,9,-5,4,7,-1/}}`
+
+**Custom colors:** `{{ui:waveform:5,-3,8,-6,4:positive=info:negative=warning/}}`
+
+**With center line:** `{{ui:waveform:5,-3,8,-6,4:center=true/}}`
+
+**Custom size:** `{{ui:waveform:5,-3,8,-6,4:width=200:height=60:bar_width=5/}}`
+
+**How it works:**
+1. Values are rendered as vertical bars centered on a horizontal axis
+2. Positive values extend upward, negative values extend downward
+3. Bar heights are normalized to fit within half the total height
+4. Optional center line shows the zero axis
+5. Ideal for audio waveforms, financial data, or any bipolar data
+
+**Backends:**
+- **SVG:** Full rendering with colored bars and optional center line
+- **Shields.io:** Fallback badge showing value range
+- **Plaintext:** Unicode bar characters
+
 ## Design Tokens
 
 ### Palette in Registry
@@ -397,9 +481,10 @@ Colors are defined in `registry.json` under `palette`:
 ```json
 {
   "palette": {
-    "accent": "F41C80",
     "success": "22C55E",
-    "ui.bg": "292A2D"
+    "warning": "EAB308",
+    "error": "EF4444",
+    "info": "3B82F6"
   }
 }
 ```
@@ -410,26 +495,20 @@ Custom palettes can be loaded via the `--palette` CLI flag (see API-GUIDE.md).
 
 **In components:**
 ```markdown
-{{ui:swatch:accent/}}
+{{ui:swatch:cobalt/}}
 ```
 
 **Expansion flow:**
-1. Component expands to: `{{shields:block:color=accent:style=flat-square/}}`
-2. Parser resolves `accent` from palette: `accent` → `F41C80`
-3. Shields renderer receives resolved hex: `F41C80`
+1. Component expands to: `{{shields:block:color=cobalt:style=flat-square/}}`
+2. Parser resolves `cobalt` from palette: `cobalt` → `2B6CB0`
+3. Shields renderer receives resolved hex: `2B6CB0`
 
-**Fallback:** If token not found in palette, pass through as-is (allows direct hex).
+**Fallback:** If token not found in palette, pass through as-is (allows direct hex like `FF5500`).
 
 ### Shipped Tokens
 
 | Token | Hex | Purpose |
 |-------|-----|---------|
-| `accent` | F41C80 | Primary brand color |
-| `slate` | 6B7280 | Neutral gray |
-| `ui.bg` | 292A2D | Dark background layer |
-| `ui.surface` | 292C34 | Elevated surface |
-| `ui.panel` | 282F3C | Panel background |
-| `ui.raised` | 263143 | Raised element |
 | `success` | 22C55E | Success/positive state |
 | `warning` | EAB308 | Warning/caution state |
 | `error` | EF4444 | Error/danger state |
@@ -437,19 +516,11 @@ Custom palettes can be loaded via the `--palette` CLI flag (see API-GUIDE.md).
 | `white` | FFFFFF | Pure white |
 | `black` | 000000 | Pure black |
 | `ink` | 111111 | Near-black text |
+| `gray` | 6B7280 | Neutral gray |
 | `cobalt` | 2B6CB0 | Blue accent |
 | `plum` | 6B46C1 | Purple accent |
 
-### Dot Notation
-
-Tokens support `.` for namespacing:
-```json
-{
-  "ui.bg": "292A2D",
-  "ui.surface": "292C34",
-  "ui.panel": "282F3C"
-}
-```
+You can also use any 6-digit hex code directly: `{{ui:swatch:FF5500/}}`
 
 This groups related colors without requiring nested objects.
 
