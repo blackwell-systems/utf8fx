@@ -1,17 +1,19 @@
 # ▓︎▒︎░︎ 𝐌·𝐃·𝐅·𝐗 ░︎▒︎▓︎
 
 <p align="center">
-<img alt="" src="assets/tech_abfb5c5be62dde98.svg"> <img alt="" src="assets/swatch_ac37902cb003889f.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
+<img alt="" src="assets/tech_abfb5c5be62dde98.svg"> <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
+
+**Zero runtime dependencies.** Generate self-contained SVG assets that render anywhere—no shields.io, no CDNs, no external requests. Your documentation works offline, forever.
 
 ---
 
 ## 【︎At a Glance】︎
 
 <p align="center">
-<img alt="" src="assets/progress_8194cde2c1037a78.svg"> <img alt="" src="assets/donut_d37f8d60de67187.svg"> <img alt="" src="assets/gauge_d7c8db8eb599f329.svg"> <img alt="" src="assets/sparkline_515ec1930cd3895.svg">
+<img alt="" src="assets/progress_8194cde2c1037a78.svg"> <img alt="" src="assets/donut_d37f8d60de67187.svg"> <img alt="" src="assets/gauge_d7c8db8eb599f329.svg"> <img alt="" src="assets/sparkline_6c20f5563ba6eebd.svg">
 </p>
 
 Write this:
@@ -79,7 +81,7 @@ cargo install mdfx-cli
 
 ### Sliders
 
-![](assets/progress_9d3df0c6694250f9.svg)
+![](assets/progress_d2043f5bd9b6e887.svg)
 ![](assets/progress_ae8539f9e4f9c40a.svg)
 
 ### Circular
@@ -98,14 +100,18 @@ cargo install mdfx-cli
 
 | Type | Chart |
 |------|-------|
-| Line | ![](assets/sparkline_a63ee88eb305e8b0.svg) |
+| Line | ![](assets/sparkline_1452d2434945700b.svg) |
 | Bar | ![](assets/sparkline_e685c6a06807c837.svg) |
 | Area | ![](assets/sparkline_117137ab3b25ed96.svg) |
+
+### Waveforms
+
+![](assets/waveform_7d21d7d64a5780d4.svg)
 
 ### Swatches
 
 <p align="center">
-<img alt="" src="assets/swatch_ac37902cb003889f.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg"> <img alt="" src="assets/swatch_e666c671e27adcb2.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_518ded146f6f965a.svg"> <img alt="" src="assets/swatch_c056f66b5750e2ba.svg"> <img alt="" src="assets/swatch_2ca21f74d7a3aafc.svg">
+<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg"> <img alt="" src="assets/swatch_e666c671e27adcb2.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_518ded146f6f965a.svg"> <img alt="" src="assets/swatch_c056f66b5750e2ba.svg"> <img alt="" src="assets/swatch_a9a177f7358a610c.svg">
 </p>
 
 ### Tech
@@ -140,7 +146,7 @@ mdfx build input.md --all-targets
 
 | Token | Hex | |
 |-------|-----|---|
-| accent | F41C80 | ![](assets/swatch_ac37902cb003889f.svg) |
+| accent | F41C80 | ![](assets/swatch_8010e28a060480ec.svg) |
 | success | 22C55E | ![](assets/swatch_9548868f54f0a66e.svg) |
 | warning | EAB308 | ![](assets/swatch_e4795ff410c7b4fe.svg) |
 | error | EF4444 | ![](assets/swatch_e666c671e27adcb2.svg) |
@@ -160,6 +166,7 @@ Custom: `mdfx process --palette brand.json input.md`
 | [Progress](docs/guides/PROGRESS-GUIDE.md) | Progress bars |
 | [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
+| [Waveforms](docs/guides/WAVEFORM-GUIDE.md) | Audio viz |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
