@@ -13,7 +13,7 @@
 ## {{frame:lenticular}}At a Glance{{/frame}}
 
 {{ui:row}}
-{{ui:progress:70:width=140:height=10:fill=00FFFF:track=0D0D0D:thumb=10/}} {{ui:donut:68:size=50:thickness=4:fill=FF00FF:track=1a1a1a:thumb=10:thumb_color=white/}} {{ui:gauge:75:size=70:thickness=6:fill=00FF41:track=1a1a1a:thumb=12:thumb_color=white/}} {{ui:sparkline:3,7,2,9,5,8,4,6,3,9:type=area:width=100:height=24:fill=00FFFF:track=1a1a1a/}}
+{{ui:progress:85:width=100:height=10:fill=success/}} {{ui:donut:72:size=28:thickness=3:fill=info/}} {{ui:gauge:58:size=44:thickness=5:fill=warning/}} {{ui:sparkline:2,5,3,8,4,9,6,7:width=80:height=16:fill=accent/}}
 {{/ui}}
 
 Write this:

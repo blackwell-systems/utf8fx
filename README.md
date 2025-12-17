@@ -13,7 +13,7 @@
 ## 【︎At a Glance】︎
 
 <p align="center">
-<img alt="" src="assets/progress_a3b899b22ff209a9.svg"> <img alt="" src="assets/donut_7fa1261e087c4190.svg"> <img alt="" src="assets/gauge_c0f052769cb69ff6.svg"> <img alt="" src="assets/sparkline_c5986b94fd30062a.svg">
+<img alt="" src="assets/progress_fc9e4dc664048574.svg"> <img alt="" src="assets/donut_2b901d88c0f805d6.svg"> <img alt="" src="assets/gauge_c0f052769cb69ff6.svg"> <img alt="" src="assets/sparkline_2e6de6cd98cb8040.svg">
 </p>
 
 Write this:
