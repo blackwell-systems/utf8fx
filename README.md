@@ -1,4 +1,4 @@
-# ▓▒░ 𝐌·𝐃·𝐅·𝐗 ░▒▓
+# 【𝐌𝐃𝐅𝐗】
 
 <p align="center">
 <img alt="" src="assets/tech_280e4169ab654a30.svg"> <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
