@@ -546,34 +546,25 @@ let result = renderer.expand("row", &["align=left".to_string()], Some("{{ui:tech
 
 ### Design Tokens (Palette)
 
-Components use named colors from `palette.json`. These resolve during expansion.
+Components use named colors from `registry.json`. These resolve during expansion.
 
-**Shipped Tokens:**
+**Core Tokens:**
 
 | Token | Hex | Purpose |
 |-------|-----|---------|
-| `accent` | F41C80 | Primary brand color |
-| `slate` | 6B7280 | Neutral gray |
 | `success` | 22C55E | Success states |
 | `warning` | EAB308 | Warning states |
 | `error` | EF4444 | Error states |
 | `info` | 3B82F6 | Info states |
-| `ui.bg` | 292A2D | Dark background |
-| `ui.surface` | 292C34 | Elevated surface |
-| `ui.panel` | 282F3C | Panel background |
-| `ui.raised` | 263143 | Raised element |
 | `white` | FFFFFF | Pure white |
 | `black` | 000000 | Pure black |
-| `ink` | 111111 | Near-black text |
-| `cobalt` | 2B6CB0 | Blue accent |
-| `plum` | 6B46C1 | Purple accent |
 
 **Example:**
 
 ```rust
 // Using palette color
-let result = renderer.expand("swatch", &["accent".to_string()], None)?;
-// accent → f41c80
+let result = renderer.expand("swatch", &["success".to_string()], None)?;
+// success → 22C55E
 
 // Using hex directly
 let result = renderer.expand("swatch", &["ff6b35".to_string()], None)?;
@@ -1053,132 +1044,14 @@ let result = converter.convert("Hello World", "mathbold")?;
 
 ## Frame Syntax
 
-Frames add decorative prefix/suffix around text. mdfx provides multiple syntax options for flexibility.
+Frames add decorative prefix/suffix around text. For complete frame documentation, see [FRAMES-GUIDE.md](guides/FRAMES-GUIDE.md).
 
-### Basic Syntax
-
+**Quick examples:**
 ```markdown
-{{frame:gradient}}TEXT{{/frame}}       <!-- Full syntax -->
-{{fr:gradient}}TEXT{{/}}               <!-- Shorthand + universal closer -->
-{{fr:gradient:Inline Text/}}           <!-- Self-closing -->
-{{fr:a}}{{fr:b}}Nested{{//}}           <!-- Close-all -->
-{{fr:gradient+star}}TEXT{{/}}          <!-- Frame combo -->
-{{fr:gradient/spacing=1}}TEXT{{/}}     <!-- With spacing -->
-{{fr:gradient/separator=·}}TEXT{{/}}   <!-- With separator -->
-```
-
-### Shorthand `{{fr:}}`
-
-The `fr:` prefix is an alias for `frame:`:
-
-```markdown
-{{fr:gradient}}Title{{/}}              <!-- Same as {{frame:gradient}}Title{{/frame}} -->
-{{fr:star}}VIP{{/}}                    <!-- ★ VIP ☆ -->
-{{fr:solid-left}}Note{{/}}             <!-- █▌Note -->
-```
-
-### Self-Closing Frames
-
-For short inline content, use the self-closing syntax:
-
-```markdown
-{{fr:gradient:Title/}}                 <!-- ▓▒░ Title ░▒▓ -->
-{{fr:star:VIP/}}                       <!-- ★ VIP ☆ -->
-{{fr:glyph:diamond*2:Gem/}}            <!-- ◆◆ Gem ◆◆ -->
-```
-
-### Universal Closer `{{/}}`
-
-Close any frame without specifying its type:
-
-```markdown
-{{fr:gradient}}Text{{/}}               <!-- Closes gradient frame -->
-{{frame:star}}Text{{/}}                <!-- Also works with full syntax -->
-```
-
-### Close-All `{{//}}`
-
-Close ALL open tags (frames, styles, UI components) at once:
-
-```markdown
-{{fr:gradient}}{{fr:star}}{{mathbold}}NESTED{{//}}
-<!-- Closes mathbold, then star, then gradient (reverse order) -->
-```
-
-### Glyph Frames
-
-Create dynamic frames from any Unicode glyph:
-
-```markdown
-{{fr:glyph:star}}Title{{/}}            <!-- ★ Title ★ -->
-{{fr:glyph:star*3}}Title{{/}}          <!-- ★★★ Title ★★★ -->
-{{fr:glyph:star*3/pad=0}}Title{{/}}    <!-- ★★★Title★★★ -->
-{{fr:glyph:diamond*2/pad=·}}Gem{{/}}   <!-- ◆◆·Gem·◆◆ -->
-```
-
-**Options:**
-- `*N` - Repeat glyph N times
-- `/pad=CHAR` - Custom padding character (default: space)
-- `/separator=X` - Character between glyphs
-- `/spacing=N` - Spaces between glyphs
-
-### Frame Combos
-
-Combine multiple frames with `+` for nested effects:
-
-```markdown
-{{fr:gradient+star}}TITLE{{/}}         <!-- ▓▒░ ★ TITLE ☆ ░▒▓ -->
-{{fr:gradient+star+diamond}}VIP{{/}}   <!-- ▓▒░ ★ ◆ VIP ◇ ☆ ░▒▓ -->
-```
-
-Equivalent to:
-```markdown
-{{fr:gradient}}{{fr:star}}TITLE{{/}}{{/}}
-```
-
-### Frame Modifiers
-
-Add separator, spacing, reverse, or count to frame patterns:
-
-```markdown
-{{fr:gradient/separator=·}}Title{{/}}  <!-- ▓·▒·░ Title ░·▒·▓ -->
-{{fr:gradient/spacing=1}}Title{{/}}    <!-- ▓ ▒ ░ Title ░ ▒ ▓ -->
-{{fr:gradient/reverse}}Title{{/}}      <!-- ░▒▓ Title ▓▒░ -->
-{{fr:star*3}}Title{{/}}                <!-- ★★★ Title ☆☆☆ -->
-```
-
-**Modifiers:**
-- `/separator=X` - Insert character between pattern glyphs
-- `/spacing=N` - Insert N spaces between pattern glyphs
-- `/reverse` or `/rev` - Swap prefix and suffix
-- `*N` - Repeat pattern N times (max 20)
-
-Named separators: `dot`, `dash`, `space`, `pipe`, `colon`
-
-### Available Frames
-
-| Frame | Output | Description |
-|-------|--------|-------------|
-| `gradient` | ▓▒░ X ░▒▓ | Block gradient |
-| `gradient-wave` | ▓▒░ X ▒░▓ | Gradient with rotated suffix |
-| `solid-left` | █▌X | Left solid bar |
-| `solid-right` | X▐█ | Right solid bar |
-| `star` | ★ X ☆ | Star bookends |
-| `diamond` | ◆ X ◇ | Diamond bookends |
-| `line-bold` | ━━━ X ━━━ | Bold lines |
-| `lenticular` | 【X】 | Japanese brackets |
-| `guillemet` | « X » | French quotes |
-| `glyph:NAME` | (dynamic) | Any Unicode glyph |
-
-Run `mdfx frames` for the full list.
-
-### Combining Styles and Frames
-
-Frames work with styled text:
-
-```markdown
-{{fr:gradient}}{{mathbold:separator=dot}}TITLE{{//}}
-<!-- Output: ▓▒░ 𝐓·𝐈·𝐓·𝐋·𝐄 ░▒▓ -->
+{{fr:gradient}}Title{{/}}              <!-- ▓▒░ Title ░▒▓ -->
+{{fr:star:VIP/}}                       <!-- ★ VIP ☆ (self-closing) -->
+{{fr:gradient+star}}NESTED{{/}}        <!-- ▓▒░ ★ NESTED ☆ ░▒▓ (combo) -->
+{{fr:gradient}}{{mathbold}}Text{{//}}  <!-- Close-all syntax -->
 ```
 
 ---
@@ -1433,185 +1306,18 @@ for asset in assets {
 
 ---
 
-## Separators System
+## Separators
 
-The Separators System provides data-driven character resolution for text styling, supporting both named separators and direct Unicode characters.
+Named separators for text styling. Use in templates or API:
 
-### Overview
-
-Separators are used with text converters to add visual spacing between characters:
-
-```rust
-let converter = Converter::new()?;
-let result = converter.convert_with_separator("TITLE", "mathbold", "·", 1)?;
-// Output: 𝐓·𝐈·𝐓·𝐋·𝐄
-```
-
-### Separator Resolution
-
-The system supports two input methods:
-
-1. **Named Separators**: Predefined characters from the unified registry
-2. **Direct Unicode**: Any single Unicode character (grapheme cluster)
-
-### SeparatorsData API
-
-```rust
-use mdfx::separators::SeparatorsData;
-
-// Singleton instance (lazy_static)
-let separators = &mdfx::separators::SEPARATORS;
-
-// Resolve named separator
-let char = separators.resolve("dot")?;  // Returns "·"
-
-// Resolve direct Unicode
-let char = separators.resolve("⚡")?;   // Returns "⚡"
-
-// List all named separators
-for (id, sep) in separators.list() {
-    println!("{}: {} ({})", id, sep.char, sep.name);
-}
-```
-
-### Named Separators
-
-**Shipped Separators:**
-
-| ID | Character | Unicode | Name | Example |
-|----|-----------|---------|------|---------|
-| `dot` | `·` | U+00B7 | Middle Dot | 𝐓·𝐈·𝐓·𝐋·𝐄 |
-| `bullet` | `•` | U+2022 | Bullet | 𝐓•𝐈•𝐓•𝐋•𝐄 |
-| `dash` | `─` | U+2500 | Light Horizontal | 𝐓─𝐈─𝐓─𝐋─𝐄 |
-| `bolddash` | `━` | U+2501 | Heavy Horizontal | 𝐓━𝐈━𝐓━𝐋━𝐄 |
-| `arrow` | `→` | U+2192 | Rightward Arrow | 𝐓→𝐈→𝐓→𝐋→𝐄 |
-| `star` | `★` | U+2605 | Black Star | 𝐓★𝐈★𝐓★𝐋★𝐄 |
-| `diamond` | `◆` | U+25C6 | Black Diamond | 𝐓◆𝐈◆𝐓◆𝐋◆𝐄 |
-| `pipe` | `|` | U+007C | Vertical Line | 𝐓|𝐈|𝐓|𝐋|𝐄 |
-| `slash` | `/` | U+002F | Solidus | 𝐓/𝐈/𝐓/𝐋/𝐄 |
-| `double` | `═` | U+2550 | Double Horizontal | 𝐓═𝐈═𝐓═𝐋═𝐄 |
-| `wave` | `∼` | U+223C | Tilde Operator | 𝐓∼𝐈∼𝐓∼𝐋∼𝐄 |
-| `section` | `§` | U+00A7 | Section Sign | 𝐓§𝐈§𝐓§𝐋§𝐄 |
-
-### Using Separators in Templates
-
-**Named separator:**
 ```markdown
-{{mathbold:separator=dot}}TITLE{{/mathbold}}
+{{mathbold:separator=dot}}TITLE{{/mathbold}}   <!-- 𝐓·𝐈·𝐓·𝐋·𝐄 -->
+{{mathbold:separator=⚡}}TITLE{{/mathbold}}    <!-- Direct Unicode also works -->
 ```
 
-**Direct Unicode:**
-```markdown
-{{mathbold:separator=⚡}}TITLE{{/mathbold}}
-```
+**Available separators:** `dot`, `bullet`, `dash`, `bolddash`, `arrow`, `star`, `diamond`, `pipe`, `slash`, `double`, `wave`, `section`
 
-**Programmatic usage:**
-```rust
-// Using named separator
-let result = converter.convert_with_separator("BOLD", "mathbold", "·", 1)?;
-
-// Using any Unicode character
-let result = converter.convert_with_separator("FLOW", "mathbold", "→", 1)?;
-
-// Using emoji
-let result = converter.convert_with_separator("ZAP", "mathbold", "⚡", 1)?;
-```
-
-### Grapheme Cluster Support
-
-The system properly handles complex Unicode using grapheme clusters (via `unicode-segmentation` crate):
-
-```rust
-// These all work correctly as single separators
-separators.resolve("👨‍💻")?;  // Emoji with variation selector
-separators.resolve("🇺🇸")?;  // Flag emoji
-separators.resolve("é")?;    // Composed character
-```
-
-**Why this matters:**
-- Simple character counting breaks for emoji: `"👨‍💻".chars().count()` returns 5
-- Grapheme counting works: `"👨‍💻".graphemes(true).count()` returns 1
-- This ensures emoji and complex Unicode work as single separators
-
-### Validation Rules
-
-The resolver applies these validations:
-
-1. **Whitespace trimming**: Leading/trailing spaces removed
-2. **Single grapheme**: Input must be exactly one grapheme cluster
-3. **Reserved characters**: Cannot use `:`, `/`, `}` (template delimiters)
-4. **Empty rejection**: Empty strings are rejected
-
-**Examples:**
-
-```rust
-// Valid
-separators.resolve("·")?;      // ✓ Named separator
-separators.resolve("★")?;      // ✓ Direct Unicode
-separators.resolve("⚡")?;      // ✓ Emoji
-
-// Invalid
-separators.resolve("")?;       // ✗ Empty string
-separators.resolve("  · ")?;   // ✓ Trimmed to "·"
-separators.resolve(":")?;      // ✗ Reserved for templates
-separators.resolve("abc")?;    // ✗ Multiple graphemes
-```
-
-### Error Messages
-
-The resolver provides helpful error messages with suggestions:
-
-```rust
-match separators.resolve("dott") {
-    Err(msg) => println!("{}", msg),
-    // Prints:
-    // Unknown separator 'dott'.
-    //   Did you mean: dot?
-    //   Available named separators: dot, bullet, dash, ...
-    //   Or use any single Unicode character (e.g., separator=⚡)
-    _ => {}
-}
-```
-
-### CLI Commands
-
-**List all separators:**
-```bash
-mdfx separators
-```
-
-**Output:**
-```
-Available Separators
-────────────────────
-
-dot          · (U+00B7)  Middle Dot
-             Example: 𝐓·𝐈·𝐓·𝐋·𝐄
-
-bullet       • (U+2022)  Bullet
-             Example: 𝐓•𝐈•𝐓•𝐋•𝐄
-...
-```
-
-### Data Format
-
-Separators are defined in the unified `registry.json`:
-
-```json
-{
-  "separators": {
-    "dot": {
-      "name": "Middle Dot",
-      "char": "·",
-      "unicode": "U+00B7",
-      "description": "Middle dot separator for elegant spacing",
-      "example": "𝐓·𝐈·𝐓·𝐋·𝐄"
-    }
-  }
-}
-```
-
-**Note:** Separators are embedded at compile time from the registry. Runtime customization is not currently supported for separators.
+Run `mdfx separators` for full list with examples.
 
 ---
 
@@ -2386,7 +2092,6 @@ fn build_docs(src_dir: &Path, out_dir: &Path) -> Result<(), Box<dyn std::error::
 ## See Also
 
 - [ARCHITECTURE.md](ARCHITECTURE.md) - System architecture and design
-- [STATE-MACHINE-GUIDE.md](STATE-MACHINE-GUIDE.md) - State machine implementation details
 - [ROADMAP.md](ROADMAP.md) - Development roadmap
 - [examples/README.md](../examples/README.md) - Template syntax examples
 

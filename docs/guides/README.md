@@ -22,7 +22,14 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 | Guide | Description |
 |-------|-------------|
 | [Text Styles](TEXT-STYLES-GUIDE.md) | 24 Unicode typography styles (bold, script, gothic, subscript, etc.) |
-| [Glyphs](GLYPHS-GUIDE.md) | 493 Unicode symbols organized by category |
+| [Glyphs](GLYPHS-GUIDE.md) | 531 Unicode symbols organized by category |
+| [Badges](BADGES-GUIDE.md) | Circled numbers, squared letters, and enclosed characters |
+
+## Data Visualization
+
+| Guide | Description |
+|-------|-------------|
+| [Data Viz](DATA-VIZ-GUIDE.md) | Progress bars, donuts, gauges, sparklines, ratings |
 
 ## Editor Integration
 

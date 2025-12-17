@@ -11,10 +11,12 @@
   - [All Guides](/guides/README.md)
   - [Text Styles](/guides/TEXT-STYLES-GUIDE.md)
   - [Frames](/guides/FRAMES-GUIDE.md)
+  - [Glyphs](/guides/GLYPHS-GUIDE.md)
+  - [Badges](/guides/BADGES-GUIDE.md)
+  - [Colors](/guides/COLORS-GUIDE.md)
   - [Swatches](/guides/SWATCH-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
   - [Data Visualization](/guides/DATA-VIZ-GUIDE.md)
-  - [Glyphs](/guides/GLYPHS-GUIDE.md)
 
 - **🎯 Multi-Target**
   - [Targets Overview](/TARGETS.md)
