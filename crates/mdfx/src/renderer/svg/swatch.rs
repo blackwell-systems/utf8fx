@@ -55,6 +55,10 @@ pub struct SwatchOptions<'a> {
     pub border_width: Option<u32>,
     pub label: Option<&'a str>,
     pub label_color: Option<&'a str>,
+    /// Simple Icons logo name (e.g., "rust", "python")
+    pub icon: Option<&'a str>,
+    /// Icon color (hex code without #)
+    pub icon_color: Option<&'a str>,
     pub rx: Option<u32>,
     pub ry: Option<u32>,
     pub shadow: Option<&'a str>,
@@ -242,6 +246,32 @@ pub fn render(opts: SwatchOptions) -> String {
     let rect_x = border_offset + shadow_padding / 2;
     let rect_y = border_offset + shadow_padding / 2;
 
+    // Build icon element if icon is specified
+    let icon_elem = if let Some(icon_name) = opts.icon {
+        if let Some(path_data) = super::tech::get_icon_path(icon_name) {
+            // Simple Icons use a 24x24 viewBox
+            // Scale icon to fit within swatch (with padding)
+            let icon_size = (height.min(width) as f32 * 0.6).max(10.0);
+            let scale = icon_size / 24.0;
+
+            // Center the icon in the swatch
+            let icon_x = rect_x as f32 + (width as f32 - icon_size) / 2.0;
+            let icon_y = rect_y as f32 + (height as f32 - icon_size) / 2.0;
+
+            // Icon color defaults to white
+            let color = opts.icon_color.unwrap_or("FFFFFF");
+
+            format!(
+                "\n  <g transform=\"translate({:.1}, {:.1}) scale({:.3})\"><path fill=\"#{}\" d=\"{}\"/></g>",
+                icon_x, icon_y, scale, color, path_data
+            )
+        } else {
+            String::new()
+        }
+    } else {
+        String::new()
+    };
+
     // Build per-side border lines (drawn on top of rect)
     let has_per_side_borders = opts.border_top.is_some()
         || opts.border_right.is_some()
@@ -294,7 +324,7 @@ pub fn render(opts: SwatchOptions) -> String {
 
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-{}  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"{}\" rx=\"{}\" ry=\"{}\"{}{}{}/>{}{}{}
+{}  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"{}\" rx=\"{}\" ry=\"{}\"{}{}{}/>{}{}{}{}
 </svg>",
         vb_width,
         vb_height,
@@ -313,6 +343,7 @@ pub fn render(opts: SwatchOptions) -> String {
         filter_attr,
         per_side_borders,
         shine_overlay,
+        icon_elem,
         label_elem
     )
 }
