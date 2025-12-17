@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-17T18:04:07.851093645+00:00",
+  "created_at": "2025-12-17T20:18:01.349737004+00:00",
   "backend": "svg",
   "assets_dir": "assets/",
-  "total_assets": 40,
+  "total_assets": 41,
   "assets": [
     {
       "path": "assets/tech_1b97443b792bd7e6.svg",
@@ -196,8 +196,8 @@
       "size_bytes": 325
     },
     {
-      "path": "assets/donut_c7793b4e2437a78e.svg",
-      "sha256": "45627e9e2db5e0e7e57991f82945b870b66d8fdb2af173826cb0d58e76ee6702",
+      "path": "assets/donut_ded6905336546e5e.svg",
+      "sha256": "00a4644e0f5c3844ca84297733f5d65d6692db151bb5eaa031e68279d7d7ec85",
       "type": "donut",
       "primitive": {
         "kind": "Donut",
@@ -205,11 +205,11 @@
         "size": 40,
         "thickness": 4
       },
-      "size_bytes": 325
+      "size_bytes": 380
     },
     {
-      "path": "assets/donut_77ee5c20966d473d.svg",
-      "sha256": "cd7b95a3f521daee80cdee66d07d80dd0822e7f90015abcf522cbb06fe9ad69e",
+      "path": "assets/donut_2d302bb2f57f6e6f.svg",
+      "sha256": "55a88028ac1f5b6691c0aaa8b6abc60ca67a02d4f04cfef6b1d66cfeba844451",
       "type": "donut",
       "primitive": {
         "kind": "Donut",
@@ -217,7 +217,7 @@
         "size": 40,
         "thickness": 4
       },
-      "size_bytes": 325
+      "size_bytes": 379
     },
     {
       "path": "assets/donut_ae1d50ff3784744f.svg",
@@ -244,8 +244,8 @@
       "size_bytes": 361
     },
     {
-      "path": "assets/gauge_2ed4a5df5d9ef0af.svg",
-      "sha256": "a14db786c74a908dc952ea6a7f9ab0d91f98dad6b6e4f134db11cb32ead0aa0c",
+      "path": "assets/gauge_7af13484a7c1cf2c.svg",
+      "sha256": "3e168315970a4441a3727cd2f23a9102e8a8b388906a741ce5d128850867f429",
       "type": "gauge",
       "primitive": {
         "kind": "Gauge",
@@ -253,7 +253,7 @@
         "size": 60,
         "thickness": 6
       },
-      "size_bytes": 361
+      "size_bytes": 415
     },
     {
       "path": "assets/gauge_baca01a9bb105e80.svg",
@@ -317,6 +317,18 @@
         "height": 32
       },
       "size_bytes": 1638
+    },
+    {
+      "path": "assets/waveform_7260ada9bc5eb7e9.svg",
+      "sha256": "1ec1c73e049adcad7065e05185c69ef3f02f56fe4f364b1ae689850bcfc4ad6a",
+      "type": "waveform",
+      "primitive": {
+        "kind": "Waveform",
+        "point_count": 24,
+        "width": 200,
+        "height": 32
+      },
+      "size_bytes": 1640
     },
     {
       "path": "assets/swatch_8010e28a060480ec.svg",

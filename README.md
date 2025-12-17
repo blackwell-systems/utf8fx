@@ -87,13 +87,13 @@ cargo install mdfx-cli
 ### Circular
 
 <p align="center">
-<img alt="" src="assets/donut_c1140c443b55c2f6.svg"> <img alt="" src="assets/donut_c7793b4e2437a78e.svg"> <img alt="" src="assets/donut_77ee5c20966d473d.svg"> <img alt="" src="assets/donut_ae1d50ff3784744f.svg">
+<img alt="" src="assets/donut_c1140c443b55c2f6.svg"> <img alt="" src="assets/donut_ded6905336546e5e.svg"> <img alt="" src="assets/donut_2d302bb2f57f6e6f.svg"> <img alt="" src="assets/donut_ae1d50ff3784744f.svg">
 </p>
 
 ### Gauges
 
 <p align="center">
-<img alt="" src="assets/gauge_4cc31488da108560.svg"> <img alt="" src="assets/gauge_2ed4a5df5d9ef0af.svg"> <img alt="" src="assets/gauge_baca01a9bb105e80.svg">
+<img alt="" src="assets/gauge_4cc31488da108560.svg"> <img alt="" src="assets/gauge_7af13484a7c1cf2c.svg"> <img alt="" src="assets/gauge_baca01a9bb105e80.svg">
 </p>
 
 ### Sparklines
@@ -107,6 +107,7 @@ cargo install mdfx-cli
 ### Waveforms
 
 ![](assets/waveform_7d21d7d64a5780d4.svg)
+![](assets/waveform_7260ada9bc5eb7e9.svg)
 
 ### Swatches
 

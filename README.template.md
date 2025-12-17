@@ -87,13 +87,13 @@ cargo install mdfx-cli
 ### Circular
 
 {{ui:row}}
-{{ui:donut:25:size=40:thickness=4:fill=error/}} {{ui:donut:50:size=40:thickness=4:fill=warning/}} {{ui:donut:75:size=40:thickness=4:fill=info/}} {{ui:donut:100:size=40:thickness=4:fill=success/}}
+{{ui:donut:25:size=40:thickness=4:fill=error/}} {{ui:donut:50:size=40:thickness=4:fill=warning:thumb=6:thumb_color=white/}} {{ui:donut:75:size=40:thickness=4:fill=info:thumb=6:thumb_color=white/}} {{ui:donut:100:size=40:thickness=4:fill=success/}}
 {{/ui}}
 
 ### Gauges
 
 {{ui:row}}
-{{ui:gauge:25:size=60:thickness=6:fill=error/}} {{ui:gauge:55:size=60:thickness=6:fill=warning/}} {{ui:gauge:85:size=60:thickness=6:fill=success/}}
+{{ui:gauge:25:size=60:thickness=6:fill=error/}} {{ui:gauge:55:size=60:thickness=6:fill=warning:thumb=8:thumb_color=white/}} {{ui:gauge:85:size=60:thickness=6:fill=success/}}
 {{/ui}}
 
 ### Sparklines
@@ -107,6 +107,7 @@ cargo install mdfx-cli
 ### Waveforms
 
 {{ui:waveform:0.2,0.5,0.8,0.6,0.3,-0.2,-0.6,-0.9,-0.5,-0.2,0.1,0.4,0.7,0.5,0.2,-0.1,-0.4,-0.7,-0.4,-0.1,0.2,0.5,0.8,0.5:width=200:height=32:positive=accent:negative=accent:bar=2:spacing=1/}}
+{{ui:waveform:0.3,0.6,0.9,0.5,0.2,-0.3,-0.7,-0.8,-0.4,-0.1,0.2,0.5,0.8,0.4,0.1,-0.2,-0.5,-0.9,-0.6,-0.2,0.1,0.4,0.7,0.3:width=200:height=32:positive=success:negative=error:bar=2:spacing=1/}}
 
 ### Swatches
 
