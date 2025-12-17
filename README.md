@@ -1,19 +1,17 @@
-# 【𝐌𝐃𝐅𝐗】
+# ▓︎▒︎░︎ 𝐌·𝐃·𝐅·𝐗 ░︎▒︎▓︎
 
 <p align="center">
-<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
+<img alt="" src="assets/tech_280e4169ab654a30.svg"> <img alt="" src="assets/swatch_ac37902cb003889f.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
 
-**Zero dependencies at runtime.** Generate SVG assets that render on GitHub without shields.io. Your READMEs work offline, forever.
-
 ---
 
-## 【At a Glance】
+## 【︎At a Glance】︎
 
 <p align="center">
-<img alt="" src="assets/progress_fc9e4dc664048574.svg">&nbsp;&nbsp;&nbsp;&nbsp;<img alt="" src="assets/donut_2b901d88c0f805d6.svg">&nbsp;&nbsp;&nbsp;&nbsp;<img alt="" src="assets/gauge_c0f052769cb69ff6.svg">&nbsp;&nbsp;&nbsp;&nbsp;<img alt="" src="assets/sparkline_2e6de6cd98cb8040.svg">
+<img alt="" src="assets/progress_8194cde2c1037a78.svg"> <img alt="" src="assets/donut_d37f8d60de67187.svg"> <img alt="" src="assets/gauge_d7c8db8eb599f329.svg"> <img alt="" src="assets/sparkline_515ec1930cd3895.svg">
 </p>
 
 Write this:
@@ -29,7 +27,7 @@ Get this:
 >
 > ![](assets/progress_8c3ecedcea0c2152.svg)
 >
-> ★ FEATURED ☆
+> ★︎ FEATURED ☆︎
 
 ---
 
@@ -41,7 +39,7 @@ cargo install mdfx-cli
 
 ---
 
-## ◆ Typography ◇
+## ◆︎ Typography ◇︎
 
 24 Unicode text styles. No fonts required.
 
@@ -58,55 +56,20 @@ cargo install mdfx-cli
 
 ---
 
-## ◆ Frames ◇
+## ◆︎ Frames ◇︎
 
-29 preconfigured frames with full 531 glyph support. Any symbol becomes a frame.
+29 decorative borders. Pure Unicode.
 
-| Preconfigured | |
+| | |
 |---|---|
-| ▓▒░ GRADIENT ░▒▓ | 【LENTICULAR】 |
-| ★ STARRED ☆ | « QUOTED » |
-| ═══ DOUBLE ═══ | ───  LIGHT  ─── |
-
-| Glyph Frames | |
-|---|---|
-| ♦ DIAMOND ♦ | ⚡ LIGHTNING ⚡ |
-| ☢ RADIOACTIVE ☢ | ♠ SPADES ♠ |
-
-**Syntax:**
-```markdown
-{{fr:gradient}}TEXT{{//}}             <!-- short form + universal close -->
-{{fr:glyph:misc.lightning}}ZAP{{//}}  <!-- any of 531 named glyphs -->
-```
-
-`{{//}}` closes any open frame, style, or nested tag.
+| ▓︎▒︎░︎ GRADIENT ░︎▒︎▓︎ | 【︎LENTICULAR】︎ |
+| ★︎ STARRED ☆︎ | «︎ QUOTED »︎ |
+| ▶︎ TRIANGLES ◀︎ | ═︎═︎═︎ DOUBLE ═︎═︎═︎ |
+| ☞︎ POINTED ☜︎ | 《︎ANGLED》︎ |
 
 ---
 
-## ◆ Glyphs ◇
-
-531 named Unicode symbols. Access obscure characters by memorable names.
-
-| Category | Examples |
-|----------|----------|
-| Shapes | ● ○ ◆ ◇ ▲ △ ■ □ |
-| Arrows | → ← ↑ ↓ ⇒ ⇐ ⇔ ↔ |
-| Chess | ♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ |
-| Math | ∞ ≠ ≈ √ ∑ ∫ ± × |
-| Blocks | █ ▓ ▒ ░ ▄ ▀ ▌ ▐ |
-| Music | ♩ ♪ ♫ ♬ ♭ ♯ |
-| Cards | ♠ ♥ ♦ ♣ ♤ ♡ ♢ ♧ |
-| Badges | ① ② ③ ❶ ❷ ❸ Ⓐ Ⓑ |
-
-```markdown
-{{glyph:check.yes}} Done               <!-- ☑ Done -->
-{{glyph:arrow.right}} Next             <!-- → Next -->
-{{mathbold:separator=diamond}}TEXT{{//}}  <!-- 𝐓◆𝐄◆𝐗◆𝐓 -->
-```
-
----
-
-## ◆ Components ◇
+## ◆︎ Components ◇︎
 
 ### Progress
 
@@ -116,7 +79,7 @@ cargo install mdfx-cli
 
 ### Sliders
 
-![](assets/progress_d2043f5bd9b6e887.svg)
+![](assets/progress_9d3df0c6694250f9.svg)
 ![](assets/progress_ae8539f9e4f9c40a.svg)
 
 ### Circular
@@ -135,20 +98,20 @@ cargo install mdfx-cli
 
 | Type | Chart |
 |------|-------|
-| Line | ![](assets/sparkline_1452d2434945700b.svg) |
+| Line | ![](assets/sparkline_a63ee88eb305e8b0.svg) |
 | Bar | ![](assets/sparkline_e685c6a06807c837.svg) |
 | Area | ![](assets/sparkline_117137ab3b25ed96.svg) |
 
 ### Swatches
 
 <p align="center">
-<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg"> <img alt="" src="assets/swatch_e666c671e27adcb2.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_518ded146f6f965a.svg"> <img alt="" src="assets/swatch_c056f66b5750e2ba.svg"> <img alt="" src="assets/swatch_5ae9a07e7148661a.svg">
+<img alt="" src="assets/swatch_ac37902cb003889f.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg"> <img alt="" src="assets/swatch_e666c671e27adcb2.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_518ded146f6f965a.svg"> <img alt="" src="assets/swatch_c056f66b5750e2ba.svg"> <img alt="" src="assets/swatch_2ca21f74d7a3aafc.svg">
 </p>
 
 ### Tech
 
 <p align="center">
-<img alt="" src="assets/swatch_d0bde72940f43f46.svg"> <img alt="" src="assets/swatch_9cd99a2098f17346.svg"> <img alt="" src="assets/swatch_91cc34f5d9e2006a.svg"> <img alt="" src="assets/swatch_eb1825990e42203a.svg"> <img alt="" src="assets/swatch_881a50fd59af5e6.svg"> <img alt="" src="assets/swatch_59c524997490f439.svg">
+<img alt="" src="assets/tech_280e4169ab654a30.svg"> <img alt="" src="assets/tech_e0a66117821b4ab4.svg"> <img alt="" src="assets/tech_9403fca3232fbd53.svg"> <img alt="" src="assets/tech_b3176b9aa0bc8dac.svg"> <img alt="" src="assets/tech_2cb657d0c91a4b65.svg"> <img alt="" src="assets/tech_f44b382c3419bb2a.svg">
 </p>
 
 ---
@@ -156,20 +119,36 @@ cargo install mdfx-cli
 ## 𝐔𝐬𝐚𝐠𝐞
 
 ```bash
-# Generate offline SVG assets (recommended)
-mdfx process README.template.md -o README.md --backend svg --assets-dir assets/
-
-# Process with shields.io fallback
+# Process a template
 mdfx process README.template.md -o README.md
+
+# SVG backend for local docs
+mdfx process input.md -o output.md --backend svg --assets-dir assets/
 
 # Multi-target build
 mdfx build input.md --all-targets
 ```
 
-**Backends:**
-- `svg` → Local SVG files, commit to repo, no external dependencies
-- `shields` → shields.io badges (requires network)
-- `plaintext` → Unicode text only
+**Targets:**
+- `github` / `gitlab` → shields.io badges
+- `local` → SVG files
+- `pypi` → Unicode plaintext
+
+---
+
+## 𝐏𝐚𝐥𝐞𝐭𝐭𝐞
+
+| Token | Hex | |
+|-------|-----|---|
+| accent | F41C80 | ![](assets/swatch_ac37902cb003889f.svg) |
+| success | 22C55E | ![](assets/swatch_9548868f54f0a66e.svg) |
+| warning | EAB308 | ![](assets/swatch_e4795ff410c7b4fe.svg) |
+| error | EF4444 | ![](assets/swatch_e666c671e27adcb2.svg) |
+| info | 3B82F6 | ![](assets/swatch_b4740ff4b229ace7.svg) |
+| cobalt | 2B6CB0 | ![](assets/swatch_518ded146f6f965a.svg) |
+| plum | 6B46C1 | ![](assets/swatch_c056f66b5750e2ba.svg) |
+
+Custom: `mdfx process --palette brand.json input.md`
 
 ---
 
@@ -178,15 +157,14 @@ mdfx build input.md --all-targets
 | | |
 |---|---|
 | [Components](docs/guides/COMPONENTS-GUIDE.md) | UI primitives |
-| [Colors](docs/guides/COLORS-GUIDE.md) | Palette system |
 | [Progress](docs/guides/PROGRESS-GUIDE.md) | Progress bars |
 | [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
-| [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 531 symbols |
+| [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
 | [CLI](docs/guides/CLI-GUIDE.md) | Commands |
 
 ---
 
-▒░ ᴍɪᴛ ʟɪᴄᴇɴꜱᴇ ░▒ · [GitHub](https://github.com/blackwell-systems/mdfx) · [Changelog](CHANGELOG.md)
+▒︎░︎ ᴍɪᴛ ʟɪᴄᴇɴꜱᴇ ░︎▒︎ · [GitHub](https://github.com/blackwell-systems/mdfx) · [Changelog](CHANGELOG.md)

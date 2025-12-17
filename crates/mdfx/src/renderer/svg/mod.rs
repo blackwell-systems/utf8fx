@@ -294,7 +294,8 @@ impl SvgBackend {
 impl Renderer for SvgBackend {
     fn render(&self, primitive: &Primitive) -> Result<RenderedAsset> {
         let filename = Self::filename_for(primitive);
-        let relative_path = format!("{}/{}", self.out_dir, filename);
+        let out_dir = self.out_dir.trim_end_matches('/');
+        let relative_path = format!("{}/{}", out_dir, filename);
 
         let svg = match primitive {
             Primitive::Swatch {
