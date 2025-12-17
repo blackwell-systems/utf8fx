@@ -80,30 +80,74 @@ See [SWATCH-GUIDE.md](SWATCH-GUIDE.md) for complete documentation.
 
 ### tech
 
-Displays a technology logo badge using Simple Icons.
+Displays a technology logo badge using Simple Icons with shields.io-style two-segment design.
 
 **Syntax:**
 ```markdown
 {{ui:tech:logo-name/}}
-{{ui:tech:logo-name:style=value/}}
+{{ui:tech:logo-name:param=value/}}
 ```
 
 **Parameters:**
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `logo` | string | required | Simple Icons name (rust, python, docker, etc.) |
+| `name` | string | required | Simple Icons name (rust, python, docker, etc.) |
 | `style` | string | flat-square | Badge style |
+| `bg` | color | brand color | Background color (uses brand color if available) |
+| `logo` | color | auto | Logo color (auto-selects black/white based on bg luminance) |
+| `label` | string | name | Label text (defaults to tech name) |
+| `text_color` | color | auto | Label text color (aliases: `text`, `color`) |
+| `font` | string | Verdana | Font family (alias: `font_family`) |
+| `border` | color | none | Border color |
+| `border_width` | number | none | Border width in pixels |
+| `rx` | number | 0 | Corner radius |
 
-**Examples:**
+**Basic Examples:**
 ```markdown
-{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:typescript/}}
+{{ui:tech:rust/}}
+{{ui:tech:python/}}
+{{ui:tech:typescript/}}
 {{ui:tech:docker:style=for-the-badge/}}
 ```
 
-**Common logos:** rust, python, typescript, javascript, go, docker, kubernetes, react, vue, svelte, nodejs, postgresql, redis, github, gitlab
+**Intelligent Logo Colors:**
 
-**Note:** Background uses `ui.bg` color for consistent dark theme appearance.
+Logo colors automatically select black or white based on background luminance:
+
+| Background | Logo Color | Example |
+|------------|------------|---------|
+| Light (orange, cyan) | Black | Rust, Go |
+| Dark (blue, black) | White | PostgreSQL, Docker |
+
+Override with `logo` parameter:
+```markdown
+{{ui:tech:rust:logo=white/}}           <!-- Force white logo -->
+{{ui:tech:docker:logo=000000/}}        <!-- Force black logo -->
+```
+
+**Text Customization:**
+```markdown
+{{ui:tech:rust:text_color=white/}}           <!-- White text -->
+{{ui:tech:python:font=Monaco,monospace/}}    <!-- Custom font -->
+{{ui:tech:go:text=000000:font=Arial/}}       <!-- Both -->
+```
+
+**Custom Background:**
+```markdown
+{{ui:tech:rust:bg=000000/}}            <!-- Black background -->
+{{ui:tech:docker:bg=accent/}}          <!-- Theme color background -->
+```
+
+**Custom Label:**
+```markdown
+{{ui:tech:typescript:label=TS/}}       <!-- Short label -->
+{{ui:tech:rust:label=Rust 1.75/}}      <!-- Version label -->
+```
+
+**Common logos:** rust, python, typescript, javascript, go, docker, kubernetes, react, vue, svelte, nodejs, postgresql, redis, github, gitlab, npm, aws, azure, googlecloud
+
+**Note:** Tech badges use brand colors from Simple Icons by default. The two-segment design shows the logo on the left and label on the right.
 
 ---
 
