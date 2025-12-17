@@ -1,7 +1,7 @@
 # ▓︎▒︎░︎ 𝐌·𝐃·𝐅·𝐗 ░︎▒︎▓︎
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/-%20-DEA584?style=flat-square&logo=rust&logoColor=000000&label=&labelColor=DEA584"> <img alt="" src="https://img.shields.io/badge/-%20-F41C80?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-22C55E?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-3B82F6?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-EAB308?style=flat-square">
+<img alt="" src="assets/tech_1b97443b792bd7e6.svg"> <img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
@@ -13,7 +13,7 @@
 ## 【︎At a Glance】︎
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/85%25-85%25-22C55E?style=flat-square"> <img alt="" src="https://img.shields.io/badge/72%25-72%25-3B82F6?style=flat-square"> <img alt="" src="https://img.shields.io/badge/58%25-58%25-EAB308?style=flat-square"> <img alt="" src="https://img.shields.io/badge/📈-2..9-F41C80?style=flat-square">
+<img alt="" src="assets/progress_8194cde2c1037a78.svg"> <img alt="" src="assets/donut_d37f8d60de67187.svg"> <img alt="" src="assets/gauge_d7c8db8eb599f329.svg"> <img alt="" src="assets/sparkline_6c20f5563ba6eebd.svg">
 </p>
 
 Write this:
@@ -27,7 +27,7 @@ Get this:
 
 > 𝐂𝐇𝐀𝐏𝐓𝐄𝐑 𝐎𝐍𝐄
 >
-> ![](https://img.shields.io/badge/75%25-75%25-F41C80?style=flat-square)
+> ![](assets/progress_8c3ecedcea0c2152.svg)
 >
 > ★︎ FEATURED ☆︎
 
@@ -92,50 +92,50 @@ cargo install mdfx-cli
 
 ### Progress
 
-![](https://img.shields.io/badge/20%25-20%25-EF4444?style=flat-square)
-![](https://img.shields.io/badge/50%25-50%25-EAB308?style=flat-square)
-![](https://img.shields.io/badge/80%25-80%25-22C55E?style=flat-square)
+![](assets/progress_c208a891f10f0738.svg)
+![](assets/progress_8082d7313dc0eb8d.svg)
+![](assets/progress_a2efa3ea0d546ca5.svg)
 
 ### Sliders
 
-![](https://img.shields.io/badge/40%25-40%25-F41C80?style=flat-square)
-![](https://img.shields.io/badge/70%25-70%25-3B82F6?style=flat-square)
+![](assets/progress_d2043f5bd9b6e887.svg)
+![](assets/progress_ae8539f9e4f9c40a.svg)
 
 ### Circular
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/25%25-25%25-EF4444?style=flat-square"> <img alt="" src="https://img.shields.io/badge/50%25-50%25-EAB308?style=flat-square"> <img alt="" src="https://img.shields.io/badge/75%25-75%25-3B82F6?style=flat-square"> <img alt="" src="https://img.shields.io/badge/100%25-100%25-22C55E?style=flat-square">
+<img alt="" src="assets/donut_c1140c443b55c2f6.svg"> <img alt="" src="assets/donut_ded6905336546e5e.svg"> <img alt="" src="assets/donut_2d302bb2f57f6e6f.svg"> <img alt="" src="assets/donut_ae1d50ff3784744f.svg">
 </p>
 
 ### Gauges
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/25%25-25%25-EF4444?style=flat-square"> <img alt="" src="https://img.shields.io/badge/55%25-55%25-EAB308?style=flat-square"> <img alt="" src="https://img.shields.io/badge/85%25-85%25-22C55E?style=flat-square">
+<img alt="" src="assets/gauge_4cc31488da108560.svg"> <img alt="" src="assets/gauge_7af13484a7c1cf2c.svg"> <img alt="" src="assets/gauge_baca01a9bb105e80.svg">
 </p>
 
 ### Sparklines
 
 | Type | Chart |
 |------|-------|
-| Line | ![](https://img.shields.io/badge/📈-2..9-F41C80?style=flat-square) |
-| Bar | ![](https://img.shields.io/badge/📈-2..9-3B82F6?style=flat-square) |
-| Area | ![](https://img.shields.io/badge/📈-2..9-6B46C1?style=flat-square) |
+| Line | ![](assets/sparkline_1452d2434945700b.svg) |
+| Bar | ![](assets/sparkline_e685c6a06807c837.svg) |
+| Area | ![](assets/sparkline_117137ab3b25ed96.svg) |
 
 ### Waveforms
 
-![](https://img.shields.io/badge/🎵-24pts-F41C80?style=flat-square)
-![](https://img.shields.io/badge/🎵-24pts-22C55E?style=flat-square)
+![](assets/waveform_7d21d7d64a5780d4.svg)
+![](assets/waveform_7260ada9bc5eb7e9.svg)
 
 ### Swatches
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/-%20-F41C80?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-22C55E?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-EAB308?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-EF4444?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-3B82F6?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-2B6CB0?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-6B46C1?style=flat-square"> <img alt="" src="https://img.shields.io/badge/-%20-475569?style=flat-square">
+<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg"> <img alt="" src="assets/swatch_e666c671e27adcb2.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_518ded146f6f965a.svg"> <img alt="" src="assets/swatch_c056f66b5750e2ba.svg"> <img alt="" src="assets/swatch_a9a177f7358a610c.svg">
 </p>
 
 ### Tech
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/-%20-DEA584?style=flat-square&logo=rust&logoColor=000000&label=&labelColor=DEA584"> <img alt="" src="https://img.shields.io/badge/-%20-3776AB?style=flat-square&logo=python&logoColor=FFFFFF&label=&labelColor=3776AB"> <img alt="" src="https://img.shields.io/badge/-%20-3178C6?style=flat-square&logo=typescript&logoColor=FFFFFF&label=&labelColor=3178C6"> <img alt="" src="https://img.shields.io/badge/-%20-00ADD8?style=flat-square&logo=go&logoColor=000000&label=&labelColor=00ADD8"> <img alt="" src="https://img.shields.io/badge/-%20-2496ED?style=flat-square&logo=docker&logoColor=000000&label=&labelColor=2496ED"> <img alt="" src="https://img.shields.io/badge/-%20-4169E1?style=flat-square&logo=postgresql&logoColor=FFFFFF&label=&labelColor=4169E1">
+<img alt="" src="assets/tech_1b97443b792bd7e6.svg"> <img alt="" src="assets/tech_69efe9eff2da4fd7.svg"> <img alt="" src="assets/tech_21484072c3411d76.svg"> <img alt="" src="assets/tech_53a5c31dce78c2bd.svg"> <img alt="" src="assets/tech_43d885144c0e530b.svg"> <img alt="" src="assets/tech_c2dca4dc713a9434.svg">
 </p>
 
 ---
