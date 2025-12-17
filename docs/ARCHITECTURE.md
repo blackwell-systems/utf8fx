@@ -1891,7 +1891,7 @@ mdfx process --palette brand.json README.template.md
 - **Data:** `crates/mdfx/data/registry.json` (unified)
 - **Components Design:** [COMPONENTS.md](COMPONENTS.md)
 - **API Guide:** [API-GUIDE.md](API-GUIDE.md)
-- **Frames Design:** [FRAMES-DESIGN.md](FRAMES-DESIGN.md)
+- **Frames Guide:** [guides/FRAMES-GUIDE.md](guides/FRAMES-GUIDE.md)
 
 ---
 
