@@ -13,7 +13,7 @@
 ## {{frame:lenticular}}At a Glance{{/frame}}
 
 {{ui:row}}
-{{ui:progress:85:width=100:height=10:fill=success/}} {{ui:donut:72:size=28:thickness=3:fill=info/}} {{ui:gauge:58:size=44:thickness=5:fill=warning/}} {{ui:sparkline:2,5,3,8,4,9,6,7:width=80:height=16:fill=accent/}}
+{{ui:progress:85:width=100:height=10:fill=00FF94:track=1a1a2e/}} {{ui:donut:72:size=28:thickness=3:fill=00D4FF:track=1a1a2e/}} {{ui:gauge:58:size=44:thickness=5:fill=FF6B35:track=1a1a2e/}} {{ui:sparkline:2,5,3,8,4,9,6,7:width=80:height=16:fill=F41C80:track=1a1a2e/}}
 {{/ui}}
 
 Write this:
@@ -84,7 +84,13 @@ cargo install mdfx-cli
 | Chess | {{glyph:chess.king.white/}} {{glyph:chess.queen.white/}} {{glyph:chess.rook.white/}} {{glyph:chess.knight.white/}} |
 | Music | {{glyph:music.eighth/}} {{glyph:music.beamed/}} {{glyph:music.flat/}} {{glyph:music.sharp/}} |
 
-**As separators:** {{mathbold:separator=star}}STARS{{/mathbold}} · {{mathbold:separator=diamond}}DIAMONDS{{/mathbold}} · {{mathbold:separator=card.heart}}HEARTS{{/mathbold}}
+**As separators:**
+
+| Syntax | Output |
+|--------|--------|
+| `{{mathbold:separator=star}}STARS{{/mathbold}}` | {{mathbold:separator=star}}STARS{{/mathbold}} |
+| `{{mathbold:separator=diamond}}DIAMONDS{{/mathbold}}` | {{mathbold:separator=diamond}}DIAMONDS{{/mathbold}} |
+| `{{mathbold:separator=card.heart}}LOVE{{/mathbold}}` | {{mathbold:separator=card.heart}}LOVE{{/mathbold}} |
 
 ---
 

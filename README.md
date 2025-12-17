@@ -13,7 +13,7 @@
 ## 【︎At a Glance】︎
 
 <p align="center">
-<img alt="" src="assets/progress_8194cde2c1037a78.svg"> <img alt="" src="assets/donut_d37f8d60de67187.svg"> <img alt="" src="assets/gauge_d7c8db8eb599f329.svg"> <img alt="" src="assets/sparkline_6c20f5563ba6eebd.svg">
+<img alt="" src="assets/progress_852a234fef787503.svg"> <img alt="" src="assets/donut_6edc7eef1bdce5bc.svg"> <img alt="" src="assets/gauge_3b0f180b75d1bb16.svg"> <img alt="" src="assets/sparkline_f927d7bae307e7ac.svg">
 </p>
 
 Write this:
@@ -84,7 +84,13 @@ cargo install mdfx-cli
 | Chess | ♔︎ ♕︎ ♖︎ ♘︎ |
 | Music | ♪︎ ♫︎ ♭︎ ♯︎ |
 
-**As separators:** 𝐒★𝐓★𝐀★𝐑★𝐒 · 𝐃◆𝐈◆𝐀◆𝐌◆𝐎◆𝐍◆𝐃◆𝐒 · 𝐇♥𝐄♥𝐀♥𝐑♥𝐓♥𝐒
+**As separators:**
+
+| Syntax | Output |
+|--------|--------|
+| `{{mathbold:separator=star}}STARS{{/mathbold}}` | 𝐒★𝐓★𝐀★𝐑★𝐒 |
+| `{{mathbold:separator=diamond}}DIAMONDS{{/mathbold}}` | 𝐃◆𝐈◆𝐀◆𝐌◆𝐎◆𝐍◆𝐃◆𝐒 |
+| `{{mathbold:separator=card.heart}}LOVE{{/mathbold}}` | 𝐋♥𝐎♥𝐕♥𝐄 |
 
 ---
 
