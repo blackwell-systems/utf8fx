@@ -12,20 +12,30 @@ Renders vertical bars above and below a center line, perfect for audio waveforms
 
 ---
 
-## Basic Usage
+## Examples
 
-### Simple Waveform
+### Basic Waveform
 
-Values between -1 and 1 work best, but any range is supported.
+![](../../assets/mdfx/waveform_56ab4d5217fc0559.svg)
 
 ```markdown
-{{ui:waveform:0.3,0.7,0.5,0.9,0.4,-0.2,-0.6,-0.8,-0.5,-0.3,0.1,0.4,0.7,0.5/}}
+{{ui:waveform:0.3,0.7,0.5,0.9,0.4,-0.2,-0.6,-0.8,-0.5,-0.3,0.1,0.4,0.7,0.5:width=200:height=40/}}
 ```
 
-### Random Audio Pattern
+### Audio Pattern
+
+![](../../assets/mdfx/waveform_13c4c9c1aa662dfc.svg)
 
 ```markdown
-{{ui:waveform:0.2,0.4,0.6,0.8,0.5,0.3,-0.1,-0.4,-0.7,-0.5,-0.2,0.1,0.3,0.5,0.7,0.4,0.2,-0.1,-0.3,-0.6,-0.4,-0.2,0.1,0.3/}}
+{{ui:waveform:0.2,0.4,0.6,0.8,0.5,0.3,-0.1,-0.4,-0.7,-0.5,-0.2,0.1,0.3,0.5,0.7,0.4,0.2,-0.1,-0.3,-0.6,-0.4,-0.2,0.1,0.3:width=200:height=40/}}
+```
+
+### Monochrome (Accent)
+
+![](../../assets/mdfx/waveform_7d21d7d64a5780d4.svg)
+
+```markdown
+{{ui:waveform:...:positive=accent:negative=accent:bar=2:spacing=1/}}
 ```
 
 ---
@@ -36,50 +46,46 @@ Values between -1 and 1 work best, but any range is supported.
 
 Control positive (above center) and negative (below center) bar colors.
 
+**Cyan/Magenta:**
+
+![](../../assets/mdfx/waveform_a629597cb1bbd719.svg)
+
 ```markdown
-{{ui:waveform:...:positive=neon:negative=purple/}}
-{{ui:waveform:...:up=cyan:down=magenta/}}
+{{ui:waveform:...:positive=cyan:negative=magenta/}}
 ```
 
-### Monochrome Style
+**Neon Style:**
 
-Use the same color for both directions.
+![](../../assets/mdfx/waveform_6c32fd425342bef5.svg)
 
 ```markdown
-{{ui:waveform:...:positive=accent:negative=accent/}}
+{{ui:waveform:...:positive=neon:negative=neon/}}
 ```
 
-### Custom Dimensions
+**Success/Error:**
+
+![](../../assets/mdfx/waveform_23c4307026a2691e.svg)
 
 ```markdown
-{{ui:waveform:...:width=150:height=50/}}
-{{ui:waveform:...:width=200:height=30/}}
+{{ui:waveform:...:positive=success:negative=error/}}
 ```
 
 ### Bar Width and Spacing
 
-Control the thickness and gap between bars.
+**Wide Bars:**
+
+![](../../assets/mdfx/waveform_aa9d36d1a5dfd6ac.svg)
 
 ```markdown
-{{ui:waveform:...:bar_width=2:spacing=1/}}
-{{ui:waveform:...:bar=5:spacing=2/}}
+{{ui:waveform:...:bar=8:spacing=4/}}
 ```
 
-### Center Line
+**Thin Bars:**
 
-Show a horizontal center line for reference.
-
-```markdown
-{{ui:waveform:...:center=true/}}
-{{ui:waveform:...:center=true:center_color=white/}}
-```
-
-### Track Background
-
-Add a background track color.
+![](../../assets/mdfx/waveform_28be028c8851135f.svg)
 
 ```markdown
-{{ui:waveform:...:track=dark2/}}
+{{ui:waveform:...:bar=2:spacing=1/}}
 ```
 
 ---
@@ -106,33 +112,17 @@ Add a background track color.
 
 Perfect for showing audio waveforms in music or podcast READMEs.
 
-```markdown
-{{ui:waveform:0.1,0.3,0.5,0.7,0.9,0.7,0.5,0.3,0.1,-0.1,-0.3,-0.5,-0.7,-0.9,-0.7,-0.5,-0.3,-0.1:positive=neon:negative=neon:width=200:height=40/}}
-```
-
 ### Signal Processing
 
 Show signal data with distinct positive/negative coloring.
-
-```markdown
-{{ui:waveform:1,0.5,0,-0.5,-1,-0.5,0,0.5,1,0.5,0,-0.5,-1:positive=cyan:negative=magenta:center=true/}}
-```
 
 ### Stock/Financial Data
 
 Display price movements with gains (positive) and losses (negative).
 
-```markdown
-{{ui:waveform:0.02,0.05,-0.03,0.08,-0.02,-0.06,0.04,0.07,-0.01,-0.04,0.03:positive=success:negative=error:width=120/}}
-```
-
 ### Sentiment Analysis
 
 Visualize positive/negative sentiment scores.
-
-```markdown
-{{ui:waveform:0.8,0.6,0.2,-0.3,-0.5,0.1,0.4,0.7,-0.2,-0.4,0.3:positive=info:negative=warning/}}
-```
 
 ---
 
