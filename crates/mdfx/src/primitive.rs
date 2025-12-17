@@ -71,6 +71,12 @@ pub enum Primitive {
         style: String,
         /// Optional label for two-segment badge
         label: Option<String>,
+        /// Border color (hex). SVG-only.
+        border_color: Option<String>,
+        /// Border width in pixels. SVG-only.
+        border_width: Option<u32>,
+        /// Corner radius. SVG-only.
+        rx: Option<u32>,
     },
 
     /// Progress bar with customizable track and fill
@@ -437,6 +443,9 @@ mod tests {
             logo_color: "ffffff".to_string(),
             style: "flat-square".to_string(),
             label: None,
+            border_color: None,
+            border_width: None,
+            rx: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -454,11 +463,44 @@ mod tests {
             logo_color: "ffffff".to_string(),
             style: "flat-square".to_string(),
             label: Some("v1.80".to_string()),
+            border_color: None,
+            border_width: None,
+            rx: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
             assert_eq!(name, "rust");
             assert_eq!(label, Some("v1.80".to_string()));
+        } else {
+            panic!("Expected Tech primitive");
+        }
+    }
+
+    #[test]
+    fn test_primitive_tech_with_border() {
+        let tech = Primitive::Tech {
+            name: "rust".to_string(),
+            bg_color: "000000".to_string(),
+            logo_color: "ffffff".to_string(),
+            style: "flat-square".to_string(),
+            label: Some("v1.80".to_string()),
+            border_color: Some("F41C80".to_string()),
+            border_width: Some(2),
+            rx: Some(8),
+        };
+
+        if let Primitive::Tech {
+            name,
+            border_color,
+            border_width,
+            rx,
+            ..
+        } = tech
+        {
+            assert_eq!(name, "rust");
+            assert_eq!(border_color, Some("F41C80".to_string()));
+            assert_eq!(border_width, Some(2));
+            assert_eq!(rx, Some(8));
         } else {
             panic!("Expected Tech primitive");
         }

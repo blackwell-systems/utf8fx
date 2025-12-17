@@ -227,6 +227,9 @@ mod tests {
             logo_color: "000000".to_string(),
             style: "flat-square".to_string(),
             label: None,
+            border_color: None,
+            border_width: None,
+            rx: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust]");
@@ -241,6 +244,9 @@ mod tests {
             logo_color: "000000".to_string(),
             style: "flat-square".to_string(),
             label: Some("v1.80".to_string()),
+            border_color: None,
+            border_width: None,
+            rx: None,
         };
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust | v1.80]");

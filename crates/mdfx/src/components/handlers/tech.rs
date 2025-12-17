@@ -18,9 +18,23 @@ pub fn handle(
         ));
     }
     let name = args[0].clone();
-    let bg_color = resolve_color("ui.bg");
-    let logo_color = resolve_color("white");
+
+    // Allow custom bg and logo colors via params, with defaults
+    let bg_color = params
+        .get("bg")
+        .map(|c| resolve_color(c))
+        .unwrap_or_else(|| resolve_color("ui.bg"));
+    let logo_color = params
+        .get("logo")
+        .map(|c| resolve_color(c))
+        .unwrap_or_else(|| resolve_color("white"));
+
     let label = params.get("label").cloned();
+    let border_color = params.get("border").map(|c| resolve_color(c));
+    let border_width = params
+        .get("border_width")
+        .and_then(|v| v.parse().ok());
+    let rx = params.get("rx").and_then(|v| v.parse().ok());
 
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
@@ -28,5 +42,8 @@ pub fn handle(
         logo_color,
         style: style.to_string(),
         label,
+        border_color,
+        border_width,
+        rx,
     }))
 }

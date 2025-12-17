@@ -113,6 +113,18 @@
 {{ui:tech:rust:label=v1.80/}} {{ui:tech:typescript:label=v5.3/}} {{ui:tech:react:label=v18.2/}} {{ui:tech:nodejs:label=v20 LTS/}}
 {{/ui}}
 
+### Styled Badges with Borders
+
+{{ui:row:align=center}}
+{{ui:tech:rust:label=v1.80:border=f41c80:border_width=2:rx=8/}} {{ui:tech:python:label=v3.12:border=3B82F6:border_width=2:rx=8/}} {{ui:tech:go:label=v1.22:border=22C55E:border_width=2:rx=8/}}
+{{/ui}}
+
+### Custom Color Themes
+
+{{ui:row:align=center}}
+{{ui:tech:docker:bg=2496ED:logo=white:label=Container:border=white:border_width=1:rx=6/}} {{ui:tech:kubernetes:bg=326CE5:logo=white:label=K8s:border=white:border_width=1:rx=6/}} {{ui:tech:terraform:bg=7B42BC:logo=white:label=IaC:border=white:border_width=1:rx=6/}}
+{{/ui}}
+
 ### Infrastructure with Labels
 
 {{ui:row:align=center}}
@@ -123,6 +135,12 @@
 
 {{ui:row:align=center}}
 {{ui:tech:github:label=Source/}} {{ui:tech:gitlab:label=CI/CD/}} {{ui:tech:redis:label=Cache/}} {{ui:tech:mongodb:label=NoSQL/}}
+{{/ui}}
+
+### Accent Bordered Tech
+
+{{ui:row:align=center}}
+{{ui:tech:github:border=f41c80:border_width=3:rx=10/}} {{ui:tech:visualstudiocode:border=3B82F6:border_width=3:rx=10/}} {{ui:tech:figma:border=F59E0B:border_width=3:rx=10/}} {{ui:tech:slack:border=22C55E:border_width=3:rx=10/}}
 {{/ui}}
 
 ### Full Stack Banner

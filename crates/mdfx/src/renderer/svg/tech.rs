@@ -26,37 +26,49 @@ fn get_icon_path(name: &str) -> Option<&'static str> {
     }
 }
 
-/// Render a tech badge with optional label
+/// Tech badge rendering options
+struct TechOptions<'a> {
+    metrics: super::swatch::SvgMetrics,
+    border_color: Option<&'a str>,
+    border_width: u32,
+    rx: u32,
+}
+
+/// Render a tech badge with full options
 ///
-/// Supports two layouts:
-/// - Icon only: Just the logo on a colored background
-/// - Icon + label: Logo on left segment, text on right segment
-pub fn render_with_label(
+/// Supports:
+/// - Icon only or Icon + label layouts
+/// - Custom border color and width
+/// - Custom corner radius
+pub fn render_with_options(
     name: &str,
     label: Option<&str>,
     bg_color: &str,
     logo_color: &str,
     style: &str,
+    border_color: Option<&str>,
+    border_width: Option<u32>,
+    rx: Option<u32>,
 ) -> String {
     let metrics = super::swatch::SvgMetrics::from_style(style);
+    let opts = TechOptions {
+        rx: rx.unwrap_or(metrics.rx),
+        border_color,
+        border_width: border_width.unwrap_or(0),
+        metrics,
+    };
     let icon_path = get_icon_path(name);
 
     match (icon_path, label) {
         // Icon + Label: Two-segment badge
         (Some(path), Some(label_text)) => {
-            render_two_segment(path, label_text, bg_color, logo_color, &metrics)
+            render_two_segment(path, label_text, bg_color, logo_color, &opts)
         }
         // Icon only: Single segment with centered icon
-        (Some(path), None) => {
-            render_icon_only(path, bg_color, logo_color, &metrics)
-        }
+        (Some(path), None) => render_icon_only(path, bg_color, logo_color, &opts),
         // No icon found: Fallback to text
-        (None, Some(label_text)) => {
-            render_text_only(name, Some(label_text), bg_color, &metrics)
-        }
-        (None, None) => {
-            render_text_only(name, None, bg_color, &metrics)
-        }
+        (None, Some(label_text)) => render_text_only(name, Some(label_text), bg_color, &opts),
+        (None, None) => render_text_only(name, None, bg_color, &opts),
     }
 }
 
@@ -66,9 +78,9 @@ fn render_two_segment(
     label: &str,
     bg_color: &str,
     logo_color: &str,
-    metrics: &super::swatch::SvgMetrics,
+    opts: &TechOptions,
 ) -> String {
-    let height = metrics.height;
+    let height = opts.metrics.height;
     let icon_width: u32 = 36;
     let label_width = estimate_text_width(label) + 16;
     let total_width = icon_width + label_width;
@@ -78,14 +90,26 @@ fn render_two_segment(
     let font_size = if height > 24 { 11 } else { 10 };
     let text_x = icon_width + label_width / 2;
     let text_y = height / 2 + font_size / 3;
+    let rx = opts.rx;
 
     // Darker shade for right segment
     let right_bg = darken_color(bg_color, 0.15);
     let scale = icon_size as f32 / 24.0;
 
+    // Border stroke attribute
+    let border_attr = if opts.border_width > 0 {
+        let color = opts.border_color.unwrap_or("FFFFFF");
+        format!(
+            " stroke=\"#{}\" stroke-width=\"{}\"",
+            color, opts.border_width
+        )
+    } else {
+        String::new()
+    };
+
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
   <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"0\"/>\n\
   <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
   <g transform=\"translate({}, {}) scale({})\">\n\
@@ -94,9 +118,9 @@ fn render_two_segment(
   <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Verdana,Arial,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
         total_width, height, total_width, height,
-        total_width, height, bg_color, metrics.rx,
+        total_width, height, bg_color, rx, border_attr,
         icon_width, label_width, height, right_bg,
-        total_width - metrics.rx, metrics.rx, height, right_bg, metrics.rx,
+        total_width - rx, rx, height, right_bg, rx,
         icon_x, icon_y, scale,
         logo_color, icon_path,
         text_x, text_y, font_size, label
@@ -108,24 +132,36 @@ fn render_icon_only(
     icon_path: &str,
     bg_color: &str,
     logo_color: &str,
-    metrics: &super::swatch::SvgMetrics,
+    opts: &TechOptions,
 ) -> String {
-    let height = metrics.height;
+    let height = opts.metrics.height;
     let width: u32 = 40;
     let icon_size: u32 = 16;
     let icon_x = (width as f32 - icon_size as f32) / 2.0;
     let icon_y = (height as f32 - icon_size as f32) / 2.0;
     let scale = icon_size as f32 / 24.0;
+    let rx = opts.rx;
+
+    // Border stroke attribute
+    let border_attr = if opts.border_width > 0 {
+        let color = opts.border_color.unwrap_or("FFFFFF");
+        format!(
+            " stroke=\"#{}\" stroke-width=\"{}\"",
+            color, opts.border_width
+        )
+    } else {
+        String::new()
+    };
 
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
 </svg>",
         width, height, width, height,
-        width, height, bg_color, metrics.rx,
+        width, height, bg_color, rx, border_attr,
         icon_x, icon_y, scale,
         logo_color, icon_path
     )
@@ -136,21 +172,33 @@ fn render_text_only(
     name: &str,
     label: Option<&str>,
     bg_color: &str,
-    metrics: &super::swatch::SvgMetrics,
+    opts: &TechOptions,
 ) -> String {
-    let height = metrics.height;
+    let height = opts.metrics.height;
     let display_text = label.unwrap_or(name);
     let width = estimate_text_width(display_text) + 20;
     let font_size = if height > 24 { 12 } else { 11 };
     let text_y = height / 2 + font_size / 3;
+    let rx = opts.rx;
+
+    // Border stroke attribute
+    let border_attr = if opts.border_width > 0 {
+        let color = opts.border_color.unwrap_or("FFFFFF");
+        format!(
+            " stroke=\"#{}\" stroke-width=\"{}\"",
+            color, opts.border_width
+        )
+    } else {
+        String::new()
+    };
 
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
   <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Verdana,Arial,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
         width, height, width, height,
-        width, height, bg_color, metrics.rx,
+        width, height, bg_color, rx, border_attr,
         width / 2, text_y, font_size, display_text.to_uppercase()
     )
 }
