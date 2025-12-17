@@ -159,6 +159,7 @@ Custom palette: `mdfx process --palette brand.json input.md`
 | | |
 |---|---|
 | [Components](docs/guides/COMPONENTS-GUIDE.md) | UI primitives |
+| [Colors](docs/guides/COLORS-GUIDE.md) | Palette system |
 | [Progress](docs/guides/PROGRESS-GUIDE.md) | Progress bars |
 | [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
