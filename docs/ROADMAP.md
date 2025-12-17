@@ -8,38 +8,19 @@ Planned features for future versions.
 
 ### CLI Discovery Commands
 
-Add commands to explore available components without reading docs:
+Expand `mdfx list` to explore all available resources:
 
 ```bash
-mdfx components              # List all components
-mdfx components show swatch  # Show component details
-mdfx palette                 # List palette colors
-mdfx frames                  # List frame styles
-```
-
-### Asset Manifest
-
-Generate `manifest.json` for CI caching and reproducible builds:
-
-```json
-{
-  "version": "1.0",
-  "backend": "svg",
-  "assets": [
-    { "path": "swatch_541bbacc.svg", "sha256": "...", "type": "swatch" }
-  ]
-}
+mdfx list                    # List styles (current)
+mdfx list components         # List all UI components
+mdfx list glyphs             # List named glyphs
+mdfx list frames             # List frame styles
+mdfx list palette            # List palette colors
 ```
 
 ### Smart Caching
 
 Skip writing unchanged SVG files for faster rebuilds.
-
-### Template Aliases
-
-Short aliases for power users:
-
-- `fr` → `frame` (e.g., `{{fr:gradient}}X{{/fr}}`)
 
 ---
 
@@ -77,7 +58,6 @@ mdfx process --strict input.md
 - Spacer primitive for layout control
 - Rule primitive for lines
 - BadgeGroup for consistent badge spacing
-- Grapheme cluster support for emoji separators
 - **Template includes** - `{{include:_header.md/}}` to compose documents from partials
 - **Conditional blocks** - `{{#if target=github}}GitHub-only content{{/if}}`
 
