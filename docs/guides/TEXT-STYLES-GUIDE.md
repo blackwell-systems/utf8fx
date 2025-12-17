@@ -11,6 +11,7 @@ Transform ordinary text into stunning Unicode typography. Text styles map ASCII 
   - [Elegant & Stylistic](#elegant--stylistic)
   - [Gothic & Blackletter](#gothic--blackletter)
   - [Technical & Mathematical](#technical--mathematical)
+  - [Effect Styles](#effect-styles)
 - [Separator Parameter](#separator-parameter)
 - [Support Matrix](#support-matrix)
 - [Combining with Frames](#combining-with-frames)
@@ -173,6 +174,33 @@ Clean, precise typography for technical content.
 
 ---
 
+### Effect Styles
+
+Styles that modify text appearance using combining characters.
+
+| Style | Aliases | Supports | Output |
+|-------|---------|----------|--------|
+| `strikethrough` | strike, st, crossed | All characters | H̶e̶l̶l̶o̶ |
+
+```markdown
+{{strikethrough}}Deprecated{{/strikethrough}}
+{{strike}}old text{{/strike}}
+{{st}}removed{{/st}}
+```
+
+**Output:**
+```
+D̶e̶p̶r̶e̶c̶a̶t̶e̶d̶
+o̶l̶d̶ ̶t̶e̶x̶t̶
+r̶e̶m̶o̶v̶e̶d̶
+```
+
+**How it works:** Uses Unicode combining character U+0336 (COMBINING LONG STROKE OVERLAY) appended after each character.
+
+**Use case:** Crossed-out text, deprecated items, corrections.
+
+---
+
 ## Separator Parameter
 
 Add visual spacing between characters with the `separator` parameter. **Any glyph name can be used as a separator** - all 500+ glyphs from the [Glyphs Guide](GLYPHS-GUIDE.md) work here.
@@ -245,6 +273,7 @@ See [Glyphs Guide](GLYPHS-GUIDE.md) for all available glyph names.
 | double-struck | ✓ | ✓ | ✓ | ✗ |
 | sans-serif | ✓ | ✓ | ✓ | ✗ |
 | sans-serif-italic | ✓ | ✓ | ✗ | ✗ |
+| strikethrough | ✓ | ✓ | ✓ | ✓ |
 
 *small-caps converts uppercase to small caps as well
 
@@ -315,6 +344,7 @@ Let {{double-struck}}R{{/double-struck}} be the set of real numbers
 | **Elegant** | small-caps, italic, script, bold-script | Signatures, quotes |
 | **Gothic** | fraktur, bold-fraktur | Fantasy, historical |
 | **Technical** | monospace, double-struck, sans-serif | Code, math |
+| **Effect** | strikethrough | Deprecated items, corrections |
 
 ---
 
@@ -339,6 +369,7 @@ Let {{double-struck}}R{{/double-struck}} be the set of real numbers
 | double-struck | U+1D538–U+1D56B |
 | sans-serif | U+1D5A0–U+1D5B9 |
 | sans-serif-italic | U+1D608–U+1D621 |
+| strikethrough | U+0336 (combining) |
 
 ---
 

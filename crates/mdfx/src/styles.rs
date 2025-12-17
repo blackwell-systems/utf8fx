@@ -34,6 +34,9 @@ pub struct Style {
     pub mappings: HashMap<char, char>,
     #[serde(default)]
     pub contexts: Vec<EvalContext>,
+    /// Optional combining character suffix appended after each character (e.g., U+0336 for strikethrough)
+    #[serde(default)]
+    pub suffix: Option<String>,
 }
 
 impl Style {
@@ -46,6 +49,16 @@ impl Style {
     /// Returns the original character if no mapping exists
     pub fn convert_char(&self, c: char) -> char {
         *self.mappings.get(&c).unwrap_or(&c)
+    }
+
+    /// Convert a character to a string, applying mappings and optional suffix
+    /// Used for styles with combining characters (e.g., strikethrough)
+    pub fn convert_char_to_string(&self, c: char) -> String {
+        let converted = self.convert_char(c);
+        match &self.suffix {
+            Some(suffix) if !c.is_whitespace() => format!("{}{}", converted, suffix),
+            _ => converted.to_string(),
+        }
     }
 
     /// Check if this style matches a given ID or alias
@@ -126,8 +139,8 @@ mod tests {
     #[test]
     fn test_load_styles() {
         let data = StylesData::load().unwrap();
-        assert_eq!(data.total_styles, 23);
-        assert_eq!(data.styles.len(), 23);
+        assert_eq!(data.total_styles, 24);
+        assert_eq!(data.styles.len(), 24);
     }
 
     #[test]

@@ -52,10 +52,7 @@ pub fn handle(
         .map(|c| resolve_color(c))
         .unwrap_or_else(|| resolve_color("accent"));
 
-    let rx: u32 = params
-        .get("rx")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(3);
+    let rx: u32 = params.get("rx").and_then(|v| v.parse().ok()).unwrap_or(3);
 
     let show_label = params
         .get("label")

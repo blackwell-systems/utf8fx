@@ -120,9 +120,7 @@ impl Renderer for ShieldsBackend {
             // Sparkline uses a chart indicator as shields.io fallback
             // Full sparkline rendering requires SVG backend
             Primitive::Sparkline {
-                values,
-                fill_color,
-                ..
+                values, fill_color, ..
             } => {
                 // Create a simple text representation of the data range
                 let min = values.iter().cloned().fold(f32::INFINITY, f32::min);
@@ -165,8 +163,7 @@ impl Renderer for ShieldsBackend {
                 let label = format!("{}pts", values.len());
                 format!(
                     "![](https://img.shields.io/badge/🎵-{}-{}?style=flat-square)",
-                    label,
-                    positive_color
+                    label, positive_color
                 )
             }
         };

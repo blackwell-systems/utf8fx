@@ -169,12 +169,7 @@ fn render_icon_only(
 }
 
 /// Render text-only fallback badge
-fn render_text_only(
-    name: &str,
-    label: Option<&str>,
-    bg_color: &str,
-    opts: &TechOptions,
-) -> String {
+fn render_text_only(name: &str, label: Option<&str>, bg_color: &str, opts: &TechOptions) -> String {
     let height = opts.metrics.height;
     let display_text = label.unwrap_or(name);
     let width = estimate_text_width(display_text) + 20;
@@ -218,9 +213,7 @@ fn darken_color(hex: &str, amount: f32) -> String {
     let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0);
     let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0);
 
-    let darken = |c: u8| -> u8 {
-        ((c as f32) * (1.0 - amount)).round() as u8
-    };
+    let darken = |c: u8| -> u8 { ((c as f32) * (1.0 - amount)).round() as u8 };
 
     format!("{:02X}{:02X}{:02X}", darken(r), darken(g), darken(b))
 }

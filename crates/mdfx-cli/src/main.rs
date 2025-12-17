@@ -865,8 +865,8 @@ fn clean_assets(assets_dir: &str, dry_run: bool, scan_pattern: Option<&str>) -> 
             .unwrap_or_default();
 
         // Check if this asset is referenced (by full path or filename)
-        let is_referenced = referenced.contains(&relative_path)
-            || referenced.iter().any(|r| r.ends_with(filename));
+        let is_referenced =
+            referenced.contains(&relative_path) || referenced.iter().any(|r| r.ends_with(filename));
 
         if !is_referenced {
             let metadata = fs::metadata(&path).map_err(Error::IoError)?;
@@ -946,8 +946,7 @@ fn scan_markdown_for_assets(
     let mut files_scanned = 0;
 
     for entry in glob_pattern {
-        let path = entry
-            .map_err(|e| Error::ParseError(format!("Glob error: {}", e)))?;
+        let path = entry.map_err(|e| Error::ParseError(format!("Glob error: {}", e)))?;
 
         // Read markdown file
         let content = match fs::read_to_string(&path) {

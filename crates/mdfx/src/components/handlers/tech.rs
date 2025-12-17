@@ -31,9 +31,7 @@ pub fn handle(
 
     let label = params.get("label").cloned();
     let border_color = params.get("border").map(|c| resolve_color(c));
-    let border_width = params
-        .get("border_width")
-        .and_then(|v| v.parse().ok());
+    let border_width = params.get("border_width").and_then(|v| v.parse().ok());
     let rx = params.get("rx").and_then(|v| v.parse().ok());
 
     Ok(ComponentOutput::Primitive(Primitive::Tech {

@@ -355,9 +355,11 @@ impl TemplateParser {
             return Ok(None);
         };
 
-        let output = self
-            .components_renderer
-            .expand(&data.component_name, &data.args, data.content.as_deref())?;
+        let output = self.components_renderer.expand(
+            &data.component_name,
+            &data.args,
+            data.content.as_deref(),
+        )?;
 
         let (result, assets) = match output {
             ComponentOutput::Primitive(primitive) => {
@@ -377,9 +379,7 @@ impl TemplateParser {
             } => {
                 let (processed, assets) = self.process_templates_with_assets(&template)?;
                 let final_output = match post_process {
-                    PostProcess::Row { align } => {
-                        ComponentsRenderer::apply_row(&processed, &align)
-                    }
+                    PostProcess::Row { align } => ComponentsRenderer::apply_row(&processed, &align),
                     _ => processed,
                 };
                 (final_output, assets)
@@ -459,8 +459,11 @@ impl TemplateParser {
                         .map(|r| r.to_string())
                         .unwrap_or_else(|| s.clone())
                 });
-                self.shields_renderer
-                    .render_bar_with_separator(&colors, style, separator.as_deref())?
+                self.shields_renderer.render_bar_with_separator(
+                    &colors,
+                    style,
+                    separator.as_deref(),
+                )?
             }
             "icon" => {
                 let logo = data.params.get("logo").ok_or_else(|| {
@@ -616,7 +619,11 @@ impl TemplateParser {
             let repeated_prefix = prefix_pattern.repeat(count);
             let repeated_suffix = suffix_pattern.repeat(count);
             let prefix_space = if frame.prefix.ends_with(' ') { " " } else { "" };
-            let suffix_space = if frame.suffix.starts_with(' ') { " " } else { "" };
+            let suffix_space = if frame.suffix.starts_with(' ') {
+                " "
+            } else {
+                ""
+            };
             (
                 format!("{}{}", repeated_prefix, prefix_space),
                 format!("{}{}", suffix_space, repeated_suffix),
@@ -3136,7 +3143,6 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
         assert!(!result.is_empty());
         assert!(result.contains("█▌")); // solid-left frame prefix
     }
-
 }
 
 #[cfg(test)]

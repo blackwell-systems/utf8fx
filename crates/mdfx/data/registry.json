@@ -1781,6 +1781,23 @@
           ".": "˙", ",": "'", "'": ",", "\"": "„", "!": "¡", "?": "¿", "(": ")", ")": "(",
           "[": "]", "]": "[", "{": "}", "}": "{", "<": ">", ">": "<", "&": "⅋", "_": "‾"
         }
+      },
+      "strikethrough": {
+        "id": "strikethrough",
+        "name": "Strikethrough",
+        "description": "Crossed-out text using combining long stroke overlay (U+0336)",
+        "category": "technical",
+        "unicode_block": "Combining Diacritical Marks (U+0300–U+036F)",
+        "aliases": ["strike", "st", "crossed"],
+        "contexts": ["inline"],
+        "supports": {
+          "uppercase": true,
+          "lowercase": true,
+          "numbers": true,
+          "symbols": true
+        },
+        "mappings": {},
+        "suffix": "\u0336"
       }
     }
   },
@@ -1789,7 +1806,7 @@
     "total_glyphs": 493,
     "total_components": 6,
     "total_frames": 27,
-    "total_styles": 23,
+    "total_styles": 24,
     "total_palette_colors": 15,
     "total_shield_styles": 5,
     "last_updated": "2025-12-16"

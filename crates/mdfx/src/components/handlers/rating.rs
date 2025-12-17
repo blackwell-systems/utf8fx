@@ -25,10 +25,7 @@ pub fn handle(
         ))
     })?;
 
-    let max: u32 = params
-        .get("max")
-        .and_then(|v| v.parse().ok())
-        .unwrap_or(5);
+    let max: u32 = params.get("max").and_then(|v| v.parse().ok()).unwrap_or(5);
 
     let size: u32 = params
         .get("size")

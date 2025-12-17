@@ -5,10 +5,7 @@ use crate::error::Result;
 use std::collections::HashMap;
 
 /// Handle row component expansion
-pub fn handle(
-    params: &HashMap<String, String>,
-    content: Option<&str>,
-) -> Result<ComponentOutput> {
+pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result<ComponentOutput> {
     // Extract align parameter (default: center)
     let align = params
         .get("align")

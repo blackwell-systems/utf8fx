@@ -43,7 +43,10 @@ impl Converter {
 
         // Fast path: no separation needed
         if count == 0 || separator.is_empty() {
-            let result: String = text.chars().map(|c| style_obj.convert_char(c)).collect();
+            let result: String = text
+                .chars()
+                .map(|c| style_obj.convert_char_to_string(c))
+                .collect();
             return Ok(result);
         }
 
@@ -52,7 +55,7 @@ impl Converter {
         let mut chars = text.chars().peekable();
 
         while let Some(c) = chars.next() {
-            result.push(style_obj.convert_char(c));
+            result.push_str(&style_obj.convert_char_to_string(c));
 
             // Add separator after each character except the last
             if chars.peek().is_some() {
@@ -267,7 +270,7 @@ mod tests {
     fn test_list_styles() {
         let converter = Converter::new().unwrap();
         let styles = converter.list_styles();
-        assert_eq!(styles.len(), 23);
+        assert_eq!(styles.len(), 24);
     }
 
     #[test]
@@ -318,6 +321,33 @@ mod tests {
             let result = converter.convert("TEST", id);
             assert!(result.is_ok(), "Style '{}' should convert successfully", id);
         }
+    }
+
+    #[test]
+    fn test_strikethrough() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert("Hello", "strikethrough").unwrap();
+        // Each character gets U+0336 appended, spaces are preserved
+        assert_eq!(result, "H\u{0336}e\u{0336}l\u{0336}l\u{0336}o\u{0336}");
+    }
+
+    #[test]
+    fn test_strikethrough_with_spaces() {
+        let converter = Converter::new().unwrap();
+        let result = converter.convert("Hi there", "strikethrough").unwrap();
+        // Spaces should NOT get strikethrough
+        assert_eq!(
+            result,
+            "H\u{0336}i\u{0336} t\u{0336}h\u{0336}e\u{0336}r\u{0336}e\u{0336}"
+        );
+    }
+
+    #[test]
+    fn test_strikethrough_alias() {
+        let converter = Converter::new().unwrap();
+        assert!(converter.has_style("strike"));
+        assert!(converter.has_style("st"));
+        assert!(converter.has_style("crossed"));
     }
 
     #[test]

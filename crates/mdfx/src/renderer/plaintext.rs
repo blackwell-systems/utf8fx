@@ -76,7 +76,11 @@ impl Renderer for PlainTextBackend {
                 }
                 let min = values.iter().cloned().fold(f32::INFINITY, f32::min);
                 let max = values.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
-                let range = if (max - min).abs() < 0.001 { 1.0 } else { max - min };
+                let range = if (max - min).abs() < 0.001 {
+                    1.0
+                } else {
+                    max - min
+                };
                 let bars = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
                 let spark: String = values
                     .iter()
@@ -101,7 +105,9 @@ impl Renderer for PlainTextBackend {
 
                 let filled = value.floor() as u32;
                 let has_half = (value - value.floor()) >= 0.5;
-                let empty = max.saturating_sub(filled).saturating_sub(if has_half { 1 } else { 0 });
+                let empty = max
+                    .saturating_sub(filled)
+                    .saturating_sub(if has_half { 1 } else { 0 });
 
                 let mut result = String::new();
                 for _ in 0..filled.min(*max) {
@@ -123,7 +129,11 @@ impl Renderer for PlainTextBackend {
                 if values.is_empty() {
                     return Ok(RenderedAsset::InlineMarkdown("▔".to_string()));
                 }
-                let max_abs = values.iter().map(|v| v.abs()).fold(0.0f32, f32::max).max(0.001);
+                let max_abs = values
+                    .iter()
+                    .map(|v| v.abs())
+                    .fold(0.0f32, f32::max)
+                    .max(0.001);
                 let bars_pos = ['▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'];
                 let wave: String = values
                     .iter()
@@ -251,5 +261,4 @@ mod tests {
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust | v1.80]");
     }
-
 }
