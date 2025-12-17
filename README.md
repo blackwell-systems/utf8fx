@@ -1,7 +1,7 @@
 # 【𝐌𝐃𝐅𝐗】
 
 <p align="center">
-<img alt="" src="assets/progress_1916335a55e85a43.svg">&nbsp;&nbsp;<img alt="" src="assets/donut_46de99796df06ee2.svg">&nbsp;&nbsp;<img alt="" src="assets/gauge_6b78b8fea1029af9.svg">&nbsp;&nbsp;<img alt="" src="assets/sparkline_a58c817d6cf883a7.svg">&nbsp;&nbsp;&nbsp;<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
+<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
