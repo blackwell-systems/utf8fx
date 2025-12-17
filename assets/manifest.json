@@ -1,19 +1,19 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-17T17:42:51.922900372+00:00",
+  "created_at": "2025-12-17T17:58:09.821508048+00:00",
   "backend": "svg",
   "assets_dir": "assets/",
   "total_assets": 40,
   "assets": [
     {
-      "path": "assets/tech_abfb5c5be62dde98.svg",
-      "sha256": "d901d7d94679a4db2d123aeb586628b5c53f5d0310a8a1e5dadaa2254ad52155",
+      "path": "assets/tech_d95b096d6ceb7388.svg",
+      "sha256": "b6e38be1204b6d58d115bb01b45711e9e75f879b47b9f72563df4486287441ed",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
         "bg_color": "DEA584",
-        "logo_color": "FFFFFF",
+        "logo_color": "000000",
         "style": "flat-square"
       },
       "size_bytes": 2293
@@ -407,14 +407,14 @@
       "size_bytes": 164
     },
     {
-      "path": "assets/tech_abfb5c5be62dde98.svg",
-      "sha256": "d901d7d94679a4db2d123aeb586628b5c53f5d0310a8a1e5dadaa2254ad52155",
+      "path": "assets/tech_d95b096d6ceb7388.svg",
+      "sha256": "b6e38be1204b6d58d115bb01b45711e9e75f879b47b9f72563df4486287441ed",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
         "bg_color": "DEA584",
-        "logo_color": "FFFFFF",
+        "logo_color": "000000",
         "style": "flat-square"
       },
       "size_bytes": 2293
@@ -446,27 +446,27 @@
       "size_bytes": 1652
     },
     {
-      "path": "assets/tech_e36c30bc2d511501.svg",
-      "sha256": "29d8b575f621f07390ab415b492db392f097e12c3293f24ff6ea3d54b10969d0",
+      "path": "assets/tech_42ae44f0aedc9171.svg",
+      "sha256": "7b0985b00a6027f407acbfd4289931b5a2b61f784e90ae4113b75373ccd15cf9",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "go",
         "bg_color": "00ADD8",
-        "logo_color": "FFFFFF",
+        "logo_color": "000000",
         "style": "flat-square"
       },
       "size_bytes": 2012
     },
     {
-      "path": "assets/tech_7540c9e4510f2af2.svg",
-      "sha256": "4bd767d5f241c0890dabd72f566a6ee512ee400171dee672bf4335db6a7f462b",
+      "path": "assets/tech_4938b4b7bb54bd3f.svg",
+      "sha256": "3002587df14cd1bc087da8e7e3342218ae8c3909356cafe64b4828ba169cfdac",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "docker",
         "bg_color": "2496ED",
-        "logo_color": "FFFFFF",
+        "logo_color": "000000",
         "style": "flat-square"
       },
       "size_bytes": 2140
