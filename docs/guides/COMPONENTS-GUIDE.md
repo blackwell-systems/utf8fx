@@ -149,6 +149,8 @@ Override with `logo` parameter:
 
 **Note:** Tech badges use brand colors from Simple Icons by default. The two-segment design shows the logo on the left and label on the right.
 
+See [TECH-GUIDE.md](TECH-GUIDE.md) for complete documentation.
+
 ---
 
 ### progress

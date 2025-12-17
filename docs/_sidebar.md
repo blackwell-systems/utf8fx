@@ -14,6 +14,7 @@
   - [Glyphs](/guides/GLYPHS-GUIDE.md)
   - [Colors](/guides/COLORS-GUIDE.md)
   - [Swatches](/guides/SWATCH-GUIDE.md)
+  - [Tech Badges](/guides/TECH-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
   - [Progress Bars](/guides/PROGRESS-GUIDE.md)
   - [Donut & Gauge](/guides/DONUT-GAUGE-GUIDE.md)
