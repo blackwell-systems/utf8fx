@@ -91,7 +91,7 @@ cargo install mdfx-cli
 |----------|----------|
 | Shapes | ● ○ ◆ ◇ ▲ △ ■ □ |
 | Arrows | → ← ↑ ↓ ⇒ ⇐ ⇔ ↔ |
-| Checks | ✓ ✔ ✗ ✘ ☐ ☑ ☒ |
+| Chess | ♔ ♕ ♖ ♗ ♘ ♙ ♚ ♛ |
 | Math | ∞ ≠ ≈ √ ∑ ∫ ± × |
 | Blocks | █ ▓ ▒ ░ ▄ ▀ ▌ ▐ |
 | Music | ♩ ♪ ♫ ♬ ♭ ♯ |
