@@ -3,7 +3,7 @@
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
-use crate::renderer::svg::tech::get_brand_color;
+use crate::renderer::svg::tech::{get_brand_color, get_logo_color_for_bg};
 use std::collections::HashMap;
 
 /// Handle tech component expansion
@@ -29,11 +29,13 @@ pub fn handle(
     let bg_color = params
         .get("bg")
         .map(|c| resolve_color(c))
-        .unwrap_or(default_bg);
+        .unwrap_or(default_bg.clone());
+
+    // Use intelligent logo color based on background luminance if not specified
     let logo_color = params
         .get("logo")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| resolve_color("white"));
+        .unwrap_or_else(|| get_logo_color_for_bg(&bg_color).to_string());
 
     // Default label to tech name for shields.io style badges
     let label = params.get("label").cloned().or_else(|| Some(name.clone()));

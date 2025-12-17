@@ -26,6 +26,29 @@ pub fn get_brand_color(name: &str) -> Option<&'static str> {
     }
 }
 
+/// Get the ideal logo color (white or black) for contrast against background
+/// Uses relative luminance calculation for accessibility
+pub fn get_logo_color_for_bg(bg_hex: &str) -> &'static str {
+    let hex = bg_hex.trim_start_matches('#');
+    if hex.len() < 6 {
+        return "FFFFFF";
+    }
+
+    let r = u8::from_str_radix(&hex[0..2], 16).unwrap_or(0) as f32 / 255.0;
+    let g = u8::from_str_radix(&hex[2..4], 16).unwrap_or(0) as f32 / 255.0;
+    let b = u8::from_str_radix(&hex[4..6], 16).unwrap_or(0) as f32 / 255.0;
+
+    // Calculate relative luminance (ITU-R BT.709)
+    let luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+    // Use black text on light backgrounds, white on dark
+    if luminance > 0.5 {
+        "000000"
+    } else {
+        "FFFFFF"
+    }
+}
+
 /// Get Simple Icons SVG path for a given icon name
 /// Paths sourced from https://simpleicons.org/
 pub fn get_icon_path(name: &str) -> Option<&'static str> {
