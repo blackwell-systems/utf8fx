@@ -3,6 +3,7 @@ name = "mdfx-cli"
 description = "CLI tool for mdfx: Transform markdown with Unicode text effects and UI components"
 keywords = ["markdown", "unicode", "cli", "preprocessor"]
 categories = ["command-line-utilities", "text-processing"]
+readme = "../../README.md"
 version.workspace = true
 edition.workspace = true
 authors.workspace = true
@@ -15,7 +16,7 @@ default = []
 lsp = ["tower-lsp", "tokio"]
 
 [dependencies]
-mdfx = { path = "../mdfx" }
+mdfx = { version = "1.0.0", path = "../mdfx" }
 clap = { version = "4.4", features = ["derive", "cargo"] }
 clap_complete = "4.4"
 colored = "2.1"
