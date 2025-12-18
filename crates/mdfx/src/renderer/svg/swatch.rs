@@ -248,7 +248,7 @@ pub fn render(opts: SwatchOptions) -> String {
 
     // Build icon element if icon is specified
     let icon_elem = if let Some(icon_name) = opts.icon {
-        if let Some(path_data) = super::tech::get_icon_path(icon_name) {
+        if let Some(path_data) = mdfx_icons::icon_path(icon_name) {
             // Simple Icons use a 24x24 viewBox
             // Scale icon to fit within swatch (with padding)
             let icon_size = (height.min(width) as f32 * 0.6).max(10.0);

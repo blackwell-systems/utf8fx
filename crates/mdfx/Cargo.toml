@@ -22,6 +22,9 @@ sha2 = "0.10"
 chrono = { version = "0.4", features = ["serde"] }
 base64 = "0.22"
 regex = "1.10"
+badgefx = { path = "../badgefx" }
+mdfx-icons = { path = "../mdfx-icons" }
+mdfx-colors = { path = "../mdfx-colors" }
 
 [dev-dependencies]
 criterion = "0.5"

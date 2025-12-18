@@ -3,7 +3,6 @@
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
-use crate::renderer::svg::tech::{get_brand_color, get_logo_color_for_bg};
 use std::collections::HashMap;
 
 /// Parse corners parameter - supports presets and custom values
@@ -60,7 +59,7 @@ pub fn handle(
     let name = args[0].clone();
 
     // Use brand color if available, otherwise fall back to dark1
-    let default_bg = get_brand_color(&name)
+    let default_bg = mdfx_icons::brand_color(&name)
         .map(|c| c.to_string())
         .unwrap_or_else(|| resolve_color("dark1"));
 
@@ -71,10 +70,15 @@ pub fn handle(
         .unwrap_or(default_bg.clone());
 
     // Use intelligent logo color based on background luminance if not specified
+    // contrast_color returns "#000000" or "#FFFFFF", strip the # prefix for mdfx
     let logo_color = params
         .get("logo")
         .map(|c| resolve_color(c))
-        .unwrap_or_else(|| get_logo_color_for_bg(&bg_color).to_string());
+        .unwrap_or_else(|| {
+            mdfx_colors::contrast_color(&bg_color)
+                .trim_start_matches('#')
+                .to_string()
+        });
 
     // Default label to tech name for shields.io style badges
     let label = params.get("label").cloned().or_else(|| Some(name.clone()));

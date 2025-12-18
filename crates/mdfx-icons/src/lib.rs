@@ -2,19 +2,19 @@
 //!
 //! This crate provides SVG paths and brand colors for popular technology icons,
 //! sourced from the Simple Icons project (https://simpleicons.org/).
-//! 
+//!
 //! Perfect for generating tech badges with proper branding and consistent styling.
 
 /// Get the SVG path for a technology icon
-/// 
+///
 /// Returns the SVG path data for rendering the icon. All paths are designed for
 /// a 24x24 viewBox and sourced from Simple Icons.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```
 /// use mdfx_icons::icon_path;
-/// 
+///
 /// let rust_path = icon_path("rust").unwrap();
 /// println!("<svg viewBox='0 0 24 24'><path d='{}'/></svg>", rust_path);
 /// ```
@@ -43,15 +43,15 @@ pub fn icon_path(name: &str) -> Option<&'static str> {
 }
 
 /// Get the official brand color for a technology
-/// 
+///
 /// Returns the hex color code (without #) for a technology's official branding.
 /// Colors sourced from Simple Icons project.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```
 /// use mdfx_icons::brand_color;
-/// 
+///
 /// assert_eq!(brand_color("rust"), Some("DEA584"));
 /// assert_eq!(brand_color("typescript"), Some("3178C6"));
 /// assert_eq!(brand_color("unknown"), None);
@@ -81,30 +81,49 @@ pub fn brand_color(name: &str) -> Option<&'static str> {
 }
 
 /// Get a list of all available icon names
-/// 
+///
 /// Returns a slice of all supported technology names that have both
 /// icon paths and brand colors defined.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```
 /// use mdfx_icons::list_icons;
-/// 
+///
 /// let icons = list_icons();
 /// assert!(icons.contains(&"rust"));
 /// assert!(icons.contains(&"typescript"));
 /// ```
 pub fn list_icons() -> &'static [&'static str] {
     &[
-        "rust", "typescript", "javascript", "python", "react", "docker", 
-        "kubernetes", "postgresql", "go", "golang", "nodejs", "node.js", 
-        "vue", "vuejs", "vue.js", "svelte", "terraform", "amazonaws", "aws", 
-        "redis", "mongodb", "github", "gitlab"
+        "rust",
+        "typescript",
+        "javascript",
+        "python",
+        "react",
+        "docker",
+        "kubernetes",
+        "postgresql",
+        "go",
+        "golang",
+        "nodejs",
+        "node.js",
+        "vue",
+        "vuejs",
+        "vue.js",
+        "svelte",
+        "terraform",
+        "amazonaws",
+        "aws",
+        "redis",
+        "mongodb",
+        "github",
+        "gitlab",
     ]
 }
 
 /// Get a list of all available brand names (same as icon names)
-/// 
+///
 /// Returns a slice of all supported technology names that have
 /// brand colors defined.
 pub fn list_brands() -> &'static [&'static str] {
@@ -112,15 +131,15 @@ pub fn list_brands() -> &'static [&'static str] {
 }
 
 /// Get the ideal contrast color for text on a brand background
-/// 
+///
 /// Combines brand color lookup with contrast calculation from mdfx-colors.
 /// Returns white or black as appropriate for the brand's background color.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```
 /// use mdfx_icons::brand_contrast_color;
-/// 
+///
 /// assert_eq!(brand_contrast_color("rust"), Some("#000000")); // Black on rust orange
 /// assert_eq!(brand_contrast_color("typescript"), Some("#FFFFFF")); // White on TS blue  
 /// assert_eq!(brand_contrast_color("unknown"), None);
@@ -165,12 +184,12 @@ mod tests {
         assert!(icon_path("go").is_some());
         assert!(icon_path("golang").is_some());
         assert_eq!(brand_color("go"), brand_color("golang"));
-        
-        // Node.js aliases  
+
+        // Node.js aliases
         assert!(icon_path("nodejs").is_some());
         assert!(icon_path("node.js").is_some());
         assert_eq!(brand_color("nodejs"), brand_color("node.js"));
-        
+
         // Vue aliases
         assert!(icon_path("vue").is_some());
         assert!(icon_path("vuejs").is_some());
@@ -181,7 +200,7 @@ mod tests {
     fn test_list_functions() {
         let icons = list_icons();
         let brands = list_brands();
-        
+
         assert!(icons.len() > 0);
         assert!(brands.len() > 0);
         assert!(icons.contains(&"rust"));
@@ -192,10 +211,10 @@ mod tests {
     fn test_brand_contrast_color() {
         // Rust orange should use black text
         assert_eq!(brand_contrast_color("rust"), Some("#000000"));
-        
-        // TypeScript blue should use white text  
+
+        // TypeScript blue should use white text
         assert_eq!(brand_contrast_color("typescript"), Some("#FFFFFF"));
-        
+
         // Unknown brand should return None
         assert_eq!(brand_contrast_color("unknown"), None);
     }
@@ -205,7 +224,11 @@ mod tests {
         // Every icon in the list should have both icon path and brand color
         for &icon in list_icons() {
             assert!(icon_path(icon).is_some(), "Missing icon path for: {}", icon);
-            assert!(brand_color(icon).is_some(), "Missing brand color for: {}", icon);
+            assert!(
+                brand_color(icon).is_some(),
+                "Missing brand color for: {}",
+                icon
+            );
         }
     }
 }

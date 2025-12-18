@@ -1,16 +1,16 @@
 //! # Badgery - Technology Badge Generation
-//! 
+//!
 //! A powerful library for generating SVG technology badges with custom styling,
 //! icons from Simple Icons, and flexible layouts.
-//! 
+//!
 //! ## Quick Start
-//! 
+//!
 //! ```rust
 //! use badgefx::{badge, BadgeStyle};
-//! 
+//!
 //! // Simple badge with defaults
 //! let svg = badge("rust").render();
-//! 
+//!
 //! // Customized badge  
 //! let svg = badge("typescript")
 //!     .label("TypeScript v5.0")
@@ -19,9 +19,9 @@
 //!     .logo_size_lg()
 //!     .render();
 //! ```
-//! 
+//!
 //! ## Features
-//! 
+//!
 //! - **20+ Built-in Icons**: Popular tech icons from Simple Icons
 //! - **Multiple Styles**: Flat, plastic, rounded, and more
 //! - **Custom Colors**: Override brand colors or use custom palettes
@@ -31,29 +31,29 @@
 //! - **Glyphs**: 500+ Unicode decorative characters (with "glyphs" feature)
 
 pub mod badge;
-pub mod style;
+pub mod group;
 pub mod render;
 pub mod shapes;
-pub mod group;
+pub mod style;
 
 #[cfg(feature = "glyphs")]
 pub mod glyphs;
 
 // Re-export main public API
-pub use badge::{TechBadge, BadgeBuilder, LogoSize};
-pub use style::{BadgeStyle, SvgMetrics, Border, Corners, Chevron};
+pub use badge::{BadgeBuilder, LogoSize, TechBadge};
 pub use render::{render, render_to_file};
+pub use style::{BadgeStyle, Border, Chevron, Corners, SvgMetrics};
 
 /// Create a new badge builder for the given technology name
-/// 
+///
 /// This is the main entry point for badge creation. The technology name
 /// should match one of the supported icons from Simple Icons.
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```
 /// use badgefx::badge;
-/// 
+///
 /// let svg = badge("rust")
 ///     .label("Rust 1.70")
 ///     .render();
@@ -63,12 +63,12 @@ pub fn badge(name: &str) -> BadgeBuilder {
 }
 
 /// Convenience function to render a simple badge with just the icon
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```
 /// use badgefx::simple_badge;
-/// 
+///
 /// let rust_badge = simple_badge("rust");
 /// let typescript_badge = simple_badge("typescript");
 /// ```
@@ -102,7 +102,7 @@ mod tests {
             .bg_color("#3776AB")
             .logo_size_lg()
             .render();
-        
+
         assert!(svg.contains("<svg"));
         assert!(svg.contains("Python 3.11"));
     }

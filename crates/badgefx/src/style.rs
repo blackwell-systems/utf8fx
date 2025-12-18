@@ -1,9 +1,10 @@
 //! Badge styling and SVG metrics
 
 /// Badge visual styles
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
 pub enum BadgeStyle {
     /// Flat style with minimal visual elements
+    #[default]
     Flat,
     /// Flat style with square corners
     FlatSquare,
@@ -15,9 +16,17 @@ pub enum BadgeStyle {
     Social,
 }
 
-impl Default for BadgeStyle {
-    fn default() -> Self {
-        BadgeStyle::Flat
+impl BadgeStyle {
+    /// Parse badge style from string
+    pub fn parse(s: &str) -> Self {
+        match s.to_lowercase().as_str() {
+            "flat" => BadgeStyle::Flat,
+            "flat-square" | "flat_square" | "flatsquare" => BadgeStyle::FlatSquare,
+            "plastic" => BadgeStyle::Plastic,
+            "for-the-badge" | "for_the_badge" | "forthebadge" => BadgeStyle::ForTheBadge,
+            "social" => BadgeStyle::Social,
+            _ => BadgeStyle::Flat,
+        }
     }
 }
 
@@ -96,7 +105,11 @@ impl SvgMetrics {
         let icon_padding = if has_icon { 8.0 } else { 0.0 };
         let text_padding = 12.0;
 
-        let icon_width = if has_icon { icon_size + icon_padding * 2.0 } else { 0.0 };
+        let icon_width = if has_icon {
+            icon_size + icon_padding * 2.0
+        } else {
+            0.0
+        };
         let text_section_width = text_width + text_padding * 2.0;
 
         let total_width = icon_width + text_section_width;
@@ -266,7 +279,7 @@ mod tests {
     fn test_style_properties() {
         assert!(BadgeStyle::Plastic.has_gradients());
         assert!(!BadgeStyle::Flat.has_gradients());
-        
+
         assert!(BadgeStyle::Plastic.has_shadow());
         assert!(BadgeStyle::ForTheBadge.has_shadow());
         assert!(!BadgeStyle::Flat.has_shadow());
@@ -275,7 +288,7 @@ mod tests {
     #[test]
     fn test_svg_metrics() {
         let metrics = SvgMetrics::calculate("Rust", 14.0, 11.0, BadgeStyle::Flat, true);
-        
+
         assert!(metrics.width > 0.0);
         assert_eq!(metrics.height, 20.0);
         assert!(metrics.icon_width > 0.0);

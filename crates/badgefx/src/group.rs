@@ -1,72 +1,72 @@
 //! Corner grouping for badge rows - extracted from mdfx tech_group.rs
 
 /// Generate corner radii for a badge in a group layout
-/// 
+///
 /// This function calculates appropriate corner radii for badges arranged in rows,
 /// ensuring visual continuity by making internal corners square while keeping
 /// external corners rounded.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `position` - Position in the group: "first", "middle", "last", or "single"  
 /// * `base_radius` - The base corner radius to use for external corners
-/// 
+///
 /// # Returns
-/// 
+///
 /// Array of corner radii in order: [top-left, top-right, bottom-right, bottom-left]
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```rust
 /// use badgefx::group::corner_radii_for_position;
-/// 
+///
 /// // First badge in a row - rounded left, square right
 /// let radii = corner_radii_for_position("first", 4);
 /// assert_eq!(radii, [4, 0, 0, 4]);
-/// 
+///
 /// // Middle badge - all square corners
 /// let radii = corner_radii_for_position("middle", 4);  
 /// assert_eq!(radii, [0, 0, 0, 0]);
-/// 
+///
 /// // Last badge in a row - square left, rounded right
 /// let radii = corner_radii_for_position("last", 4);
 /// assert_eq!(radii, [0, 4, 4, 0]);
-/// 
+///
 /// // Single badge - all corners rounded
 /// let radii = corner_radii_for_position("single", 4);
 /// assert_eq!(radii, [4, 4, 4, 4]);
 /// ```
 pub fn corner_radii_for_position(position: &str, base_radius: u32) -> [u32; 4] {
     match position {
-        "first" => [base_radius, 0, 0, base_radius],         // Rounded left, square right
-        "middle" => [0, 0, 0, 0],                           // All square (internal badge)  
-        "last" => [0, base_radius, base_radius, 0],         // Square left, rounded right
+        "first" => [base_radius, 0, 0, base_radius], // Rounded left, square right
+        "middle" => [0, 0, 0, 0],                    // All square (internal badge)
+        "last" => [0, base_radius, base_radius, 0],  // Square left, rounded right
         _ => [base_radius, base_radius, base_radius, base_radius], // Single or unknown - all rounded
     }
 }
 
 /// Determine the position of a badge within a group layout
-/// 
+///
 /// Given the index of a badge and the total count, determines its semantic
 /// position for corner radius calculation.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `index` - Zero-based index of the current badge
 /// * `total` - Total number of badges in the group
-/// 
+///
 /// # Returns
-/// 
+///
 /// Position string: "first", "middle", "last", or "single"
-/// 
+///
 /// # Examples
-/// 
+///
 /// ```rust
 /// use badgefx::group::position_in_group;
-/// 
+///
 /// // Single badge
 /// assert_eq!(position_in_group(0, 1), "single");
-/// 
+///
 /// // Three badges  
 /// assert_eq!(position_in_group(0, 3), "first");
 /// assert_eq!(position_in_group(1, 3), "middle");
@@ -78,24 +78,24 @@ pub fn position_in_group(index: usize, total: usize) -> &'static str {
     } else if index == 0 {
         "first"
     } else if index == total - 1 {
-        "last"  
+        "last"
     } else {
         "middle"
     }
 }
 
 /// Calculate spacing between badges in a group
-/// 
+///
 /// Determines the horizontal gap between badges when arranged in a row.
 /// Different styles may have different spacing requirements.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `style` - Badge style name (e.g., "flat", "plastic", etc.)
 /// * `total_badges` - Number of badges in the group
-/// 
+///
 /// # Returns
-/// 
+///
 /// Spacing in pixels between adjacent badges
 pub fn badge_spacing(style: &str, total_badges: usize) -> u32 {
     if total_badges <= 1 {
@@ -103,28 +103,28 @@ pub fn badge_spacing(style: &str, total_badges: usize) -> u32 {
     }
 
     match style.to_lowercase().as_str() {
-        "plastic" => 2,     // Plastic badges need more separation for shadows
-        "social" => 4,      // Social style uses larger gaps
+        "plastic" => 2,       // Plastic badges need more separation for shadows
+        "social" => 4,        // Social style uses larger gaps
         "for-the-badge" => 6, // Large badges need proportional spacing
-        _ => 1,             // Flat styles use minimal spacing
+        _ => 1,               // Flat styles use minimal spacing
     }
 }
 
 /// Generate SVG group layout for multiple badges
-/// 
+///
 /// Creates an SVG group element that positions multiple badges in a row
 /// with appropriate spacing and corner adjustments.
-/// 
+///
 /// # Arguments
-/// 
+///
 /// * `badges` - Vector of badge SVG strings
 /// * `style` - Badge style for spacing calculation
 /// * `vertical_align` - Vertical alignment: "top", "middle", "bottom"
-/// 
+///
 /// # Returns
-/// 
+///
 /// Complete SVG group element containing all positioned badges
-/// 
+///
 /// # Examples
 ///
 /// ```rust
@@ -137,11 +137,7 @@ pub fn badge_spacing(style: &str, total_badges: usize) -> u32 {
 /// let group_svg = group_badges_svg(badges, "flat", "middle");
 /// assert!(group_svg.contains("badge-group"));
 /// ```
-pub fn group_badges_svg(
-    badges: Vec<String>, 
-    style: &str, 
-    vertical_align: &str
-) -> String {
+pub fn group_badges_svg(badges: Vec<String>, style: &str, vertical_align: &str) -> String {
     if badges.is_empty() {
         return String::new();
     }
@@ -167,7 +163,7 @@ pub fn group_badges_svg(
         let y_offset = match vertical_align {
             "top" => 0,
             "bottom" => 0, // Badges naturally align to bottom
-            _ => 0, // "middle" - no offset needed for uniform height badges
+            _ => 0,        // "middle" - no offset needed for uniform height badges
         };
 
         // Position each badge
@@ -199,7 +195,7 @@ pub fn group_badges_svg(
 }
 
 /// Extract width and height from an SVG string
-/// 
+///
 /// Parses the SVG element to extract its width and height attributes.
 /// Returns default values if parsing fails.
 fn extract_badge_dimensions(svg: &str) -> (u32, u32) {
@@ -208,7 +204,8 @@ fn extract_badge_dimensions(svg: &str) -> (u32, u32) {
         .find("width=\"")
         .and_then(|start| {
             let start = start + 7; // Skip 'width="'
-            svg[start..].find('"')
+            svg[start..]
+                .find('"')
                 .and_then(|end| svg[start..start + end].parse().ok())
         })
         .unwrap_or(100); // Default width
@@ -217,7 +214,8 @@ fn extract_badge_dimensions(svg: &str) -> (u32, u32) {
         .find("height=\"")
         .and_then(|start| {
             let start = start + 8; // Skip 'height="'
-            svg[start..].find('"')
+            svg[start..]
+                .find('"')
                 .and_then(|end| svg[start..start + end].parse().ok())
         })
         .unwrap_or(20); // Default height
@@ -226,7 +224,7 @@ fn extract_badge_dimensions(svg: &str) -> (u32, u32) {
 }
 
 /// Extract the inner content of an SVG (everything between <svg> and </svg>)
-/// 
+///
 /// Removes the outer SVG wrapper to allow content to be embedded in a group.
 fn extract_svg_content(svg: &str) -> String {
     // Find the closing > of the opening <svg> tag
@@ -236,7 +234,7 @@ fn extract_svg_content(svg: &str) -> String {
             return svg[start + 1..end].to_string();
         }
     }
-    
+
     // Fallback: return original if parsing fails
     svg.to_string()
 }
@@ -259,16 +257,16 @@ mod tests {
         // Single badge
         assert_eq!(position_in_group(0, 1), "single");
         assert_eq!(position_in_group(0, 0), "single");
-        
+
         // Two badges
         assert_eq!(position_in_group(0, 2), "first");
         assert_eq!(position_in_group(1, 2), "last");
-        
+
         // Three badges
         assert_eq!(position_in_group(0, 3), "first");
         assert_eq!(position_in_group(1, 3), "middle");
         assert_eq!(position_in_group(2, 3), "last");
-        
+
         // Five badges
         assert_eq!(position_in_group(0, 5), "first");
         assert_eq!(position_in_group(1, 5), "middle");
@@ -291,11 +289,11 @@ mod tests {
     fn test_extract_badge_dimensions() {
         let svg = r#"<svg width="100" height="20">content</svg>"#;
         assert_eq!(extract_badge_dimensions(svg), (100, 20));
-        
+
         // Test with different order
         let svg2 = r#"<svg height="25" width="150">content</svg>"#;
         assert_eq!(extract_badge_dimensions(svg2), (150, 25));
-        
+
         // Test with defaults on malformed SVG
         let svg3 = "<svg>content</svg>";
         assert_eq!(extract_badge_dimensions(svg3), (100, 20));
@@ -306,7 +304,7 @@ mod tests {
         let svg = r#"<svg width="100" height="20"><path d="..."/></svg>"#;
         let content = extract_svg_content(svg);
         assert_eq!(content, r#"<path d="..."/>"#);
-        
+
         let svg2 = r#"<svg xmlns="..." width="100" height="20"><g><path/></g></svg>"#;
         let content2 = extract_svg_content(svg2);
         assert_eq!(content2, r#"<g><path/></g>"#);
@@ -332,7 +330,7 @@ mod tests {
             r#"<svg width="60" height="20">badge2</svg>"#.to_string(),
         ];
         let result = group_badges_svg(badges, "flat", "middle");
-        
+
         assert!(result.contains("badge1"));
         assert!(result.contains("badge2"));
         assert!(result.contains("translate(0, 0)"));

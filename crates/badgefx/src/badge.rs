@@ -1,15 +1,16 @@
 //! Core badge structures and builder pattern
 
-use crate::style::{BadgeStyle, Border, Corners, Chevron};
+use crate::style::{BadgeStyle, Border, Chevron, Corners};
 
 /// Logo size presets for technology badges
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
 pub enum LogoSize {
     /// Extra small (10px)
     Xs,
-    /// Small (12px) 
+    /// Small (12px)
     Sm,
     /// Medium (14px) - default
+    #[default]
     Md,
     /// Large (16px)
     Lg,
@@ -34,11 +35,18 @@ impl LogoSize {
             LogoSize::Custom(px) => *px,
         }
     }
-}
 
-impl Default for LogoSize {
-    fn default() -> Self {
-        LogoSize::Md
+    /// Parse from string (supports "xs", "small", "lg", numeric values, etc.)
+    pub fn parse(s: &str) -> Self {
+        match s.to_lowercase().as_str() {
+            "xs" | "extra-small" => LogoSize::Xs,
+            "sm" | "small" => LogoSize::Sm,
+            "md" | "medium" => LogoSize::Md,
+            "lg" | "large" => LogoSize::Lg,
+            "xl" | "extra-large" => LogoSize::Xl,
+            "xxl" => LogoSize::Xxl,
+            s => s.parse().map(LogoSize::Custom).unwrap_or(LogoSize::Md),
+        }
     }
 }
 
@@ -53,6 +61,10 @@ pub struct TechBadge {
     pub style: BadgeStyle,
     /// Custom background color (overrides brand color)
     pub bg_color: Option<String>,
+    /// Left segment (icon) background color
+    pub bg_left: Option<String>,
+    /// Right segment (label) background color
+    pub bg_right: Option<String>,
     /// Custom logo/icon color
     pub logo_color: Option<String>,
     /// Custom text color
@@ -71,6 +83,8 @@ pub struct TechBadge {
     pub outline: bool,
     /// Custom font family
     pub font: Option<String>,
+    /// Custom SVG icon path (overrides built-in icons)
+    pub custom_icon: Option<String>,
 }
 
 impl TechBadge {
@@ -81,6 +95,8 @@ impl TechBadge {
             label: None,
             style: BadgeStyle::default(),
             bg_color: None,
+            bg_left: None,
+            bg_right: None,
             logo_color: None,
             text_color: None,
             border: None,
@@ -90,6 +106,7 @@ impl TechBadge {
             raised: None,
             outline: false,
             font: None,
+            custom_icon: None,
         }
     }
 
@@ -111,7 +128,9 @@ impl TechBadge {
                         let mut chars = name.chars();
                         match chars.next() {
                             None => String::new(),
-                            Some(first) => first.to_uppercase().collect::<String>() + chars.as_str(),
+                            Some(first) => {
+                                first.to_uppercase().collect::<String>() + chars.as_str()
+                            }
                         }
                     }
                 }
@@ -121,9 +140,9 @@ impl TechBadge {
 
     /// Get effective background color (brand color or custom)
     pub fn effective_bg_color(&self) -> Option<String> {
-        self.bg_color.clone().or_else(|| {
-            mdfx_icons::brand_color(&self.name).map(|color| format!("#{}", color))
-        })
+        self.bg_color
+            .clone()
+            .or_else(|| mdfx_icons::brand_color(&self.name).map(|color| format!("#{}", color)))
     }
 }
 
@@ -159,9 +178,27 @@ impl BadgeBuilder {
         self
     }
 
-    /// Set custom logo/icon color  
+    /// Set left segment (icon) background color
+    pub fn bg_left(mut self, color: impl Into<String>) -> Self {
+        self.badge.bg_left = Some(color.into());
+        self
+    }
+
+    /// Set right segment (label) background color
+    pub fn bg_right(mut self, color: impl Into<String>) -> Self {
+        self.badge.bg_right = Some(color.into());
+        self
+    }
+
+    /// Set custom logo/icon color
     pub fn logo_color(mut self, color: impl Into<String>) -> Self {
         self.badge.logo_color = Some(color.into());
+        self
+    }
+
+    /// Set custom SVG icon path (overrides built-in icons)
+    pub fn custom_icon(mut self, path: impl Into<String>) -> Self {
+        self.badge.custom_icon = Some(path.into());
         self
     }
 
@@ -222,6 +259,11 @@ impl BadgeBuilder {
     /// Set custom logo size in pixels
     pub fn logo_size_custom(self, pixels: u32) -> Self {
         self.logo_size(LogoSize::Custom(pixels))
+    }
+
+    /// Set logo size from string ("xs", "small", "lg", "18", etc.)
+    pub fn logo_size_str(self, size: &str) -> Self {
+        self.logo_size(LogoSize::parse(size))
     }
 
     /// Add chevron/arrow styling
@@ -312,7 +354,7 @@ mod tests {
             .bg_color("#3178C6")
             .logo_size_lg()
             .outline();
-        
+
         let badge = builder.build();
         assert_eq!(badge.name, "typescript");
         assert_eq!(badge.label, Some("TypeScript v5.0".to_string()));

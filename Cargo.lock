@@ -869,10 +869,13 @@ dependencies = [
 name = "mdfx"
 version = "1.0.0"
 dependencies = [
+ "badgefx",
  "base64",
  "chrono",
  "criterion",
  "lazy_static",
+ "mdfx-colors",
+ "mdfx-icons",
  "regex",
  "serde",
  "serde_json",

@@ -62,7 +62,7 @@ pub fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> S
 /// Generate SVG path for a chevron/arrow shaped badge
 pub fn chevron_path_with_overlap(
     x: f32,
-    y: f32, 
+    y: f32,
     w: f32,
     h: f32,
     direction: ChevronDirection,
@@ -85,7 +85,7 @@ pub fn chevron_path_with_overlap(
                 bottom = bottom
             );
             (path, true, false)
-        },
+        }
         ChevronDirection::Right => {
             let arrow_tip = x + w + arrow_depth;
             let path = format!(
@@ -98,7 +98,7 @@ pub fn chevron_path_with_overlap(
                 bottom = bottom
             );
             (path, false, true)
-        },
+        }
         ChevronDirection::Both => {
             let left_tip = x - arrow_depth;
             let right_tip = x + w + arrow_depth;
@@ -135,7 +135,7 @@ mod tests {
         assert!(path.contains("M0 0"));
         assert!(path.contains("H100"));
     }
-    
+
     #[test]
     fn test_different_corner_radii() {
         let path = rounded_rect_path(0.0, 0.0, 100.0, 20.0, [5, 10, 15, 20]);
@@ -145,23 +145,20 @@ mod tests {
 
     #[test]
     fn test_chevron_paths() {
-        let (path, has_left, has_right) = chevron_path_with_overlap(
-            0.0, 0.0, 100.0, 20.0, ChevronDirection::Left, 10.0
-        );
+        let (path, has_left, has_right) =
+            chevron_path_with_overlap(0.0, 0.0, 100.0, 20.0, ChevronDirection::Left, 10.0);
         assert!(has_left);
         assert!(!has_right);
         assert!(path.contains("M-10 10")); // Arrow tip
 
-        let (path, has_left, has_right) = chevron_path_with_overlap(
-            0.0, 0.0, 100.0, 20.0, ChevronDirection::Right, 10.0
-        );
+        let (path, has_left, has_right) =
+            chevron_path_with_overlap(0.0, 0.0, 100.0, 20.0, ChevronDirection::Right, 10.0);
         assert!(!has_left);
         assert!(has_right);
         assert!(path.contains("L110 10")); // Arrow tip
 
-        let (path, has_left, has_right) = chevron_path_with_overlap(
-            0.0, 0.0, 100.0, 20.0, ChevronDirection::Both, 10.0
-        );
+        let (_path, has_left, has_right) =
+            chevron_path_with_overlap(0.0, 0.0, 100.0, 20.0, ChevronDirection::Both, 10.0);
         assert!(has_left);
         assert!(has_right);
     }
