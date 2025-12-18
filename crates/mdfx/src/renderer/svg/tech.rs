@@ -104,7 +104,13 @@ const CHEVRON_ARROW_DEPTH: f32 = 10.0;
 /// - "both": arrows on both sides
 ///
 /// Returns (path, has_left_arrow, has_right_arrow)
-fn chevron_path_with_overlap(x: f32, y: f32, w: f32, h: f32, chevron_type: &str) -> (String, bool, bool) {
+fn chevron_path_with_overlap(
+    x: f32,
+    y: f32,
+    w: f32,
+    h: f32,
+    chevron_type: &str,
+) -> (String, bool, bool) {
     let arrow = CHEVRON_ARROW_DEPTH;
     let center_y = h / 2.0;
     let center = y + center_y;
@@ -480,6 +486,7 @@ fn render_two_segment(
 }
 
 /// Generate background SVG element - rect, path, or chevron based on options
+#[allow(clippy::too_many_arguments)]
 fn render_bg_element(
     x: f32,
     y: f32,

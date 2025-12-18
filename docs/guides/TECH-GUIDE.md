@@ -11,6 +11,8 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Text Customization](#text-customization)
 - [Custom Labels](#custom-labels)
 - [Borders & Corners](#borders--corners)
+- [Chevron Badges](#chevron-badges)
+- [Independent Segment Colors](#independent-segment-colors)
 - [Badge Styles](#badge-styles)
 - [Available Technologies](#available-technologies)
 - [Complete Examples](#complete-examples)
@@ -53,6 +55,9 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `border_width` | number | none | Border thickness in pixels |
 | `rx` | number | 0 | Corner radius (uniform or comma-separated per-corner) |
 | `corners` | preset | none | Corner preset: `left`, `right`, `none`, `all` |
+| `chevron` | enum | none | Arrow shape: `left`, `right`, or `both` |
+| `bg_left` | color | bg | Left segment (icon area) background color |
+| `bg_right` | color | darkened bg | Right segment (label area) background color |
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
 
 ---
@@ -306,6 +311,83 @@ Control individual corners for connected badge groups using `corners` presets or
 **Rendered:**
 
 ![](assets/tech-guide/tech_470db33614a9f505.svg) ![](assets/tech-guide/tech_28356f248bb4bf5c.svg)
+
+---
+
+## Chevron Badges
+
+Create tab-style badges with pointed arrow shapes using the `chevron` parameter:
+
+| Value | Description | Shape |
+|-------|-------------|-------|
+| `chevron=left` | Left-pointing arrow | ◁ badge |
+| `chevron=right` | Right-pointing arrow | badge ▷ |
+| `chevron=both` | Both arrows | ◁ badge ▷ |
+
+### Basic Chevron Examples
+
+```markdown
+{{ui:tech:rust:chevron=right/}}      <!-- First in chain -->
+{{ui:tech:typescript:chevron=both/}} <!-- Middle badges -->
+{{ui:tech:docker:chevron=both/}}     <!-- Middle badges -->
+{{ui:tech:postgresql:chevron=left/}} <!-- Last in chain -->
+```
+
+Chain chevrons together for a connected tab-bar effect:
+
+```markdown
+{{ui:tech:rust:chevron=right/}}{{ui:tech:typescript:chevron=both/}}{{ui:tech:docker:chevron=both/}}{{ui:tech:postgresql:chevron=left/}}
+```
+
+### Chevron with Custom Colors
+
+Combine chevrons with custom background colors:
+
+```markdown
+{{ui:tech:rust:chevron=right:bg=1a1a2e/}}
+{{ui:tech:typescript:chevron=both:bg=2a2a3e/}}
+{{ui:tech:postgresql:chevron=left:bg=3a3a4e/}}
+```
+
+---
+
+## Independent Segment Colors
+
+Control the left (icon) and right (label) segment colors independently using `bg_left` and `bg_right`:
+
+### Default Behavior
+
+By default, tech badges use:
+- **Left segment**: Brand color (or `bg` override)
+- **Right segment**: Darkened brand color (15% darker)
+
+### Custom Segment Colors
+
+Override individual segments:
+
+```markdown
+{{ui:tech:rust:bg_left=DEA584:bg_right=B8856E/}}
+{{ui:tech:typescript:bg_left=3178C6:bg_right=2967A9/}}
+{{ui:tech:docker:bg_left=2496ED:bg_right=1E7DC9/}}
+```
+
+### Creative Color Combinations
+
+Use contrasting colors for visual impact:
+
+```markdown
+{{ui:tech:rust:bg_left=FF6B6B:bg_right=4ECDC4/}}
+{{ui:tech:python:bg_left=3776AB:bg_right=FFD43B/}}
+```
+
+### With Chevrons
+
+Combine segment colors with chevron shapes:
+
+```markdown
+{{ui:tech:rust:chevron=right:bg_left=DEA584:bg_right=B8856E/}}
+{{ui:tech:typescript:chevron=both:bg_left=3178C6:bg_right=2967A9/}}
+```
 
 ---
 
