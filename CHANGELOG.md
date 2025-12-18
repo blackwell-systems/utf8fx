@@ -9,6 +9,153 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### badgefx Crate - Standalone Badge Rendering
+
+Extracted badge rendering into a standalone crate for independent use:
+
+```rust
+use badgefx::{badge, BadgeStyle};
+
+// Simple badge with defaults
+let svg = badge("rust").render();
+
+// Customized badge
+let svg = badge("typescript")
+    .label("TypeScript v5.0")
+    .style(BadgeStyle::FlatSquare)
+    .bg_color("#3178C6")
+    .logo_size_lg()
+    .render();
+```
+
+**Features:**
+- **Builder pattern API** - Fluent interface for badge customization
+- **5 badge styles** - Flat, FlatSquare, Plastic, ForTheBadge, Social
+- **Logo size presets** - Xs (10px), Sm (12px), Md (14px), Lg (16px), Xl (18px), Xxl (20px), Custom
+- **Independent segment colors** - `bg_left` and `bg_right` for two-tone badges
+- **Chevron shapes** - Left, right, or both-sided arrow badges
+- **Custom borders** - Color and width configuration
+- **Custom corners** - Per-corner radius control
+- **Custom icons** - Override built-in icons with SVG path data
+- **Typography** - Custom fonts and text colors
+- **Outline mode** - Border-only badges with transparent fill
+- **Raised icons** - Icon positioned above/below the label baseline
+- **Group rendering** - Automatic corner presets for seamless badge groups
+
+**Modules:**
+- `badge.rs` - Core `TechBadge` struct and `BadgeBuilder`
+- `render.rs` - SVG generation with all rendering modes
+- `style.rs` - `BadgeStyle`, `SvgMetrics`, `Border`, `Corners`, `Chevron`
+- `shapes.rs` - SVG path generation utilities
+- `group.rs` - Badge group layout and corner auto-configuration
+- `glyphs.rs` - Optional Unicode glyph support (feature-gated)
+
+#### mdfx-icons Crate - Icon Library
+
+Lightweight crate for Simple Icons SVG paths and brand colors:
+
+```rust
+use mdfx_icons::{icon_path, brand_color, list_icons};
+
+let rust_path = icon_path("rust").unwrap();
+let rust_color = brand_color("rust"); // "DEA584"
+
+for icon in list_icons() {
+    println!("{}: #{}", icon, brand_color(icon).unwrap_or("unknown"));
+}
+```
+
+**API:**
+- `icon_path(name)` - Get SVG path data for 24x24 viewBox icons
+- `brand_color(name)` - Get official hex color (without #)
+- `list_icons()` - List all 18+ supported technologies
+
+**Supported Icons:**
+rust, typescript, javascript, python, react, docker, kubernetes, postgresql, go, nodejs, vue, svelte, terraform, aws, redis, mongodb, github, gitlab
+
+#### mdfx-colors Crate - Color Utilities
+
+Lightweight color manipulation for badge generation:
+
+```rust
+use mdfx_colors::{luminance, contrast_color, darken, parse_hex};
+
+// Check if background is light or dark
+let lum = luminance("#DEA584"); // ~0.55
+
+// Get ideal text color for contrast
+let text = contrast_color("#DEA584"); // "#000000" (black)
+
+// Darken a color for borders
+let border = darken("#DEA584", 0.15); // "#BC8C70"
+
+// Parse hex colors
+let (r, g, b) = parse_hex("#FF5500").unwrap();
+```
+
+**API:**
+- `luminance(hex)` - ITU-R BT.709 relative luminance (0.0-1.0)
+- `contrast_color(hex)` - Returns "#000000" or "#FFFFFF" for best contrast
+- `darken(hex, amount)` - Reduce brightness by percentage (0.0-1.0)
+- `parse_hex(hex)` - Parse 3 or 6 digit hex to RGB tuple
+
+#### Raised Icon Badges
+
+Icons can now be visually raised above or below the label baseline:
+
+```markdown
+{{ui:tech:rust:raised=2/}}
+```
+
+The `raised` parameter shifts the icon position vertically while keeping text centered.
+
+#### Glyph Syntax in Labels
+
+Use inline glyph syntax directly in badge labels:
+
+```markdown
+{{ui:tech:rust:label=Rust {{glyph:star}}/}}
+```
+
+Glyphs expand within labels for creative badge text.
+
+#### Tech Badge Showcase Examples
+
+New example files demonstrating tech badge capabilities:
+
+- **neon-tech-showcase.md** - Full showcase with 71 SVG assets demonstrating all badge features
+- **neon-tech-showcase-refactorv2.md** - Parity verification example using badgefx
+- **tech-badges.md** - Creative combinations with text styles and glyphs
+
+### Fixed
+
+#### badgefx Parity Audit - 5 Critical Fixes
+
+Comprehensive function-by-function audit of badgefx vs original mdfx tech renderer, ensuring byte-for-byte SVG output parity:
+
+1. **estimate_text_width calculation**
+   - Original: `(text.len() * 7).max(20)` - byte length × 7, minimum 20
+   - badgefx had: `(text.chars().count() * 6.5) as u32` - char count × 6.5
+   - For "rust": Original=28px, badgefx was 26px (2 pixel width difference per badge)
+
+2. **darken_color return format**
+   - Original returns: `XXXXXX` (no hash prefix)
+   - mdfx_colors::darken returns: `#XXXXXX` (with hash prefix)
+   - Caused double-hash bug: `fill="##XXXXXX"` in SVG output
+
+3. **render_text_only text fill**
+   - Original: hardcoded `fill="white"`
+   - badgefx had: calculated text_color based on background
+
+4. **render_icon_only background**
+   - Original: single `<rect>` element with uniform corner radius
+   - badgefx had: two overlapping `<rect>` elements
+
+5. **render_text_only background**
+   - Same issue as render_icon_only (two rects instead of one)
+
+All fixes verified: 33 badgefx tests pass, 71 showcase assets produce identical hashes.
+
 #### Outline/Ghost Style
 
 Border-only badges with transparent fill for a sleek outline appearance:
