@@ -131,11 +131,11 @@ cargo install mdfx-cli
 ### Waveforms
 
 <p align="center">
-{{ui:waveform:0.1,0.3,0.5,0.7,0.9,0.7,0.5,0.3,0.1,-0.1,-0.3,-0.5,-0.7,-0.9,-0.7,-0.5,-0.3,-0.1,0.2,0.4,0.6,0.8,1.0,0.8,0.6,0.4,0.2,-0.2,-0.4,-0.6,-0.8,-1.0,-0.8,-0.6,-0.4,-0.2:width=300:height=50:positive=neon:negative=neon:bar=3:spacing=2/}}
+{{ui:waveform:0.1,0.3,0.5,0.7,0.9,0.7,0.5,0.3,0.1,-0.1,-0.3,-0.5,-0.7,-0.9,-0.7,-0.5,-0.3,-0.1,0.2,0.4,0.6,0.8,1.0,0.8,0.6,0.4,0.2,-0.2,-0.4,-0.6,-0.8,-1.0,-0.8,-0.6,-0.4,-0.2:width=300:height=50:positive=accent:negative=accent:bar=3:spacing=2/}}
 </p>
 
 <p align="center">
-{{ui:waveform:0.8,0.6,0.3,-0.1,-0.5,-0.8,-0.6,-0.2,0.2,0.6,0.9,0.7,0.4,0.1,-0.3,-0.7,-0.9,-0.6,-0.2,0.1,0.4,0.7,0.5,0.2,-0.2,-0.5,-0.8,-0.5,-0.1,0.3,0.6,0.8,0.5,0.2,-0.1,-0.4:width=300:height=50:positive=cyan:negative=magenta:bar=3:spacing=2/}}
+{{ui:waveform:0.8,0.6,0.3,-0.1,-0.5,-0.8,-0.6,-0.2,0.2,0.6,0.9,0.7,0.4,0.1,-0.3,-0.7,-0.9,-0.6,-0.2,0.1,0.4,0.7,0.5,0.2,-0.2,-0.5,-0.8,-0.5,-0.1,0.3,0.6,0.8,0.5,0.2,-0.1,-0.4:width=300:height=50:positive=info:negative=plum:bar=3:spacing=2/}}
 </p>
 
 ### Swatches
@@ -146,20 +146,51 @@ cargo install mdfx-cli
 
 **Pixel art** with tiny swatches:
 
-| | | | | | | | | |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
-|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
-|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
-|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
-|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
-|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
+| | | | | | | | |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:warning:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
 
-### Tech
+| | | | | | | |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
+
+### Tech Badges
+
+Brand-colored badges with Simple Icons. Full customization, no external requests.
 
 {{ui:row}}
-{{ui:tech:rust/}} {{ui:tech:python/}} {{ui:tech:typescript/}} {{ui:tech:go/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}}
+{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:python/}} {{ui:tech:go/}} {{ui:tech:docker/}} {{ui:tech:postgresql/}}
 {{/ui}}
+
+**Connected badge groups** with per-corner control:
+
+{{ui:row}}
+{{ui:tech:rust:corners=left/}}{{ui:tech:typescript:corners=none/}}{{ui:tech:docker:corners=none/}}{{ui:tech:postgresql:corners=right/}}
+{{/ui}}
+
+```
+{{ui:tech:rust:corners=left/}}{{ui:tech:typescript:corners=none/}}{{ui:tech:docker:corners=none/}}{{ui:tech:postgresql:corners=right/}}
+```
+
+**Custom styling** — borders, colors, themes:
+
+{{ui:row}}
+{{ui:tech:rust:bg=1a1a2e:border=DEA584:border_width=2/}} {{ui:tech:go:bg=1a1a2e:border=00ADD8:border_width=2/}} {{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}} {{ui:tech:react:bg=1a1a2e:border=61DAFB:border_width=2/}}
+{{/ui}}
+
+```
+{{ui:tech:rust:bg=1a1a2e:border=DEA584:border_width=2/}}
+{{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}}
+```
 
 ---
 
