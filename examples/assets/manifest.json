@@ -1,143 +1,24 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-18T04:52:17.242996130+00:00",
+  "created_at": "2025-12-18T06:12:38.745628735+00:00",
   "backend": "svg",
   "assets_dir": "assets",
-  "total_assets": 71,
+  "total_assets": 105,
   "assets": [
     {
-      "path": "assets/tech_d8a40841ffd14138.svg",
-      "sha256": "d3bb00839fee0253ddabf79d5e507518c2d87a7d015cf32550a2e5808dcf2ba8",
-      "type": "tech",
+      "path": "assets/swatch_ca256ce7e3587cdb.svg",
+      "sha256": "9f2497920f5cd5470704a9ab628ae20b3877144f48375bb6c4564a46b4b6a3a7",
+      "type": "swatch",
       "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
+        "kind": "Swatch",
+        "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2296
+      "size_bytes": 398
     },
     {
-      "path": "assets/tech_21c02e7d880cbe84.svg",
-      "sha256": "5d30b90c9b60e9f4cff8ac15d25f33c02be3702f14471c14251a93922f7e42d9",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1647
-    },
-    {
-      "path": "assets/tech_b5ca944c079a4d7f.svg",
-      "sha256": "d702386debb38a90acf4a1bb35810f52c570b337c1de31501d016b83ba23e222",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 2145
-    },
-    {
-      "path": "assets/tech_b960671ed1a7f81b.svg",
-      "sha256": "b948476f154e3f19e1843712d27c45df228de114c51ea57461e7ba1534e0cf25",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "DEA584",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2280
-    },
-    {
-      "path": "assets/tech_65b2fdf50e39dc05.svg",
-      "sha256": "1e919b84f6699d039ec3d979c29ff4e284aab13ee9f12ef0b18e8bd0b63a19e0",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "python",
-        "bg_color": "3776AB",
-        "logo_color": "FFFFFF",
-        "style": "outline"
-      },
-      "size_bytes": 1880
-    },
-    {
-      "path": "assets/tech_115e69899fe22564.svg",
-      "sha256": "cff2a47631459c11728250e85572ccc10c11ea9b3f28a592f6e8c4fd754297eb",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "go",
-        "bg_color": "00ADD8",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 1999
-    },
-    {
-      "path": "assets/tech_26ede46a9af79b47.svg",
-      "sha256": "666065784734ef1166f49ee59b31aa57f4386a6cef056055d237785cd6ac9991",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "3178C6",
-        "logo_color": "FFFFFF",
-        "style": "outline"
-      },
-      "size_bytes": 1638
-    },
-    {
-      "path": "assets/tech_2b892898f5ef0172.svg",
-      "sha256": "f9bb415e1c66ed8ccc029d2a976cac893cc9c947e04533dbc49fd33a463e74d0",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "react",
-        "bg_color": "0a0a0a",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 3304
-    },
-    {
-      "path": "assets/tech_d68c278432fd5bde.svg",
-      "sha256": "f4eade7fefa9153a7208e7d221716045662a67ca1dad628b709171c069842a3f",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "0a0a0a",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1647
-    },
-    {
-      "path": "assets/tech_28d12101c244d0d7.svg",
-      "sha256": "69c19996bb2f612422d5fdb604b40b1955bad91fc0fb59a7f2c925a89f0dbfa0",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "nodejs",
-        "bg_color": "0a0a0a",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1717
-    },
-    {
-      "path": "assets/tech_dca288024f808bdf.svg",
-      "sha256": "62380598b614bf1a51774a01d24cccfeaefad23a80e961841b375505fec4c82c",
+      "path": "assets/tech_7156d24a71737b8c.svg",
+      "sha256": "6b95acabe0479eb0c657b20266844f30afabe2b83385d987524a5d33cbb02ce6",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -149,242 +30,73 @@
       "size_bytes": 2295
     },
     {
-      "path": "assets/tech_e863e185eb40fdb0.svg",
-      "sha256": "55481b230e22a37f43c117ac5d0b00f8b721da745e2bc1ceadb0584a28b05243",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "python",
-        "bg_color": "3776AB",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1895
-    },
-    {
-      "path": "assets/tech_f35bc1ec8f83207c.svg",
-      "sha256": "4cdf54764a1c5e68902b2fc1f6c3ad92ae1c64aa58e2ec6facdd5e1d8ceac6d7",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "2496ED",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 2142
-    },
-    {
-      "path": "assets/tech_823da0d3bdda328d.svg",
-      "sha256": "28345b97fc4017b7ec2fcd3965d08b96629d84661a957ea81c9841ab7fffdf69",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "go",
-        "bg_color": "00ADD8",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2018
-    },
-    {
-      "path": "assets/tech_8ff068d5b5489e29.svg",
-      "sha256": "e2634dafa230bc4dc7e1d12594af66848db31eac4d5f5887dca495bb584d1170",
+      "path": "assets/tech_261740f9cd9ee0d.svg",
+      "sha256": "c41eccb3920bf3bae92b19198c8d78bb15f2f0341d41289584527c66d00c0a2e",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
         "bg_color": "DEA584",
         "logo_color": "000000",
-        "style": "outline"
+        "style": "flat-square"
       },
       "size_bytes": 2290
     },
     {
-      "path": "assets/tech_b365e1cb6aaebc7c.svg",
-      "sha256": "c490ea6e299a25636a08367b4552280a9368afd898cfc9b3a71828b5df85028d",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "2496ED",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2148
-    },
-    {
-      "path": "assets/tech_e3d1477734fe9cfd.svg",
-      "sha256": "3582395f596a204c579b96f16717b7a889d0ccb8bec1896d7f847242c4b711d2",
+      "path": "assets/tech_8eb72a99ae77a78e.svg",
+      "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
-        "bg_color": "1a1a2e",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 2329
-    },
-    {
-      "path": "assets/tech_9953b7d2d546a5d3.svg",
-      "sha256": "6c44e02a6646f2a08abec23bc56251ac70d739e98a4b6264a9fabfee0616b2b3",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "16213e",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1688
-    },
-    {
-      "path": "assets/tech_9b5a9f911a59e3f7.svg",
-      "sha256": "928976ac174780c3915b46bd62182df1e772fb04202110375f09dd584c033e67",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "react",
-        "bg_color": "0f3460",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 3337
-    },
-    {
-      "path": "assets/tech_3a24edcd45a6a3fb.svg",
-      "sha256": "0e6e6b9e40a9e265015273796eff906c49ff81f26ff8be2ecf544f236ab5afa4",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "postgresql",
-        "bg_color": "4169E1",
-        "logo_color": "FFFFFF",
-        "style": "ghost"
-      },
-      "size_bytes": 3896
-    },
-    {
-      "path": "assets/tech_29d582007877b971.svg",
-      "sha256": "73ad7c7335d769330c0a407f151418ac55c79ffa362a8b69a47364c875d7ccab",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "redis",
-        "bg_color": "FF4438",
-        "logo_color": "FFFFFF",
-        "style": "ghost"
-      },
-      "size_bytes": 1133
-    },
-    {
-      "path": "assets/tech_e7b5111797190dfa.svg",
-      "sha256": "5e224a9a930ee22685d70631556abbd09f4d4e3daebac8832b951d206f373271",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "mongodb",
-        "bg_color": "47A248",
+        "bg_color": "DEA584",
         "logo_color": "000000",
-        "style": "ghost"
+        "style": "flat-square"
       },
-      "size_bytes": 892
+      "size_bytes": 2295
     },
     {
-      "path": "assets/tech_f0866ae0cbb418c7.svg",
-      "sha256": "a76ce9fc665d2f05860800b3eb97d20c5f9bbdfa92a000eb3681c4fa5d2412ce",
+      "path": "assets/tech_696690b7da2466c2.svg",
+      "sha256": "e2ea92197ca8e9f18eba5c422a16dab3ed3980acd2cdce391b829bd1e0eb8b8a",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
-        "bg_color": "1a1a2e",
-        "logo_color": "FFFFFF",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2220
+      "size_bytes": 2297
     },
     {
-      "path": "assets/tech_c2a7bab5d27e1d1.svg",
-      "sha256": "edb2839424e61f9663ec5fd9a0e67ece9c771803547e0aca4a001589022194fa",
+      "path": "assets/tech_7f04f627167b88a8.svg",
+      "sha256": "50dd0e0c770e871544b9a76855835d05ee2ea6f41bf44d02e18a27895f6ac021",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "2a2a3e",
-        "logo_color": "FFFFFF",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 1592
+      "size_bytes": 2290
     },
     {
-      "path": "assets/tech_64ffd4a1457fe79d.svg",
-      "sha256": "010ba1eba7f38e23004d248c281a69c856a265ec997667ee47aa8cfa1f6d4215",
+      "path": "assets/tech_2b4f41645941799.svg",
+      "sha256": "eb325152016c16e4d7cf34774b5d76bb3dcd4cfb59ce04acc466cdd7f077ad2c",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "docker",
-        "bg_color": "3a3a4e",
-        "logo_color": "FFFFFF",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2084
+      "size_bytes": 2297
     },
     {
-      "path": "assets/tech_70d1ed4d361de6a1.svg",
-      "sha256": "2d6fcc0024480e5c9ef5f9d9dfa2c92fdf7644987d1cf8b510c96c3328d934d8",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "kubernetes",
-        "bg_color": "4a4a5e",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1628
-    },
-    {
-      "path": "assets/tech_357ca593f2a2fc61.svg",
-      "sha256": "4ab684fe04b906755d8849906e67b05c8d30e19e47e5bb5254f4a80217a8657a",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "react",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 3262
-    },
-    {
-      "path": "assets/tech_678340eb69bc7c9a.svg",
-      "sha256": "5236194a902ca5cd9e11f9b0de8f02a23ae234d06c4ec174297c24ae3381751c",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "vue",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 547
-    },
-    {
-      "path": "assets/tech_7c9c13af314b4bd6.svg",
-      "sha256": "4bf5a85df5803e602d91fa4da93ade1403bc5c9a49892ca4cb7949bbad0605b6",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "svelte",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1811
-    },
-    {
-      "path": "assets/tech_2cae6676c7da9f40.svg",
-      "sha256": "02f102cc4a4816f870b2c119e14dd4a2ff366c4d4ce4763b800a359293d63423",
+      "path": "assets/tech_602caec1585835b3.svg",
+      "sha256": "8e4566c7393aab19767a8f23036267d50c82be084b1085dae7433dc7cf0cb314",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -393,115 +105,128 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1622
+      "size_bytes": 1654
     },
     {
-      "path": "assets/tech_5df515575a7f1945.svg",
-      "sha256": "b02d36fca60befb5ebe4b5955e9ed22eaeeeaf8f40baad07250673d9c2b357c5",
+      "path": "assets/tech_aacf03c64f445443.svg",
+      "sha256": "d81224c49fe6760395afbf00a002193fed1eb7f48938eb92b2b0b16583d2763c",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "javascript",
-        "bg_color": "F7DF1E",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 1314
-    },
-    {
-      "path": "assets/tech_e4ec671d3d071c0e.svg",
-      "sha256": "6699fe65a1440f08008c7cc751120875ab8e0120e559d2d4245628ed3a4f4688",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "DEA584",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 2264
-    },
-    {
-      "path": "assets/tech_8e4fd6bf145b2d07.svg",
-      "sha256": "739bd47a6ca96fb4992c476dfd625a469b505831651b2385d8a1307f84d48486",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "github",
-        "bg_color": "181717",
-        "logo_color": "FFFFFF",
-        "style": "outline"
-      },
-      "size_bytes": 1184
-    },
-    {
-      "path": "assets/tech_1dca0333d6ba9ee6.svg",
-      "sha256": "96891ca4574deed09e222482dc4ec57917c835dc39ed71219e8c5ff97564a9c1",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "gitlab",
-        "bg_color": "FC6D26",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 751
-    },
-    {
-      "path": "assets/tech_14d9f235e268272c.svg",
-      "sha256": "c134c9e9441909c69a8d69f0d7b33867ffb3ce01650e82ab870215da5b37a11b",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "2496ED",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2127
-    },
-    {
-      "path": "assets/tech_cacd974ee31337be.svg",
-      "sha256": "864f1faa1ca45ac40f4cb57961aa0fdddc861911a9bdd4b6c083d547cad01fea",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "go",
-        "bg_color": "000000",
+        "name": "typescript",
+        "bg_color": "3178C6",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 2015
+      "size_bytes": 1649
     },
     {
-      "path": "assets/tech_15796e100650911b.svg",
-      "sha256": "4421ee1ffbf3e7a2f2f20799cea40b555f774353ac14d27dcd182440ccf314fa",
+      "path": "assets/tech_2b777e3b55d4b614.svg",
+      "sha256": "b30721c0a0394c2e5e726b03ec8ee1b9ae1fb536aaf17e82858c2dbd2bb214e8",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "rust",
-        "bg_color": "000000",
+        "name": "typescript",
+        "bg_color": "3178C6",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 2287
+      "size_bytes": 1654
     },
     {
-      "path": "assets/tech_f177a4e145605b34.svg",
-      "sha256": "fb923c0a85278624d28812e9fe0b22177faf0df49f6a024c776138c8cd265196",
+      "path": "assets/tech_8c9624c2aeac1f5.svg",
+      "sha256": "744fc90a1a7170dfafe4d3da1192f66e0c8167158aebe706ea3f66400523f56c",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "python",
-        "bg_color": "000000",
+        "name": "typescript",
+        "bg_color": "3178C6",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1898
+      "size_bytes": 1656
     },
     {
-      "path": "assets/tech_f4a6e17b28f7dbc8.svg",
-      "sha256": "2a66762d462251c2c4b67d1f6c99b9f7a74b5a8babb0e51841314b8a6128bb74",
+      "path": "assets/tech_14fb8eacb758c798.svg",
+      "sha256": "c51ca8c64d2d14f322b0997a830ae2a3bc588834ecf44072a61ebd67646acfd6",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1649
+    },
+    {
+      "path": "assets/tech_e48d69ba1a53cf46.svg",
+      "sha256": "8a7f779dd3be432ebcf460af31a89811670092d4a59861d6c4e5c22f77abcb1b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1656
+    },
+    {
+      "path": "assets/tech_f7733543cebc3997.svg",
+      "sha256": "e6fd7d5b93b162403ea03a8f0c6dfdf1263d091a973534a8f86f4783227bcf4c",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "custom",
+        "bg_color": "7C3AED",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 547
+    },
+    {
+      "path": "assets/tech_796879ac1210e9ad.svg",
+      "sha256": "887c1daa2f780fd62ff7f44701cecb84af85c6e2d0163a72f9de1948c0a3c988",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "custom",
+        "bg_color": "EC4899",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 596
+    },
+    {
+      "path": "assets/tech_b7cde0cc389bd53.svg",
+      "sha256": "00797903ddd139d36368b3b20e9536c2291b9cccba72bf445c669832bce30e5f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "custom",
+        "bg_color": "F59E0B",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 546
+    },
+    {
+      "path": "assets/tech_eb1a549b0c7e5aa6.svg",
+      "sha256": "5e18d7b67efa315528532be39425e436cae8300c4b399b8f5b8095b49ba4ca54",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat"
+      },
+      "size_bytes": 3303
+    },
+    {
+      "path": "assets/tech_d7925efe20597a59.svg",
+      "sha256": "fa93a6b13b34f67b5585af60118a8929721782bd96dce4e6b1ee7162df749421",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -513,229 +238,901 @@
       "size_bytes": 3303
     },
     {
-      "path": "assets/tech_d18cdb6b968f61a0.svg",
-      "sha256": "3ab48cfbc11bce3bac537436ded04fe2d5a606dbfa15638549b1e5630e13d585",
+      "path": "assets/tech_655ff7e1cbd0c2fc.svg",
+      "sha256": "5e18d7b67efa315528532be39425e436cae8300c4b399b8f5b8095b49ba4ca54",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "vue",
-        "bg_color": "4FC08D",
+        "name": "react",
+        "bg_color": "61DAFB",
         "logo_color": "000000",
-        "style": "flat-square"
+        "style": "plastic"
       },
-      "size_bytes": 576
+      "size_bytes": 3303
     },
     {
-      "path": "assets/tech_3dea5472ae650ace.svg",
-      "sha256": "122a5f2ec98468e3d7008ad734e21f3f9e66ecde950610a627bff562455be6ac",
+      "path": "assets/tech_f89d39d6349a5c7d.svg",
+      "sha256": "44c35625d7ff3b6c6b44487ec88d93178af96dddafe1f494858775c9e53692ae",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "svelte",
-        "bg_color": "FF3E00",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "for-the-badge"
       },
-      "size_bytes": 1846
+      "size_bytes": 3303
     },
     {
-      "path": "assets/tech_df3d2871f3ba56d1.svg",
-      "sha256": "2d3a7affe680297e0d383cc315bf09309a3c06a2f2cff91d422075c6d5c3042a",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "kubernetes",
-        "bg_color": "080808",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1703
-    },
-    {
-      "path": "assets/tech_7117761da5381699.svg",
-      "sha256": "0f22bafe4c5ff44e499d0ff76813b42259bfe9fb81c5639a09f5a0a488f474e6",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "terraform",
-        "bg_color": "080808",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 732
-    },
-    {
-      "path": "assets/tech_4b7f0695c9519e1c.svg",
-      "sha256": "ba6b4e71c760f0480d1d3a155dde39d2130ec831792739bc2287883eb1979622",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "080808",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 2145
-    },
-    {
-      "path": "assets/tech_9d81387afe9a04cc.svg",
-      "sha256": "255393a421ac67a56992c9b1f533de314f0d51759050216fce352a15bd28c11a",
+      "path": "assets/tech_4bf3d7300d6d8693.svg",
+      "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
         "bg_color": "DEA584",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2280
-    },
-    {
-      "path": "assets/tech_232737907cb4aea7.svg",
-      "sha256": "7151d52304e3a78c63c19839bda3a96158e12ee3adb82da76269e64d898f7804",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "python",
-        "bg_color": "3776AB",
-        "logo_color": "FFFFFF",
-        "style": "outline"
-      },
-      "size_bytes": 1880
-    },
-    {
-      "path": "assets/tech_dcd6f3c7d48a888a.svg",
-      "sha256": "e391c960aca094e4e7779736d6d17b534bc5f6bfb61181afb6c6b6c5716220ca",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "javascript",
-        "bg_color": "F7DF1E",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 1339
-    },
-    {
-      "path": "assets/tech_67f5a570e788656d.svg",
-      "sha256": "757e3673b10e0b874a4814a92565b7f23ce4121be5eddb1e1749964bb0072760",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "go",
-        "bg_color": "00ADD8",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 1999
-    },
-    {
-      "path": "assets/tech_362cb9b5e40dcba5.svg",
-      "sha256": "06caa2286fee4d1610296ed68c60005d29e36b4d092b3ace7dc891da13d7bdc9",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "3178C6",
-        "logo_color": "FFFFFF",
-        "style": "outline"
-      },
-      "size_bytes": 1638
-    },
-    {
-      "path": "assets/tech_80eb2be9c0686f2f.svg",
-      "sha256": "a8708b7e50a8944da13cea8f5d2cea1a10946708de54be5057eba81b835528aa",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "2496ED",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2127
-    },
-    {
-      "path": "assets/tech_701a82228e5039a8.svg",
-      "sha256": "2d031c296162d6e5d433e9da4f2a5c08e7f60ba7752ff39598f09dab52b33804",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "FCE300",
         "logo_color": "000000",
         "style": "flat-square"
       },
       "size_bytes": 2295
     },
     {
-      "path": "assets/tech_f45f8e320e8030ce.svg",
-      "sha256": "4a38612d93ac3cd93d18968c35bb80a6822a026077c9c934c6c4bb80c7c8e7da",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "00F0FF",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 1654
-    },
-    {
-      "path": "assets/tech_9bade42a7df7e430.svg",
-      "sha256": "f0b8cd735d450862b09916ed7374f9260d6c9a96c11b7f8f9d7f222764eb9340",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "FF003C",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 2142
-    },
-    {
-      "path": "assets/tech_a4123f8a2b47445f.svg",
-      "sha256": "5c8926de92a4a7a5de43ca967ef576fd3336a596b94ea805a8a3336f40d67254",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "DEA584",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2299
-    },
-    {
-      "path": "assets/tech_9dde1bda9f26f52f.svg",
-      "sha256": "15f399a23151831ad974f895b07e6e4865a07e973c3aff07cab66606c22997c3",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "go",
-        "bg_color": "00ADD8",
-        "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2009
-    },
-    {
-      "path": "assets/tech_73f805563cd12688.svg",
-      "sha256": "b5ed8c1068da2bd44bf881a2a97c36e42e577ebb8edafabd71f4527208b83f27",
+      "path": "assets/tech_db5b9663af39915c.svg",
+      "sha256": "c5b0cf28158ee95f1679a5f28cd6254a05d81dff4bbbc4160e9649e73b8a5f60",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "python",
         "bg_color": "3776AB",
         "logo_color": "FFFFFF",
-        "style": "outline"
+        "style": "flat-square"
       },
-      "size_bytes": 1901
+      "size_bytes": 1895
     },
     {
-      "path": "assets/tech_cacb5883069eee6d.svg",
-      "sha256": "aedfbfa938271e1b7c8fbe6eaeb731e8915e6fc584c94c01c99e36e9020d764a",
+      "path": "assets/tech_4d369e5b001f8f0e.svg",
+      "sha256": "28fd17f211246143185c21bccc6a579a195b319c5ba9b50ccf20303f52eb453d",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2014
+    },
+    {
+      "path": "assets/tech_dbf5e1d25b2b52a0.svg",
+      "sha256": "b30721c0a0394c2e5e726b03ec8ee1b9ae1fb536aaf17e82858c2dbd2bb214e8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1654
+    },
+    {
+      "path": "assets/tech_c838d128701e387d.svg",
+      "sha256": "c0ee010b69cb3b5b84532592c0b33e928cf4f2e1291bddb6d17b8d0078d8bb0d",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2149
+    },
+    {
+      "path": "assets/tech_6fa28b0282d0d94b.svg",
+      "sha256": "3a9218931b31a45b88f8a0802ac1f3242829a2b55ecb095a072f110d5a1dd4ce",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "kubernetes",
+        "bg_color": "326CE5",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1690
+    },
+    {
+      "path": "assets/tech_6f5eb41c8de5302c.svg",
+      "sha256": "e8bafca55e33c4f4c7d64d31a1d53763e69f4e53ecde1667f37d6245800bfb27",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "terraform",
+        "bg_color": "844FBA",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 729
+    },
+    {
+      "path": "assets/tech_c606bad34bd62a05.svg",
+      "sha256": "f889fc40b909cdd097d650423bc2502bbf0033b6b018deb52592bc92547bb974",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2329
+    },
+    {
+      "path": "assets/tech_3a2a12e8259bd162.svg",
+      "sha256": "b659a9ccad57863b4346a1cf606d3aaae9e48c4cd99e4b5a6654b181a629965f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "3776AB",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1929
+    },
+    {
+      "path": "assets/tech_2a2ed5d800e35936.svg",
+      "sha256": "949536fd5e1bdeb83df87464a55134e9a9582cf37945ab6aeaea3354fccee07d",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2048
+    },
+    {
+      "path": "assets/tech_3b1becc9a436aaa9.svg",
+      "sha256": "4e3af77b5ed006d0852730e53879f6ecc9f73a4a16dcca8219b1ef6aba887152",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3303
+    },
+    {
+      "path": "assets/tech_610ee1607dbac3a.svg",
+      "sha256": "a664b0d0d868cea9fbf061a63a4c693c4bdc7406403f477ddcb307e1954a2189",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3303
+    },
+    {
+      "path": "assets/tech_c95c56e072750a0d.svg",
+      "sha256": "28ff04c5972eefa16473501c04fda03c8442e4c0c375ceea608298e02e752d93",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3306
+    },
+    {
+      "path": "assets/tech_67c1095d3ca7723a.svg",
+      "sha256": "0ec634659149a962b6cd465c5fba499cd359e80a5cb27ec13a798fd29f861af2",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3306
+    },
+    {
+      "path": "assets/tech_38885ade90a8c25f.svg",
+      "sha256": "22c6fd14d2e65c65e394992ca66f846f6fbd2d08e58caca74306a50eb95e732d",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1681
+    },
+    {
+      "path": "assets/tech_ccd0cfbd4ae26052.svg",
+      "sha256": "487464beccdf1382fac0247a25e804d1361beb2fd0d36c06a20e62ac84c33b14",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "nodejs",
+        "bg_color": "5FA04E",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 1755
+    },
+    {
+      "path": "assets/tech_f312290e4db586bc.svg",
+      "sha256": "f5d68c31d9167b5378ff1ac3162b8039701f06e6e4fde993b6c036055a5c1ed2",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2333
+    },
+    {
+      "path": "assets/tech_268fa1a116ac3dfe.svg",
+      "sha256": "29b19c20f12534db894715b3e25b3f59e5de258935c329ca8a42e92371dc2233",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "git",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 277
+    },
+    {
+      "path": "assets/tech_61283d47091b62b.svg",
+      "sha256": "c126b5f52f8e10df54eadf935ba1b1f3d0565849e26267aa4a13da4537df5d7a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "github",
+        "bg_color": "181717",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1127
+    },
+    {
+      "path": "assets/tech_aaeef1b367b6b72e.svg",
+      "sha256": "fe170dc2f0be055107fecd143b5d169575333ccc18045c7673c596971dbab07f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "gitlab",
+        "bg_color": "FC6D26",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 694
+    },
+    {
+      "path": "assets/tech_caaa10afe1fb48be.svg",
+      "sha256": "84b6ba846f5a35b2dd16171a054bf088997c5351d550789c2bbc8737e4ea5fa9",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "bitbucket",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 279
+    },
+    {
+      "path": "assets/tech_1a821edcf4fa8c37.svg",
+      "sha256": "a175074607139c2a6a4d86c631e2339989c3ce7f4d8c2490810091513af01262",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "amazonaws",
+        "bg_color": "232F3E",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3506
+    },
+    {
+      "path": "assets/tech_c6dc0f531d3d9311.svg",
+      "sha256": "3b5a5357a2eb683dcc4186b85b9a3827fe61edb7603d8d3e559508125072c970",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "googlecloud",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 290
+    },
+    {
+      "path": "assets/tech_f746ca22a81408b8.svg",
+      "sha256": "c87bf7a1c318e1de60c62e6562da68a4f14deaf6278ca9983cd8467464b127ce",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "microsoftazure",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 296
+    },
+    {
+      "path": "assets/tech_82da284a4d9044de.svg",
+      "sha256": "82dc970106253687030cc50971e19e45cedaa0d1213fbf55fc8f32561e96181e",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "digitalocean",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 294
+    },
+    {
+      "path": "assets/tech_d865b9ddde303223.svg",
+      "sha256": "e3623604d5a8c95c84ebdd90729a881c62c89fdebd840a632df5b5a942da23ed",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "git",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 278
+    },
+    {
+      "path": "assets/tech_d21f728cdcaf1844.svg",
+      "sha256": "6a27774f1a275b215fb5009bcf9fe35921f9285f2a842598ef20046a9430d8cb",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "githubactions",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 276
+    },
+    {
+      "path": "assets/tech_e1a1fe6b1fbab43f.svg",
+      "sha256": "0708473a2c91275604c8a686481f162799f26f8740319982ec58ebf236b69836",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2066
+    },
+    {
+      "path": "assets/tech_2a15e236d67e96cd.svg",
+      "sha256": "0fb8daebdd87172a8ef38dc30761613ee33755ea53c39f53b8e4bef6fab1a14d",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "kubernetes",
+        "bg_color": "326CE5",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1693
+    },
+    {
+      "path": "assets/tech_7b881ef331269d12.svg",
+      "sha256": "db34a53a3b38f74a92ae9c2eb4a0c864574e84a107da06dd1e5c51e6468680ec",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2302
+    },
+    {
+      "path": "assets/tech_3c85b53832ec8908.svg",
+      "sha256": "ceb4a325e35326044e0ab0e51594af44ba8e5e0016d3d331545ec3d404e60a54",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1652
+    },
+    {
+      "path": "assets/tech_2c2ff8dd09f82986.svg",
+      "sha256": "d2c572ce081c67d6406eed735c43dcd36bd97f38ba2b03440dd9a5d4e2265887",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "postgresql",
+        "bg_color": "4169E1",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3910
+    },
+    {
+      "path": "assets/tech_1f92059764cbfa19.svg",
+      "sha256": "f673245872faad7023d17e34080c9f98bacdbb2451734f4b9adc787feddf5648",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "61DAFB",
+        "style": "flat-square"
+      },
+      "size_bytes": 3300
+    },
+    {
+      "path": "assets/tech_aadb9f1ff6329fb3.svg",
+      "sha256": "163adb2af347d4d60204f1103792da57f8a14173701ddfb9de9136837f8f3f42",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "vue",
+        "bg_color": "4FC08D",
+        "logo_color": "4FC08D",
+        "style": "flat-square"
+      },
+      "size_bytes": 586
+    },
+    {
+      "path": "assets/tech_c2c329d68fcfe690.svg",
+      "sha256": "5e451c72a6d5931fdb8c0d3250b025acb29eff95992b3f08f01a6eebdd34d57f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "svelte",
+        "bg_color": "FF3E00",
+        "logo_color": "FF3E00",
+        "style": "flat-square"
+      },
+      "size_bytes": 1852
+    },
+    {
+      "path": "assets/tech_696690b7da2466c2.svg",
+      "sha256": "e2ea92197ca8e9f18eba5c422a16dab3ed3980acd2cdce391b829bd1e0eb8b8a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2297
+    },
+    {
+      "path": "assets/tech_8c9624c2aeac1f5.svg",
+      "sha256": "744fc90a1a7170dfafe4d3da1192f66e0c8167158aebe706ea3f66400523f56c",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1656
+    },
+    {
+      "path": "assets/tech_5b161771fc90bbc8.svg",
+      "sha256": "b0a2cebf71eec81a5a5e15352fae31a4bddb34e3ea55ae27eebf1a030b4597a2",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3305
+    },
+    {
+      "path": "assets/tech_b7c3bde52900bdab.svg",
+      "sha256": "6f3287d162bd6428c246f228507f4fcd84071dc3531dc4879e32d263d67a48ea",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "postgresql",
+        "bg_color": "4169E1",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3914
+    },
+    {
+      "path": "assets/tech_bcfb305102f456c0.svg",
+      "sha256": "942d964d481186c38c4689af6fd251833941f3f7d41f01fd840e32c6f787f395",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2328
+    },
+    {
+      "path": "assets/tech_4877ab95dde9458c.svg",
+      "sha256": "cc2eb9a794f5e67c04210184a349450d6c17707e16002a6ea56b853f71ac19e7",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "redis",
+        "bg_color": "FF4438",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1182
+    },
+    {
+      "path": "assets/tech_d705b4043c9c0752.svg",
+      "sha256": "74164a5c718cf986dc2a595de048888ea5fa4cd1484046675ad15ab8e37c09de",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rabbitmq",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 316
+    },
+    {
+      "path": "assets/tech_5b161771fc90bbc8.svg",
+      "sha256": "b0a2cebf71eec81a5a5e15352fae31a4bddb34e3ea55ae27eebf1a030b4597a2",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3305
+    },
+    {
+      "path": "assets/tech_efdd4631f8656a92.svg",
+      "sha256": "1c5a70c6b08bba0889b9f77d57030c48a594bf23d4d8be9df7b79fe513246dd7",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "tailwindcss",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 281
+    },
+    {
+      "path": "assets/tech_8a49c567228d9e1f.svg",
+      "sha256": "fb4df2bd1dc06478c7bd0f94fe346dc1580ceb10085a0dca8c805d705bc40071",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "vite",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 274
+    },
+    {
+      "path": "assets/tech_37b88a190c7fdf95.svg",
+      "sha256": "6b6f4f8e8d86c45604cf5642fdb049a9ce0d27dd66a76c9260d31c3080c935e2",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "22C55E",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2296
+    },
+    {
+      "path": "assets/tech_465478e722acdec.svg",
+      "sha256": "206c9d777fafed27e65b4eb257ee347e66980ac631acb904d814c9fe5d17678a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "postgresql",
+        "bg_color": "22C55E",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3901
+    },
+    {
+      "path": "assets/tech_b3fd2e7be05d48af.svg",
+      "sha256": "65d17550b5314c9604245296cc1d9701db55ba12207a44e9822a2896fdf2c2a8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "redis",
+        "bg_color": "22C55E",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1147
+    },
+    {
+      "path": "assets/tech_4cabdf56073681ce.svg",
+      "sha256": "6c9663eb01f828c04455f1177818c65db7f51c4765c81c7968a23ce4f3c1aa93",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "neovim",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 276
+    },
+    {
+      "path": "assets/tech_1ff7f47a738d1bef.svg",
+      "sha256": "467b7b1ba0fac16f1d8105842735729328948e4459044437c480ef72a30a952e",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "visualstudiocode",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 289
+    },
+    {
+      "path": "assets/tech_c85cf73764f0c2db.svg",
+      "sha256": "9acb404643a9042b458a8d8495aabd0d3434e09042660cede8252054349c4faf",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "git",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 273
+    },
+    {
+      "path": "assets/tech_f290fd0cb162e616.svg",
+      "sha256": "2e32082bb82a757fd2eb9413828d90c69462d1ba3abdf215b7d3e3b9a83e7127",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2142
+    },
+    {
+      "path": "assets/tech_bd3e3204c1c29bb1.svg",
+      "sha256": "94cffc7d5ff73290046f834fe273bfa3efdfdb5c5fc8be7983c53f6b7a88ac6b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "deno",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 326
+    },
+    {
+      "path": "assets/tech_8eecb7928e6efe25.svg",
+      "sha256": "553ee54f480eec05d0225b993f2955d9aba69fb5f214cccb05c9337404baba55",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "bun",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 318
+    },
+    {
+      "path": "assets/swatch_a1edcf795a965ec9.svg",
+      "sha256": "b98deff5475f46e57474b40b428509ee7898e54343ad3e7fc1f0ac8f2d8aba4c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "f41c80",
+        "style": "flat-square"
+      },
+      "size_bytes": 377
+    },
+    {
+      "path": "assets/tech_51efee40e517686a.svg",
+      "sha256": "8638d65c160777d0e70e673dd49bd079f5e43c9b3e50c0e213bd2d784e1ad1c1",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2324
+    },
+    {
+      "path": "assets/tech_6f8caf6a77d85fe3.svg",
+      "sha256": "54e46bad757652adf327d5a320382224eef7f41a3f65c77c71c2414da4122a8f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1683
+    },
+    {
+      "path": "assets/tech_563c1ce3e83cbd34.svg",
+      "sha256": "a1d59d1c07993cf6692ba39120bdbc616d435176ed17d695068259a5b790de0e",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2043
+    },
+    {
+      "path": "assets/swatch_a1edcf795a965ec9.svg",
+      "sha256": "b98deff5475f46e57474b40b428509ee7898e54343ad3e7fc1f0ac8f2d8aba4c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "f41c80",
+        "style": "flat-square"
+      },
+      "size_bytes": 377
+    },
+    {
+      "path": "assets/tech_4bf3d7300d6d8693.svg",
+      "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2295
+    },
+    {
+      "path": "assets/tech_dbf5e1d25b2b52a0.svg",
+      "sha256": "b30721c0a0394c2e5e726b03ec8ee1b9ae1fb536aaf17e82858c2dbd2bb214e8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1654
+    },
+    {
+      "path": "assets/tech_db5b9663af39915c.svg",
+      "sha256": "c5b0cf28158ee95f1679a5f28cd6254a05d81dff4bbbc4160e9649e73b8a5f60",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "3776AB",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1895
+    },
+    {
+      "path": "assets/tech_4d369e5b001f8f0e.svg",
+      "sha256": "28fd17f211246143185c21bccc6a579a195b319c5ba9b50ccf20303f52eb453d",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2014
+    },
+    {
+      "path": "assets/tech_f290fd0cb162e616.svg",
+      "sha256": "2e32082bb82a757fd2eb9413828d90c69462d1ba3abdf215b7d3e3b9a83e7127",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2142
+    },
+    {
+      "path": "assets/tech_887742265def5c36.svg",
+      "sha256": "cd41200fcfa3bfebc634c6c8a8afac8416b2772004608c709097b9572e845025",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "kubernetes",
+        "bg_color": "326CE5",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1701
+    },
+    {
+      "path": "assets/tech_5146f1d7e7da067a.svg",
+      "sha256": "50be0a44dc1259e7143164f8c127bd3b7b9e09c71343441515cd0d883f7a6536",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "terraform",
+        "bg_color": "844FBA",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 739
+    },
+    {
+      "path": "assets/tech_d7f011fef55c9a8e.svg",
+      "sha256": "34ce64be4cc170537405c6adb1832dbbb6529713da059c0d91b378a3ed538c8f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "ansible",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 277
+    },
+    {
+      "path": "assets/tech_d49749365eeefbe6.svg",
+      "sha256": "74b5f3f9b7b9da417f39101b3a4a9449d8d0c03423dc2861eab74eacbd8ba239",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -747,8 +1144,8 @@
       "size_bytes": 3912
     },
     {
-      "path": "assets/tech_9688a5d2682eb4e6.svg",
-      "sha256": "b769531c96bfd95377fef9734248eb738e8ce1de58e05ce933a8b855f1c8b3a1",
+      "path": "assets/tech_a688bac08e03e091.svg",
+      "sha256": "3a0be8d3b84148d188a81838ccd3b2983a2ef87058675531f1db28b0240782c7",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -760,8 +1157,8 @@
       "size_bytes": 1148
     },
     {
-      "path": "assets/tech_23d5cbc92bff5c02.svg",
-      "sha256": "2e7febf6bcd7e175b272fd92db82634863130717e88265c1ace78cea57d151c1",
+      "path": "assets/tech_d13b4760fe18e9a1.svg",
+      "sha256": "4ce26615fc68cef253dad466bc0ef177d279d6d8e111f6bb019e6e7abdef612e",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -773,86 +1170,138 @@
       "size_bytes": 908
     },
     {
-      "path": "assets/tech_c0acaaa6c16b84e.svg",
-      "sha256": "84a566d71765144c1e410818021f1532c0fb15a966990d8ee3a31c4185db82da",
+      "path": "assets/tech_7f33c6bdc44ea6a0.svg",
+      "sha256": "7ae823c50248a668ffa7e2f0cb3c1ebcf208426487aa4803613eb8e129984a86",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "react",
-        "bg_color": "61DAFB",
-        "logo_color": "000000",
-        "style": "outline"
+        "name": "elasticsearch",
+        "bg_color": "292A2D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
       },
-      "size_bytes": 3307
+      "size_bytes": 286
     },
     {
-      "path": "assets/tech_83c0626cf58be0ad.svg",
-      "sha256": "4208b4bbe569df0bf2b1dcb5d3980d45a7436f669efc52a6da1099a769cb1635",
+      "path": "assets/tech_5ad93b3a49b00d6d.svg",
+      "sha256": "48332d3076f35ce2246cd18c5df2a5b1877c5be58ecd7c48ba7cebdabc3f91bc",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2304
+    },
+    {
+      "path": "assets/tech_6985750471d014e7.svg",
+      "sha256": "57a45ed2570d396871e386a211834f47c8829edf23d7571c41ad55ea98a5b807",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2026
+    },
+    {
+      "path": "assets/tech_76a394722d043702.svg",
+      "sha256": "c970889c1240e05a0f63f8d10f4e1f7c117820c8ced85c512d3372b20beefd13",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "3776AB",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1893
+    },
+    {
+      "path": "assets/tech_4e19b6a3408c6feb.svg",
+      "sha256": "0eb9017a7006bbe840f3bcdb143216c44217c7819fe94550af0615ee8829ec9d",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "typescript",
         "bg_color": "3178C6",
         "logo_color": "FFFFFF",
-        "style": "outline"
+        "style": "flat-square"
       },
-      "size_bytes": 1650
+      "size_bytes": 1654
     },
     {
-      "path": "assets/tech_f79afa81815fc290.svg",
-      "sha256": "816c28150da8691a494c4466b33925380388771f7e7bb0f650e8bf8d92133920",
+      "path": "assets/tech_8f0871ed4e0d9247.svg",
+      "sha256": "37e4f2301ac2e183b303a8dec7deff2f17d85225d573fcdb27b01698c1829d95",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "vue",
-        "bg_color": "4FC08D",
+        "name": "react",
+        "bg_color": "61DAFB",
         "logo_color": "000000",
-        "style": "outline"
+        "style": "flat-square"
       },
-      "size_bytes": 582
+      "size_bytes": 3302
     },
     {
-      "path": "assets/tech_757707bc3be2c593.svg",
-      "sha256": "f83b436c3c1f42b0de273748a8553f6313af7aed6db19fecbf876bed7fead1d2",
+      "path": "assets/tech_822ace4d13e0a4bc.svg",
+      "sha256": "5098be9a058676718a437b85c4f7049d3983717beaa1c8a37ec997d090387e08",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "rust",
-        "bg_color": "1a1a1a",
+        "name": "nextdotjs",
+        "bg_color": "292A2D",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 2262
+      "size_bytes": 273
     },
     {
-      "path": "assets/tech_fa124ffaa39865ed.svg",
-      "sha256": "3cf0d4a4c646b389184217f84ba49bc27ebee3b2585c3a1b5c4fe4437e739b32",
+      "path": "assets/tech_b34f64a1e219d81c.svg",
+      "sha256": "b16b23ddcda6fb26e8d02a1198b73d8c68dfbe4311eb2631753c29c2200f4bc0",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "go",
-        "bg_color": "1a1a1a",
+        "name": "postgresql",
+        "bg_color": "4169E1",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1972
+      "size_bytes": 3903
     },
     {
-      "path": "assets/tech_1edb11df4484fc6.svg",
-      "sha256": "e9a421eef1474331a037e88d223042b4bd5070b85f533830504e0f40d76f4ded",
+      "path": "assets/tech_a0882bbc29fb2787.svg",
+      "sha256": "63f2ddacc826f84dfd8ddcf4d7fb11655a12ff3da045ac890a90066ef9a33c48",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "nodejs",
-        "bg_color": "1a1a1a",
+        "name": "mongodb",
+        "bg_color": "47A248",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 904
+    },
+    {
+      "path": "assets/tech_1a871e207bb8800.svg",
+      "sha256": "5e3bcd91f000d442684c52bc60a550f4758fb57d8b2e23feaaf63e467160e94c",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "redis",
+        "bg_color": "FF4438",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1683
+      "size_bytes": 1150
     },
     {
-      "path": "assets/tech_906b232fbed6b493.svg",
-      "sha256": "ff37f69bd7331b9f95f16adbc46f5287037277051bce417929f152f4dc76781e",
+      "path": "assets/tech_edaabb57ac866ad4.svg",
+      "sha256": "c8679bee79da16d1b60e7c02f2911c7b623d53b51fd98470d0fbdc8e253e34ee",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -861,11 +1310,11 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2070
+      "size_bytes": 2151
     },
     {
-      "path": "assets/tech_2e04e6c81e2539b1.svg",
-      "sha256": "308ed984661b787751d88dde8128dd0e52f01d37da788e6a3e3490a42bd6eafa",
+      "path": "assets/tech_29ac07f883f47215.svg",
+      "sha256": "f26a7bd26cec138000ee608fc92f0faa9d792d49c39d57e8e30280123e327e15",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -874,11 +1323,11 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1639
+      "size_bytes": 1707
     },
     {
-      "path": "assets/tech_fad3e17b1c790fa.svg",
-      "sha256": "0eeb453a0a50bfb9950312c015094205504176a660c06c4a4db42a42727cc1de",
+      "path": "assets/tech_17fb7671f95d7a44.svg",
+      "sha256": "615e8a0f3d4bdbe25626e433af4f9c2879dadd5d4a9aa164ad7384793c687acc",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -887,46 +1336,31 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 666
+      "size_bytes": 731
     },
     {
-      "path": "assets/tech_b807ab4b7256bdc.svg",
-      "sha256": "4201975c63372fe09125e0f10b4646fc3ed85bd1447119657f11cbd159240f41",
+      "path": "assets/tech_57010c5a56f4b9dd.svg",
+      "sha256": "59fbdf7b27dc27c955bda9af08a53e0d76f674c032de2a1afc88a1392f11c46a",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "javascript",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
+        "name": "rust",
+        "bg_color": "1a1a1a",
+        "logo_color": "CE412B",
         "style": "flat-square"
       },
-      "size_bytes": 1389
+      "size_bytes": 2344
     },
     {
-      "path": "assets/tech_295ad0c0d0e62753.svg",
-      "sha256": "531a8a53a9bb0477bbc2fea7206424d622e8a84a3c17752c783a639905082b1b",
-      "type": "tech",
+      "path": "assets/swatch_5f9f620e8b40294a.svg",
+      "sha256": "3135bf63444fe3776e11743dff6a5499cf78954c7ef87232f332d872f40e1abe",
+      "type": "swatch",
       "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
+        "kind": "Swatch",
+        "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 1688
-    },
-    {
-      "path": "assets/tech_a3d0dbb076a34f23.svg",
-      "sha256": "79bd1192009e03fd3d8cc0fc4780cf7a28e8240496400cf087e3764585f4b6e7",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "react",
-        "bg_color": "0D0D0D",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 3337
+      "size_bytes": 398
     }
   ]
 }

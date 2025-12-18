@@ -1,111 +1,313 @@
-# Creative Tech Badges
+# {{negative-squared}}TECH{{/negative-squared}} Badge Showcase
 
-## Primary Stack
+{{ui:swatch:000000:width=700:height=6:gradient=horizontal/f41c80/3B82F6/22C55E:rx=3/}}
 
-{{ui:swatch:000000:style=for-the-badge:label=Rust:icon=rust:icon_color=CE412B/}}
-{{ui:swatch:3178C6:style=for-the-badge:label=TypeScript:icon=typescript:icon_color=white/}}
-{{ui:swatch:00ADD8:style=for-the-badge:label=Go:icon=go:icon_color=white/}}
-
-## Frontend
-
-{{ui:swatch:61DAFB:style=for-the-badge:label=React:icon=react:icon_color=000000/}}
-{{ui:swatch:4FC08D:style=for-the-badge:label=Vue:icon=vuedotjs:icon_color=white/}}
-{{ui:swatch:FF3E00:style=for-the-badge:label=Svelte:icon=svelte:icon_color=white/}}
-{{ui:swatch:000000:style=for-the-badge:label=Next.js:icon=nextdotjs:icon_color=white/}}
-
-## Backend
-
-{{ui:swatch:339933:style=for-the-badge:label=Node.js:icon=nodedotjs:icon_color=white/}}
-{{ui:swatch:E10098:style=for-the-badge:label=GraphQL:icon=graphql:icon_color=white/}}
-{{ui:swatch:4169E1:style=for-the-badge:label=PostgreSQL:icon=postgresql:icon_color=white/}}
-{{ui:swatch:DC382D:style=for-the-badge:label=Redis:icon=redis:icon_color=white/}}
-
-## Cloud & DevOps
-
-{{ui:swatch:2496ED:style=for-the-badge:label=Docker:icon=docker:icon_color=white/}}
-{{ui:swatch:326CE5:style=for-the-badge:label=Kubernetes:icon=kubernetes:icon_color=white/}}
-{{ui:swatch:FF9900:style=for-the-badge:label=AWS:icon=amazonaws:icon_color=white/}}
-{{ui:swatch:7B42BC:style=for-the-badge:label=Terraform:icon=terraform:icon_color=white/}}
+*Comprehensive demonstration of tech badges, text styles, glyphs, and creative combinations*
 
 ---
 
-## Glowing Badge Row
+## {{mathbold:separator=dot}}LOGO SIZES{{/mathbold}}
 
-{{ui:swatch:f41c80:width=8:height=28:rx=4:shadow=f41c80/10/0/0/}}
-{{ui:swatch:f41c80:style=for-the-badge:label=Featured:icon=star:icon_color=white/}}
-{{ui:swatch:f41c80:width=8:height=28:rx=4:shadow=f41c80/10/0/0/}}
+Scale your tech logos from tiny to prominent:
 
----
+| Size | Preset | Example |
+|------|--------|---------|
+| Extra Small | `logo_size=xs` | {{ui:tech:rust:logo_size=xs/}} |
+| Small | `logo_size=sm` | {{ui:tech:rust:logo_size=sm/}} |
+| Medium (default) | `logo_size=md` | {{ui:tech:rust:logo_size=md/}} |
+| Large | `logo_size=lg` | {{ui:tech:rust:logo_size=lg/}} |
+| Extra Large | `logo_size=xl` | {{ui:tech:rust:logo_size=xl/}} |
+| XXL | `logo_size=xxl` | {{ui:tech:rust:logo_size=xxl/}} |
 
-## Badge with Accent Bar
+### Size Comparison Row
 
-{{ui:swatch:000000:width=400:height=3:gradient=horizontal/f41c80/3B82F6/}}
-
-{{ui:swatch:000000:style=for-the-badge:label=Full Stack Developer:icon=code:icon_color=f41c80/}}
-
----
-
-## Status Pills
-
-{{ui:swatch:22C55E:style=for-the-badge:label=Online:icon=statuspage:icon_color=white/}}
-{{ui:swatch:3B82F6:style=for-the-badge:label=v2.0:icon=semver:icon_color=white/}}
-{{ui:swatch:f41c80:style=for-the-badge:label=Hire Me:icon=handshake:icon_color=white/}}
+{{ui:row:align=center}}
+{{ui:tech:typescript:logo_size=xs/}} {{ui:tech:typescript:logo_size=sm/}} {{ui:tech:typescript:logo_size=md/}} {{ui:tech:typescript:logo_size=lg/}} {{ui:tech:typescript:logo_size=xl/}} {{ui:tech:typescript:logo_size=xxl/}}
+{{/ui}}
 
 ---
 
-## Social Row with Glow
+## {{negative-circled}}NEW{{/negative-circled}} Custom Icons
 
-{{ui:swatch:1DA1F2:width=6:height=28:rx=3:shadow=1DA1F2/8/0/0/}}
-{{ui:swatch:1DA1F2:style=for-the-badge:label=Twitter:icon=twitter:icon_color=white/}}
-{{ui:swatch:292a2d:width=10:height=28/}}
-{{ui:swatch:0A66C2:width=6:height=28:rx=3:shadow=0A66C2/8/0/0/}}
-{{ui:swatch:0A66C2:style=for-the-badge:label=LinkedIn:icon=linkedin:icon_color=white/}}
-{{ui:swatch:292a2d:width=10:height=28/}}
-{{ui:swatch:181717:width=6:height=28:rx=3:shadow=FFFFFF/8/0/0/}}
-{{ui:swatch:181717:style=for-the-badge:label=GitHub:icon=github:icon_color=white/}}
+Use any SVG path data for unsupported technologies:
 
----
-
-## Framed Tech Stack
-
-{{ui:swatch:f41c80:width=2:height=40/}}
-{{ui:swatch:CE412B:style=for-the-badge:label=Rust:icon=rust:icon_color=white/}}
-{{ui:swatch:3178C6:style=for-the-badge:label=TS:icon=typescript:icon_color=white/}}
-{{ui:swatch:61DAFB:style=for-the-badge:label=React:icon=react:icon_color=000000/}}
-{{ui:swatch:f41c80:width=2:height=40/}}
+{{ui:row:align=center}}
+{{ui:tech:custom:label=Quantum:icon=M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5:bg=7C3AED:logo=white/}}
+{{ui:tech:custom:label=Neural:icon=M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6z:bg=EC4899:logo=white/}}
+{{ui:tech:custom:label=Fusion:icon=M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.5L17 8v8l-5 3-5-3V8l5-3.5z:bg=F59E0B:logo=white/}}
+{{/ui}}
 
 ---
 
-## Gradient Divider + Badges
+## {{squared-latin}}STYLE{{/squared-latin}} Gallery
 
-{{ui:swatch:000000:width=500:height=2:gradient=horizontal/transparent/f41c80/transparent/}}
+### Badge Styles
 
-{{ui:swatch:f41c80:style=for-the-badge:label=Open Source:icon=opensource:icon_color=white/}}
-{{ui:swatch:22C55E:style=for-the-badge:label=Contributing:icon=github:icon_color=white/}}
-{{ui:swatch:3B82F6:style=for-the-badge:label=PRs Welcome:icon=gitpullrequest:icon_color=white/}}
+| Style | Result |
+|-------|--------|
+| `flat` | {{ui:tech:react:style=flat/}} |
+| `flat-square` | {{ui:tech:react:style=flat-square/}} |
+| `plastic` | {{ui:tech:react:style=plastic/}} |
+| `for-the-badge` | {{ui:tech:react:style=for-the-badge/}} |
 
-{{ui:swatch:000000:width=500:height=2:gradient=horizontal/transparent/f41c80/transparent/}}
+### Outline Mode {{glyph:star.filled/}}
 
----
+Ghost-style badges with transparent backgrounds:
 
-## Mini Icon Strip
+{{ui:row:align=center}}
+{{ui:tech:rust:outline=true/}} {{ui:tech:python:outline=true/}} {{ui:tech:go:outline=true/}} {{ui:tech:typescript:outline=true/}}
+{{/ui}}
 
-{{ui:swatch:CE412B:width=32:height=32:rx=6:icon=rust/}}
-{{ui:swatch:3178C6:width=32:height=32:rx=6:icon=typescript/}}
-{{ui:swatch:61DAFB:width=32:height=32:rx=6:icon=react/}}
-{{ui:swatch:339933:width=32:height=32:rx=6:icon=nodedotjs/}}
-{{ui:swatch:2496ED:width=32:height=32:rx=6:icon=docker/}}
-{{ui:swatch:326CE5:width=32:height=32:rx=6:icon=kubernetes/}}
-{{ui:swatch:FF9900:width=32:height=32:rx=6:icon=amazonaws/}}
-
----
-
-## Accent Glow Behind Badge
-
-{{ui:swatch:f41c80:width=180:height=32:rx=6:shadow=f41c80/15/0/0:opacity=0.3/}}
-
-{{ui:swatch:f41c80:style=for-the-badge:label=Sponsor:icon=githubsponsors:icon_color=white/}}
+{{ui:row:align=center}}
+{{ui:tech:docker:outline=true:label=Container/}} {{ui:tech:kubernetes:outline=true:label=K8s/}} {{ui:tech:terraform:outline=true:label=IaC/}}
+{{/ui}}
 
 ---
 
-*Made with mdfx*
+## {{mathbold}}BORDERS{{/mathbold}} & {{script}}Corners{{/script}}
+
+### Accent Borders
+
+{{ui:row:align=center}}
+{{ui:tech:rust:border=f41c80:border_width=2/}} {{ui:tech:python:border=3B82F6:border_width=2/}} {{ui:tech:go:border=22C55E:border_width=2/}}
+{{/ui}}
+
+### Rounded Corners
+
+{{ui:row:align=center}}
+{{ui:tech:react:rx=4/}} {{ui:tech:react:rx=8/}} {{ui:tech:react:rx=12/}} {{ui:tech:react:rx=16/}}
+{{/ui}}
+
+### Pill Badges
+
+{{ui:row:align=center}}
+{{ui:tech:typescript:label=v5.3:rx=20:border=3178C6:border_width=1/}}
+{{ui:tech:nodejs:label=v20 LTS:rx=20:border=339933:border_width=1/}}
+{{ui:tech:rust:label=v1.80:rx=20:border=CE412B:border_width=1/}}
+{{/ui}}
+
+---
+
+## {{fraktur}}Chevron{{/fraktur}} Badges {{glyph:arrow.right/}}
+
+Directional arrow shapes:
+
+### Right Chevron (→)
+{{ui:row:align=center}}
+{{ui:tech:git:chevron=right/}}{{ui:tech:github:chevron=right/}}{{ui:tech:gitlab:chevron=right/}}{{ui:tech:bitbucket/}}
+{{/ui}}
+
+### Left Chevron (←)
+{{ui:row:align=center}}
+{{ui:tech:amazonaws/}}{{ui:tech:googlecloud:chevron=left/}}{{ui:tech:microsoftazure:chevron=left/}}{{ui:tech:digitalocean:chevron=left/}}
+{{/ui}}
+
+### Pipeline Flow
+{{ui:row:align=center}}
+{{ui:tech:git:label=Code:chevron=right/}}{{ui:tech:githubactions:label=CI:chevron=right/}}{{ui:tech:docker:label=Build:chevron=right/}}{{ui:tech:kubernetes:label=Deploy/}}
+{{/ui}}
+
+---
+
+## {{mathbold:separator=star.filled}}TWO SEGMENT{{/mathbold}} Colors
+
+### Independent Segment Colors
+
+{{ui:row:align=center}}
+{{ui:tech:rust:label=Backend:bg_left=1a1a1a:bg_right=CE412B/}}
+{{ui:tech:typescript:label=Frontend:bg_left=1a1a1a:bg_right=3178C6/}}
+{{ui:tech:postgresql:label=Database:bg_left=1a1a1a:bg_right=4169E1/}}
+{{/ui}}
+
+### Gradient Feel
+
+{{ui:row:align=center}}
+{{ui:tech:react:label=UI:bg_left=20232a:bg_right=61DAFB:logo=61DAFB/}}
+{{ui:tech:vue:label=Framework:bg_left=35495e:bg_right=4FC08D:logo=4FC08D/}}
+{{ui:tech:svelte:label=Compiler:bg_left=2a1506:bg_right=FF3E00:logo=FF3E00/}}
+{{/ui}}
+
+---
+
+## {{negative-squared}}TEXT{{/negative-squared}} + {{circled-latin}}TECH{{/circled-latin}} Combos
+
+### {{frame:gradient}}{{mathbold:separator=dot}}PRIMARY STACK{{/mathbold}}{{/frame}}
+
+{{ui:row:align=center}}
+{{ui:tech:rust:logo_size=lg/}} {{ui:tech:typescript:logo_size=lg/}} {{ui:tech:react:logo_size=lg/}} {{ui:tech:postgresql:logo_size=lg/}}
+{{/ui}}
+
+### {{frame:solid-left}}{{fraktur}}Backend Services{{/fraktur}}{{/frame}}
+
+{{ui:row:align=center}}
+{{ui:tech:rust:label=API:border=CE412B:border_width=2:rx=6/}}
+{{ui:tech:redis:label=Cache:border=DC382D:border_width=2:rx=6/}}
+{{ui:tech:rabbitmq:label=Queue:border=FF6600:border_width=2:rx=6/}}
+{{/ui}}
+
+### {{frame:star}}{{script}}Frontend Magic{{/script}}{{/frame}}
+
+{{ui:row:align=center}}
+{{ui:tech:react:outline=true:logo_size=lg/}}
+{{ui:tech:tailwindcss:outline=true:logo_size=lg/}}
+{{ui:tech:vite:outline=true:logo_size=lg/}}
+{{/ui}}
+
+---
+
+## {{glyph:circle.1/}} Status Labels with Text Styles
+
+### {{negative-squared}}PROD{{/negative-squared}} Production Stack
+
+{{ui:row:align=center}}
+{{ui:tech:rust:label=v1.80:bg=22C55E:logo=white/}}
+{{ui:tech:postgresql:label=v16:bg=22C55E:logo=white/}}
+{{ui:tech:redis:label=v7.2:bg=22C55E:logo=white/}}
+{{/ui}}
+
+### {{negative-circled}}DEV{{/negative-circled}} Development Tools
+
+{{ui:row:align=center}}
+{{ui:tech:neovim:outline=true/}}
+{{ui:tech:visualstudiocode:outline=true/}}
+{{ui:tech:git:outline=true/}}
+{{ui:tech:docker:outline=true/}}
+{{/ui}}
+
+### {{squared-latin}}BETA{{/squared-latin}} Experimental
+
+{{ui:row:align=center}}
+{{ui:tech:deno:label=Experimental:border=F59E0B:border_width=2:rx=8/}}
+{{ui:tech:bun:label=Testing:border=F59E0B:border_width=2:rx=8/}}
+{{/ui}}
+
+---
+
+## {{mathbold:separator=diamond.filled}}CREATIVE LAYOUTS{{/mathbold}}
+
+### Glowing Tech Row
+
+{{ui:swatch:f41c80:width=8:height=36:rx=4:shadow=f41c80/15/0/0/}}
+{{ui:tech:rust:logo_size=xl:border=f41c80:border_width=1/}}
+{{ui:tech:typescript:logo_size=xl:border=f41c80:border_width=1/}}
+{{ui:tech:go:logo_size=xl:border=f41c80:border_width=1/}}
+{{ui:swatch:f41c80:width=8:height=36:rx=4:shadow=f41c80/15/0/0/}}
+
+### Categorized Stack
+
+{{frame:gradient}}{{negative-squared}}LANG{{/negative-squared}}{{/frame}}
+{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:python/}} {{ui:tech:go/}}
+
+{{frame:gradient}}{{negative-squared}}INFRA{{/negative-squared}}{{/frame}}
+{{ui:tech:docker/}} {{ui:tech:kubernetes/}} {{ui:tech:terraform/}} {{ui:tech:ansible/}}
+
+{{frame:gradient}}{{negative-squared}}DATA{{/negative-squared}}{{/frame}}
+{{ui:tech:postgresql/}} {{ui:tech:redis/}} {{ui:tech:mongodb/}} {{ui:tech:elasticsearch/}}
+
+---
+
+## {{script:separator=card.heart}}Typography Showcase{{/script}}
+
+### Text Style Headers
+
+{{mathbold}}MATHEMATICAL BOLD{{/mathbold}} → Primary headers
+{{fullwidth}}ＦＵＬＬ　ＷＩＤＴＨ{{/fullwidth}} → Wide emphasis
+{{fraktur}}Fraktur Gothic{{/fraktur}} → Medieval feel
+{{script}}Script Elegance{{/script}} → Flowing style
+{{double-struck}}Double Struck{{/double-struck}} → Mathematical
+
+### Enclosed Styles for Labels
+
+{{negative-squared}}NEW{{/negative-squared}} Feature announcement
+{{negative-circled}}HOT{{/negative-circled}} Trending item
+{{squared-latin}}INFO{{/squared-latin}} Information note
+{{circled-latin}}TIP{{/circled-latin}} Helpful hint
+
+### Separators Gallery
+
+{{mathbold:separator=dot}}DOT SEPARATED{{/mathbold}}
+{{mathbold:separator=star.filled}}STAR SEPARATED{{/mathbold}}
+{{mathbold:separator=arrow.right}}ARROW FLOW{{/mathbold}}
+{{mathbold:separator=diamond.filled}}DIAMOND CHAIN{{/mathbold}}
+{{mathbold:separator=card.heart}}HEART LOVE{{/mathbold}}
+
+---
+
+## {{glyph:star.filled/}} Glyph Decorations {{glyph:star.filled/}}
+
+### Number Badges
+
+{{glyph:circle.1/}} Install dependencies
+{{glyph:circle.2/}} Configure environment
+{{glyph:circle.3/}} Run build
+{{glyph:circle.4/}} Deploy to production
+
+### Checkboxes
+
+{{glyph:check.yes/}} Rust installed
+{{glyph:check.yes/}} Docker running
+{{glyph:check.empty/}} Tests passing
+{{glyph:check.empty/}} Documentation updated
+
+### Decorative Dividers
+
+{{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.filled/}} {{mathbold}}SECTION{{/mathbold}} {{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.filled/}}
+
+{{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}}
+
+---
+
+## {{frame:line-double}}{{mathbold}}MEGA SHOWCASE{{/mathbold}}{{/frame}}
+
+### Full-Stack Developer Badge Wall
+
+{{ui:row:align=center}}
+{{ui:tech:rust:logo_size=lg:label=Systems/}}
+{{ui:tech:go:logo_size=lg:label=Services/}}
+{{ui:tech:python:logo_size=lg:label=ML/}}
+{{/ui}}
+
+{{ui:row:align=center}}
+{{ui:tech:typescript:logo_size=lg:label=Frontend/}}
+{{ui:tech:react:logo_size=lg:label=UI/}}
+{{ui:tech:nextdotjs:logo_size=lg:label=SSR/}}
+{{/ui}}
+
+{{ui:row:align=center}}
+{{ui:tech:postgresql:logo_size=lg:label=SQL/}}
+{{ui:tech:mongodb:logo_size=lg:label=NoSQL/}}
+{{ui:tech:redis:logo_size=lg:label=Cache/}}
+{{/ui}}
+
+{{ui:row:align=center}}
+{{ui:tech:docker:logo_size=lg:label=Container/}}
+{{ui:tech:kubernetes:logo_size=lg:label=Orchestration/}}
+{{ui:tech:terraform:logo_size=lg:label=IaC/}}
+{{/ui}}
+
+---
+
+## {{negative-squared}}ALL{{/negative-squared}} Parameters Demo
+
+One badge, every parameter:
+
+{{ui:tech:rust:label=Rust v1.80:style=flat-square:bg=1a1a1a:logo=CE412B:text_color=CE412B:border=CE412B:border_width=2:rx=10:logo_size=lg/}}
+
+```
+{{ui:tech:rust:
+  label=Rust v1.80:
+  style=flat-square:
+  bg=1a1a1a:
+  logo=CE412B:
+  text_color=CE412B:
+  border=CE412B:
+  border_width=2:
+  rx=10:
+  logo_size=lg/}}
+```
+
+---
+
+{{ui:swatch:000000:width=700:height=4:gradient=horizontal/22C55E/3B82F6/f41c80:rx=2/}}
+
+{{glyph:star.filled/}} *Generated with mdfx — where markdown becomes art* {{glyph:star.filled/}}
