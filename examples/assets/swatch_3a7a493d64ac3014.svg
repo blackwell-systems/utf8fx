@@ -1,4 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="180" height="12" viewBox="0 0 180 12">
-  <rect x="0" y="0" width="180" height="12" fill="#000000" rx="0"/>
-  <text x="90" y="9" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10" font-weight="bold">cargo build --release</text>
-</svg>
