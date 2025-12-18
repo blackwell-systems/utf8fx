@@ -94,15 +94,28 @@ fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> Strin
 
     format!(
         "M{} {}H{}Q{} {} {} {}V{}Q{} {} {} {}H{}Q{} {} {} {}V{}Q{} {} {} {}Z",
-        x + tl, y,                          // Start after top-left corner
-        x + w - tr,                         // Horizontal to top-right
-        x + w, y, x + w, y + tr,            // Top-right corner arc
-        y + h - br,                         // Vertical to bottom-right
-        x + w, y + h, x + w - br, y + h,    // Bottom-right corner arc
-        x + bl,                             // Horizontal to bottom-left
-        x, y + h, x, y + h - bl,            // Bottom-left corner arc
-        y + tl,                             // Vertical to top-left
-        x, y, x + tl, y                     // Top-left corner arc
+        x + tl,
+        y,          // Start after top-left corner
+        x + w - tr, // Horizontal to top-right
+        x + w,
+        y,
+        x + w,
+        y + tr,     // Top-right corner arc
+        y + h - br, // Vertical to bottom-right
+        x + w,
+        y + h,
+        x + w - br,
+        y + h,  // Bottom-right corner arc
+        x + bl, // Horizontal to bottom-left
+        x,
+        y + h,
+        x,
+        y + h - bl, // Bottom-left corner arc
+        y + tl,     // Vertical to top-left
+        x,
+        y,
+        x + tl,
+        y // Top-left corner arc
     )
 }
 
@@ -209,7 +222,10 @@ fn render_two_segment(
             right_corners,
         );
         (
-            format!("<path d=\"{}\" fill=\"#{}\"{}/>", left_path, bg_color, border_attr),
+            format!(
+                "<path d=\"{}\" fill=\"#{}\"{}/>",
+                left_path, bg_color, border_attr
+            ),
             format!("<path d=\"{}\" fill=\"#{}\"/>", right_path, right_bg),
         )
     } else {
@@ -218,12 +234,23 @@ fn render_two_segment(
             format!(
                 "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
   <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"0\"/>",
-                total_width, height, bg_color, rx, border_attr,
-                icon_width, label_width, height, right_bg
+                total_width,
+                height,
+                bg_color,
+                rx,
+                border_attr,
+                icon_width,
+                label_width,
+                height,
+                right_bg
             ),
             format!(
                 "<rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>",
-                total_width - rx, rx, height, right_bg, rx
+                total_width - rx,
+                rx,
+                height,
+                right_bg,
+                rx
             ),
         )
     };

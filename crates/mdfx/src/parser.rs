@@ -2256,7 +2256,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient}}Title{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2264,7 +2267,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient}}Title{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2272,7 +2278,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient}}{{frame:glyph:star}}NESTED{{/}}{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} NESTED ★\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} NESTED ★\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2280,7 +2289,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient}}{{mathbold}}TITLE{{/mathbold}}{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓𝐈𝐓𝐋𝐄 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓𝐈𝐓𝐋𝐄 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2296,7 +2308,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient}}{{mathbold:spacing=1}}HI{{/mathbold}}{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐇 𝐈 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐇 𝐈 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2304,7 +2319,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:grad}}Test{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Test ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Test ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2320,7 +2338,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:line-bold}}Section{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "━\u{fe0e}━\u{fe0e}━\u{fe0e} Section ━\u{fe0e}━\u{fe0e}━\u{fe0e}");
+        assert_eq!(
+            result,
+            "━\u{fe0e}━\u{fe0e}━\u{fe0e} Section ━\u{fe0e}━\u{fe0e}━\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2336,7 +2357,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "# {{frame:gradient}}{{mathbold}}HEADER{{/mathbold}}{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "# ▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐇𝐄𝐀𝐃𝐄𝐑 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "# ▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐇𝐄𝐀𝐃𝐄𝐑 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2386,7 +2410,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:glyph:star*3}}Title{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e}★\u{fe0e}★\u{fe0e} Title ★\u{fe0e}★\u{fe0e}★\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}★\u{fe0e}★\u{fe0e} Title ★\u{fe0e}★\u{fe0e}★\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2394,7 +2421,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:glyph:star*3/pad=0}}Title{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e}★\u{fe0e}★\u{fe0e}Title★\u{fe0e}★\u{fe0e}★\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}★\u{fe0e}★\u{fe0e}Title★\u{fe0e}★\u{fe0e}★\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2434,7 +2464,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:glyph:star*3/separator=dot}}Title{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e}·★\u{fe0e}·★\u{fe0e} Title ★\u{fe0e}·★\u{fe0e}·★\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}·★\u{fe0e}·★\u{fe0e} Title ★\u{fe0e}·★\u{fe0e}·★\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2450,7 +2483,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:glyph:bullet*4/separator=-}}X{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "•\u{fe0e}-•\u{fe0e}-•\u{fe0e}-•\u{fe0e} X •\u{fe0e}-•\u{fe0e}-•\u{fe0e}-•\u{fe0e}");
+        assert_eq!(
+            result,
+            "•\u{fe0e}-•\u{fe0e}-•\u{fe0e}-•\u{fe0e} X •\u{fe0e}-•\u{fe0e}-•\u{fe0e}-•\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2459,7 +2495,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         // Both separator and pad modifiers
         let input = "{{frame:glyph:star*3/separator=·/pad=0}}Tight{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e}·★\u{fe0e}·★\u{fe0e}Tight★\u{fe0e}·★\u{fe0e}·★\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}·★\u{fe0e}·★\u{fe0e}Tight★\u{fe0e}·★\u{fe0e}·★\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2486,7 +2525,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:gradient}}Title{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2494,7 +2536,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:glyph:star*3}}Text{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e}★\u{fe0e}★\u{fe0e} Text ★\u{fe0e}★\u{fe0e}★\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}★\u{fe0e}★\u{fe0e} Text ★\u{fe0e}★\u{fe0e}★\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2503,7 +2548,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         // gradient pattern is ▓▒░, with separator should be ▓·▒·░
         let input = "{{fr:gradient/separator=dot}}Title{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Title ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Title ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2511,7 +2559,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient/separator=dash}}TEXT{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}─▒\u{fe0e}─░\u{fe0e} TEXT ░\u{fe0e}─▒\u{fe0e}─▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}─▒\u{fe0e}─░\u{fe0e} TEXT ░\u{fe0e}─▒\u{fe0e}─▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2519,7 +2570,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:line-double/separator= }}Title{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "═\u{fe0e} ═\u{fe0e} ═\u{fe0e} Title ═\u{fe0e} ═\u{fe0e} ═\u{fe0e}");
+        assert_eq!(
+            result,
+            "═\u{fe0e} ═\u{fe0e} ═\u{fe0e} Title ═\u{fe0e} ═\u{fe0e} ═\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2528,7 +2582,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         // spacing=1 adds 1 space between each grapheme
         let input = "{{fr:gradient/spacing=1}}TITLE{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e} ▒\u{fe0e} ░\u{fe0e} TITLE ░\u{fe0e} ▒\u{fe0e} ▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e} ▒\u{fe0e} ░\u{fe0e} TITLE ░\u{fe0e} ▒\u{fe0e} ▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2537,7 +2594,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         // spacing=2 adds 2 spaces between each grapheme
         let input = "{{fr:gradient/spacing=2}}X{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}  ▒\u{fe0e}  ░\u{fe0e} X ░\u{fe0e}  ▒\u{fe0e}  ▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}  ▒\u{fe0e}  ░\u{fe0e} X ░\u{fe0e}  ▒\u{fe0e}  ▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2545,7 +2605,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:glyph:star*3/spacing=1}}Text{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e} ★\u{fe0e} ★\u{fe0e} Text ★\u{fe0e} ★\u{fe0e} ★\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e} ★\u{fe0e} ★\u{fe0e} Text ★\u{fe0e} ★\u{fe0e} ★\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2562,7 +2625,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         // gradient-wave uses alternate mode: ▓▒░ → ▒░▓ (rotated)
         let input = "{{fr:gradient-wave}}TITLE{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} TITLE ▒\u{fe0e}░\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} TITLE ▒\u{fe0e}░\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2570,7 +2636,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:wave}}TEXT{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} TEXT ▒\u{fe0e}░\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} TEXT ▒\u{fe0e}░\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2581,7 +2650,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let result = parser.process(input).unwrap();
         // gradient prefix: "▓▒░ ", star prefix: "★ "
         // star suffix: " ☆", gradient suffix: " ░▒▓"
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} TITLE ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} TITLE ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2599,7 +2671,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:gradient + star}}TEXT{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} TEXT ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} TEXT ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2607,7 +2682,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:gradient/separator=·:Inline/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Inline ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Inline ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2617,7 +2695,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:gradient/reverse}}Title{{/}}";
         let result = parser.process(input).unwrap();
         // Normal: ▓▒░ Title ░▒▓, Reversed: ░▒▓ Title ▓▒░
-        assert_eq!(result, " ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}Title▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ");
+        assert_eq!(
+            result,
+            " ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}Title▓\u{fe0e}▒\u{fe0e}░\u{fe0e} "
+        );
     }
 
     #[test]
@@ -2636,7 +2717,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         // Repeat star 3 times
         let input = "{{fr:star*3}}Title{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e}★\u{fe0e}★\u{fe0e} Title ☆\u{fe0e}☆\u{fe0e}☆\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}★\u{fe0e}★\u{fe0e} Title ☆\u{fe0e}☆\u{fe0e}☆\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2664,7 +2748,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:star*3/separator=·}}Title{{/}}";
         let result = parser.process(input).unwrap();
         // ★★★ with separator between graphemes: ★·★·★
-        assert_eq!(result, "★\u{fe0e}·★\u{fe0e}·★\u{fe0e} Title ☆\u{fe0e}·☆\u{fe0e}·☆\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}·★\u{fe0e}·★\u{fe0e} Title ☆\u{fe0e}·☆\u{fe0e}·☆\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2672,7 +2759,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:gradient}}{{fr:star}}NESTED{{/}}{{/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} NESTED ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} NESTED ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2680,7 +2770,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient}}{{fr:star}}MIXED{{/}}{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} MIXED ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} MIXED ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2688,7 +2781,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:gradient}}{{fr:star}}NESTED{{//}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} NESTED ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} NESTED ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2705,7 +2801,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:gradient}}Title{{//}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2747,7 +2846,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:gradient}}{{fr:star}}{{mathbold}}VIP{{//}}";
         let result = parser.process(input).unwrap();
         // Frame > Frame > Style, all closed by {{//}}
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} 𝐕𝐈𝐏 ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} ★\u{fe0e} 𝐕𝐈𝐏 ☆\u{fe0e} ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2756,7 +2858,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let input = "{{fr:gradient}}{{mathbold}}TITLE{{/mathbold}} more text{{//}}";
         let result = parser.process(input).unwrap();
         // Style is explicitly closed, only frame left for {{//}}
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓𝐈𝐓𝐋𝐄 more text ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓𝐈𝐓𝐋𝐄 more text ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2775,7 +2880,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:gradient:Title/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} Title ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2799,7 +2907,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{fr:glyph:star*3/pad=0:Tight/}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "★\u{fe0e}★\u{fe0e}★\u{fe0e}Tight★\u{fe0e}★\u{fe0e}★\u{fe0e}");
+        assert_eq!(
+            result,
+            "★\u{fe0e}★\u{fe0e}★\u{fe0e}Tight★\u{fe0e}★\u{fe0e}★\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2839,7 +2950,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
         let parser = TemplateParser::new().unwrap();
         let input = "{{frame:gradient}}{{mathbold:separator=dash}}STYLED{{/mathbold}}{{/frame}}";
         let result = parser.process(input).unwrap();
-        assert_eq!(result, "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐒─𝐓─𝐘─𝐋─𝐄─𝐃 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}");
+        assert_eq!(
+            result,
+            "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐒─𝐓─𝐘─𝐋─𝐄─𝐃 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"
+        );
     }
 
     #[test]
@@ -2862,7 +2976,9 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
 
         let result = parser.process(input).unwrap();
 
-        assert!(result.contains("▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓·𝐈·𝐓·𝐋·𝐄 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"));
+        assert!(
+            result.contains("▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓·𝐈·𝐓·𝐋·𝐄 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}")
+        );
         assert!(result.contains("█\u{fe0e}▌\u{fe0e}𝐼𝑚𝑝𝑜𝑟𝑡𝑎𝑛𝑡 𝑛𝑜𝑡𝑒"));
         assert!(result.contains("𝐬 𝐩 𝐚 𝐜 𝐢 𝐧 𝐠"));
     }
