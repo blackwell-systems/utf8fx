@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="94" height="20" viewBox="0 0 94 20">
+<rect width="94" height="20" fill="#EC4899" rx="0"/>
+<rect x="36" width="58" height="20" fill="#C93D82" rx="0"/>
+<rect x="94" width="0" height="20" fill="#C93D82" rx="0"/>
+<g transform="translate(11, 3) scale(0.5833333)">
+<path fill="#FFFFFF" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6z"/>
+</g>
+<text x="65" y="13" text-anchor="middle" fill="#FFFFFF" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">Neural</text>
+</svg>
