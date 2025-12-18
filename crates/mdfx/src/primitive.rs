@@ -97,6 +97,9 @@ pub enum Primitive {
         /// Logo size preset or custom value. Presets: "xs" (10px), "sm" (12px), "md" (14px, default), "lg" (16px), "xl" (18px).
         /// Or specify a custom size in pixels (e.g., "20").
         logo_size: Option<String>,
+        /// Raised icon effect: icon section extends above/below the label section.
+        /// Value is the amount in pixels the icon section extends on each side.
+        raised: Option<u32>,
     },
 
     /// Progress bar with customizable track and fill
@@ -475,6 +478,7 @@ mod tests {
             bg_right: None,
             icon: None,
             logo_size: None,
+            raised: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -504,6 +508,7 @@ mod tests {
             bg_right: None,
             icon: None,
             logo_size: None,
+            raised: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
@@ -534,6 +539,7 @@ mod tests {
             bg_right: None,
             icon: None,
             logo_size: None,
+            raised: None,
         };
 
         if let Primitive::Tech {

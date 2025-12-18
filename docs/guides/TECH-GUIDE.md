@@ -10,6 +10,7 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Logo Colors](#logo-colors)
 - [Text Customization](#text-customization)
 - [Custom Labels](#custom-labels)
+  - [Unicode & Special Characters](#unicode--special-characters-in-labels)
 - [Borders & Corners](#borders--corners)
 - [Chevron Badges](#chevron-badges)
 - [Independent Segment Colors](#independent-segment-colors)
@@ -243,6 +244,54 @@ Use `label` to customize the displayed text:
 **Rendered:**
 
 ![](assets/tech-guide/tech_53e24c544590d9f6.svg) ![](assets/tech-guide/tech_a1820d73eb86ed5a.svg) ![](assets/tech-guide/tech_1fdd23a31cc08678.svg)
+
+### Unicode & Special Characters in Labels
+
+Labels support Unicode characters, glyphs, and symbols directly. This enables creative badge designs with decorative elements:
+
+**Supported Characters:**
+- Stars and shapes: ★ ☆ ◆ ◇ ● ○
+- Arrows: → ← ↑ ↓ ⇒ ⇐
+- Numbers: ① ② ③ ④ ⑤
+- Hearts and cards: ♥ ♦ ♣ ♠
+- Checkmarks: ✓ ✗ ☑ ☐
+- Mathematical: 𝐁𝐎𝐋𝐃 𝒮𝒸𝓇𝒾𝓅𝓉 𝔉𝔯𝔞𝔨𝔱𝔲𝔯
+
+**Examples:**
+
+```markdown
+{{ui:tech:rust:label=★ Rust/}}
+{{ui:tech:docker:label=① Container/}}
+{{ui:tech:postgresql:label=✓ Connected/}}
+{{ui:tech:react:label=♥ React/}}
+```
+
+**Pre-transformed Unicode Text:**
+
+You can use Unicode text styles directly in labels for stylized text:
+
+```markdown
+{{ui:tech:rust:label=𝐑𝐔𝐒𝐓/}}           <!-- Mathematical Bold -->
+{{ui:tech:python:label=𝒫𝓎𝓉𝒽ℴ𝓃/}}        <!-- Script style -->
+```
+
+**Glyph Syntax in Labels:**
+
+You can embed glyph templates directly inside label values:
+
+```markdown
+{{ui:tech:rust:label={{glyph:star.filled/}} Rust/}}
+{{ui:tech:docker:label={{glyph:check.yes/}} Running/}}
+{{ui:tech:postgresql:label={{glyph:circle.1/}} Primary/}}
+```
+
+This is more readable in source while producing the same Unicode output.
+
+**Important Notes:**
+
+- **Direct Unicode works:** Characters like ★, ①, ♥ render correctly
+- **Glyph syntax works:** `{{glyph:name/}}` templates expand to Unicode in labels
+- **Text styles don't work inline:** Block-style templates like `{{mathbold}}TEXT{{/mathbold}}` aren't supported - use pre-transformed Unicode (𝐑𝐔𝐒𝐓) instead
 
 ---
 
@@ -531,6 +580,38 @@ The `style` parameter changes the badge appearance:
 **Rendered:**
 
 ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_2af318b39ee8334b.svg) ![](assets/tech-guide/tech_c733da3ff65e48b7.svg) ![](assets/tech-guide/tech_3eac9722cea4ae70.svg) ![](assets/tech-guide/tech_bda69193c17addc0.svg)
+
+---
+
+## Raised Icon Badge
+
+The `raised` parameter creates badges where the icon section extends above and below the label section, creating a distinctive 3D tab effect:
+
+```
+    ┌────┐
+════│icon│════════
+    └────┘
+```
+
+### Syntax
+
+```markdown
+{{ui:tech:rust:label=Rust:raised=4/}}
+{{ui:tech:docker:label=Container:raised=6/}}
+```
+
+The `raised` value is the number of pixels the icon section extends on each side (top and bottom).
+
+### Use Cases
+
+- **Emphasized badges** - Draw attention to important technologies
+- **Hero sections** - Create prominent badge displays
+- **Status indicators** - Make key technologies stand out
+
+```markdown
+{{ui:tech:rust:label=Primary:raised=4:border=f41c80:border_width=2/}}
+{{ui:tech:postgresql:label=Database:raised=6:logo_size=lg/}}
+```
 
 ---
 

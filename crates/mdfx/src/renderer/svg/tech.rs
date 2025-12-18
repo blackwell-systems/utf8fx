@@ -93,6 +93,8 @@ struct TechOptions<'a> {
     bg_right: Option<&'a str>,
     /// Logo size in pixels (default 14)
     logo_size: u32,
+    /// Raised icon effect: pixels the icon section extends above/below label
+    raised: Option<u32>,
 }
 
 /// Parse logo_size parameter into pixel value
@@ -288,6 +290,7 @@ pub fn render_with_options(
     bg_right: Option<&str>,
     custom_icon: Option<&str>,
     logo_size: Option<&str>,
+    raised: Option<u32>,
 ) -> String {
     let parsed_logo_size = parse_logo_size(logo_size);
 
@@ -308,6 +311,7 @@ pub fn render_with_options(
             bg_left,
             bg_right,
             logo_size: parsed_logo_size,
+            raised,
         };
 
         return match (icon_path, label) {
@@ -335,6 +339,7 @@ pub fn render_with_options(
         bg_left,
         bg_right,
         logo_size: parsed_logo_size,
+        raised,
     };
     // Use custom icon if provided, otherwise look up by name
     let icon_path: Option<&str> = custom_icon.or_else(|| get_icon_path(name));
@@ -400,6 +405,53 @@ fn render_two_segment(
     } else {
         String::new()
     };
+
+    // Handle raised icon effect: icon section extends above/below label section
+    if let Some(raised_amount) = opts.raised {
+        let raised = raised_amount as f32;
+        let label_height = height as f32;
+        let total_height = label_height + 2.0 * raised;
+        let icon_section_height = total_height;
+
+        // Icon is centered in the taller icon section
+        let raised_icon_y = (icon_section_height - icon_size as f32) / 2.0;
+
+        // Label section starts at y=raised
+        let label_y = raised;
+
+        // Text position relative to label section
+        let raised_text_y = label_y + label_height / 2.0 + font_size as f32 / 3.0;
+
+        // Generate the raised badge SVG
+        // Icon section: full height rectangle
+        let icon_section = format!(
+            "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n",
+            icon_width, total_height, left_bg, rx, border_attr
+        );
+
+        // Label section: positioned at y=raised with original height
+        let label_section = format!(
+            "  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>",
+            icon_width, label_y, label_width, label_height, right_bg, rx
+        );
+
+        return format!(
+            "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  {}\
+  {}\n\
+  <g transform=\"translate({}, {}) scale({})\">\n\
+    <path fill=\"#{}\" d=\"{}\"/>\n\
+  </g>\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+</svg>",
+            total_width, total_height as u32, total_width, total_height,
+            icon_section,
+            label_section,
+            icon_x, raised_icon_y, scale,
+            logo_color, icon_path,
+            text_x, raised_text_y, text_color, font_family, font_size, label
+        );
+    }
 
     // If chevron shape is specified, render as two-segment chevron badge
     if let Some(chevron_type) = opts.chevron {

@@ -214,6 +214,7 @@ mod tests {
             bg_right: None,
             icon: None,
             logo_size: None,
+            raised: None,
         };
 
         let result = backend.render(&primitive).unwrap();

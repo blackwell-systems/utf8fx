@@ -121,6 +121,7 @@ impl SvgBackend {
                 bg_right,
                 icon,
                 logo_size,
+                raised,
             } => {
                 "tech".hash(&mut hasher);
                 name.hash(&mut hasher);
@@ -140,6 +141,7 @@ impl SvgBackend {
                 bg_right.hash(&mut hasher);
                 icon.hash(&mut hasher);
                 logo_size.hash(&mut hasher);
+                raised.hash(&mut hasher);
             }
             Primitive::Progress {
                 percent,
@@ -379,6 +381,7 @@ impl Renderer for SvgBackend {
                 bg_right,
                 icon,
                 logo_size,
+                raised,
             } => {
                 // If source=shields, use shields.io URL instead of SVG
                 if source.as_deref() == Some("shields") {
@@ -419,6 +422,7 @@ impl Renderer for SvgBackend {
                     bg_right.as_deref(),
                     icon.as_deref(),
                     logo_size.as_deref(),
+                    *raised,
                 )
             }
 
@@ -629,6 +633,7 @@ mod tests {
             bg_right: None,
             icon: None,
             logo_size: None,
+            raised: None,
         };
 
         let result = backend.render(&primitive).unwrap();
@@ -661,6 +666,7 @@ mod tests {
             bg_right: None,
             icon: None,
             logo_size: None,
+            raised: None,
         };
 
         let result = backend.render(&primitive).unwrap();

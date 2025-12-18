@@ -119,6 +119,10 @@ pub fn handle(
         .or_else(|| params.get("icon_size"))
         .cloned();
 
+    // Raised icon effect: icon section extends above/below the label
+    // Value is pixels the icon extends on each side (e.g., "4" means 4px above and 4px below)
+    let raised = params.get("raised").and_then(|v| v.parse().ok());
+
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
         bg_color,
@@ -137,5 +141,6 @@ pub fn handle(
         bg_right,
         icon,
         logo_size,
+        raised,
     }))
 }

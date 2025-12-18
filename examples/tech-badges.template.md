@@ -287,6 +287,36 @@ Directional arrow shapes:
 
 ---
 
+## {{frame:gradient}}{{mathbold}}RAISED{{/mathbold}}{{/frame}} Icon Badges
+
+Icons that extend above and below the label section:
+
+### Basic Raised
+
+{{ui:row:align=center}}
+{{ui:tech:rust:label=Rust:raised=4/}}
+{{ui:tech:typescript:label=TypeScript:raised=4/}}
+{{ui:tech:python:label=Python:raised=4/}}
+{{/ui}}
+
+### Raised with Large Icons
+
+{{ui:row:align=center}}
+{{ui:tech:docker:label=Container:raised=6:logo_size=lg/}}
+{{ui:tech:kubernetes:label=K8s:raised=6:logo_size=lg/}}
+{{ui:tech:postgresql:label=DB:raised=6:logo_size=lg/}}
+{{/ui}}
+
+### Raised with Borders
+
+{{ui:row:align=center}}
+{{ui:tech:rust:label={{glyph:star.filled/}} Primary:raised=4:border=f41c80:border_width=2/}}
+{{ui:tech:react:label={{glyph:star.filled/}} Frontend:raised=4:border=61DAFB:border_width=2/}}
+{{ui:tech:redis:label={{glyph:star.filled/}} Cache:raised=4:border=DC382D:border_width=2/}}
+{{/ui}}
+
+---
+
 ## {{negative-squared}}ALL{{/negative-squared}} Parameters Demo
 
 One badge, every parameter:
