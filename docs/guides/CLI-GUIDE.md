@@ -14,7 +14,7 @@ Command-line usage for mdfx, including multi-target rendering.
   - [Target Details](#target-details)
 - [Backends](#backends)
   - [Backend Selection](#backend-selection)
-  - [Hybrid Backend](#hybrid-backend)
+  - [Tech Badges with shields.io](#tech-badges-with-shieldsio)
   - [Incremental Asset Generation](#incremental-asset-generation)
 - [Configuration File](#configuration-file)
   - [Auto-Discovery](#auto-discovery)
@@ -167,23 +167,24 @@ mdfx supports 5 rendering targets, each optimized for different platforms.
 
 | Target | Platform | Backend | Use Case |
 |--------|----------|---------|----------|
-| `github` | GitHub | shields.io | GitHub READMEs (default) |
-| `gitlab` | GitLab | shields.io | GitLab READMEs |
-| `npm` | npm | shields.io | npm package READMEs |
+| `github` | GitHub | SVG | GitHub READMEs (default) |
+| `gitlab` | GitLab | SVG | GitLab READMEs |
+| `npm` | npm | SVG | npm package READMEs |
+| `local` | Local docs | SVG | Offline documentation |
 | `pypi` | PyPI | plaintext | Python package descriptions |
-| `local` | Local docs | SVG files | Offline documentation |
 
 ### Target Details
 
 #### `github` (default)
 
-Best for GitHub READMEs. Uses shields.io badges for fast loading.
+Best for GitHub READMEs. Uses SVG assets for full-fidelity rendering.
 
 ```bash
-mdfx process input.md --target github -o README.md
+mdfx process input.md --target github -o README.md --assets-dir assets
 ```
 
-- External images via shields.io
+- Local SVG files for charts and badges
+- Full customization (borders, fonts, colors)
 - Full Unicode support
 - GitHub-flavored markdown
 
@@ -241,43 +242,41 @@ Backends determine how visual elements are rendered.
 
 | Backend | Output | Use Case |
 |---------|--------|----------|
-| `shields` | shields.io URLs | Online READMEs |
-| `svg` | Local SVG files | Offline docs |
+| `svg` | Local SVG files | Full-fidelity rendering (default) |
+| `shields` | shields.io URLs | Legacy, limited features |
 | `plaintext` | ASCII text | PyPI, limited platforms |
-| `hybrid` | Auto-selects | Best of both worlds |
 
 ### Backend Selection
 
-Each target has a preferred backend:
+All targets now default to SVG for full-fidelity rendering:
 
 | Target | Preferred Backend |
 |--------|-------------------|
-| `github` | `shields` |
-| `gitlab` | `shields` |
-| `npm` | `shields` |
-| `pypi` | `plaintext` |
+| `github` | `svg` |
+| `gitlab` | `svg` |
+| `npm` | `svg` |
 | `local` | `svg` |
+| `pypi` | `plaintext` |
 
 Override with `--backend`:
 
 ```bash
-# Use SVG for GitHub (offline-capable README)
-mdfx process input.md --target github --backend svg -o README.md
+# Use shields.io for legacy compatibility
+mdfx process input.md --backend shields -o README.md
 
-# Use shields.io for local docs
-mdfx process input.md --target local --backend shields -o docs/index.md
+# Explicit SVG (default)
+mdfx process input.md --backend svg --assets-dir assets -o README.md
 ```
 
-### Hybrid Backend
+### Tech Badges with shields.io
 
-Automatically selects shields.io or SVG based on feature usage:
+For tech badges specifically, use `source=shields` to render via shields.io without switching the entire backend:
 
-```bash
-mdfx process input.md --backend hybrid -o output.md
+```markdown
+{{ui:tech:rust:source=shields/}}
 ```
 
-- Simple swatches → shields.io (fast, no files)
-- Gradients, shadows, custom borders → SVG (full features)
+This is useful when you want SVG for charts but shields.io for tech badges.
 
 ### Incremental Asset Generation
 

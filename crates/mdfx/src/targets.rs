@@ -3,11 +3,14 @@
 //! Targets define rendering destinations with specific capabilities and constraints.
 //! Same source markdown compiles to different targets with appropriate optimizations.
 //!
+//! All targets default to SVG backend for full-fidelity rendering of visual components.
+//! Tech badges can optionally use shields.io via `source=shields` parameter.
+//!
 //! Shipped targets:
-//! - `GitHubTarget`: shields.io badges, no HTML
+//! - `GitHubTarget`: SVG assets, GFM syntax
 //! - `LocalDocsTarget`: SVG files, offline-first
-//! - `NpmTarget`: Similar to GitHub
-//! - `GitLabTarget`: More HTML support, Mermaid diagrams
+//! - `NpmTarget`: SVG assets, similar to GitHub
+//! - `GitLabTarget`: SVG assets, more HTML support
 //! - `PyPITarget`: Plain text fallbacks, ASCII-safe
 
 use crate::error::Result;
@@ -17,15 +20,13 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum BackendType {
-    /// shields.io URL-based badges (GitHub, npm)
+    /// Local SVG file generation (default, full features)
     #[default]
-    Shields,
-    /// Local SVG file generation (local docs)
     Svg,
+    /// shields.io URL-based badges (legacy, limited features)
+    Shields,
     /// Plain text fallback (PyPI, ASCII-only contexts)
     PlainText,
-    /// Hybrid: shields.io for simple, SVG for advanced features (gradients, shadows)
-    Hybrid,
 }
 
 /// Target trait defines a rendering destination with specific capabilities
@@ -101,11 +102,11 @@ impl Target for GitHubTarget {
     }
 
     fn preferred_backend(&self) -> BackendType {
-        BackendType::Shields // Use shields.io by default
+        BackendType::Svg // SVG for full-fidelity rendering
     }
 
     fn description(&self) -> &str {
-        "GitHub-Flavored Markdown with shields.io badges"
+        "GitHub-Flavored Markdown with SVG assets"
     }
 
     fn post_process(&self, markdown: &str) -> Result<String> {
@@ -206,11 +207,11 @@ impl Target for NpmTarget {
     }
 
     fn preferred_backend(&self) -> BackendType {
-        BackendType::Shields // Same as GitHub
+        BackendType::Svg // SVG for full-fidelity rendering
     }
 
     fn description(&self) -> &str {
-        "npm package README (similar to GitHub)"
+        "npm package README with SVG assets"
     }
 }
 
@@ -251,11 +252,11 @@ impl Target for GitLabTarget {
     }
 
     fn preferred_backend(&self) -> BackendType {
-        BackendType::Shields
+        BackendType::Svg // SVG for full-fidelity rendering
     }
 
     fn description(&self) -> &str {
-        "GitLab-Flavored Markdown with extended HTML support"
+        "GitLab-Flavored Markdown with SVG assets"
     }
 
     fn post_process(&self, markdown: &str) -> Result<String> {
@@ -433,7 +434,7 @@ mod tests {
         assert!(target.supports_svg_embed());
         assert!(target.supports_external_images());
         assert!(target.supports_unicode_styling());
-        assert_eq!(target.preferred_backend(), BackendType::Shields);
+        assert_eq!(target.preferred_backend(), BackendType::Svg);
     }
 
     #[test]
@@ -452,7 +453,7 @@ mod tests {
         assert_eq!(target.name(), "npm");
         assert!(!target.supports_html());
         assert!(target.supports_external_images());
-        assert_eq!(target.preferred_backend(), BackendType::Shields);
+        assert_eq!(target.preferred_backend(), BackendType::Svg);
     }
 
     #[test]
@@ -463,7 +464,7 @@ mod tests {
         assert!(target.supports_svg_embed());
         assert!(target.supports_external_images());
         assert!(target.supports_unicode_styling());
-        assert_eq!(target.preferred_backend(), BackendType::Shields);
+        assert_eq!(target.preferred_backend(), BackendType::Svg);
     }
 
     #[test]

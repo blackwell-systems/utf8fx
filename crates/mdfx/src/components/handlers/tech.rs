@@ -56,6 +56,9 @@ pub fn handle(
         .or_else(|| params.get("font_family"))
         .cloned();
 
+    // Rendering source: "svg" (default) or "shields" (shields.io URL)
+    let source = params.get("source").cloned();
+
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
         bg_color,
@@ -67,5 +70,6 @@ pub fn handle(
         rx,
         text_color,
         font,
+        source,
     }))
 }

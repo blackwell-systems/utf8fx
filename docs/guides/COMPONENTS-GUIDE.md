@@ -80,7 +80,7 @@ See [SWATCH-GUIDE.md](SWATCH-GUIDE.md) for complete documentation.
 
 ### tech
 
-Displays a technology logo badge using Simple Icons with shields.io-style two-segment design.
+Displays a technology logo badge using Simple Icons with two-segment design.
 
 **Syntax:**
 ```markdown
@@ -102,6 +102,7 @@ Displays a technology logo badge using Simple Icons with shields.io-style two-se
 | `border` | color | none | Border color |
 | `border_width` | number | none | Border width in pixels |
 | `rx` | number | 0 | Corner radius |
+| `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
 
 **Basic Examples:**
 ```markdown

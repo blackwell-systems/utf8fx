@@ -81,6 +81,8 @@ pub enum Primitive {
         text_color: Option<String>,
         /// Font family. SVG-only.
         font: Option<String>,
+        /// Rendering source: "svg" (default) or "shields" (shields.io URL)
+        source: Option<String>,
     },
 
     /// Progress bar with customizable track and fill
@@ -452,6 +454,7 @@ mod tests {
             rx: None,
             text_color: None,
             font: None,
+            source: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -474,6 +477,7 @@ mod tests {
             rx: None,
             text_color: None,
             font: None,
+            source: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
@@ -497,6 +501,7 @@ mod tests {
             rx: Some(8),
             text_color: None,
             font: None,
+            source: None,
         };
 
         if let Primitive::Tech {

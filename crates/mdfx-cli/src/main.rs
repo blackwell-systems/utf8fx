@@ -2,7 +2,6 @@ use clap::{CommandFactory, Parser, Subcommand};
 use clap_complete::{generate, Shell};
 use colored::Colorize;
 use mdfx::manifest::AssetManifest;
-use mdfx::renderer::hybrid::HybridBackend;
 use mdfx::renderer::plaintext::PlainTextBackend;
 use mdfx::renderer::shields::ShieldsBackend;
 use mdfx::renderer::svg::SvgBackend;
@@ -503,10 +502,9 @@ fn process_file(
         match backend {
             "shields" => BackendType::Shields,
             "svg" => BackendType::Svg,
-            "hybrid" => BackendType::Hybrid,
             _ => {
                 return Err(Error::ParseError(format!(
-                    "Unknown backend '{}'. Available: shields, svg, hybrid",
+                    "Unknown backend '{}'. Available: svg, shields",
                     backend
                 )));
             }
@@ -517,12 +515,9 @@ fn process_file(
 
     // Create the appropriate backend
     let mut parser = match backend_type {
-        BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
         BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
+        BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
         BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
-        BackendType::Hybrid => {
-            TemplateParser::with_backend(Box::new(HybridBackend::new(assets_dir)?))?
-        }
     };
 
     // Load config file (explicit path or auto-discover)
@@ -1130,17 +1125,13 @@ fn build_multi_target(
         let assets_dir = format!("{}/assets/{}", output_dir, target_name);
 
         let mut parser = match backend_type {
-            BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
             BackendType::Svg => {
                 fs::create_dir_all(&assets_dir).map_err(Error::IoError)?;
                 TemplateParser::with_backend(Box::new(SvgBackend::new(&assets_dir)))?
             }
+            BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
             BackendType::PlainText => {
                 TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?
-            }
-            BackendType::Hybrid => {
-                fs::create_dir_all(&assets_dir).map_err(Error::IoError)?;
-                TemplateParser::with_backend(Box::new(HybridBackend::new(&assets_dir)?))?
             }
         };
 

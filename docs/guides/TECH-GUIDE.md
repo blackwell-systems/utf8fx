@@ -52,6 +52,25 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `border` | color | none | Border color |
 | `border_width` | number | none | Border thickness in pixels |
 | `rx` | number | 0 | Corner radius in pixels |
+| `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
+
+---
+
+## Rendering Source
+
+By default, tech badges render as local SVG files with full customization support. Use `source=shields` to generate shields.io URLs instead (useful when you can't commit asset files).
+
+```markdown
+{{ui:tech:rust/}}                    <!-- Default: SVG file -->
+{{ui:tech:rust:source=shields/}}     <!-- shields.io URL -->
+```
+
+| Source | Output | Features |
+|--------|--------|----------|
+| `svg` (default) | Local SVG file | Full customization, borders, corners, fonts |
+| `shields` | shields.io URL | No local files, limited features |
+
+**Note:** `source=shields` ignores SVG-only features like `border`, `rx`, `text_color`, and `font`.
 
 ---
 
@@ -440,26 +459,33 @@ The `style` parameter changes the badge appearance:
 
 ## Backend Differences
 
-### Shields Backend
-
-Uses shields.io badges. Basic styling only:
-- Color and style work
-- Custom fonts and borders not supported
-
-```bash
-mdfx process template.md --target github
-```
-
-### SVG Backend
+### SVG Backend (Default)
 
 Full control over all parameters:
-- Custom fonts
-- Border and corner radius
+- Custom fonts, borders, and corner radius
+- Embedded Simple Icons logos
 - Exact color control
+- Works offline
 
 ```bash
-mdfx process template.md --backend svg --assets-dir assets
+mdfx process template.md --assets-dir assets
 ```
+
+### shields.io Source
+
+Use `source=shields` for individual badges when you can't commit asset files:
+
+```markdown
+{{ui:tech:rust:source=shields/}}
+```
+
+Or use the legacy shields backend for the entire document:
+
+```bash
+mdfx process template.md --backend shields
+```
+
+**Note:** shields.io doesn't support custom fonts, borders, or corner radius.
 
 ---
 

@@ -114,6 +114,7 @@ impl SvgBackend {
                 rx,
                 text_color,
                 font,
+                source,
             } => {
                 "tech".hash(&mut hasher);
                 name.hash(&mut hasher);
@@ -126,6 +127,7 @@ impl SvgBackend {
                 rx.hash(&mut hasher);
                 text_color.hash(&mut hasher);
                 font.hash(&mut hasher);
+                source.hash(&mut hasher);
             }
             Primitive::Progress {
                 percent,
@@ -358,18 +360,43 @@ impl Renderer for SvgBackend {
                 rx,
                 text_color,
                 font,
-            } => tech::render_with_options(
-                name,
-                label.as_deref(),
-                bg_color,
-                logo_color,
-                style,
-                border_color.as_deref(),
-                *border_width,
-                *rx,
-                text_color.as_deref(),
-                font.as_deref(),
-            ),
+                source,
+            } => {
+                // If source=shields, use shields.io URL instead of SVG
+                if source.as_deref() == Some("shields") {
+                    let label_text = label.as_deref().unwrap_or(name);
+                    // Simple URL encoding for common characters
+                    let encode = |s: &str| {
+                        s.replace(' ', "%20")
+                            .replace('#', "%23")
+                            .replace('+', "%2B")
+                            .replace('&', "%26")
+                    };
+                    let url = format!(
+                        "https://img.shields.io/badge/{}-{}-{}?style={}&logo={}&logoColor={}",
+                        encode(label_text),
+                        encode(label_text),
+                        bg_color,
+                        style,
+                        encode(name),
+                        logo_color
+                    );
+                    return Ok(RenderedAsset::InlineMarkdown(format!("![]({})", url)));
+                }
+                // Otherwise render as SVG
+                tech::render_with_options(
+                    name,
+                    label.as_deref(),
+                    bg_color,
+                    logo_color,
+                    style,
+                    border_color.as_deref(),
+                    *border_width,
+                    *rx,
+                    text_color.as_deref(),
+                    font.as_deref(),
+                )
+            }
 
             Primitive::Progress {
                 percent,
@@ -570,6 +597,7 @@ mod tests {
             rx: None,
             text_color: None,
             font: None,
+            source: None,
         };
 
         let result = backend.render(&primitive).unwrap();
@@ -579,6 +607,32 @@ mod tests {
         assert!(svg.contains("<path"));
         assert!(svg.contains("000000"));
         assert!(svg.contains("FFFFFF"));
+    }
+
+    #[test]
+    fn test_render_tech_with_shields_source() {
+        let backend = SvgBackend::new("assets");
+        let primitive = Primitive::Tech {
+            name: "rust".to_string(),
+            bg_color: "000000".to_string(),
+            logo_color: "FFFFFF".to_string(),
+            style: "flat-square".to_string(),
+            label: None,
+            border_color: None,
+            border_width: None,
+            rx: None,
+            text_color: None,
+            font: None,
+            source: Some("shields".to_string()),
+        };
+
+        let result = backend.render(&primitive).unwrap();
+        let markdown = result.to_markdown();
+
+        // Should be shields.io URL, not file-based
+        assert!(!result.is_file_based());
+        assert!(markdown.contains("shields.io"));
+        assert!(markdown.contains("logo=rust"));
     }
 
     #[test]

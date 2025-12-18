@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2025-12-17
 
+### Changed
+
+#### SVG Backend Now Default
+
+All targets now default to SVG backend for full-fidelity rendering:
+
+- **GitHub, GitLab, npm** - Changed from shields.io to SVG
+- **Full features everywhere** - Borders, corners, custom fonts work on all targets
+- **Offline-first** - No external dependencies, works without internet
+- **Tech badge source option** - Use `source=shields` for shields.io URLs on individual badges
+
+**Before (shields.io default):**
+```bash
+mdfx process input.md --target github -o README.md
+# Progress bars rendered as "75%-75%" text badges
+```
+
+**After (SVG default):**
+```bash
+mdfx process input.md --target github -o README.md --assets-dir assets
+# Progress bars rendered as actual visual bars
+```
+
+**Per-badge shields.io option:**
+```markdown
+{{ui:tech:rust/}}                    <!-- SVG file (default) -->
+{{ui:tech:rust:source=shields/}}     <!-- shields.io URL -->
+```
+
+#### Hybrid Backend Removed
+
+The hybrid backend has been removed. Use `source=shields` on individual tech badges instead.
+
 ### Added
 
 #### Incremental Asset Generation
