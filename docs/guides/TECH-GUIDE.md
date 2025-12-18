@@ -11,7 +11,11 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Text Customization](#text-customization)
 - [Custom Labels](#custom-labels)
 - [Borders & Corners](#borders--corners)
+- [Chevron Badges](#chevron-badges)
+- [Independent Segment Colors](#independent-segment-colors)
+- [Outline Style](#outline-style)
 - [Badge Styles](#badge-styles)
+- [Tech Groups](#tech-groups)
 - [Available Technologies](#available-technologies)
 - [Complete Examples](#complete-examples)
 - [Backend Differences](#backend-differences)
@@ -53,6 +57,9 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `border_width` | number | none | Border thickness in pixels |
 | `rx` | number | 0 | Corner radius (uniform or comma-separated per-corner) |
 | `corners` | preset | none | Corner preset: `left`, `right`, `none`, `all` |
+| `chevron` | enum | none | Arrow shape: `left`, `right`, or `both` |
+| `bg_left` | color | bg | Left segment (icon area) background color |
+| `bg_right` | color | darkened bg | Right segment (label area) background color |
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
 
 ---
@@ -309,6 +316,117 @@ Control individual corners for connected badge groups using `corners` presets or
 
 ---
 
+## Chevron Badges
+
+Create tab-style badges with pointed arrow shapes using the `chevron` parameter:
+
+| Value | Description | Shape |
+|-------|-------------|-------|
+| `chevron=left` | Left-pointing arrow | ◁ badge |
+| `chevron=right` | Right-pointing arrow | badge ▷ |
+| `chevron=both` | Both arrows | ◁ badge ▷ |
+
+### Basic Chevron Examples
+
+```markdown
+{{ui:tech:rust:chevron=right/}}      <!-- First in chain -->
+{{ui:tech:typescript:chevron=both/}} <!-- Middle badges -->
+{{ui:tech:docker:chevron=both/}}     <!-- Middle badges -->
+{{ui:tech:postgresql:chevron=left/}} <!-- Last in chain -->
+```
+
+Chain chevrons together for a connected tab-bar effect:
+
+```markdown
+{{ui:tech:rust:chevron=right/}}{{ui:tech:typescript:chevron=both/}}{{ui:tech:docker:chevron=both/}}{{ui:tech:postgresql:chevron=left/}}
+```
+
+### Chevron with Custom Colors
+
+Combine chevrons with custom background colors:
+
+```markdown
+{{ui:tech:rust:chevron=right:bg=1a1a2e/}}
+{{ui:tech:typescript:chevron=both:bg=2a2a3e/}}
+{{ui:tech:postgresql:chevron=left:bg=3a3a4e/}}
+```
+
+---
+
+## Independent Segment Colors
+
+Control the left (icon) and right (label) segment colors independently using `bg_left` and `bg_right`:
+
+### Default Behavior
+
+By default, tech badges use:
+- **Left segment**: Brand color (or `bg` override)
+- **Right segment**: Darkened brand color (15% darker)
+
+### Custom Segment Colors
+
+Override individual segments:
+
+```markdown
+{{ui:tech:rust:bg_left=DEA584:bg_right=B8856E/}}
+{{ui:tech:typescript:bg_left=3178C6:bg_right=2967A9/}}
+{{ui:tech:docker:bg_left=2496ED:bg_right=1E7DC9/}}
+```
+
+### Creative Color Combinations
+
+Use contrasting colors for visual impact:
+
+```markdown
+{{ui:tech:rust:bg_left=FF6B6B:bg_right=4ECDC4/}}
+{{ui:tech:python:bg_left=3776AB:bg_right=FFD43B/}}
+```
+
+### With Chevrons
+
+Combine segment colors with chevron shapes:
+
+```markdown
+{{ui:tech:rust:chevron=right:bg_left=DEA584:bg_right=B8856E/}}
+{{ui:tech:typescript:chevron=both:bg_left=3178C6:bg_right=2967A9/}}
+```
+
+---
+
+## Outline Style
+
+Border-only badges with transparent fill, perfect for clean, minimal designs:
+
+```markdown
+{{ui:tech:rust:style=outline/}}
+{{ui:tech:typescript:style=ghost/}}   <!-- "ghost" is an alias -->
+```
+
+The outline style uses the brand color for:
+- **Border stroke** - Creates the outline
+- **Icon color** - Logo matches the brand color
+- **Text color** - Label text matches the brand color
+
+### Outline Parameters
+
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `border` | brand color | Custom border color |
+| `border_width` | 2 | Border thickness in pixels |
+| `text_color` | brand color | Custom text color |
+
+### Outline Examples
+
+```markdown
+{{ui:tech:rust:style=outline/}}
+{{ui:tech:typescript:style=outline:border_width=3/}}
+{{ui:tech:python:style=outline:border=FF0000/}}
+```
+
+Outline badges work great in dark mode or on colored backgrounds where you don't want solid fills.
+
+---
+
 ## Badge Styles
 
 The `style` parameter changes the badge appearance:
@@ -320,6 +438,8 @@ The `style` parameter changes the badge appearance:
 | `plastic` | Glossy 3D effect |
 | `for-the-badge` | Taller, prominent style |
 | `social` | Pill/capsule shape |
+| `outline` | Border-only with transparent fill |
+| `ghost` | Alias for outline |
 
 ```markdown
 {{ui:tech:rust:style=flat-square/}}     <!-- Default -->
@@ -327,11 +447,65 @@ The `style` parameter changes the badge appearance:
 {{ui:tech:rust:style=plastic/}}
 {{ui:tech:rust:style=for-the-badge/}}
 {{ui:tech:rust:style=social/}}
+{{ui:tech:rust:style=outline/}}
 ```
 
 **Rendered:**
 
 ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) ![](assets/tech-guide/tech_2af318b39ee8334b.svg) ![](assets/tech-guide/tech_c733da3ff65e48b7.svg) ![](assets/tech-guide/tech_3eac9722cea4ae70.svg) ![](assets/tech-guide/tech_bda69193c17addc0.svg)
+
+---
+
+## Tech Groups
+
+The `tech-group` component automatically applies corner presets for seamless badge groups:
+
+```markdown
+{{ui:tech-group}}
+{{ui:tech:rust/}}
+{{ui:tech:typescript/}}
+{{ui:tech:docker/}}
+{{/ui}}
+```
+
+### How It Works
+
+The component analyzes badges inside and applies:
+- **First badge**: `corners=left` (rounded left, square right)
+- **Middle badges**: `corners=none` (all square corners)
+- **Last badge**: `corners=right` (square left, rounded right)
+
+This creates a seamless "pill" group where badges connect visually.
+
+### Tech Group Examples
+
+**Two technologies:**
+```markdown
+{{ui:tech-group}}
+{{ui:tech:react/}}{{ui:tech:typescript/}}
+{{/ui}}
+```
+
+**Stack visualization:**
+```markdown
+{{ui:tech-group}}
+{{ui:tech:docker/}}{{ui:tech:kubernetes/}}{{ui:tech:terraform/}}
+{{/ui}}
+```
+
+### Combining with Row
+
+For centered badge groups, wrap in a row:
+
+```markdown
+{{ui:row}}
+{{ui:tech-group}}
+{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
+{{/ui}}
+{{/ui}}
+```
+
+**Note:** Single badges in a tech-group are not modified (all corners remain rounded).
 
 ---
 

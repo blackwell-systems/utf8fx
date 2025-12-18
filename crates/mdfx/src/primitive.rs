@@ -85,8 +85,12 @@ pub enum Primitive {
         font: Option<String>,
         /// Rendering source: "svg" (default) or "shields" (shields.io URL)
         source: Option<String>,
-        /// Chevron/arrow shape: "first", "middle", "last". Creates pointed tab-style badges.
+        /// Chevron/arrow shape: "left", "right", "both". Creates pointed tab-style badges.
         chevron: Option<String>,
+        /// Left segment background color (icon area). Defaults to bg_color.
+        bg_left: Option<String>,
+        /// Right segment background color (label area). Defaults to darkened bg_color.
+        bg_right: Option<String>,
     },
 
     /// Progress bar with customizable track and fill
@@ -461,6 +465,8 @@ mod tests {
             font: None,
             source: None,
             chevron: None,
+            bg_left: None,
+            bg_right: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -486,6 +492,8 @@ mod tests {
             font: None,
             source: None,
             chevron: None,
+            bg_left: None,
+            bg_right: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
@@ -512,6 +520,8 @@ mod tests {
             font: None,
             source: None,
             chevron: None,
+            bg_left: None,
+            bg_right: None,
         };
 
         if let Primitive::Tech {

@@ -5,6 +5,72 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+#### Outline/Ghost Style
+
+Border-only badges with transparent fill for a sleek outline appearance:
+
+```markdown
+{{ui:tech:rust:style=outline/}}      <!-- Rust-colored border and icon -->
+{{ui:tech:typescript:style=ghost/}}  <!-- "ghost" is an alias for outline -->
+```
+
+The outline style uses the brand color for:
+- Border stroke (customizable with `border=` parameter)
+- Icon color
+- Label text color
+
+Parameters:
+- `style=outline` or `style=ghost` - Enable outline mode
+- `border=COLOR` - Custom border color (defaults to brand color)
+- `border_width=N` - Border thickness in pixels (default: 2)
+
+#### Tech Group Component
+
+Automatically apply corner presets for seamless badge groups:
+
+```markdown
+{{ui:tech-group}}
+{{ui:tech:rust/}}
+{{ui:tech:typescript/}}
+{{ui:tech:docker/}}
+{{/ui}}
+```
+
+The tech-group component automatically applies:
+- `corners=left` to the first badge (rounded left, square right)
+- `corners=none` to middle badges (all square)
+- `corners=right` to the last badge (square left, rounded right)
+
+This creates a seamless "pill" group when badges are placed side-by-side.
+
+#### Chevron Badges
+
+Tab-style badges with pointed arrow shapes:
+
+```markdown
+{{ui:tech:rust:chevron=right/}}      <!-- right arrow → -->
+{{ui:tech:typescript:chevron=both/}} <!-- ← both arrows → -->
+{{ui:tech:postgresql:chevron=left/}} <!-- ← left arrow -->
+```
+
+Chevron badges now render with proper two-color scheme (icon + label segments).
+
+#### Independent Segment Colors
+
+Control left (icon) and right (label) segment colors independently:
+
+```markdown
+{{ui:tech:rust:bg_left=DEA584:bg_right=B8856E/}}
+```
+
+Parameters:
+- `bg_left` - Left segment (icon area) background color
+- `bg_right` - Right segment (label area) background color
+
 ## [1.0.0] - 2025-12-17
 
 ### Changed

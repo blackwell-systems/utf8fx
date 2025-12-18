@@ -11,4 +11,5 @@ pub mod row;
 pub mod sparkline;
 pub mod swatch;
 pub mod tech;
+pub mod tech_group;
 pub mod waveform;

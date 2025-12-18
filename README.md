@@ -1,7 +1,7 @@
 # ▓︎▒︎░︎ 𝐌·𝐃·𝐅·𝐗 ░︎▒︎▓︎
 
 <p align="center">
-<img alt="" src="assets/mdfx/tech_2fd5b06753b427ff.svg"> <img alt="" src="assets/mdfx/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/mdfx/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/mdfx/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/mdfx/swatch_e4795ff410c7b4fe.svg">
+<img alt="" src="assets/mdfx/tech_ae59658a38c6440a.svg"> <img alt="" src="assets/mdfx/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/mdfx/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/mdfx/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/mdfx/swatch_e4795ff410c7b4fe.svg">
 </p>
 
 **Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
@@ -180,13 +180,13 @@ cargo install mdfx-cli
 Brand-colored badges with Simple Icons. Full customization, no external requests.
 
 <p align="center">
-<img alt="" src="assets/mdfx/tech_2fd5b06753b427ff.svg"> <img alt="" src="assets/mdfx/tech_f3bce2794fe6ae29.svg"> <img alt="" src="assets/mdfx/tech_6c08a587dad3b4d3.svg"> <img alt="" src="assets/mdfx/tech_5ac81af210cd3ffe.svg"> <img alt="" src="assets/mdfx/tech_7e8636feb8c1ff0f.svg"> <img alt="" src="assets/mdfx/tech_429de164d996317.svg">
+<img alt="" src="assets/mdfx/tech_ae59658a38c6440a.svg"> <img alt="" src="assets/mdfx/tech_33a44f3f61bfb3b9.svg"> <img alt="" src="assets/mdfx/tech_5d6dcaadd36d1d4c.svg"> <img alt="" src="assets/mdfx/tech_990f7118a81a38f7.svg"> <img alt="" src="assets/mdfx/tech_c3978e50b14295ed.svg"> <img alt="" src="assets/mdfx/tech_6208b8490038b24a.svg">
 </p>
 
 **Connected badge groups** with per-corner control:
 
 <p align="center">
-<img alt="" src="assets/mdfx/tech_36f3fa820a7891b6.svg"><img alt="" src="assets/mdfx/tech_324a7898bc5d0754.svg"><img alt="" src="assets/mdfx/tech_dfbae44840561af1.svg"><img alt="" src="assets/mdfx/tech_2854f3d49806da17.svg">
+<img alt="" src="assets/mdfx/tech_2cdd15360a4f9bcb.svg"><img alt="" src="assets/mdfx/tech_6b3a83bfb4c25f4d.svg"><img alt="" src="assets/mdfx/tech_153be41f660166e.svg"><img alt="" src="assets/mdfx/tech_1ab0f22b5f3045b.svg">
 </p>
 
 ```
@@ -196,7 +196,7 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 **Custom styling** — borders, colors, themes:
 
 <p align="center">
-<img alt="" src="assets/mdfx/tech_2e907b2455376b1c.svg"> <img alt="" src="assets/mdfx/tech_af89e52a035e33ac.svg"> <img alt="" src="assets/mdfx/tech_ed8e938db212caa2.svg"> <img alt="" src="assets/mdfx/tech_80b543eed3b221de.svg">
+<img alt="" src="assets/mdfx/tech_960dbb5ad1a99433.svg"> <img alt="" src="assets/mdfx/tech_f24904855be3fdc1.svg"> <img alt="" src="assets/mdfx/tech_3e0f113c86a49e93.svg"> <img alt="" src="assets/mdfx/tech_7988c29259d15a76.svg">
 </p>
 
 ```
@@ -207,7 +207,7 @@ Brand-colored badges with Simple Icons. Full customization, no external requests
 **Chevron badges** — pointed arrow shapes:
 
 <p align="center">
-<img alt="" src="assets/mdfx/tech_d908ee031bc5156.svg"><img alt="" src="assets/mdfx/tech_345b6406064bfe8b.svg"><img alt="" src="assets/mdfx/tech_5eb8682d9e2bc5fe.svg"><img alt="" src="assets/mdfx/tech_972b1d4a83b10d58.svg">
+<img alt="" src="assets/mdfx/tech_af001b583c838ffe.svg"><img alt="" src="assets/mdfx/tech_a3df61b33c0f7bca.svg"><img alt="" src="assets/mdfx/tech_723c834f079964d9.svg"><img alt="" src="assets/mdfx/tech_a97897ffafcd87cd.svg">
 </p>
 
 ```

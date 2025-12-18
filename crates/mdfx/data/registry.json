@@ -635,6 +635,23 @@
           }
         }
       },
+      "tech-group": {
+        "type": "native",
+        "self_closing": false,
+        "description": "Group of tech badges with automatic corner handling for seamless pill-style display",
+        "contexts": [
+          "inline",
+          "block"
+        ],
+        "args": [],
+        "optional_params": {
+          "gap": {
+            "type": "number",
+            "default": "0",
+            "description": "Gap between badges in pixels"
+          }
+        }
+      },
       "row": {
         "type": "native",
         "self_closing": false,
