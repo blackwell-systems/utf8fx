@@ -1710,11 +1710,56 @@ impl TemplateParser {
 
         let content_start = i;
 
-        // Find closing tag {{/ui}}
+        // Find closing tag {{/ui}}, handling nested UI components
         let close_tag = "{{/ui}}";
         let close_chars: Vec<char> = close_tag.chars().collect();
+        let open_prefix = "{{ui:";
+        let open_prefix_chars: Vec<char> = open_prefix.chars().collect();
+
+        // Track nesting depth (1 for the current opening tag)
+        let mut depth = 1;
 
         while i < chars.len() {
+            // Check for nested opening tag {{ui:...}}
+            if i + open_prefix_chars.len() < chars.len() {
+                let mut is_open = true;
+                for (j, &open_ch) in open_prefix_chars.iter().enumerate() {
+                    if chars[i + j] != open_ch {
+                        is_open = false;
+                        break;
+                    }
+                }
+
+                if is_open {
+                    // Found {{ui:, check if it's self-closing (/}}) or block (}})
+                    // Search forward for }} or /}}
+                    let mut k = i + open_prefix_chars.len();
+                    let mut is_self_closing = false;
+                    while k < chars.len() {
+                        if k + 2 < chars.len()
+                            && chars[k] == '/'
+                            && chars[k + 1] == '}'
+                            && chars[k + 2] == '}'
+                        {
+                            // Self-closing, don't increment depth
+                            is_self_closing = true;
+                            i = k + 3; // Skip past /}}
+                            break;
+                        }
+                        if chars[k] == '}' && k + 1 < chars.len() && chars[k + 1] == '}' {
+                            // Block opening tag, increment depth
+                            depth += 1;
+                            i = k + 2; // Skip past }}
+                            break;
+                        }
+                        k += 1;
+                    }
+                    if is_self_closing || k < chars.len() {
+                        continue;
+                    }
+                }
+            }
+
             // Check if we've found the closing tag
             if i + close_chars.len() <= chars.len() {
                 let mut matches = true;
@@ -1726,15 +1771,22 @@ impl TemplateParser {
                 }
 
                 if matches {
-                    // Found closing tag
-                    let content: String = chars[content_start..i].iter().collect();
-                    let end_pos = i + close_chars.len();
-                    return Ok(Some(UIData {
-                        end_pos,
-                        component_name,
-                        args,
-                        content: Some(content),
-                    }));
+                    depth -= 1;
+                    if depth == 0 {
+                        // Found matching closing tag
+                        let content: String = chars[content_start..i].iter().collect();
+                        let end_pos = i + close_chars.len();
+                        return Ok(Some(UIData {
+                            end_pos,
+                            component_name,
+                            args,
+                            content: Some(content),
+                        }));
+                    } else {
+                        // Skip this closing tag, it belongs to a nested component
+                        i += close_chars.len();
+                        continue;
+                    }
                 }
             }
 
