@@ -130,19 +130,19 @@ cargo install mdfx-cli
 
 ### Waveforms
 
-<p align="center">
+{{ui:row}}
 {{ui:waveform:0.1,0.3,0.5,0.7,0.9,0.7,0.5,0.3,0.1,-0.1,-0.3,-0.5,-0.7,-0.9,-0.7,-0.5,-0.3,-0.1,0.2,0.4,0.6,0.8,1.0,0.8,0.6,0.4,0.2,-0.2,-0.4,-0.6,-0.8,-1.0,-0.8,-0.6,-0.4,-0.2:width=300:height=50:positive=accent:negative=accent:bar=3:spacing=2/}}
-</p>
+{{/ui}}
 
-<p align="center">
+{{ui:row}}
 {{ui:waveform:0.8,0.6,0.3,-0.1,-0.5,-0.8,-0.6,-0.2,0.2,0.6,0.9,0.7,0.4,0.1,-0.3,-0.7,-0.9,-0.6,-0.2,0.1,0.4,0.7,0.5,0.2,-0.2,-0.5,-0.8,-0.5,-0.1,0.3,0.6,0.8,0.5,0.2,-0.1,-0.4:width=300:height=50:positive=info:negative=plum:bar=3:spacing=2/}}
-</p>
+{{/ui}}
 
 ### Swatches
 
-<p align="center">
+{{ui:row}}
 {{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:warning/}} {{ui:swatch:error/}} {{ui:swatch:info/}} {{ui:swatch:cobalt/}} {{ui:swatch:plum/}} {{ui:swatch:slate/}}
-</p>
+{{/ui}}
 
 **Pixel art** with tiny swatches:
 
@@ -168,6 +168,12 @@ cargo install mdfx-cli
 {{ui:row}}
 {{ui:rating:4.5/}} {{ui:rating:3.5:icon=heart:fill=error/}} {{ui:rating:4:icon=circle:fill=info/}}
 {{/ui}}
+
+```
+{{ui:rating:4.5/}}
+{{ui:rating:3.5:icon=heart:fill=error/}}
+{{ui:rating:4:icon=circle:fill=info/}}
+```
 
 ### Tech Badges
 
