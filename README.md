@@ -131,11 +131,11 @@ cargo install mdfx-cli
 ### Waveforms
 
 <p align="center">
-<img alt="" src="assets/waveform_d3ac6e531ecb6018.svg">
+<img alt="" src="assets/waveform_59cff70e7f4ff062.svg">
 </p>
 
 <p align="center">
-<img alt="" src="assets/waveform_6b446485365cd126.svg">
+<img alt="" src="assets/waveform_75a58f0eee77441d.svg">
 </p>
 
 ### Swatches
@@ -146,20 +146,51 @@ cargo install mdfx-cli
 
 **Pixel art** with tiny swatches:
 
-| | | | | | | | | |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|
-|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_891451696ad7490c.svg)|
-|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_891451696ad7490c.svg)|
-|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|
-|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|
-|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_a27005d4752c5367.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|![](assets/swatch_891451696ad7490c.svg)|
+| | | | | | | | |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_c6061e305cb910cc.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
 
-### Tech
+| | | | | | | |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+
+### Tech Badges
+
+Brand-colored badges with Simple Icons. Full customization, no external requests.
 
 <p align="center">
-<img alt="" src="assets/tech_6f3858abf2f9c480.svg"> <img alt="" src="assets/tech_21a8f56737bf5d8b.svg"> <img alt="" src="assets/tech_bd8b4c8234c32e0f.svg"> <img alt="" src="assets/tech_a09bb68189f49879.svg"> <img alt="" src="assets/tech_644d8f5ffa6fc3fc.svg"> <img alt="" src="assets/tech_2c8f7acc4c60ddfc.svg">
+<img alt="" src="assets/tech_6f3858abf2f9c480.svg"> <img alt="" src="assets/tech_bd8b4c8234c32e0f.svg"> <img alt="" src="assets/tech_21a8f56737bf5d8b.svg"> <img alt="" src="assets/tech_a09bb68189f49879.svg"> <img alt="" src="assets/tech_644d8f5ffa6fc3fc.svg"> <img alt="" src="assets/tech_2c8f7acc4c60ddfc.svg">
 </p>
+
+**Connected badge groups** with per-corner control:
+
+<p align="center">
+<img alt="" src="assets/tech_17e033ae2a1decb0.svg"><img alt="" src="assets/tech_a978c4769d4b128d.svg"><img alt="" src="assets/tech_d979be81598c560f.svg"><img alt="" src="assets/tech_44f33b942a79c329.svg">
+</p>
+
+```
+{{ui:tech:rust:corners=left/}}{{ui:tech:typescript:corners=none/}}{{ui:tech:docker:corners=none/}}{{ui:tech:postgresql:corners=right/}}
+```
+
+**Custom styling** — borders, colors, themes:
+
+<p align="center">
+<img alt="" src="assets/tech_dbf2d965f94e2bba.svg"> <img alt="" src="assets/tech_b6e13f26e0f882a0.svg"> <img alt="" src="assets/tech_a48592afb0cc6963.svg"> <img alt="" src="assets/tech_a11f247fc866fc57.svg">
+</p>
+
+```
+{{ui:tech:rust:bg=1a1a2e:border=DEA584:border_width=2/}}
+{{ui:tech:python:bg=1a1a2e:border=3776AB:border_width=2/}}
+```
 
 ---
 
