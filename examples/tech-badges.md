@@ -12,17 +12,17 @@ Scale your tech logos from tiny to prominent:
 
 | Size | Preset | Example |
 |------|--------|---------|
-| Extra Small | `logo_size=xs` | ![](assets/tech_dd5f5127a2fd2f0f.svg) |
-| Small | `logo_size=sm` | ![](assets/tech_3e9ca04bccc47c3d.svg) |
-| Medium (default) | `logo_size=md` | ![](assets/tech_9e9436fa6ba08895.svg) |
-| Large | `logo_size=lg` | ![](assets/tech_15d76f5fe0027bb3.svg) |
-| Extra Large | `logo_size=xl` | ![](assets/tech_85a07ae79413d9ce.svg) |
-| XXL | `logo_size=xxl` | ![](assets/tech_dd9cfc2d60286652.svg) |
+| Extra Small | `logo_size=xs` | ![](assets/tech_ae59658a38c6440a.svg) |
+| Small | `logo_size=sm` | ![](assets/tech_ae59658a38c6440a.svg) |
+| Medium (default) | `logo_size=md` | ![](assets/tech_ae59658a38c6440a.svg) |
+| Large | `logo_size=lg` | ![](assets/tech_ae59658a38c6440a.svg) |
+| Extra Large | `logo_size=xl` | ![](assets/tech_ae59658a38c6440a.svg) |
+| XXL | `logo_size=xxl` | ![](assets/tech_ae59658a38c6440a.svg) |
 
 ### Size Comparison Row
 
 <p align="center">
-<img alt="" src="assets/tech_a77420ebb96d1130.svg"> <img alt="" src="assets/tech_8032a89884cf6783.svg"> <img alt="" src="assets/tech_fe54138a53865c21.svg"> <img alt="" src="assets/tech_2aacda5cf623454c.svg"> <img alt="" src="assets/tech_d2865ed5515ee4bb.svg"> <img alt="" src="assets/tech_58517500c27612ed.svg">
+<img alt="" src="assets/tech_33a44f3f61bfb3b9.svg"> <img alt="" src="assets/tech_33a44f3f61bfb3b9.svg"> <img alt="" src="assets/tech_33a44f3f61bfb3b9.svg"> <img alt="" src="assets/tech_33a44f3f61bfb3b9.svg"> <img alt="" src="assets/tech_33a44f3f61bfb3b9.svg"> <img alt="" src="assets/tech_33a44f3f61bfb3b9.svg">
 </p>
 
 ---
@@ -32,7 +32,7 @@ Scale your tech logos from tiny to prominent:
 Use any SVG path data for unsupported technologies:
 
 <p align="center">
-<img alt="" src="assets/tech_cb7704df1ef28142.svg"> <img alt="" src="assets/tech_1b9a95cd6c603f85.svg"> <img alt="" src="assets/tech_9fdd8dabf7ebf15e.svg">
+<img alt="" src="assets/tech_3a470d0cdfcdf4c4.svg"> <img alt="" src="assets/tech_64aa283f80e313fd.svg"> <img alt="" src="assets/tech_f04236558bcff32e.svg">
 </p>
 
 ---
@@ -43,21 +43,21 @@ Use any SVG path data for unsupported technologies:
 
 | Style | Result |
 |-------|--------|
-| `flat` | ![](assets/tech_c9719514c4dc7d77.svg) |
-| `flat-square` | ![](assets/tech_8454d760bccc0c0c.svg) |
-| `plastic` | ![](assets/tech_c34fe3c3d3b49849.svg) |
-| `for-the-badge` | ![](assets/tech_9a7e1a2953e4c5d.svg) |
+| `flat` | ![](assets/tech_65b4489d97fc710.svg) |
+| `flat-square` | ![](assets/tech_f3172e09c8aa9f66.svg) |
+| `plastic` | ![](assets/tech_167bb693fcbcd9db.svg) |
+| `for-the-badge` | ![](assets/tech_63b8d3deb7fea521.svg) |
 
 ### Outline Mode ★︎
 
 Ghost-style badges with transparent backgrounds:
 
 <p align="center">
-<img alt="" src="assets/tech_1686fbc53161f8a6.svg"> <img alt="" src="assets/tech_7b307a9559a23c2c.svg"> <img alt="" src="assets/tech_f4177fb339cf3247.svg"> <img alt="" src="assets/tech_f3e409b8b785148a.svg">
+<img alt="" src="assets/tech_ae59658a38c6440a.svg"> <img alt="" src="assets/tech_5d6dcaadd36d1d4c.svg"> <img alt="" src="assets/tech_990f7118a81a38f7.svg"> <img alt="" src="assets/tech_33a44f3f61bfb3b9.svg">
 </p>
 
 <p align="center">
-<img alt="" src="assets/tech_84e0edf7e1c6dbb2.svg"> <img alt="" src="assets/tech_cdca679387011c7b.svg"> <img alt="" src="assets/tech_f4fdafb690218a7a.svg">
+<img alt="" src="assets/tech_49faf9d5ed366a2a.svg"> <img alt="" src="assets/tech_7631404459a13312.svg"> <img alt="" src="assets/tech_d9cfa90b4b22d399.svg">
 </p>
 
 ---
@@ -67,19 +67,19 @@ Ghost-style badges with transparent backgrounds:
 ### Accent Borders
 
 <p align="center">
-<img alt="" src="assets/tech_73ea537d9e06993c.svg"> <img alt="" src="assets/tech_c28d5bec04b119dc.svg"> <img alt="" src="assets/tech_e3389fe86a1ac4db.svg">
+<img alt="" src="assets/tech_9e6517e356140ef.svg"> <img alt="" src="assets/tech_307f256abb478209.svg"> <img alt="" src="assets/tech_3d615fdf4c3005dc.svg">
 </p>
 
 ### Rounded Corners
 
 <p align="center">
-<img alt="" src="assets/tech_60efec8a8287f618.svg"> <img alt="" src="assets/tech_fada0dcb33b275eb.svg"> <img alt="" src="assets/tech_66e3c93fc430f308.svg"> <img alt="" src="assets/tech_d8fbfecec2c5fb8b.svg">
+<img alt="" src="assets/tech_c3419858b0322145.svg"> <img alt="" src="assets/tech_7c22b1cdd6988379.svg"> <img alt="" src="assets/tech_1fca03f8100f7f30.svg"> <img alt="" src="assets/tech_23445ece53fe0a49.svg">
 </p>
 
 ### Pill Badges
 
 <p align="center">
-<img alt="" src="assets/tech_cc1476bf92173e6e.svg"> <img alt="" src="assets/tech_2e5414515ea9b599.svg"> <img alt="" src="assets/tech_e50a41ffccf6efce.svg">
+<img alt="" src="assets/tech_3fbab99db6ed2f14.svg"> <img alt="" src="assets/tech_bcd7d56ef2c605ff.svg"> <img alt="" src="assets/tech_1d851597364cb8b1.svg">
 </p>
 
 ---
@@ -90,17 +90,17 @@ Directional arrow shapes:
 
 ### Right Chevron (→)
 <p align="center">
-<img alt="" src="assets/tech_aeecfd195d54a2cb.svg"><img alt="" src="assets/tech_e368dd91e39da965.svg"><img alt="" src="assets/tech_39b3629158da0b76.svg"><img alt="" src="assets/tech_ec0d0baada756027.svg">
+<img alt="" src="assets/tech_95a2021eddf32690.svg"><img alt="" src="assets/tech_5cf0b7c5c7e98996.svg"><img alt="" src="assets/tech_219553d82f385b1.svg"><img alt="" src="assets/tech_433c6c18d827dd3f.svg">
 </p>
 
 ### Left Chevron (←)
 <p align="center">
-<img alt="" src="assets/tech_f99e48be49df60e8.svg"><img alt="" src="assets/tech_6ec0c156050d2138.svg"><img alt="" src="assets/tech_9bf46c92753d1105.svg"><img alt="" src="assets/tech_9c22e0af2d249342.svg">
+<img alt="" src="assets/tech_25c9d1519046da94.svg"><img alt="" src="assets/tech_d0faa297cd9f3288.svg"><img alt="" src="assets/tech_d1e8eed2973d8cf0.svg"><img alt="" src="assets/tech_2e466827f194426b.svg">
 </p>
 
 ### Pipeline Flow
 <p align="center">
-<img alt="" src="assets/tech_3ca625d2d05cc8dc.svg"><img alt="" src="assets/tech_1eb9f6daccc0e6db.svg"><img alt="" src="assets/tech_61c0041e3c8ffa4e.svg"><img alt="" src="assets/tech_a410e3bf219705b9.svg">
+<img alt="" src="assets/tech_8adbcca06b5a45e1.svg"><img alt="" src="assets/tech_c4ec501875809314.svg"><img alt="" src="assets/tech_2a0a61baa740e94b.svg"><img alt="" src="assets/tech_e8867a0f4cb22f53.svg">
 </p>
 
 ---
@@ -110,13 +110,13 @@ Directional arrow shapes:
 ### Independent Segment Colors
 
 <p align="center">
-<img alt="" src="assets/tech_1420c1aba045c0e3.svg"> <img alt="" src="assets/tech_fd2f1ffbee8729c0.svg"> <img alt="" src="assets/tech_4ecdf4622a9644c0.svg">
+<img alt="" src="assets/tech_90831ec027a35535.svg"> <img alt="" src="assets/tech_fbaa3ff9371c08a8.svg"> <img alt="" src="assets/tech_5d9e74b555ac80e.svg">
 </p>
 
 ### Gradient Feel
 
 <p align="center">
-<img alt="" src="assets/tech_a9dc547a1ae414a3.svg"> <img alt="" src="assets/tech_393746b430f0e626.svg"> <img alt="" src="assets/tech_176cb85b8f91d554.svg">
+<img alt="" src="assets/tech_9910608cb874d2b7.svg"> <img alt="" src="assets/tech_9b42c2ac1782c666.svg"> <img alt="" src="assets/tech_d5bfb43dedd347b7.svg">
 </p>
 
 ---
@@ -126,19 +126,19 @@ Directional arrow shapes:
 ### ▓︎▒︎░︎ 𝐏·𝐑·𝐈·𝐌·𝐀·𝐑·𝐘· ·𝐒·𝐓·𝐀·𝐂·𝐊 ░︎▒︎▓︎
 
 <p align="center">
-<img alt="" src="assets/tech_15d76f5fe0027bb3.svg"> <img alt="" src="assets/tech_2aacda5cf623454c.svg"> <img alt="" src="assets/tech_4c1d68dbbf2b4e6c.svg"> <img alt="" src="assets/tech_c62bb7dcfb0edf50.svg">
+<img alt="" src="assets/tech_ae59658a38c6440a.svg"> <img alt="" src="assets/tech_33a44f3f61bfb3b9.svg"> <img alt="" src="assets/tech_f3172e09c8aa9f66.svg"> <img alt="" src="assets/tech_6208b8490038b24a.svg">
 </p>
 
 ### █︎▌︎𝔅𝔞𝔠𝔨𝔢𝔫𝔡 𝔖𝔢𝔯𝔳𝔦𝔠𝔢𝔰
 
 <p align="center">
-<img alt="" src="assets/tech_4ae35452345ec6.svg"> <img alt="" src="assets/tech_10e6baf9f09e424d.svg"> <img alt="" src="assets/tech_b3831f516bea677b.svg">
+<img alt="" src="assets/tech_9242c04f32a727b7.svg"> <img alt="" src="assets/tech_53064d2829926f19.svg"> <img alt="" src="assets/tech_93add2063f15ab13.svg">
 </p>
 
 ### ★︎ ℱ𝓇ℴ𝓃𝓉ℯ𝓃𝒹 ℳ𝒶ℊ𝒾𝒸 ☆︎
 
 <p align="center">
-<img alt="" src="assets/tech_4c1d68dbbf2b4e6c.svg"> <img alt="" src="assets/tech_825d23ff1e7a3b61.svg"> <img alt="" src="assets/tech_75884af1cc76a5a7.svg">
+<img alt="" src="assets/tech_f3172e09c8aa9f66.svg"> <img alt="" src="assets/tech_a1b3aaa821db740.svg"> <img alt="" src="assets/tech_1f1294d98264069.svg">
 </p>
 
 ---
@@ -148,19 +148,19 @@ Directional arrow shapes:
 ### 🅿🆁🅾🅳 Production Stack
 
 <p align="center">
-<img alt="" src="assets/tech_294763c1fa84af32.svg"> <img alt="" src="assets/tech_c599b735f657de71.svg"> <img alt="" src="assets/tech_2a71b2c5fbb7899.svg">
+<img alt="" src="assets/tech_3b9e29d9ef81475b.svg"> <img alt="" src="assets/tech_b083edbd52b87965.svg"> <img alt="" src="assets/tech_2ad7408c49f71026.svg">
 </p>
 
 ### 🅓🅔🅥 Development Tools
 
 <p align="center">
-<img alt="" src="assets/tech_7435bd6c72f68cb.svg"> <img alt="" src="assets/tech_c7597f46c645f317.svg"> <img alt="" src="assets/tech_f9f8e7b1c6321073.svg"> <img alt="" src="assets/tech_fc4bc87e355fea4f.svg">
+<img alt="" src="assets/tech_dc45f2d5716f8bc3.svg"> <img alt="" src="assets/tech_30359097364e1d59.svg"> <img alt="" src="assets/tech_35f60ee923703344.svg"> <img alt="" src="assets/tech_c3978e50b14295ed.svg">
 </p>
 
 ### 🄱🄴🅃🄰 Experimental
 
 <p align="center">
-<img alt="" src="assets/tech_b105803182839752.svg"> <img alt="" src="assets/tech_900b2a22a11f8eba.svg">
+<img alt="" src="assets/tech_aa63c0fa23d1a37e.svg"> <img alt="" src="assets/tech_4c8e499f8f9d350b.svg">
 </p>
 
 ---
@@ -170,21 +170,21 @@ Directional arrow shapes:
 ### Glowing Tech Row
 
 ![](assets/swatch_a1edcf795a965ec9.svg)
-![](assets/tech_335a9f313a730ac4.svg)
-![](assets/tech_497572f0e6699491.svg)
-![](assets/tech_4425f7cd14a3726a.svg)
+![](assets/tech_75f0c119613370a5.svg)
+![](assets/tech_352cdfe5f05b99be.svg)
+![](assets/tech_e4f4570b62b4ff3d.svg)
 ![](assets/swatch_a1edcf795a965ec9.svg)
 
 ### Categorized Stack
 
 ▓︎▒︎░︎ 🅻🅰🅽🅶 ░︎▒︎▓︎
-![](assets/tech_1686fbc53161f8a6.svg) ![](assets/tech_f3e409b8b785148a.svg) ![](assets/tech_7b307a9559a23c2c.svg) ![](assets/tech_f4177fb339cf3247.svg)
+![](assets/tech_ae59658a38c6440a.svg) ![](assets/tech_33a44f3f61bfb3b9.svg) ![](assets/tech_5d6dcaadd36d1d4c.svg) ![](assets/tech_990f7118a81a38f7.svg)
 
 ▓︎▒︎░︎ 🅸🅽🅵🆁🅰 ░︎▒︎▓︎
-![](assets/tech_fc4bc87e355fea4f.svg) ![](assets/tech_c6dac3f193856de9.svg) ![](assets/tech_a766705e389f30da.svg) ![](assets/tech_95e7ebf7e3e56bd7.svg)
+![](assets/tech_c3978e50b14295ed.svg) ![](assets/tech_d250a1af120251f8.svg) ![](assets/tech_17c533c4f786a2d4.svg) ![](assets/tech_e3342bc88193794.svg)
 
 ▓︎▒︎░︎ 🅳🅰🆃🅰 ░︎▒︎▓︎
-![](assets/tech_56fa3f14323b0f14.svg) ![](assets/tech_635820db46e6384e.svg) ![](assets/tech_6edb82b618754d08.svg) ![](assets/tech_ad86ed1ba4bb6970.svg)
+![](assets/tech_6208b8490038b24a.svg) ![](assets/tech_b3da1dbc62e60b6f.svg) ![](assets/tech_3449872cf3d0be0d.svg) ![](assets/tech_98094e3bd9049454.svg)
 
 ---
 
@@ -244,19 +244,19 @@ Directional arrow shapes:
 ### Full-Stack Developer Badge Wall
 
 <p align="center">
-<img alt="" src="assets/tech_41d99cae7c4313e5.svg"> <img alt="" src="assets/tech_39e15f6465c7f508.svg"> <img alt="" src="assets/tech_613070a69e61b40.svg">
+<img alt="" src="assets/tech_fb01905d257f3ac.svg"> <img alt="" src="assets/tech_16d99898a96cef8d.svg"> <img alt="" src="assets/tech_28bf705576685227.svg">
 </p>
 
 <p align="center">
-<img alt="" src="assets/tech_e66af699ca749db5.svg"> <img alt="" src="assets/tech_7bd0e8347c954f31.svg"> <img alt="" src="assets/tech_d50e5f6c94decbc5.svg">
+<img alt="" src="assets/tech_441ff0447abfb6c5.svg"> <img alt="" src="assets/tech_3b85ffaa08c68d1a.svg"> <img alt="" src="assets/tech_5499f3673627a024.svg">
 </p>
 
 <p align="center">
-<img alt="" src="assets/tech_57b19f0b112036fb.svg"> <img alt="" src="assets/tech_488a16b03f2032d4.svg"> <img alt="" src="assets/tech_ab9bfa4d2af126cf.svg">
+<img alt="" src="assets/tech_30339f1d69ff2ea3.svg"> <img alt="" src="assets/tech_afa675c9b06c7c0a.svg"> <img alt="" src="assets/tech_3a68c880d068ab0c.svg">
 </p>
 
 <p align="center">
-<img alt="" src="assets/tech_1f6c070dffc171de.svg"> <img alt="" src="assets/tech_6ac51ae18dd5e07d.svg"> <img alt="" src="assets/tech_bbbc09db3c99b435.svg">
+<img alt="" src="assets/tech_49faf9d5ed366a2a.svg"> <img alt="" src="assets/tech_976a6c7f12803531.svg"> <img alt="" src="assets/tech_d9cfa90b4b22d399.svg">
 </p>
 
 ---
@@ -268,19 +268,13 @@ Icons that extend above and below the label section:
 ### Basic Raised
 
 <p align="center">
-<img alt="" src="assets/tech_32b25e362741cd26.svg"> <img alt="" src="assets/tech_81939999da3efc3c.svg"> <img alt="" src="assets/tech_13615dbac3eae4.svg">
+<img alt="" src="assets/tech_4f49fd3fd00a35ea.svg"> <img alt="" src="assets/tech_acd32df9d2f1c72e.svg"> <img alt="" src="assets/tech_e50a8558e2f0c4c1.svg">
 </p>
 
 ### Raised with Large Icons
 
 <p align="center">
-<img alt="" src="assets/tech_24755115809ef8b7.svg"> <img alt="" src="assets/tech_4598f6fc1e6ef36b.svg"> <img alt="" src="assets/tech_8fb6b3b0a490429d.svg">
-</p>
-
-### Raised with Borders
-
-<p align="center">
-<img alt="" src="assets/tech_73e7a03f1898ac78.svg"> <img alt="" src="assets/tech_1c470328fa324586.svg"> <img alt="" src="assets/tech_ac4229730fa0af61.svg">
+<img alt="" src="assets/tech_49faf9d5ed366a2a.svg"> <img alt="" src="assets/tech_7631404459a13312.svg"> <img alt="" src="assets/tech_722a283c0cd26920.svg">
 </p>
 
 ---
@@ -289,7 +283,7 @@ Icons that extend above and below the label section:
 
 One badge, every parameter:
 
-![](assets/tech_624c393b6424d003.svg)
+![](assets/tech_527afea65193b151.svg)
 
 ```
 {{ui:tech:rust:
