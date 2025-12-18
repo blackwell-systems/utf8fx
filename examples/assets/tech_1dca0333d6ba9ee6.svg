@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="94" height="20" viewBox="0 0 94 20">
+<rect width="94" height="20" fill="none" stroke="#CCCCCC" stroke-width="2" rx="0"/>
+<line x1="36" y1="0" x2="36" y2="20" stroke="#CCCCCC" stroke-width="2"/>
+<g transform="translate(11, 3) scale(0.5833333)">
+<path fill="#FC6D26" d="M23.546 10.93L13.067.452a1.55 1.55 0 00-2.134 0L.453 10.93a1.55 1.55 0 000 2.134l10.48 10.48a1.55 1.55 0 002.134 0l10.48-10.48a1.55 1.55 0 000-2.134zM12 20.813L8.187 12H4.5l7.5 8.813zM4.5 12L12 3.187 8.187 12H4.5zm15 0h-3.687L12 3.187 19.5 12zM12 20.813L15.813 12H19.5L12 20.813z"/>
+</g>
+<text x="65" y="13" text-anchor="middle" fill="#CCCCCC" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">gitlab</text>
+</svg>

@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-18T04:40:10.546605371+00:00",
+  "created_at": "2025-12-18T04:52:17.242996130+00:00",
   "backend": "svg",
-  "assets_dir": "examples/assets",
+  "assets_dir": "assets",
   "total_assets": 71,
   "assets": [
     {
-      "path": "examples/assets/tech_d8a40841ffd14138.svg",
+      "path": "assets/tech_d8a40841ffd14138.svg",
       "sha256": "d3bb00839fee0253ddabf79d5e507518c2d87a7d015cf32550a2e5808dcf2ba8",
       "type": "tech",
       "primitive": {
@@ -19,7 +19,7 @@
       "size_bytes": 2296
     },
     {
-      "path": "examples/assets/tech_21c02e7d880cbe84.svg",
+      "path": "assets/tech_21c02e7d880cbe84.svg",
       "sha256": "5d30b90c9b60e9f4cff8ac15d25f33c02be3702f14471c14251a93922f7e42d9",
       "type": "tech",
       "primitive": {
@@ -32,7 +32,7 @@
       "size_bytes": 1647
     },
     {
-      "path": "examples/assets/tech_b5ca944c079a4d7f.svg",
+      "path": "assets/tech_b5ca944c079a4d7f.svg",
       "sha256": "d702386debb38a90acf4a1bb35810f52c570b337c1de31501d016b83ba23e222",
       "type": "tech",
       "primitive": {
@@ -45,7 +45,7 @@
       "size_bytes": 2145
     },
     {
-      "path": "examples/assets/tech_b960671ed1a7f81b.svg",
+      "path": "assets/tech_b960671ed1a7f81b.svg",
       "sha256": "b948476f154e3f19e1843712d27c45df228de114c51ea57461e7ba1534e0cf25",
       "type": "tech",
       "primitive": {
@@ -58,7 +58,7 @@
       "size_bytes": 2280
     },
     {
-      "path": "examples/assets/tech_65b2fdf50e39dc05.svg",
+      "path": "assets/tech_65b2fdf50e39dc05.svg",
       "sha256": "1e919b84f6699d039ec3d979c29ff4e284aab13ee9f12ef0b18e8bd0b63a19e0",
       "type": "tech",
       "primitive": {
@@ -71,7 +71,7 @@
       "size_bytes": 1880
     },
     {
-      "path": "examples/assets/tech_115e69899fe22564.svg",
+      "path": "assets/tech_115e69899fe22564.svg",
       "sha256": "cff2a47631459c11728250e85572ccc10c11ea9b3f28a592f6e8c4fd754297eb",
       "type": "tech",
       "primitive": {
@@ -84,7 +84,7 @@
       "size_bytes": 1999
     },
     {
-      "path": "examples/assets/tech_26ede46a9af79b47.svg",
+      "path": "assets/tech_26ede46a9af79b47.svg",
       "sha256": "666065784734ef1166f49ee59b31aa57f4386a6cef056055d237785cd6ac9991",
       "type": "tech",
       "primitive": {
@@ -97,7 +97,7 @@
       "size_bytes": 1638
     },
     {
-      "path": "examples/assets/tech_2b892898f5ef0172.svg",
+      "path": "assets/tech_2b892898f5ef0172.svg",
       "sha256": "f9bb415e1c66ed8ccc029d2a976cac893cc9c947e04533dbc49fd33a463e74d0",
       "type": "tech",
       "primitive": {
@@ -110,7 +110,7 @@
       "size_bytes": 3304
     },
     {
-      "path": "examples/assets/tech_d68c278432fd5bde.svg",
+      "path": "assets/tech_d68c278432fd5bde.svg",
       "sha256": "f4eade7fefa9153a7208e7d221716045662a67ca1dad628b709171c069842a3f",
       "type": "tech",
       "primitive": {
@@ -123,7 +123,7 @@
       "size_bytes": 1647
     },
     {
-      "path": "examples/assets/tech_28d12101c244d0d7.svg",
+      "path": "assets/tech_28d12101c244d0d7.svg",
       "sha256": "69c19996bb2f612422d5fdb604b40b1955bad91fc0fb59a7f2c925a89f0dbfa0",
       "type": "tech",
       "primitive": {
@@ -136,7 +136,7 @@
       "size_bytes": 1717
     },
     {
-      "path": "examples/assets/tech_dca288024f808bdf.svg",
+      "path": "assets/tech_dca288024f808bdf.svg",
       "sha256": "62380598b614bf1a51774a01d24cccfeaefad23a80e961841b375505fec4c82c",
       "type": "tech",
       "primitive": {
@@ -149,7 +149,7 @@
       "size_bytes": 2295
     },
     {
-      "path": "examples/assets/tech_e863e185eb40fdb0.svg",
+      "path": "assets/tech_e863e185eb40fdb0.svg",
       "sha256": "55481b230e22a37f43c117ac5d0b00f8b721da745e2bc1ceadb0584a28b05243",
       "type": "tech",
       "primitive": {
@@ -162,7 +162,7 @@
       "size_bytes": 1895
     },
     {
-      "path": "examples/assets/tech_f35bc1ec8f83207c.svg",
+      "path": "assets/tech_f35bc1ec8f83207c.svg",
       "sha256": "4cdf54764a1c5e68902b2fc1f6c3ad92ae1c64aa58e2ec6facdd5e1d8ceac6d7",
       "type": "tech",
       "primitive": {
@@ -175,7 +175,7 @@
       "size_bytes": 2142
     },
     {
-      "path": "examples/assets/tech_823da0d3bdda328d.svg",
+      "path": "assets/tech_823da0d3bdda328d.svg",
       "sha256": "28345b97fc4017b7ec2fcd3965d08b96629d84661a957ea81c9841ab7fffdf69",
       "type": "tech",
       "primitive": {
@@ -188,7 +188,7 @@
       "size_bytes": 2018
     },
     {
-      "path": "examples/assets/tech_8ff068d5b5489e29.svg",
+      "path": "assets/tech_8ff068d5b5489e29.svg",
       "sha256": "e2634dafa230bc4dc7e1d12594af66848db31eac4d5f5887dca495bb584d1170",
       "type": "tech",
       "primitive": {
@@ -201,7 +201,7 @@
       "size_bytes": 2290
     },
     {
-      "path": "examples/assets/tech_b365e1cb6aaebc7c.svg",
+      "path": "assets/tech_b365e1cb6aaebc7c.svg",
       "sha256": "c490ea6e299a25636a08367b4552280a9368afd898cfc9b3a71828b5df85028d",
       "type": "tech",
       "primitive": {
@@ -214,7 +214,7 @@
       "size_bytes": 2148
     },
     {
-      "path": "examples/assets/tech_e3d1477734fe9cfd.svg",
+      "path": "assets/tech_e3d1477734fe9cfd.svg",
       "sha256": "3582395f596a204c579b96f16717b7a889d0ccb8bec1896d7f847242c4b711d2",
       "type": "tech",
       "primitive": {
@@ -227,7 +227,7 @@
       "size_bytes": 2329
     },
     {
-      "path": "examples/assets/tech_9953b7d2d546a5d3.svg",
+      "path": "assets/tech_9953b7d2d546a5d3.svg",
       "sha256": "6c44e02a6646f2a08abec23bc56251ac70d739e98a4b6264a9fabfee0616b2b3",
       "type": "tech",
       "primitive": {
@@ -240,7 +240,7 @@
       "size_bytes": 1688
     },
     {
-      "path": "examples/assets/tech_9b5a9f911a59e3f7.svg",
+      "path": "assets/tech_9b5a9f911a59e3f7.svg",
       "sha256": "928976ac174780c3915b46bd62182df1e772fb04202110375f09dd584c033e67",
       "type": "tech",
       "primitive": {
@@ -253,7 +253,7 @@
       "size_bytes": 3337
     },
     {
-      "path": "examples/assets/tech_3a24edcd45a6a3fb.svg",
+      "path": "assets/tech_3a24edcd45a6a3fb.svg",
       "sha256": "0e6e6b9e40a9e265015273796eff906c49ff81f26ff8be2ecf544f236ab5afa4",
       "type": "tech",
       "primitive": {
@@ -266,7 +266,7 @@
       "size_bytes": 3896
     },
     {
-      "path": "examples/assets/tech_29d582007877b971.svg",
+      "path": "assets/tech_29d582007877b971.svg",
       "sha256": "73ad7c7335d769330c0a407f151418ac55c79ffa362a8b69a47364c875d7ccab",
       "type": "tech",
       "primitive": {
@@ -279,7 +279,7 @@
       "size_bytes": 1133
     },
     {
-      "path": "examples/assets/tech_e7b5111797190dfa.svg",
+      "path": "assets/tech_e7b5111797190dfa.svg",
       "sha256": "5e224a9a930ee22685d70631556abbd09f4d4e3daebac8832b951d206f373271",
       "type": "tech",
       "primitive": {
@@ -292,7 +292,7 @@
       "size_bytes": 892
     },
     {
-      "path": "examples/assets/tech_f0866ae0cbb418c7.svg",
+      "path": "assets/tech_f0866ae0cbb418c7.svg",
       "sha256": "a76ce9fc665d2f05860800b3eb97d20c5f9bbdfa92a000eb3681c4fa5d2412ce",
       "type": "tech",
       "primitive": {
@@ -305,7 +305,7 @@
       "size_bytes": 2220
     },
     {
-      "path": "examples/assets/tech_c2a7bab5d27e1d1.svg",
+      "path": "assets/tech_c2a7bab5d27e1d1.svg",
       "sha256": "edb2839424e61f9663ec5fd9a0e67ece9c771803547e0aca4a001589022194fa",
       "type": "tech",
       "primitive": {
@@ -318,7 +318,7 @@
       "size_bytes": 1592
     },
     {
-      "path": "examples/assets/tech_64ffd4a1457fe79d.svg",
+      "path": "assets/tech_64ffd4a1457fe79d.svg",
       "sha256": "010ba1eba7f38e23004d248c281a69c856a265ec997667ee47aa8cfa1f6d4215",
       "type": "tech",
       "primitive": {
@@ -331,7 +331,7 @@
       "size_bytes": 2084
     },
     {
-      "path": "examples/assets/tech_70d1ed4d361de6a1.svg",
+      "path": "assets/tech_70d1ed4d361de6a1.svg",
       "sha256": "2d6fcc0024480e5c9ef5f9d9dfa2c92fdf7644987d1cf8b510c96c3328d934d8",
       "type": "tech",
       "primitive": {
@@ -344,7 +344,7 @@
       "size_bytes": 1628
     },
     {
-      "path": "examples/assets/tech_357ca593f2a2fc61.svg",
+      "path": "assets/tech_357ca593f2a2fc61.svg",
       "sha256": "4ab684fe04b906755d8849906e67b05c8d30e19e47e5bb5254f4a80217a8657a",
       "type": "tech",
       "primitive": {
@@ -357,7 +357,7 @@
       "size_bytes": 3262
     },
     {
-      "path": "examples/assets/tech_678340eb69bc7c9a.svg",
+      "path": "assets/tech_678340eb69bc7c9a.svg",
       "sha256": "5236194a902ca5cd9e11f9b0de8f02a23ae234d06c4ec174297c24ae3381751c",
       "type": "tech",
       "primitive": {
@@ -370,7 +370,7 @@
       "size_bytes": 547
     },
     {
-      "path": "examples/assets/tech_7c9c13af314b4bd6.svg",
+      "path": "assets/tech_7c9c13af314b4bd6.svg",
       "sha256": "4bf5a85df5803e602d91fa4da93ade1403bc5c9a49892ca4cb7949bbad0605b6",
       "type": "tech",
       "primitive": {
@@ -383,7 +383,7 @@
       "size_bytes": 1811
     },
     {
-      "path": "examples/assets/tech_2cae6676c7da9f40.svg",
+      "path": "assets/tech_2cae6676c7da9f40.svg",
       "sha256": "02f102cc4a4816f870b2c119e14dd4a2ff366c4d4ce4763b800a359293d63423",
       "type": "tech",
       "primitive": {
@@ -396,7 +396,7 @@
       "size_bytes": 1622
     },
     {
-      "path": "examples/assets/tech_5df515575a7f1945.svg",
+      "path": "assets/tech_5df515575a7f1945.svg",
       "sha256": "b02d36fca60befb5ebe4b5955e9ed22eaeeeaf8f40baad07250673d9c2b357c5",
       "type": "tech",
       "primitive": {
@@ -409,7 +409,7 @@
       "size_bytes": 1314
     },
     {
-      "path": "examples/assets/tech_e4ec671d3d071c0e.svg",
+      "path": "assets/tech_e4ec671d3d071c0e.svg",
       "sha256": "6699fe65a1440f08008c7cc751120875ab8e0120e559d2d4245628ed3a4f4688",
       "type": "tech",
       "primitive": {
@@ -422,7 +422,7 @@
       "size_bytes": 2264
     },
     {
-      "path": "examples/assets/tech_8e4fd6bf145b2d07.svg",
+      "path": "assets/tech_8e4fd6bf145b2d07.svg",
       "sha256": "739bd47a6ca96fb4992c476dfd625a469b505831651b2385d8a1307f84d48486",
       "type": "tech",
       "primitive": {
@@ -435,7 +435,7 @@
       "size_bytes": 1184
     },
     {
-      "path": "examples/assets/tech_1dca0333d6ba9ee6.svg",
+      "path": "assets/tech_1dca0333d6ba9ee6.svg",
       "sha256": "96891ca4574deed09e222482dc4ec57917c835dc39ed71219e8c5ff97564a9c1",
       "type": "tech",
       "primitive": {
@@ -448,7 +448,7 @@
       "size_bytes": 751
     },
     {
-      "path": "examples/assets/tech_14d9f235e268272c.svg",
+      "path": "assets/tech_14d9f235e268272c.svg",
       "sha256": "c134c9e9441909c69a8d69f0d7b33867ffb3ce01650e82ab870215da5b37a11b",
       "type": "tech",
       "primitive": {
@@ -461,7 +461,7 @@
       "size_bytes": 2127
     },
     {
-      "path": "examples/assets/tech_cacd974ee31337be.svg",
+      "path": "assets/tech_cacd974ee31337be.svg",
       "sha256": "864f1faa1ca45ac40f4cb57961aa0fdddc861911a9bdd4b6c083d547cad01fea",
       "type": "tech",
       "primitive": {
@@ -474,7 +474,7 @@
       "size_bytes": 2015
     },
     {
-      "path": "examples/assets/tech_15796e100650911b.svg",
+      "path": "assets/tech_15796e100650911b.svg",
       "sha256": "4421ee1ffbf3e7a2f2f20799cea40b555f774353ac14d27dcd182440ccf314fa",
       "type": "tech",
       "primitive": {
@@ -487,7 +487,7 @@
       "size_bytes": 2287
     },
     {
-      "path": "examples/assets/tech_f177a4e145605b34.svg",
+      "path": "assets/tech_f177a4e145605b34.svg",
       "sha256": "fb923c0a85278624d28812e9fe0b22177faf0df49f6a024c776138c8cd265196",
       "type": "tech",
       "primitive": {
@@ -500,7 +500,7 @@
       "size_bytes": 1898
     },
     {
-      "path": "examples/assets/tech_f4a6e17b28f7dbc8.svg",
+      "path": "assets/tech_f4a6e17b28f7dbc8.svg",
       "sha256": "2a66762d462251c2c4b67d1f6c99b9f7a74b5a8babb0e51841314b8a6128bb74",
       "type": "tech",
       "primitive": {
@@ -513,7 +513,7 @@
       "size_bytes": 3303
     },
     {
-      "path": "examples/assets/tech_d18cdb6b968f61a0.svg",
+      "path": "assets/tech_d18cdb6b968f61a0.svg",
       "sha256": "3ab48cfbc11bce3bac537436ded04fe2d5a606dbfa15638549b1e5630e13d585",
       "type": "tech",
       "primitive": {
@@ -526,7 +526,7 @@
       "size_bytes": 576
     },
     {
-      "path": "examples/assets/tech_3dea5472ae650ace.svg",
+      "path": "assets/tech_3dea5472ae650ace.svg",
       "sha256": "122a5f2ec98468e3d7008ad734e21f3f9e66ecde950610a627bff562455be6ac",
       "type": "tech",
       "primitive": {
@@ -539,7 +539,7 @@
       "size_bytes": 1846
     },
     {
-      "path": "examples/assets/tech_df3d2871f3ba56d1.svg",
+      "path": "assets/tech_df3d2871f3ba56d1.svg",
       "sha256": "2d3a7affe680297e0d383cc315bf09309a3c06a2f2cff91d422075c6d5c3042a",
       "type": "tech",
       "primitive": {
@@ -552,7 +552,7 @@
       "size_bytes": 1703
     },
     {
-      "path": "examples/assets/tech_7117761da5381699.svg",
+      "path": "assets/tech_7117761da5381699.svg",
       "sha256": "0f22bafe4c5ff44e499d0ff76813b42259bfe9fb81c5639a09f5a0a488f474e6",
       "type": "tech",
       "primitive": {
@@ -565,7 +565,7 @@
       "size_bytes": 732
     },
     {
-      "path": "examples/assets/tech_4b7f0695c9519e1c.svg",
+      "path": "assets/tech_4b7f0695c9519e1c.svg",
       "sha256": "ba6b4e71c760f0480d1d3a155dde39d2130ec831792739bc2287883eb1979622",
       "type": "tech",
       "primitive": {
@@ -578,7 +578,7 @@
       "size_bytes": 2145
     },
     {
-      "path": "examples/assets/tech_9d81387afe9a04cc.svg",
+      "path": "assets/tech_9d81387afe9a04cc.svg",
       "sha256": "255393a421ac67a56992c9b1f533de314f0d51759050216fce352a15bd28c11a",
       "type": "tech",
       "primitive": {
@@ -591,7 +591,7 @@
       "size_bytes": 2280
     },
     {
-      "path": "examples/assets/tech_232737907cb4aea7.svg",
+      "path": "assets/tech_232737907cb4aea7.svg",
       "sha256": "7151d52304e3a78c63c19839bda3a96158e12ee3adb82da76269e64d898f7804",
       "type": "tech",
       "primitive": {
@@ -604,7 +604,7 @@
       "size_bytes": 1880
     },
     {
-      "path": "examples/assets/tech_dcd6f3c7d48a888a.svg",
+      "path": "assets/tech_dcd6f3c7d48a888a.svg",
       "sha256": "e391c960aca094e4e7779736d6d17b534bc5f6bfb61181afb6c6b6c5716220ca",
       "type": "tech",
       "primitive": {
@@ -617,7 +617,7 @@
       "size_bytes": 1339
     },
     {
-      "path": "examples/assets/tech_67f5a570e788656d.svg",
+      "path": "assets/tech_67f5a570e788656d.svg",
       "sha256": "757e3673b10e0b874a4814a92565b7f23ce4121be5eddb1e1749964bb0072760",
       "type": "tech",
       "primitive": {
@@ -630,7 +630,7 @@
       "size_bytes": 1999
     },
     {
-      "path": "examples/assets/tech_362cb9b5e40dcba5.svg",
+      "path": "assets/tech_362cb9b5e40dcba5.svg",
       "sha256": "06caa2286fee4d1610296ed68c60005d29e36b4d092b3ace7dc891da13d7bdc9",
       "type": "tech",
       "primitive": {
@@ -643,7 +643,7 @@
       "size_bytes": 1638
     },
     {
-      "path": "examples/assets/tech_80eb2be9c0686f2f.svg",
+      "path": "assets/tech_80eb2be9c0686f2f.svg",
       "sha256": "a8708b7e50a8944da13cea8f5d2cea1a10946708de54be5057eba81b835528aa",
       "type": "tech",
       "primitive": {
@@ -656,7 +656,7 @@
       "size_bytes": 2127
     },
     {
-      "path": "examples/assets/tech_701a82228e5039a8.svg",
+      "path": "assets/tech_701a82228e5039a8.svg",
       "sha256": "2d031c296162d6e5d433e9da4f2a5c08e7f60ba7752ff39598f09dab52b33804",
       "type": "tech",
       "primitive": {
@@ -669,7 +669,7 @@
       "size_bytes": 2295
     },
     {
-      "path": "examples/assets/tech_f45f8e320e8030ce.svg",
+      "path": "assets/tech_f45f8e320e8030ce.svg",
       "sha256": "4a38612d93ac3cd93d18968c35bb80a6822a026077c9c934c6c4bb80c7c8e7da",
       "type": "tech",
       "primitive": {
@@ -682,7 +682,7 @@
       "size_bytes": 1654
     },
     {
-      "path": "examples/assets/tech_9bade42a7df7e430.svg",
+      "path": "assets/tech_9bade42a7df7e430.svg",
       "sha256": "f0b8cd735d450862b09916ed7374f9260d6c9a96c11b7f8f9d7f222764eb9340",
       "type": "tech",
       "primitive": {
@@ -695,7 +695,7 @@
       "size_bytes": 2142
     },
     {
-      "path": "examples/assets/tech_a4123f8a2b47445f.svg",
+      "path": "assets/tech_a4123f8a2b47445f.svg",
       "sha256": "5c8926de92a4a7a5de43ca967ef576fd3336a596b94ea805a8a3336f40d67254",
       "type": "tech",
       "primitive": {
@@ -708,7 +708,7 @@
       "size_bytes": 2299
     },
     {
-      "path": "examples/assets/tech_9dde1bda9f26f52f.svg",
+      "path": "assets/tech_9dde1bda9f26f52f.svg",
       "sha256": "15f399a23151831ad974f895b07e6e4865a07e973c3aff07cab66606c22997c3",
       "type": "tech",
       "primitive": {
@@ -721,7 +721,7 @@
       "size_bytes": 2009
     },
     {
-      "path": "examples/assets/tech_73f805563cd12688.svg",
+      "path": "assets/tech_73f805563cd12688.svg",
       "sha256": "b5ed8c1068da2bd44bf881a2a97c36e42e577ebb8edafabd71f4527208b83f27",
       "type": "tech",
       "primitive": {
@@ -734,7 +734,7 @@
       "size_bytes": 1901
     },
     {
-      "path": "examples/assets/tech_cacb5883069eee6d.svg",
+      "path": "assets/tech_cacb5883069eee6d.svg",
       "sha256": "aedfbfa938271e1b7c8fbe6eaeb731e8915e6fc584c94c01c99e36e9020d764a",
       "type": "tech",
       "primitive": {
@@ -747,7 +747,7 @@
       "size_bytes": 3912
     },
     {
-      "path": "examples/assets/tech_9688a5d2682eb4e6.svg",
+      "path": "assets/tech_9688a5d2682eb4e6.svg",
       "sha256": "b769531c96bfd95377fef9734248eb738e8ce1de58e05ce933a8b855f1c8b3a1",
       "type": "tech",
       "primitive": {
@@ -760,7 +760,7 @@
       "size_bytes": 1148
     },
     {
-      "path": "examples/assets/tech_23d5cbc92bff5c02.svg",
+      "path": "assets/tech_23d5cbc92bff5c02.svg",
       "sha256": "2e7febf6bcd7e175b272fd92db82634863130717e88265c1ace78cea57d151c1",
       "type": "tech",
       "primitive": {
@@ -773,7 +773,7 @@
       "size_bytes": 908
     },
     {
-      "path": "examples/assets/tech_c0acaaa6c16b84e.svg",
+      "path": "assets/tech_c0acaaa6c16b84e.svg",
       "sha256": "84a566d71765144c1e410818021f1532c0fb15a966990d8ee3a31c4185db82da",
       "type": "tech",
       "primitive": {
@@ -786,7 +786,7 @@
       "size_bytes": 3307
     },
     {
-      "path": "examples/assets/tech_83c0626cf58be0ad.svg",
+      "path": "assets/tech_83c0626cf58be0ad.svg",
       "sha256": "4208b4bbe569df0bf2b1dcb5d3980d45a7436f669efc52a6da1099a769cb1635",
       "type": "tech",
       "primitive": {
@@ -799,7 +799,7 @@
       "size_bytes": 1650
     },
     {
-      "path": "examples/assets/tech_f79afa81815fc290.svg",
+      "path": "assets/tech_f79afa81815fc290.svg",
       "sha256": "816c28150da8691a494c4466b33925380388771f7e7bb0f650e8bf8d92133920",
       "type": "tech",
       "primitive": {
@@ -812,7 +812,7 @@
       "size_bytes": 582
     },
     {
-      "path": "examples/assets/tech_757707bc3be2c593.svg",
+      "path": "assets/tech_757707bc3be2c593.svg",
       "sha256": "f83b436c3c1f42b0de273748a8553f6313af7aed6db19fecbf876bed7fead1d2",
       "type": "tech",
       "primitive": {
@@ -825,7 +825,7 @@
       "size_bytes": 2262
     },
     {
-      "path": "examples/assets/tech_fa124ffaa39865ed.svg",
+      "path": "assets/tech_fa124ffaa39865ed.svg",
       "sha256": "3cf0d4a4c646b389184217f84ba49bc27ebee3b2585c3a1b5c4fe4437e739b32",
       "type": "tech",
       "primitive": {
@@ -838,7 +838,7 @@
       "size_bytes": 1972
     },
     {
-      "path": "examples/assets/tech_1edb11df4484fc6.svg",
+      "path": "assets/tech_1edb11df4484fc6.svg",
       "sha256": "e9a421eef1474331a037e88d223042b4bd5070b85f533830504e0f40d76f4ded",
       "type": "tech",
       "primitive": {
@@ -851,7 +851,7 @@
       "size_bytes": 1683
     },
     {
-      "path": "examples/assets/tech_906b232fbed6b493.svg",
+      "path": "assets/tech_906b232fbed6b493.svg",
       "sha256": "ff37f69bd7331b9f95f16adbc46f5287037277051bce417929f152f4dc76781e",
       "type": "tech",
       "primitive": {
@@ -864,7 +864,7 @@
       "size_bytes": 2070
     },
     {
-      "path": "examples/assets/tech_2e04e6c81e2539b1.svg",
+      "path": "assets/tech_2e04e6c81e2539b1.svg",
       "sha256": "308ed984661b787751d88dde8128dd0e52f01d37da788e6a3e3490a42bd6eafa",
       "type": "tech",
       "primitive": {
@@ -877,7 +877,7 @@
       "size_bytes": 1639
     },
     {
-      "path": "examples/assets/tech_fad3e17b1c790fa.svg",
+      "path": "assets/tech_fad3e17b1c790fa.svg",
       "sha256": "0eeb453a0a50bfb9950312c015094205504176a660c06c4a4db42a42727cc1de",
       "type": "tech",
       "primitive": {
@@ -890,7 +890,7 @@
       "size_bytes": 666
     },
     {
-      "path": "examples/assets/tech_b807ab4b7256bdc.svg",
+      "path": "assets/tech_b807ab4b7256bdc.svg",
       "sha256": "4201975c63372fe09125e0f10b4646fc3ed85bd1447119657f11cbd159240f41",
       "type": "tech",
       "primitive": {
@@ -903,7 +903,7 @@
       "size_bytes": 1389
     },
     {
-      "path": "examples/assets/tech_295ad0c0d0e62753.svg",
+      "path": "assets/tech_295ad0c0d0e62753.svg",
       "sha256": "531a8a53a9bb0477bbc2fea7206424d622e8a84a3c17752c783a639905082b1b",
       "type": "tech",
       "primitive": {
@@ -916,7 +916,7 @@
       "size_bytes": 1688
     },
     {
-      "path": "examples/assets/tech_a3d0dbb076a34f23.svg",
+      "path": "assets/tech_a3d0dbb076a34f23.svg",
       "sha256": "79bd1192009e03fd3d8cc0fc4780cf7a28e8240496400cf087e3764585f4b6e7",
       "type": "tech",
       "primitive": {
