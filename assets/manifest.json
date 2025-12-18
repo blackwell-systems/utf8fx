@@ -1,13 +1,143 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-18T17:45:03.382553445+00:00",
+  "created_at": "2025-12-18T17:49:51.302310637+00:00",
   "backend": "svg",
-  "assets_dir": "assets",
-  "total_assets": 11,
+  "assets_dir": "/home/user/mdfx/assets",
+  "total_assets": 71,
   "assets": [
     {
-      "path": "assets/tech_1686fbc53161f8a6.svg",
-      "sha256": "cc5e2e34d4b689109394e9d5cd40446a09f4839e2be41561c35166dac3f182ce",
+      "path": "/home/user/mdfx/assets/tech_2209e79a30a8a76b.svg",
+      "sha256": "bc39e712cc660038e615806cc26975b616356f5adb59f8ae5309110286664712",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2388
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_96ab5f4a1cc6627c.svg",
+      "sha256": "f876415a12eb4ae6211121f9277e417ce94338a54950f0f90792f994c069de82",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1730
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_5ab76d958b79bbe6.svg",
+      "sha256": "c8e1b696e64dd5f520aa111c2556e849d4a0cab3a44923200ef946aaf6011ff3",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2244
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_b224a696854bcac9.svg",
+      "sha256": "228f29b28b3e87f76e9629b430dd31a3dcc569b82162436c97352d39fcea985a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2298
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_d8323defb9d789ed.svg",
+      "sha256": "ffe27ae14a0b7cdaa9f7d256fb98403327189390a3039ed53dd5cd87e2a18904",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "3776AB",
+        "logo_color": "FFFFFF",
+        "style": "outline"
+      },
+      "size_bytes": 1903
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_e6f071f2202373f7.svg",
+      "sha256": "fe23e8e968a1f70791a084ef8309bd0774c4ab1f808031bdea0903689ebb9109",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2022
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_56c77625ec291146.svg",
+      "sha256": "007c87863ba34b5c367e993b85fa296e936f9909e1b91f46b2dce44415f91e6b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "outline"
+      },
+      "size_bytes": 1665
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_38a7317940e78801.svg",
+      "sha256": "37fa73bb4e656be436a79315df4b085cb0fbe6fcb51830c2b8e46919384fcb54",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "0a0a0a",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3365
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_25764807ebd4370f.svg",
+      "sha256": "4dd902a8bb8c60e09979f7acf9990a99db72084e98a3558627d1c8cad00fe44b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "0a0a0a",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1702
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_2315960cf759e54a.svg",
+      "sha256": "aa0960c77b016dfb2d877cfa9452e0ae8b0bba4f97b3722e4427a01a14426ecb",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "nodejs",
+        "bg_color": "0a0a0a",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1781
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_4a5ee9756f570731.svg",
+      "sha256": "4c620616aedb8446187d084bfbab867037c5240d149eec9f564e12d7bc8af8e8",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -19,21 +149,8 @@
       "size_bytes": 2241
     },
     {
-      "path": "assets/tech_f3e409b8b785148a.svg",
-      "sha256": "bc6993e5c6f4c2fc36a642a64a38fb9dd20cdd73f49782dc57b19636a7426887",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "3178C6",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1606
-    },
-    {
-      "path": "assets/tech_7b307a9559a23c2c.svg",
-      "sha256": "df2c2a8c521fbb56f5c4248d7559cc31494e85ee8811b5c4faa9386e91f43499",
+      "path": "/home/user/mdfx/assets/tech_3ddfbc972654c428.svg",
+      "sha256": "e163881a5e2d8110dbac9929096b1677d0544ac55b0ec7df23ecf08911028160",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -45,8 +162,8 @@
       "size_bytes": 1846
     },
     {
-      "path": "assets/tech_fc4bc87e355fea4f.svg",
-      "sha256": "1c5e32d59f4606933f4c12bbd3c8c894c8912f273b8bb5fc889924d100473359",
+      "path": "/home/user/mdfx/assets/tech_f8dee1cbdec2ffdf.svg",
+      "sha256": "3615900a8764f666dccf39078a3e4fc4fa6f596e4568d2539972dbdcbd55f924",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -58,73 +175,216 @@
       "size_bytes": 2093
     },
     {
-      "path": "assets/tech_1c22e40930b4ef47.svg",
-      "sha256": "7d186ae262646f7cae64067741467990eb2b73d5137bf443f54610af1342f4f3",
+      "path": "/home/user/mdfx/assets/tech_13adcefc2f55acef.svg",
+      "sha256": "f8d765a0c03cc9374794d57b71130f48ee566b79334cfb0cf42392105859c5ab",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "go",
         "bg_color": "00ADD8",
         "logo_color": "000000",
-        "style": "flat-square"
+        "style": "outline"
       },
-      "size_bytes": 1965
+      "size_bytes": 2011
     },
     {
-      "path": "assets/tech_ec8d44cef627cc7b.svg",
-      "sha256": "431c194a10b837e5cde9187ff3be8237ce8d680e0969307b8f80526d75e8e5f7",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "FF5500",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 2241
-    },
-    {
-      "path": "assets/tech_dd21a15e5c7a4cf1.svg",
-      "sha256": "8cd5e66052493db691222e4ad9154bfb312d7316d6c873f4adf4b7e4d7c0e76b",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "python",
-        "bg_color": "1a1a2e",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1939
-    },
-    {
-      "path": "assets/tech_416e552ca91a9f5d.svg",
-      "sha256": "f04d72bb65f03b44e5846267ae3776f7627c4858e0334fea354f42c57b2d42cb",
+      "path": "/home/user/mdfx/assets/tech_5b117d1dfd98793b.svg",
+      "sha256": "1ca24454439fa0c5eee205ba6e8eab82a6ded0be87a3163ba951ff5b372cbf24",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
         "bg_color": "DEA584",
         "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2278
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_8b7dcfda06234038.svg",
+      "sha256": "0fc5ef8b2a1fc21ab967a3e0e918c29ef59c88d316dcb9851aef7a37c9ae96c3",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2141
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_4da93cec17e98c6e.svg",
+      "sha256": "52126432ab0c369097b4afc8447607677c1922bcd98b9c0e3c400f692d74a060",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "1a1a2e",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2362
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_e172e309725e560d.svg",
+      "sha256": "c69dfea65f2665279e1fd6e07391d4c7dc92502636a45c3a8922c9b655740bf7",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "16213e",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1730
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_67cac913dee66de7.svg",
+      "sha256": "d040f33c14b3415d4469679e4e18e5af3c7013c644e7dd67e456849445672494",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "0f3460",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3375
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_42c812c263f5177.svg",
+      "sha256": "281d8f4c19b6ad67bbe2a0406b06576626db50b6a7e2e1f4dd5991c99eda6111",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "postgresql",
+        "bg_color": "4169E1",
+        "logo_color": "FFFFFF",
+        "style": "ghost"
+      },
+      "size_bytes": 3923
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_e1d0d38274a089c9.svg",
+      "sha256": "6eb5f074c79cb91cbcf9c791a7e5e46bf3747420dc2bc6c53a64957ad863fe3a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "redis",
+        "bg_color": "FF4438",
+        "logo_color": "FFFFFF",
+        "style": "ghost"
+      },
+      "size_bytes": 1156
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_46c7012aaf7de578.svg",
+      "sha256": "3e5e32d770e6adce1aa89860a2a79032fe00b36518d379a852c31b4a9eb2dea8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "mongodb",
+        "bg_color": "47A248",
+        "logo_color": "000000",
+        "style": "ghost"
+      },
+      "size_bytes": 912
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_3f581bc7b6f33c4a.svg",
+      "sha256": "ef1c93a11305b6cb39b6b9031ed50f1594eaad808bfc247f152226c66652e782",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "1a1a2e",
+        "logo_color": "FFFFFF",
         "style": "flat-square"
       },
       "size_bytes": 2217
     },
     {
-      "path": "assets/tech_9ad7f72bd5226ed4.svg",
-      "sha256": "e4cc97cd6eab4e63fb3c1d8fd4015b94edb5196cbd93c62c97e3d04cdee2b9a6",
+      "path": "/home/user/mdfx/assets/tech_d505610f6f65f533.svg",
+      "sha256": "522855bd805b419987e9f6163b97f6fdfcc54bccc2e497d603d4d0964c36bf6f",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "rust",
-        "bg_color": "DEA584",
-        "logo_color": "000000",
+        "name": "typescript",
+        "bg_color": "2a2a3e",
+        "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 2250
+      "size_bytes": 1604
     },
     {
-      "path": "assets/tech_68a8037b33b61420.svg",
-      "sha256": "bc6993e5c6f4c2fc36a642a64a38fb9dd20cdd73f49782dc57b19636a7426887",
+      "path": "/home/user/mdfx/assets/tech_7ff4793d2c12648e.svg",
+      "sha256": "e1ae002069949bc15a416b73b7fc067e2c5122e1de44e94a534b494d2a36780a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "3a3a4e",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2092
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_3ef72a59cf399899.svg",
+      "sha256": "65d0fd11f523a990af19cc32386242381b165a092647f66bbeafc73addb2ac96",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "kubernetes",
+        "bg_color": "4a4a5e",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1631
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_2587e04ad7297e69.svg",
+      "sha256": "b2952d61a3e684a8a639cb743736d031fa9ce7661ceac21cf6eecad89ff251ae",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3328
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_2daa12f706f7408c.svg",
+      "sha256": "df5f89f627bf439d27e300990e75025b71efce1a0548369df8d996182156d62b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "vue",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 635
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_44807cb05b5ac0.svg",
+      "sha256": "7e348814cc01d8804a4ef548fad9d6f4213c6b6752df9b21caf0cf02fb4a3ab0",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "svelte",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1874
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_652b1bab5f4f5e86.svg",
+      "sha256": "aeaa4d24dad073d1800a87043370f57cb09144c0d97e655441453915c52dbd38",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -133,11 +393,466 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
+      "size_bytes": 1615
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_f5c4330d4e952a8a.svg",
+      "sha256": "bf49770b23d16dcaea965f82c36840e8503ba19a3f2c31acc354f9281b3740f9",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "javascript",
+        "bg_color": "F7DF1E",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 1307
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_9f2131200963e1c4.svg",
+      "sha256": "3772d65bcdc0c33cd83b73f7e5f78b5b3640929925c903d951fb43b8ff53f577",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2252
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_dc5c6abffc4e7eea.svg",
+      "sha256": "6e813dd7bebd62ecba2ffe062ef190337d27a7d0a0d7648ecbd959eb0417d601",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "github",
+        "bg_color": "181717",
+        "logo_color": "FFFFFF",
+        "style": "outline"
+      },
+      "size_bytes": 1207
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_d30f0566a99d8b4c.svg",
+      "sha256": "747741beafb909fc475aa14235e815dad47c6ebe6eb07ec5f798443c372f82c2",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "gitlab",
+        "bg_color": "FC6D26",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 774
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_3378928fed4accef.svg",
+      "sha256": "02d5ed8541e62d8b347e45713eda7ae9a0b1651ca442a6bb619653a739b517e0",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2150
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_25a1cd55ce9d992d.svg",
+      "sha256": "21891b622d95f9303c257e468a10f7267e6a819da50e46d3201d088b07ee7185",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "000000",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2112
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_39f0bdc577316c38.svg",
+      "sha256": "7a6d1db11394ba333c8aeaf8a22a7d4687af638aa13deecac7868964890d45a7",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "000000",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2362
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_24b69ce6343126f1.svg",
+      "sha256": "0e5d20989ff7ef99b9b7c8017ebf3de0ece62731deedb87ced3db140a719dfb7",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "000000",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1997
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_967218c16ada7cc6.svg",
+      "sha256": "72cf5e55a4921fad985e1ed1a0b2e8c6b397a649913652eb1b99440b73ea3796",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3254
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_ea103b7cbbd1420a.svg",
+      "sha256": "7ce15b6a8245143ed97d150c7acb9dd6a89c9a4ed9f5be5008b6d089fa303e5b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "vue",
+        "bg_color": "4FC08D",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 527
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_e4717fd57a2487fd.svg",
+      "sha256": "757963e0a619ecd4fc721db3d80ed859c8575340417cb8c804c55dd968081c66",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "svelte",
+        "bg_color": "FF3E00",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1797
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_90eba22ad4d1433c.svg",
+      "sha256": "5275b3049e1db45fa2fad633d8b7f6d0ee2731bf3e18f25542501b1d6292c575",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "kubernetes",
+        "bg_color": "080808",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1803
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_c8dadbeb8cdd69ca.svg",
+      "sha256": "0154872b0e8f547016a433d5dfbeb0026092fe9ef7a3297164846bc72a804bdc",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "terraform",
+        "bg_color": "080808",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 815
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_8cf039760621a4d2.svg",
+      "sha256": "e8dbecd29035af98237bc4fdc4757811266b9a39f67d26149571403eaf451f48",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "080808",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2244
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_4a5669d75859b8fc.svg",
+      "sha256": "228f29b28b3e87f76e9629b430dd31a3dcc569b82162436c97352d39fcea985a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2298
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_891211ef08a604ce.svg",
+      "sha256": "ffe27ae14a0b7cdaa9f7d256fb98403327189390a3039ed53dd5cd87e2a18904",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "3776AB",
+        "logo_color": "FFFFFF",
+        "style": "outline"
+      },
+      "size_bytes": 1903
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_bc6c1cc1d2f04d2f.svg",
+      "sha256": "37b28ceee852970f4e3b8b4470c92a01bb314d4fda86591abf8b9924042d892b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "javascript",
+        "bg_color": "F7DF1E",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 1366
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_7b1483ffeafc1712.svg",
+      "sha256": "fe23e8e968a1f70791a084ef8309bd0774c4ab1f808031bdea0903689ebb9109",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2022
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_2c62b1938e4331f9.svg",
+      "sha256": "007c87863ba34b5c367e993b85fa296e936f9909e1b91f46b2dce44415f91e6b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "outline"
+      },
+      "size_bytes": 1665
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_5af65b86ee9076ec.svg",
+      "sha256": "ddfcfb10e75d1255866a2f2c03a90b7a1002ab1da408ce2f5cad6babc8b1b42d",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2150
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_94b4c2e4a824cdc8.svg",
+      "sha256": "c6835e3cfe30f52569aea1611893a799e1126d4900fe1b41ec4c9a46c1e76be8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "FCE300",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2241
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_b2ea447e5932d0ba.svg",
+      "sha256": "d911d030c279e5612b43943a23347856c9db3f5737b0ad0b518875ed6bda530f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "00F0FF",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
       "size_bytes": 1606
     },
     {
-      "path": "assets/tech_3fab22f9ca56acbf.svg",
-      "sha256": "9036f68f2aa49db3bbe139343651da0f5ec2156c22abe1ffe9c43ef9c9f2bf52",
+      "path": "/home/user/mdfx/assets/tech_d7bc286265f15a14.svg",
+      "sha256": "3e66ec29c116d46ceac22dd63ea97b6682bc694edb63a42aecb4171f83b87ed2",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "FF003C",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2093
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_3e8eeb8e1d4d4202.svg",
+      "sha256": "9d4984d0c4532c50046291eca3244fb17a8c4ca74bea840466bcf78b71bf7fc7",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2323
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_aaf14c7fa0aa17aa.svg",
+      "sha256": "7949c3724e8f311357177b3abecec7a15604cf7d6aca1bead8a1af7c01b2f408",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "00ADD8",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 2030
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_cd227560f5dfe27f.svg",
+      "sha256": "39b1cb5a278da27173d0bfe16294e4382abb2c0691cfb326876cde03b4195c59",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "3776AB",
+        "logo_color": "FFFFFF",
+        "style": "outline"
+      },
+      "size_bytes": 1930
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_6b0227ee4269a87e.svg",
+      "sha256": "021978070a72a25c0bf2990579a5404b74aa758fddc406cf03fcc59e005d2130",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "postgresql",
+        "bg_color": "4169E1",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3864
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_d4e15a5232d536f8.svg",
+      "sha256": "7c892b9f974f1af0cfb9cac705a3fc0ab2b2a8024f77f62441b06a1197a42ee4",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "redis",
+        "bg_color": "FF4438",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1099
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_6d9735bff8349005.svg",
+      "sha256": "22e955d647b10b31be937949c69ddcbed785676ce12587538cf809eac09ab190",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "mongodb",
+        "bg_color": "47A248",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 855
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_f946f0101f740847.svg",
+      "sha256": "6db73d41699a7db2bb9abc43cda37251ae2e87b813de2e4ee7ff43dd3b94f7ff",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 3300
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_a58273f5536e53c9.svg",
+      "sha256": "f3418276e241b28faf2866f6362b6e4cd82b910d1ec9b6d2324353f69dcb0760",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "outline"
+      },
+      "size_bytes": 1643
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_1fe539acb531d35a.svg",
+      "sha256": "3bc2dd87651e48152d384fae6ba8726fd458f382da7ebae7c9e5b7f761742c9f",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "vue",
+        "bg_color": "4FC08D",
+        "logo_color": "000000",
+        "style": "outline"
+      },
+      "size_bytes": 575
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_fc30e3cf3a0b8417.svg",
+      "sha256": "0df86adb8d9eaec09cfdc0374bb1f663807f4d5877e630351303ae949d1d9c30",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "1a1a1a",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 2250
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_808a16ec6c5c48a9.svg",
+      "sha256": "0ae9eead328c46d367b0c507d6e2ebf0036411291c3b37366c52e93504c94eef",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "go",
+        "bg_color": "1a1a1a",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1965
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_65d27e3f9df6e504.svg",
+      "sha256": "5db1c78c32eddd015bb3014f5a5b1ef3d217283064df0ee569187bc1fe920e45",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "nodejs",
+        "bg_color": "1a1a1a",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1677
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_50696b978126ffe.svg",
+      "sha256": "466abbc7b064c7b26dc06ecb15495fffba64cd370666dd8e182af022128dbbb6",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -146,7 +861,72 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2104
+      "size_bytes": 2070
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_afc5b83ff3c706de.svg",
+      "sha256": "3c4448bd71442dc636d0b24230dad0c7dc9d4e373dee8544c92dbb53637e3cca",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "kubernetes",
+        "bg_color": "326CE5",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1651
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_2f95a8a31edfa99d.svg",
+      "sha256": "71b524a2aec157394ddfd3ebd185d230149e3ed3d7551d201dd3389758d884d6",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "terraform",
+        "bg_color": "844FBA",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 669
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_bc7857dc4e99ec12.svg",
+      "sha256": "a58849286d99d87705bdb7e99632df87ca9b220715f0472e9a24ff21c5915b1e",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "javascript",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1403
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_391b5a6f39fb14bc.svg",
+      "sha256": "4b5fcb0f5e3fb0bdbf59fac872d0bbcff20e5b6fadef70969fe271095e2375be",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1702
+    },
+    {
+      "path": "/home/user/mdfx/assets/tech_a73a16c48eee2871.svg",
+      "sha256": "d0a5e2eea1096a1c9c8e4f92f16f0509bba482f406e38f5929b82a4f272cdef8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "0D0D0D",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 3347
     }
   ]
 }
