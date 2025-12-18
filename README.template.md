@@ -130,14 +130,30 @@ cargo install mdfx-cli
 
 ### Waveforms
 
-{{ui:waveform:0.2,0.5,0.8,0.6,0.3,-0.2,-0.6,-0.9,-0.5,-0.2,0.1,0.4,0.7,0.5,0.2,-0.1,-0.4,-0.7,-0.4,-0.1,0.2,0.5,0.8,0.5:width=200:height=32:positive=accent:negative=accent:bar=2:spacing=1/}}
-{{ui:waveform:0.3,0.6,0.9,0.5,0.2,-0.3,-0.7,-0.8,-0.4,-0.1,0.2,0.5,0.8,0.4,0.1,-0.2,-0.5,-0.9,-0.6,-0.2,0.1,0.4,0.7,0.3:width=200:height=32:positive=success:negative=error:bar=2:spacing=1/}}
+<p align="center">
+{{ui:waveform:0.1,0.3,0.5,0.7,0.9,0.7,0.5,0.3,0.1,-0.1,-0.3,-0.5,-0.7,-0.9,-0.7,-0.5,-0.3,-0.1,0.2,0.4,0.6,0.8,1.0,0.8,0.6,0.4,0.2,-0.2,-0.4,-0.6,-0.8,-1.0,-0.8,-0.6,-0.4,-0.2:width=300:height=50:positive=neon:negative=neon:bar=3:spacing=2/}}
+</p>
+
+<p align="center">
+{{ui:waveform:0.8,0.6,0.3,-0.1,-0.5,-0.8,-0.6,-0.2,0.2,0.6,0.9,0.7,0.4,0.1,-0.3,-0.7,-0.9,-0.6,-0.2,0.1,0.4,0.7,0.5,0.2,-0.2,-0.5,-0.8,-0.5,-0.1,0.3,0.6,0.8,0.5,0.2,-0.1,-0.4:width=300:height=50:positive=cyan:negative=magenta:bar=3:spacing=2/}}
+</p>
 
 ### Swatches
 
-{{ui:row}}
+<p align="center">
 {{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:warning/}} {{ui:swatch:error/}} {{ui:swatch:info/}} {{ui:swatch:cobalt/}} {{ui:swatch:plum/}} {{ui:swatch:slate/}}
-{{/ui}}
+</p>
+
+**Pixel art** with tiny swatches:
+
+| | | | | | | | | |
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
+|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
+|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
+|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
+|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
+|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:error:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|{{ui:swatch:dark1:width=12:height=12:style=flat/}}|
 
 ### Tech
 
