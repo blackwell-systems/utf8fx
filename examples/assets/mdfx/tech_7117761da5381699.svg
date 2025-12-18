@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="115" height="20" viewBox="0 0 115 20">
+<path d="M0 0H36L36 0V20L36 20H0L0 20V0L0 0Z" fill="#080808" stroke="#333333" stroke-width="1"/>
+<path d="M36 0H115L115 0V20L115 20H36L36 20V0L36 0Z" fill="#0f0f0f"/>
+<g transform="translate(11, 3) scale(0.5833333)">
+<path fill="#FFFFFF" d="M14.7362 8.33269V16.0044L21.4727 12.1219V4.45923L14.7362 8.33269ZM7.26367 4.45923V12.1219L14 16.0044V8.33269L7.26367 4.45923ZM0 0.585938V8.24862L6.73633 12.1221V4.45923L0 0.585938ZM14.7362 17.4559V25.1277L21.4727 21.2361V13.5734L14.7362 17.4559Z"/>
+</g>
+<text x="75" y="13" text-anchor="middle" fill="#FFFFFF" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">terraform</text>
+</svg>
