@@ -222,18 +222,6 @@
 
 ![](assets/swatch_ee3903d1db6688f2.svg)
 
-### Floating Orbs
-
-<p align="center">
-<img alt="" src="assets/swatch_1a3f1aa85bdfbccb.svg"> <img alt="" src="assets/swatch_ab8bf128611628f1.svg"> <img alt="" src="assets/swatch_b1abb56e4543cc70.svg"> <img alt="" src="assets/swatch_b3c5e69edaf2c64c.svg">
-</p>
-
-### Gradient Cards
-
-![](assets/swatch_4f6187a00da5bcf0.svg)
-![](assets/swatch_a247345d63473ef0.svg)
-![](assets/swatch_18f321c4b0aab67.svg)
-
 ---
 
 ## Summary Stats

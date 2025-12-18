@@ -230,21 +230,6 @@
 
 {{ui:swatch:6b7280:width=400:height=2:stroke_dash=8/4/}}
 
-### Floating Orbs
-
-{{ui:row:align=center}}
-{{ui:swatch:f41c80:width=50:height=50:rx=25:shadow=f41c80/15/0/0:opacity=0.9/}}
-{{ui:swatch:3B82F6:width=40:height=40:rx=20:shadow=3B82F6/12/0/0:opacity=0.8/}}
-{{ui:swatch:22C55E:width=30:height=30:rx=15:shadow=22C55E/10/0/0:opacity=0.7/}}
-{{ui:swatch:F59E0B:width=25:height=25:rx=12:shadow=F59E0B/8/0/0:opacity=0.6/}}
-{{/ui}}
-
-### Gradient Cards
-
-{{ui:swatch:000000:width=200:height=100:gradient=diagonal/f41c80/3B82F6:rx=12:shadow=f41c80/10/4/4/}}
-{{ui:swatch:000000:width=200:height=100:gradient=diagonal/22C55E/3B82F6:rx=12:shadow=22C55E/10/4/4/}}
-{{ui:swatch:000000:width=200:height=100:gradient=diagonal/F59E0B/EF4444:rx=12:shadow=F59E0B/10/4/4/}}
-
 ---
 
 ## Summary Stats
