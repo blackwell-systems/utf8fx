@@ -9,6 +9,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Outline/Ghost Style
+
+Border-only badges with transparent fill for a sleek outline appearance:
+
+```markdown
+{{ui:tech:rust:style=outline/}}      <!-- Rust-colored border and icon -->
+{{ui:tech:typescript:style=ghost/}}  <!-- "ghost" is an alias for outline -->
+```
+
+The outline style uses the brand color for:
+- Border stroke (customizable with `border=` parameter)
+- Icon color
+- Label text color
+
+Parameters:
+- `style=outline` or `style=ghost` - Enable outline mode
+- `border=COLOR` - Custom border color (defaults to brand color)
+- `border_width=N` - Border thickness in pixels (default: 2)
+
+#### Tech Group Component
+
+Automatically apply corner presets for seamless badge groups:
+
+```markdown
+{{ui:tech-group}}
+{{ui:tech:rust/}}
+{{ui:tech:typescript/}}
+{{ui:tech:docker/}}
+{{/ui}}
+```
+
+The tech-group component automatically applies:
+- `corners=left` to the first badge (rounded left, square right)
+- `corners=none` to middle badges (all square)
+- `corners=right` to the last badge (square left, rounded right)
+
+This creates a seamless "pill" group when badges are placed side-by-side.
+
 #### Chevron Badges
 
 Tab-style badges with pointed arrow shapes:

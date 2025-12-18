@@ -865,6 +865,7 @@ dependencies = [
  "chrono",
  "criterion",
  "lazy_static",
+ "regex",
  "serde",
  "serde_json",
  "sha2",

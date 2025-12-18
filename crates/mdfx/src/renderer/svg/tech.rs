@@ -235,6 +235,11 @@ fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> Strin
     path
 }
 
+/// Check if the style is an outline/ghost style
+fn is_outline_style(style: &str) -> bool {
+    matches!(style.to_lowercase().as_str(), "outline" | "ghost")
+}
+
 /// Render a tech badge with full options
 ///
 /// Supports:
@@ -244,6 +249,7 @@ fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> Strin
 /// - Custom text color and font
 /// - Chevron/arrow shapes for tab-style badges
 /// - Independent segment background colors
+/// - Outline/ghost style (transparent fill with border)
 #[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
     name: &str,
@@ -261,6 +267,35 @@ pub fn render_with_options(
     bg_left: Option<&str>,
     bg_right: Option<&str>,
 ) -> String {
+    // Handle outline/ghost style specially
+    if is_outline_style(style) {
+        let icon_path = get_icon_path(name);
+        let metrics = super::swatch::SvgMetrics::from_style("flat-square");
+        let opts = TechOptions {
+            rx: rx.unwrap_or(metrics.rx),
+            corners,
+            border_color: border_color.or(Some(bg_color)), // Use bg_color as border if not specified
+            border_width: border_width.unwrap_or(2),       // Default 2px border for outline
+            metrics,
+            text_color: text_color.or(Some(bg_color)), // Text uses bg_color for outline
+            font,
+            chevron,
+            bg_left,
+            bg_right,
+        };
+
+        return match (icon_path, label) {
+            (Some(path), Some(label_text)) => {
+                render_outline_two_segment(path, label_text, bg_color, &opts)
+            }
+            (Some(path), None) => render_outline_icon_only(path, bg_color, &opts),
+            (None, Some(label_text)) => {
+                render_outline_text_only(name, Some(label_text), bg_color, &opts)
+            }
+            (None, None) => render_outline_text_only(name, None, bg_color, &opts),
+        };
+    }
+
     let metrics = super::swatch::SvgMetrics::from_style(style);
     let opts = TechOptions {
         rx: rx.unwrap_or(metrics.rx),
@@ -662,4 +697,156 @@ fn darken_color(hex: &str, amount: f32) -> String {
     let darken = |c: u8| -> u8 { ((c as f32) * (1.0 - amount)).round() as u8 };
 
     format!("{:02X}{:02X}{:02X}", darken(r), darken(g), darken(b))
+}
+
+// ============================================================================
+// Outline/Ghost Style Rendering
+// ============================================================================
+
+/// Render outline-style two-segment badge: transparent fill with border
+fn render_outline_two_segment(
+    icon_path: &str,
+    label: &str,
+    brand_color: &str,
+    opts: &TechOptions,
+) -> String {
+    let height = opts.metrics.height;
+    let icon_width: u32 = 36;
+    let label_width = estimate_text_width(label) + 16;
+    let total_width = icon_width + label_width;
+    let icon_size: u32 = 14;
+    let icon_x = (icon_width as f32 - icon_size as f32) / 2.0;
+    let icon_y = (height as f32 - icon_size as f32) / 2.0;
+    let font_size = if height > 24 { 11 } else { 10 };
+    let text_x = icon_width + label_width / 2;
+    let text_y = height / 2 + font_size / 3;
+    let rx = opts.rx;
+    let scale = icon_size as f32 / 24.0;
+
+    // For outline style, use brand color for icon and text
+    let stroke_color = opts.border_color.unwrap_or(brand_color);
+    let stroke_width = opts.border_width;
+    let icon_color = brand_color;
+    let text_color = opts.text_color.unwrap_or(brand_color);
+    let font_family = opts.font.unwrap_or("Verdana,Arial,sans-serif");
+
+    // Generate outline background (transparent fill with stroke)
+    let bg = if let Some(c) = opts.corners {
+        let path = rounded_rect_path(0.0, 0.0, total_width as f32, height as f32, c);
+        format!(
+            "<path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\"/>",
+            path, stroke_color, stroke_width
+        )
+    } else {
+        format!(
+            "<rect width=\"{}\" height=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" rx=\"{}\"/>",
+            total_width, height, stroke_color, stroke_width, rx
+        )
+    };
+
+    // Add vertical separator line between icon and label
+    let separator = format!(
+        "<line x1=\"{}\" y1=\"0\" x2=\"{}\" y2=\"{}\" stroke=\"#{}\" stroke-width=\"{}\"/>",
+        icon_width, icon_width, height, stroke_color, stroke_width
+    );
+
+    format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  {}\n\
+  {}\n\
+  <g transform=\"translate({}, {}) scale({})\">\n\
+    <path fill=\"#{}\" d=\"{}\"/>\n\
+  </g>\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+</svg>",
+        total_width, height, total_width, height,
+        bg,
+        separator,
+        icon_x, icon_y, scale,
+        icon_color, icon_path,
+        text_x, text_y, text_color, font_family, font_size, label
+    )
+}
+
+/// Render outline-style icon-only badge
+fn render_outline_icon_only(icon_path: &str, brand_color: &str, opts: &TechOptions) -> String {
+    let height = opts.metrics.height;
+    let width: u32 = 40;
+    let icon_size: u32 = 16;
+    let icon_x = (width as f32 - icon_size as f32) / 2.0;
+    let icon_y = (height as f32 - icon_size as f32) / 2.0;
+    let scale = icon_size as f32 / 24.0;
+
+    let stroke_color = opts.border_color.unwrap_or(brand_color);
+    let stroke_width = opts.border_width;
+    let icon_color = brand_color;
+
+    // Generate outline background
+    let bg = if let Some(c) = opts.corners {
+        let path = rounded_rect_path(0.0, 0.0, width as f32, height as f32, c);
+        format!(
+            "<path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\"/>",
+            path, stroke_color, stroke_width
+        )
+    } else {
+        format!(
+            "<rect width=\"{}\" height=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" rx=\"{}\"/>",
+            width, height, stroke_color, stroke_width, opts.rx
+        )
+    };
+
+    format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  {}\n\
+  <g transform=\"translate({}, {}) scale({})\">\n\
+    <path fill=\"#{}\" d=\"{}\"/>\n\
+  </g>\n\
+</svg>",
+        width, height, width, height,
+        bg,
+        icon_x, icon_y, scale,
+        icon_color, icon_path
+    )
+}
+
+/// Render outline-style text-only fallback badge
+fn render_outline_text_only(
+    name: &str,
+    label: Option<&str>,
+    brand_color: &str,
+    opts: &TechOptions,
+) -> String {
+    let height = opts.metrics.height;
+    let display_text = label.unwrap_or(name);
+    let width = estimate_text_width(display_text) + 20;
+    let font_size = if height > 24 { 12 } else { 11 };
+    let text_y = height / 2 + font_size / 3;
+
+    let stroke_color = opts.border_color.unwrap_or(brand_color);
+    let stroke_width = opts.border_width;
+    let text_color = opts.text_color.unwrap_or(brand_color);
+
+    // Generate outline background
+    let bg = if let Some(c) = opts.corners {
+        let path = rounded_rect_path(0.0, 0.0, width as f32, height as f32, c);
+        format!(
+            "<path d=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\"/>",
+            path, stroke_color, stroke_width
+        )
+    } else {
+        format!(
+            "<rect width=\"{}\" height=\"{}\" fill=\"none\" stroke=\"#{}\" stroke-width=\"{}\" rx=\"{}\"/>",
+            width, height, stroke_color, stroke_width, opts.rx
+        )
+    };
+
+    format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  {}\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"Verdana,Arial,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+</svg>",
+        width, height, width, height,
+        bg,
+        width / 2, text_y, text_color, font_size, display_text.to_uppercase()
+    )
 }
