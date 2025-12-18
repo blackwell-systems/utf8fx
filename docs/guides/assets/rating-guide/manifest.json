@@ -1,0 +1,645 @@
+{
+  "version": "1.0.0",
+  "created_at": "2025-12-18T03:14:08.858515345+00:00",
+  "backend": "svg",
+  "assets_dir": "docs/guides/assets/rating-guide/",
+  "total_assets": 53,
+  "assets": [
+    {
+      "path": "docs/guides/assets/rating-guide/rating_c24bc0f91ceea47b.svg",
+      "sha256": "fd43d2026f28748e47dd3421d45559d6c04f9fb3798e34c3d14cad0592717dcd",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 1.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 1615
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_6474259b1179ffb5.svg",
+      "sha256": "060abf2ac52698db9d574f430d2ec00d5dc3c4e9626c60e837c58359525cf5ee",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 2.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 1898
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_c574237c5d3ed985.svg",
+      "sha256": "d57f3cd708b4d4023310e919c8e531679a8dd3212188e277c9ac38430efa75a0",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2181
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_56d5186d93550a79.svg",
+      "sha256": "53f94c91ac12f5f3454f3cd4a8d1d2aa08f6589d38a3ea16873aebacebf08969",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_a623ffc1bd46bab0.svg",
+      "sha256": "8e78cacab59f79326209a8686f98fefa6e1c2d3fe3de571197172a5494cb0046",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 5.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2747
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_c574237c5d3ed985.svg",
+      "sha256": "d57f3cd708b4d4023310e919c8e531679a8dd3212188e277c9ac38430efa75a0",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2181
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_56d5186d93550a79.svg",
+      "sha256": "53f94c91ac12f5f3454f3cd4a8d1d2aa08f6589d38a3ea16873aebacebf08969",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_a623ffc1bd46bab0.svg",
+      "sha256": "8e78cacab59f79326209a8686f98fefa6e1c2d3fe3de571197172a5494cb0046",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 5.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2747
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_c5b16ee03bc5a7a6.svg",
+      "sha256": "b3bac2dbaaa037c9b6af17cc480dd5ead610f31aa111aa9c98d472feed491534",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "heart"
+      },
+      "size_bytes": 2869
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_73e4064b14970563.svg",
+      "sha256": "9f24cb64a3741b7549a7d9e811b75dd9e8e7ba68b20e79f580a73e856c4043c7",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "heart"
+      },
+      "size_bytes": 3238
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_60187efacfa4f8ae.svg",
+      "sha256": "8c6dc1295ed69631eca10142e3bcc61f25f1e8c05d1874a4e064932eab2c6f77",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 5.0,
+        "max": 5,
+        "icon": "heart"
+      },
+      "size_bytes": 3607
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_e4092408addd969b.svg",
+      "sha256": "2ce2a23c33a06c57437578e42e16b9078cad4f0c2f5f866a6a1eb6087a2015cc",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "circle"
+      },
+      "size_bytes": 2005
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_40cc3e40be961aee.svg",
+      "sha256": "554cd4d3a9852d1bbefede308092acaf6f40176e20568cc43566a74abc33bc3d",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "circle"
+      },
+      "size_bytes": 2266
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_4dafc51043959805.svg",
+      "sha256": "8083620fd57aac9226f732a44692a4c31c7d4a87af4c6423d5dda1433d03e856",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 5.0,
+        "max": 5,
+        "icon": "circle"
+      },
+      "size_bytes": 2527
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_3e00995c5613e974.svg",
+      "sha256": "1e3e77e0771d5ce946cb1c8b40f1e1b9109325c10730c47e53d19f68ad888987",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 2.5,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2181
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_14e26f4745533ece.svg",
+      "sha256": "9d39836a885768f4ca51268d4283a75acdd8d48795222cd7f4c8fd9dc9fc3142",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.5,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_2485a6dc7b105ee1.svg",
+      "sha256": "c722644387eaccd2fcdf118f28cd8f9f34189a5c1f4fd6a7121807138a719f53",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.5,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2747
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_5df4b9b3f9aa3076.svg",
+      "sha256": "0553cfec30f602a87d0cb274ca086630d3e27c5853e750de759fbeab5d58083e",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.7,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_677a1a83a6573bcd.svg",
+      "sha256": "8d863cc9665c203e093d67b79ee61d348d40c3952e6e7125e79bdc11ad85ef0d",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.2,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2746
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_65dc4fe5be49bbee.svg",
+      "sha256": "c72681f883a877a3d497f365214926b88f841ce78ec0eecb72409283537eb5db",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 2.5,
+        "max": 5,
+        "icon": "heart"
+      },
+      "size_bytes": 2869
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_1d06bfc94d8aa7fd.svg",
+      "sha256": "06080fb241eada62604c6159991cb3cf6f773021f7c9b19fe3616b7c776b1b70",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.5,
+        "max": 5,
+        "icon": "heart"
+      },
+      "size_bytes": 3238
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_56d5186d93550a79.svg",
+      "sha256": "53f94c91ac12f5f3454f3cd4a8d1d2aa08f6589d38a3ea16873aebacebf08969",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_668cec7df93cf368.svg",
+      "sha256": "bbfc1c64e0df154ae5a309d7e22e60bee4745299972b16c537207c02d2c71d3e",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_79148d7d1e0c2c73.svg",
+      "sha256": "23685f467f414d98113e3a8c238bf40cc582a7b7ec41c949bc94f937bad01766",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_beb22f730b32d084.svg",
+      "sha256": "0d828563864a1d5beff928d4e0fc29a7a32ff887f1bc41a6496fa5f56ef6b9ea",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_845c97f65123306e.svg",
+      "sha256": "af2c24a914f51b97a70135b3cd535c470312e82c1954181ea78d1a6d6a81ae0f",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_a626952bdf847959.svg",
+      "sha256": "4053c273a667a19b5768861e144dc16a916d413b8fb2c5c0d91b366a567c467a",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2181
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_cd1ac7f7488dc12e.svg",
+      "sha256": "6658bae56f3c46fc7d1ff9bd7750835663906764f5974c0382367e2575ddb459",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2181
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_f5eb40a5a34cb2a0.svg",
+      "sha256": "8d1cdf7e1e2ab619cb1c2dd4dcf72f2ed899a968b80beb75ed0966ce29450632",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2181
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_f14326a73aa49df0.svg",
+      "sha256": "e80c95a895569a5d963a38157668dd0c3c0d930995defe4557dd7ba90bf5470c",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_80686cc244ac6659.svg",
+      "sha256": "0661f816b2f495bd105213f51fe99040c129f2e8c74ba5f8e54b202af957c77d",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_c3824a0fb06f8fe1.svg",
+      "sha256": "1b41cefe324bbfe0f0e73019cd69e279bd92e860e03c9d679f050b9bdfa6127c",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2408
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_94cddd85443945cf.svg",
+      "sha256": "1f60022d14c5ed054806c71907bab4328ec4ef3b438d8da5382cf428c3dace64",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2462
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_56d5186d93550a79.svg",
+      "sha256": "53f94c91ac12f5f3454f3cd4a8d1d2aa08f6589d38a3ea16873aebacebf08969",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_e98a6d8622dfd9ba.svg",
+      "sha256": "7e04642da3758985debe46860d6aeb0cfd6bccc9e2817a48bbd340229bf580d5",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2394
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_52be755a2b31fbad.svg",
+      "sha256": "e102aa387bbed72280cb668c1bec43d671ff5eb3ca12216296e36aea9d967999",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2470
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_beedb7ca95fca55c.svg",
+      "sha256": "3a62268e7893fcaddf274e9c1ca97c4bb010f7088a87aa06b73c8d09e66a0e3d",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_56d5186d93550a79.svg",
+      "sha256": "53f94c91ac12f5f3454f3cd4a8d1d2aa08f6589d38a3ea16873aebacebf08969",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_cf7a04a49dacf40d.svg",
+      "sha256": "bacd2eea0e87bec4fe443449e55c959fc575f05e47eaca8f187d888d80f4bc9a",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2464
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_1eeea74c89a8d779.svg",
+      "sha256": "df2fb5b359faf5ecfa52450493d3447c5e93088237aa619627706326d8771311",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2466
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_c574237c5d3ed985.svg",
+      "sha256": "d57f3cd708b4d4023310e919c8e531679a8dd3212188e277c9ac38430efa75a0",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2181
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_434112324377eecf.svg",
+      "sha256": "4644150bb8d544842214798c4bcc011aff4af7fa69b8845381f5a980f2da26a4",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 5.0,
+        "max": 7,
+        "icon": "star"
+      },
+      "size_bytes": 3241
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_f1606965a89f6733.svg",
+      "sha256": "20fcf7e7f27c0d8e8f30b6fb663d6170bb844f9ddabfd695d1fac481c7ede29c",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 8.0,
+        "max": 10,
+        "icon": "star"
+      },
+      "size_bytes": 4837
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_1321d3875d034f8c.svg",
+      "sha256": "1f18638ec54e80a250db5a3075b7184757ac2bde16e1e34165117153898af866",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 5.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2745
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_2b2bcfd24b6da61c.svg",
+      "sha256": "89aed268bb9c479e16fbc38e119a2b76f6287c768c0b6eef602dc5421426b3f1",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.5,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2744
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_94cddd85443945cf.svg",
+      "sha256": "1f60022d14c5ed054806c71907bab4328ec4ef3b438d8da5382cf428c3dace64",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2462
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_ca6af64dce13482b.svg",
+      "sha256": "bf956bc34b5a35c7df83f970bd598caf747c688013e97d5bd2cef28557a7445f",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2179
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_ebe13bcc4012860f.svg",
+      "sha256": "ea015dbf503bba0db95981dc60f851ad8c6d0b25c7c6104f073e31aaca8223c5",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 2.0,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 1896
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_1b4d69b1ea36b0e0.svg",
+      "sha256": "bc7281550a9a52d8809f5d443b17aefec97527c0d8545fe9a729925dd8f9abd6",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 1.0,
+        "max": 5,
+        "icon": "circle"
+      },
+      "size_bytes": 1481
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_7893c08f655f0943.svg",
+      "sha256": "302ec2c56add2d0aef709d1c6ccde727befad83e0bee52c784ec10d197328071",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.0,
+        "max": 5,
+        "icon": "circle"
+      },
+      "size_bytes": 2003
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_ff816d0010604f4e.svg",
+      "sha256": "525686a815a4d78cfd5c69cb5d91f203de532ad25fe8a9fc602662ab8402edf3",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 5.0,
+        "max": 5,
+        "icon": "circle"
+      },
+      "size_bytes": 2525
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_c6e5d9943b8fbe0d.svg",
+      "sha256": "e08cf5af27669bf934412cd380856b4861a92e06bb2bb941e4436dbdb094feb9",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "heart"
+      },
+      "size_bytes": 3168
+    },
+    {
+      "path": "docs/guides/assets/rating-guide/rating_586cdf405dbf9f2.svg",
+      "sha256": "95d4adcaf6f146cf86a68feec74a3c15a4017546ea5e0aa82ccf8eb95073a6a5",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.5,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2755
+    }
+  ]
+}

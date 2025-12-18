@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="78" height="14" viewBox="0 0 78 14">
+  <defs>
+    <clipPath id="clip-0"><rect x="0" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="clip-1"><rect x="16" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="clip-2"><rect x="32" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="clip-3"><rect x="48" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="clip-4"><rect x="64" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="partial-0"><rect x="0" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="partial-1"><rect x="16" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="partial-2"><rect x="32" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="partial-3"><rect x="48" y="0" width="14" height="14"/></clipPath>
+    <clipPath id="partial-4"><rect x="64" y="0" width="14" height="14"/></clipPath>
+  </defs>
+
+  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#6B7280" transform="translate(0, 0) scale(0.5833333)"/>
+  <g clip-path="url(#partial-0)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#EF4444" transform="translate(0, 0) scale(0.5833333)"/></g>
+  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#6B7280" transform="translate(16, 0) scale(0.5833333)"/>
+  <g clip-path="url(#partial-1)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#EF4444" transform="translate(16, 0) scale(0.5833333)"/></g>
+  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#6B7280" transform="translate(32, 0) scale(0.5833333)"/>
+  <g clip-path="url(#partial-2)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#EF4444" transform="translate(32, 0) scale(0.5833333)"/></g>
+  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#6B7280" transform="translate(48, 0) scale(0.5833333)"/>
+  <g clip-path="url(#partial-3)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#EF4444" transform="translate(48, 0) scale(0.5833333)"/></g>
+  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#6B7280" transform="translate(64, 0) scale(0.5833333)"/>
+  <g clip-path="url(#partial-4)"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="#EF4444" transform="translate(64, 0) scale(0.5833333)"/></g></svg>

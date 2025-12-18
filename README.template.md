@@ -163,6 +163,12 @@ cargo install mdfx-cli
 |{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
 |{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:success:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|{{ui:swatch:dark1:width=10:height=10:style=flat/}}|
 
+### Ratings
+
+{{ui:row}}
+{{ui:rating:4.5/}} {{ui:rating:3.5:icon=heart:fill=error/}} {{ui:rating:4:icon=circle:fill=info/}}
+{{/ui}}
+
 ### Tech Badges
 
 Brand-colored badges with Simple Icons. Full customization, no external requests.
@@ -223,6 +229,7 @@ mdfx build input.md --all-targets
 | [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
 | [Waveforms](docs/guides/WAVEFORM-GUIDE.md) | Audio viz |
+| [Ratings](docs/guides/RATING-GUIDE.md) | Stars & hearts |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |

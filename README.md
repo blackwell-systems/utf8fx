@@ -131,17 +131,17 @@ cargo install mdfx-cli
 ### Waveforms
 
 <p align="center">
-<img alt="" src="assets/waveform_59cff70e7f4ff062.svg">
+![](assets/waveform_59cff70e7f4ff062.svg)
 </p>
 
 <p align="center">
-<img alt="" src="assets/waveform_75a58f0eee77441d.svg">
+![](assets/waveform_75a58f0eee77441d.svg)
 </p>
 
 ### Swatches
 
 <p align="center">
-<img alt="" src="assets/swatch_8010e28a060480ec.svg"> <img alt="" src="assets/swatch_9548868f54f0a66e.svg"> <img alt="" src="assets/swatch_e4795ff410c7b4fe.svg"> <img alt="" src="assets/swatch_e666c671e27adcb2.svg"> <img alt="" src="assets/swatch_b4740ff4b229ace7.svg"> <img alt="" src="assets/swatch_518ded146f6f965a.svg"> <img alt="" src="assets/swatch_c056f66b5750e2ba.svg"> <img alt="" src="assets/swatch_a9a177f7358a610c.svg">
+![](assets/swatch_8010e28a060480ec.svg) ![](assets/swatch_9548868f54f0a66e.svg) ![](assets/swatch_e4795ff410c7b4fe.svg) ![](assets/swatch_e666c671e27adcb2.svg) ![](assets/swatch_b4740ff4b229ace7.svg) ![](assets/swatch_518ded146f6f965a.svg) ![](assets/swatch_c056f66b5750e2ba.svg) ![](assets/swatch_a9a177f7358a610c.svg)
 </p>
 
 **Pixel art** with tiny swatches:
@@ -162,6 +162,12 @@ cargo install mdfx-cli
 |![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
 |![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
 |![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_687e4110c4781eb0.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|![](assets/swatch_496efc41e8049b7b.svg)|
+
+### Ratings
+
+<p align="center">
+<img alt="" src="assets/rating_2485a6dc7b105ee1.svg"> <img alt="" src="assets/rating_1d06bfc94d8aa7fd.svg"> <img alt="" src="assets/rating_40cc3e40be961aee.svg">
+</p>
 
 ### Tech Badges
 
@@ -223,6 +229,7 @@ mdfx build input.md --all-targets
 | [Donut & Gauge](docs/guides/DONUT-GAUGE-GUIDE.md) | Circular charts |
 | [Sparklines](docs/guides/SPARKLINE-GUIDE.md) | Inline charts |
 | [Waveforms](docs/guides/WAVEFORM-GUIDE.md) | Audio viz |
+| [Ratings](docs/guides/RATING-GUIDE.md) | Stars & hearts |
 | [Text Styles](docs/guides/TEXT-STYLES-GUIDE.md) | 24 styles |
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |

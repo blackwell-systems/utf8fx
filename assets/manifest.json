@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-18T03:08:11.035302300+00:00",
+  "created_at": "2025-12-18T03:13:58.950679866+00:00",
   "backend": "svg",
-  "assets_dir": "assets",
-  "total_assets": 128,
+  "assets_dir": "assets/",
+  "total_assets": 131,
   "assets": [
     {
       "path": "assets/tech_6f3858abf2f9c480.svg",
@@ -1281,6 +1281,42 @@
         "style": "flat"
       },
       "size_bytes": 164
+    },
+    {
+      "path": "assets/rating_2485a6dc7b105ee1.svg",
+      "sha256": "c722644387eaccd2fcdf118f28cd8f9f34189a5c1f4fd6a7121807138a719f53",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.5,
+        "max": 5,
+        "icon": "star"
+      },
+      "size_bytes": 2747
+    },
+    {
+      "path": "assets/rating_1d06bfc94d8aa7fd.svg",
+      "sha256": "06080fb241eada62604c6159991cb3cf6f773021f7c9b19fe3616b7c776b1b70",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 3.5,
+        "max": 5,
+        "icon": "heart"
+      },
+      "size_bytes": 3238
+    },
+    {
+      "path": "assets/rating_40cc3e40be961aee.svg",
+      "sha256": "554cd4d3a9852d1bbefede308092acaf6f40176e20568cc43566a74abc33bc3d",
+      "type": "rating",
+      "primitive": {
+        "kind": "Rating",
+        "value": 4.0,
+        "max": 5,
+        "icon": "circle"
+      },
+      "size_bytes": 2266
     },
     {
       "path": "assets/tech_6f3858abf2f9c480.svg",
