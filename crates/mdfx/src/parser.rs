@@ -362,38 +362,6 @@ impl TemplateParser {
         Ok(None)
     }
 
-    /// Expand inline templates (glyphs) within a string
-    /// This enables syntax like: label={{glyph:star.filled/}} Rust
-    /// Note: Text styles ({{mathbold}}...{{/mathbold}}) are not supported in inline contexts
-    /// due to their block nature - use pre-transformed Unicode directly: label=𝐑𝐔𝐒𝐓
-    fn expand_inline_templates(&self, input: &str) -> Result<String> {
-        let chars: Vec<char> = input.chars().collect();
-        let mut result = String::new();
-        let mut i = 0;
-
-        while i < chars.len() {
-            // Check for template start
-            if i + 1 < chars.len() && chars[i] == '{' && chars[i + 1] == '{' {
-                // Try to parse glyph (self-closing: {{glyph:name/}})
-                if let Some(data) = self.parse_glyph_at(&chars, i)? {
-                    if let Some(glyph_char) = self.registry.glyph(&data.glyph_name) {
-                        result.push_str(&text_style(glyph_char));
-                        i = data.end_pos;
-                        continue;
-                    }
-                }
-                // Note: Text styles not supported in inline expansion
-                // Use direct Unicode: label=𝐑𝐔𝐒𝐓 instead of label={{mathbold}}RUST{{/mathbold}}
-            }
-
-            // Regular character
-            result.push(chars[i]);
-            i += 1;
-        }
-
-        Ok(result)
-    }
-
     /// Handle UI component expansion
     fn handle_ui(
         &self,
@@ -404,16 +372,9 @@ impl TemplateParser {
             return Ok(None);
         };
 
-        // Expand inline templates (glyphs, text styles) in args
-        let expanded_args: Vec<String> = data
-            .args
-            .iter()
-            .map(|arg| self.expand_inline_templates(arg))
-            .collect::<Result<Vec<_>>>()?;
-
         let output = self.components_renderer.expand(
             &data.component_name,
-            &expanded_args,
+            &data.args,
             data.content.as_deref(),
         )?;
 
@@ -1689,29 +1650,11 @@ impl TemplateParser {
 
             // Parse arg value (until next : or } or /)
             // For key=value args, allow / in the value part (e.g., gradient=horizontal/FF6B35/1a1a2e)
-            // Track brace depth to allow nested templates like {{glyph:star.filled/}}
             let mut arg = String::new();
             let mut has_equals = false;
-            let mut brace_depth = 0;
 
             while i < chars.len() {
                 let ch = chars[i];
-
-                // Track brace depth for nested templates (e.g., {{glyph:...}})
-                if ch == '{' && i + 1 < chars.len() && chars[i + 1] == '{' {
-                    brace_depth += 1;
-                    arg.push(ch);
-                    i += 1;
-                    continue;
-                }
-
-                if ch == '}' && i + 1 < chars.len() && chars[i + 1] == '}' && brace_depth > 0 {
-                    brace_depth -= 1;
-                    arg.push(ch);
-                    arg.push(chars[i + 1]);
-                    i += 2;
-                    continue;
-                }
 
                 // Track if we've seen '=' to know if we're in a key=value argument
                 if ch == '=' {
@@ -1721,26 +1664,20 @@ impl TemplateParser {
                     continue;
                 }
 
-                // For key=value args, only stop at : or } (but not if inside nested template)
+                // For key=value args, only stop at : or }
                 // For positional args, also stop at /
-                if brace_depth == 0 && (ch == ':' || ch == '}') {
+                if ch == ':' || ch == '}' {
                     break;
                 }
 
                 // For positional args (no =), stop at /
                 // For key=value args, allow / in values
-                // But check for self-closing marker /}} when not inside nested template
-                if brace_depth == 0 && ch == '/' && !has_equals {
+                if ch == '/' && !has_equals {
                     break;
                 }
 
-                // Special case: if we see /}} it's the self-closing marker (when not in nested template)
-                if brace_depth == 0
-                    && ch == '/'
-                    && i + 2 < chars.len()
-                    && chars[i + 1] == '}'
-                    && chars[i + 2] == '}'
-                {
+                // Special case: if we see /}} it's the self-closing marker
+                if ch == '/' && i + 2 < chars.len() && chars[i + 1] == '}' && chars[i + 2] == '}' {
                     break;
                 }
 

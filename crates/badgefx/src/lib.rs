@@ -84,14 +84,14 @@ mod tests {
     fn test_badge_creation() {
         let svg = badge("rust").render();
         assert!(svg.contains("<svg"));
-        assert!(svg.contains("Rust")); // display_label capitalizes
+        assert!(svg.contains("rust")); // lowercase matches original mdfx behavior
     }
 
     #[test]
     fn test_simple_badge() {
         let svg = simple_badge("typescript");
         assert!(svg.contains("<svg"));
-        assert!(svg.contains("TypeScript"));
+        assert!(svg.contains("typescript")); // lowercase matches original mdfx behavior
     }
 
     #[test]

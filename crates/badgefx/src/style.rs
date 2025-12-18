@@ -90,6 +90,23 @@ pub struct SvgMetrics {
 }
 
 impl SvgMetrics {
+    /// Create metrics from badge style with default values
+    pub fn from_style(style: BadgeStyle) -> Self {
+        Self {
+            width: 100.0, // Default, will be calculated by render
+            height: style.default_height() as f32,
+            icon_width: 36.0,
+            text_width: 64.0,
+            radius: style.default_radius() as f32,
+            font_size: if style.default_height() > 24 { 11.0 } else { 10.0 },
+            icon_size: 14.0,
+            icon_padding_left: 8.0,
+            icon_padding_right: 8.0,
+            text_padding_left: 12.0,
+            text_padding_right: 12.0,
+        }
+    }
+
     /// Calculate metrics for a badge with the given parameters
     pub fn calculate(
         text: &str,
@@ -234,6 +251,18 @@ pub enum ChevronDirection {
     Right,
     /// Arrows on both sides
     Both,
+}
+
+impl ChevronDirection {
+    /// Check if chevron has a left-pointing arrow
+    pub fn has_left(&self) -> bool {
+        matches!(self, ChevronDirection::Left | ChevronDirection::Both)
+    }
+
+    /// Check if chevron has a right-pointing arrow
+    pub fn has_right(&self) -> bool {
+        matches!(self, ChevronDirection::Right | ChevronDirection::Both)
+    }
 }
 
 impl Chevron {

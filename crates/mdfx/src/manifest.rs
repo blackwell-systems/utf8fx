@@ -343,9 +343,6 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
-            icon: None,
-            logo_size: None,
-            raised: None,
         };
 
         let info = PrimitiveInfo::from(&primitive);
