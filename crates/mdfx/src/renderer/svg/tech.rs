@@ -92,31 +92,53 @@ struct TechOptions<'a> {
 fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> String {
     let [tl, tr, br, bl] = corners.map(|c| c as f32);
 
-    format!(
-        "M{} {}H{}Q{} {} {} {}V{}Q{} {} {} {}H{}Q{} {} {} {}V{}Q{} {} {} {}Z",
-        x + tl,
-        y,          // Start after top-left corner
-        x + w - tr, // Horizontal to top-right
-        x + w,
-        y,
-        x + w,
-        y + tr,     // Top-right corner arc
-        y + h - br, // Vertical to bottom-right
-        x + w,
-        y + h,
-        x + w - br,
-        y + h,  // Bottom-right corner arc
-        x + bl, // Horizontal to bottom-left
-        x,
-        y + h,
-        x,
-        y + h - bl, // Bottom-left corner arc
-        y + tl,     // Vertical to top-left
-        x,
-        y,
-        x + tl,
-        y // Top-left corner arc
-    )
+    let mut path = String::new();
+
+    // Start at top-left (after corner if rounded)
+    path.push_str(&format!("M{} {}", x + tl, y));
+
+    // Top edge to top-right
+    path.push_str(&format!("H{}", x + w - tr));
+
+    // Top-right corner
+    if tr > 0.0 {
+        path.push_str(&format!("Q{} {} {} {}", x + w, y, x + w, y + tr));
+    } else {
+        path.push_str(&format!("L{} {}", x + w, y));
+    }
+
+    // Right edge to bottom-right
+    path.push_str(&format!("V{}", y + h - br));
+
+    // Bottom-right corner
+    if br > 0.0 {
+        path.push_str(&format!("Q{} {} {} {}", x + w, y + h, x + w - br, y + h));
+    } else {
+        path.push_str(&format!("L{} {}", x + w, y + h));
+    }
+
+    // Bottom edge to bottom-left
+    path.push_str(&format!("H{}", x + bl));
+
+    // Bottom-left corner
+    if bl > 0.0 {
+        path.push_str(&format!("Q{} {} {} {}", x, y + h, x, y + h - bl));
+    } else {
+        path.push_str(&format!("L{} {}", x, y + h));
+    }
+
+    // Left edge to top-left
+    path.push_str(&format!("V{}", y + tl));
+
+    // Top-left corner
+    if tl > 0.0 {
+        path.push_str(&format!("Q{} {} {} {}", x, y, x + tl, y));
+    } else {
+        path.push_str(&format!("L{} {}", x, y));
+    }
+
+    path.push('Z');
+    path
 }
 
 /// Render a tech badge with full options

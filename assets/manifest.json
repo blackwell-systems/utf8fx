@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-18T02:44:36.332158452+00:00",
+  "created_at": "2025-12-18T02:55:45.993509889+00:00",
   "backend": "svg",
   "assets_dir": "assets",
   "total_assets": 8,
   "assets": [
     {
       "path": "assets/tech_17e033ae2a1decb0.svg",
-      "sha256": "094afb6b674ba7dac113232ffc821c0c64807020ae7de16c839a127f5c278d63",
+      "sha256": "2f5f076898e9fbbf3945c9e983349485df4be54c255d8032776df8c0c695128f",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -16,11 +16,11 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2295
+      "size_bytes": 2262
     },
     {
       "path": "assets/tech_a978c4769d4b128d.svg",
-      "sha256": "1cc9a388b52a2bc5931ad02850dd500e760bd1fbe1ec65fdd85adb5985144799",
+      "sha256": "f0acb9330ca5433a702fbf072f6ab7a810cd0989ac2e38106a72c78736577cdb",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -29,11 +29,11 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1657
+      "size_bytes": 1613
     },
     {
       "path": "assets/tech_d979be81598c560f.svg",
-      "sha256": "c4db503dbaa853fe6d93c516d127612dca904f2a580e1d564975f0c0b9d71886",
+      "sha256": "7ca282a40e46b0f0867d143911ac91fa498088edcc2b8787bfdc9236a93aabd0",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -42,11 +42,11 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2142
+      "size_bytes": 2100
     },
     {
       "path": "assets/tech_44f33b942a79c329.svg",
-      "sha256": "952db0c81d5ee29146431cf6b58971edf2d15c2fed62c98ef84f9b8cc5d5f398",
+      "sha256": "e1d3f12fcb5b379740f9d4f4fa9e5820635f3d3bb115407a458d9724c16d403a",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -55,7 +55,7 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 3915
+      "size_bytes": 3884
     },
     {
       "path": "assets/tech_dbf2d965f94e2bba.svg",
