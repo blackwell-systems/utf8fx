@@ -109,6 +109,16 @@ pub fn handle(
     let bg_left = params.get("bg_left").map(|c| resolve_color(c));
     let bg_right = params.get("bg_right").map(|c| resolve_color(c));
 
+    // Custom icon SVG path data (for unsupported technologies)
+    let icon = params.get("icon").cloned();
+
+    // Logo size: preset names or custom pixel value
+    // Presets: "xs" (10px), "sm" (12px), "md" (14px), "lg" (16px), "xl" (18px)
+    let logo_size = params
+        .get("logo_size")
+        .or_else(|| params.get("icon_size"))
+        .cloned();
+
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
         bg_color,
@@ -125,5 +135,7 @@ pub fn handle(
         chevron,
         bg_left,
         bg_right,
+        icon,
+        logo_size,
     }))
 }

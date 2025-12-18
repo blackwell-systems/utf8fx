@@ -91,6 +91,24 @@ struct TechOptions<'a> {
     bg_left: Option<&'a str>,
     /// Right segment background color (label area)
     bg_right: Option<&'a str>,
+    /// Logo size in pixels (default 14)
+    logo_size: u32,
+}
+
+/// Parse logo_size parameter into pixel value
+/// Supports presets: "xs" (10), "sm" (12), "md" (14), "lg" (16), "xl" (18)
+/// Or a numeric pixel value (e.g., "20")
+fn parse_logo_size(size: Option<&str>) -> u32 {
+    match size {
+        Some("xs") | Some("extra-small") => 10,
+        Some("sm") | Some("small") => 12,
+        Some("md") | Some("medium") => 14,
+        Some("lg") | Some("large") => 16,
+        Some("xl") | Some("extra-large") => 18,
+        Some("xxl") => 20,
+        Some(s) => s.parse().unwrap_or(14),
+        None => 14, // default
+    }
 }
 
 /// Arrow depth constant for chevron badges (how far arrows extend)
@@ -250,6 +268,8 @@ fn is_outline_style(style: &str) -> bool {
 /// - Chevron/arrow shapes for tab-style badges
 /// - Independent segment background colors
 /// - Outline/ghost style (transparent fill with border)
+/// - Custom SVG icon paths for unsupported technologies
+/// - Configurable logo sizes with presets
 #[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
     name: &str,
@@ -266,10 +286,15 @@ pub fn render_with_options(
     chevron: Option<&str>,
     bg_left: Option<&str>,
     bg_right: Option<&str>,
+    custom_icon: Option<&str>,
+    logo_size: Option<&str>,
 ) -> String {
+    let parsed_logo_size = parse_logo_size(logo_size);
+
     // Handle outline/ghost style specially
     if is_outline_style(style) {
-        let icon_path = get_icon_path(name);
+        // Use custom icon if provided, otherwise look up by name
+        let icon_path: Option<&str> = custom_icon.or_else(|| get_icon_path(name));
         let metrics = super::swatch::SvgMetrics::from_style("flat-square");
         let opts = TechOptions {
             rx: rx.unwrap_or(metrics.rx),
@@ -282,6 +307,7 @@ pub fn render_with_options(
             chevron,
             bg_left,
             bg_right,
+            logo_size: parsed_logo_size,
         };
 
         return match (icon_path, label) {
@@ -308,8 +334,10 @@ pub fn render_with_options(
         chevron,
         bg_left,
         bg_right,
+        logo_size: parsed_logo_size,
     };
-    let icon_path = get_icon_path(name);
+    // Use custom icon if provided, otherwise look up by name
+    let icon_path: Option<&str> = custom_icon.or_else(|| get_icon_path(name));
 
     match (icon_path, label) {
         // Icon + Label: Two-segment badge
@@ -333,10 +361,11 @@ fn render_two_segment(
     opts: &TechOptions,
 ) -> String {
     let height = opts.metrics.height;
-    let icon_width: u32 = 36;
+    let icon_size = opts.logo_size;
+    // Adjust icon area width based on logo size
+    let icon_width: u32 = (icon_size as f32 * 2.5).ceil() as u32 + 1;
     let label_width = estimate_text_width(label) + 16;
     let total_width = icon_width + label_width;
-    let icon_size: u32 = 14;
     let icon_x = (icon_width as f32 - icon_size as f32) / 2.0;
     let icon_y = (height as f32 - icon_size as f32) / 2.0;
     let font_size = if height > 24 { 11 } else { 10 };
@@ -711,10 +740,11 @@ fn render_outline_two_segment(
     opts: &TechOptions,
 ) -> String {
     let height = opts.metrics.height;
-    let icon_width: u32 = 36;
+    let icon_size = opts.logo_size;
+    // Adjust icon area width based on logo size
+    let icon_width: u32 = (icon_size as f32 * 2.5).ceil() as u32 + 1;
     let label_width = estimate_text_width(label) + 16;
     let total_width = icon_width + label_width;
-    let icon_size: u32 = 14;
     let icon_x = (icon_width as f32 - icon_size as f32) / 2.0;
     let icon_y = (height as f32 - icon_size as f32) / 2.0;
     let font_size = if height > 24 { 11 } else { 10 };

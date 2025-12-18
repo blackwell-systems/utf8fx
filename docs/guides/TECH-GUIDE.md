@@ -14,6 +14,8 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Chevron Badges](#chevron-badges)
 - [Independent Segment Colors](#independent-segment-colors)
 - [Outline Style](#outline-style)
+- [Custom Icons](#custom-icons)
+- [Logo Size](#logo-size)
 - [Badge Styles](#badge-styles)
 - [Tech Groups](#tech-groups)
 - [Available Technologies](#available-technologies)
@@ -61,6 +63,8 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `bg_left` | color | bg | Left segment (icon area) background color |
 | `bg_right` | color | darkened bg | Right segment (label area) background color |
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
+| `icon` | string | none | Custom SVG path data for unsupported technologies |
+| `logo_size` | preset/number | md | Logo size: `xs` (10px), `sm` (12px), `md` (14px), `lg` (16px), `xl` (18px), or custom px |
 
 ---
 
@@ -424,6 +428,80 @@ The outline style uses the brand color for:
 ```
 
 Outline badges work great in dark mode or on colored backgrounds where you don't want solid fills.
+
+---
+
+## Custom Icons
+
+For technologies not included in Simple Icons, you can provide custom SVG path data using the `icon` parameter. The path data should be from a 24x24 viewBox SVG.
+
+### Syntax
+
+```markdown
+{{ui:tech:mytech:icon=M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5:bg=4A90D9/}}
+```
+
+### Finding Icon Paths
+
+1. Get an SVG icon from a source like [Heroicons](https://heroicons.com), [Feather](https://feathericons.com), or design your own
+2. Open the SVG file and extract the `d` attribute from the `<path>` element
+3. The icon should be designed for a 24x24 viewBox
+
+### Examples
+
+```markdown
+<!-- Custom database icon -->
+{{ui:tech:mydb:icon=M12 2C6.48 2 2 4.02 2 6.5v11C2 19.98 6.48 22 12 22s10-2.02 10-4.5v-11C22 4.02 17.52 2 12 2:bg=336791:label=MyDB/}}
+
+<!-- Custom cloud icon -->
+{{ui:tech:cloud:icon=M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96:bg=2196F3/}}
+```
+
+**Note:** When using `icon`, the technology name is only used for the label, not for icon lookup.
+
+---
+
+## Logo Size
+
+Control the icon size within badges using the `logo_size` parameter (alias: `icon_size`).
+
+### Size Presets
+
+| Preset | Size | Use Case |
+|--------|------|----------|
+| `xs` | 10px | Compact badges, inline text |
+| `sm` | 12px | Small badges |
+| `md` | 14px | Default size |
+| `lg` | 16px | Emphasized badges |
+| `xl` | 18px | Large, prominent badges |
+| `xxl` | 20px | Extra large badges |
+
+### Syntax
+
+```markdown
+{{ui:tech:rust:logo_size=xs/}}    <!-- Extra small -->
+{{ui:tech:rust:logo_size=sm/}}    <!-- Small -->
+{{ui:tech:rust:logo_size=md/}}    <!-- Medium (default) -->
+{{ui:tech:rust:logo_size=lg/}}    <!-- Large -->
+{{ui:tech:rust:logo_size=xl/}}    <!-- Extra large -->
+{{ui:tech:rust:logo_size=20/}}    <!-- Custom: 20px -->
+```
+
+### Examples
+
+Create a size progression:
+
+```markdown
+{{ui:tech:rust:logo_size=xs/}} {{ui:tech:rust:logo_size=sm/}} {{ui:tech:rust:logo_size=md/}} {{ui:tech:rust:logo_size=lg/}} {{ui:tech:rust:logo_size=xl/}}
+```
+
+Use larger icons for hero sections:
+
+```markdown
+{{ui:tech:rust:logo_size=xl:label=Rust Programming/}}
+```
+
+**Note:** The badge width automatically adjusts based on the logo size.
 
 ---
 

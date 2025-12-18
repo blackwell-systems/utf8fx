@@ -91,6 +91,12 @@ pub enum Primitive {
         bg_left: Option<String>,
         /// Right segment background color (label area). Defaults to darkened bg_color.
         bg_right: Option<String>,
+        /// Custom SVG icon path data for unsupported technologies.
+        /// Use this to provide your own icon when the technology isn't in Simple Icons.
+        icon: Option<String>,
+        /// Logo size preset or custom value. Presets: "xs" (10px), "sm" (12px), "md" (14px, default), "lg" (16px), "xl" (18px).
+        /// Or specify a custom size in pixels (e.g., "20").
+        logo_size: Option<String>,
     },
 
     /// Progress bar with customizable track and fill
@@ -467,6 +473,8 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            icon: None,
+            logo_size: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -494,6 +502,8 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            icon: None,
+            logo_size: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
@@ -522,6 +532,8 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            icon: None,
+            logo_size: None,
         };
 
         if let Primitive::Tech {

@@ -212,6 +212,8 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            icon: None,
+            logo_size: None,
         };
 
         let result = backend.render(&primitive).unwrap();

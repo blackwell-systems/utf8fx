@@ -71,6 +71,37 @@ Parameters:
 - `bg_left` - Left segment (icon area) background color
 - `bg_right` - Right segment (label area) background color
 
+#### Custom SVG Icons
+
+Provide custom SVG path data for technologies not in Simple Icons:
+
+```markdown
+{{ui:tech:mytech:icon=M12 2L2 7l10 5 10-5-10-5z:bg=4A90D9:label=Custom/}}
+```
+
+Parameters:
+- `icon` - SVG path data (`d` attribute from a 24x24 viewBox SVG)
+
+When using `icon`, the technology name is used only for the label text, not icon lookup.
+
+#### Logo Size Presets
+
+Control icon size with presets or custom pixel values:
+
+```markdown
+{{ui:tech:rust:logo_size=xs/}}   <!-- 10px - extra small -->
+{{ui:tech:rust:logo_size=sm/}}   <!-- 12px - small -->
+{{ui:tech:rust:logo_size=md/}}   <!-- 14px - medium (default) -->
+{{ui:tech:rust:logo_size=lg/}}   <!-- 16px - large -->
+{{ui:tech:rust:logo_size=xl/}}   <!-- 18px - extra large -->
+{{ui:tech:rust:logo_size=20/}}   <!-- custom pixel size -->
+```
+
+Parameters:
+- `logo_size` (alias: `icon_size`) - Size preset or pixel value
+
+The badge width automatically adjusts based on the logo size.
+
 ## [1.0.0] - 2025-12-17
 
 ### Changed
