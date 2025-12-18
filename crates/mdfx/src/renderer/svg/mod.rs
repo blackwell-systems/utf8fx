@@ -10,6 +10,7 @@ mod progress;
 mod rating;
 mod sparkline;
 pub mod swatch;
+pub mod tech;
 mod waveform;
 
 use crate::error::Result;
@@ -17,9 +18,6 @@ use crate::primitive::Primitive;
 use crate::renderer::{RenderedAsset, Renderer};
 use std::collections::hash_map::DefaultHasher;
 use std::hash::{Hash, Hasher};
-
-// Re-export badgefx types for convenience
-pub use badgefx;
 
 /// SVG rendering backend (file-based or inline)
 pub struct SvgBackend {
@@ -406,8 +404,8 @@ impl Renderer for SvgBackend {
                     );
                     return Ok(RenderedAsset::InlineMarkdown(format!("![]({})", url)));
                 }
-                // Otherwise render as SVG using badgefx
-                render_tech_badge(
+                // Otherwise render as SVG
+                tech::render_with_options(
                     name,
                     label.as_deref(),
                     bg_color,
@@ -580,123 +578,6 @@ impl Renderer for SvgBackend {
             })
         }
     }
-}
-
-/// Helper function to render tech badges using badgefx
-/// Converts mdfx parameters to badgefx::TechBadge and renders
-#[allow(clippy::too_many_arguments)]
-fn render_tech_badge(
-    name: &str,
-    label: Option<&str>,
-    bg_color: &str,
-    logo_color: &str,
-    style: &str,
-    border_color: Option<&str>,
-    border_width: Option<u32>,
-    rx: Option<u32>,
-    corners: Option<[u32; 4]>,
-    text_color: Option<&str>,
-    font: Option<&str>,
-    chevron: Option<&str>,
-    bg_left: Option<&str>,
-    bg_right: Option<&str>,
-    custom_icon: Option<&str>,
-    logo_size: Option<&str>,
-    raised: Option<u32>,
-) -> String {
-    use badgefx::{
-        badge::TechBadge,
-        style::{BadgeStyle, Border, Chevron, Corners},
-    };
-
-    // Build the badge
-    let mut badge = TechBadge::new(name);
-
-    // Set label only if it differs from the tech name
-    // This allows badgefx's display_label() to auto-capitalize default labels
-    if let Some(l) = label {
-        if l != name {
-            badge.label = Some(l.to_string());
-        }
-    }
-
-    // Parse and set style
-    badge.style = BadgeStyle::parse(style);
-
-    // Set background color (strip # prefix if needed)
-    let bg = bg_color.trim_start_matches('#');
-    badge.bg_color = Some(format!("#{}", bg));
-
-    // Set logo color
-    let logo = logo_color.trim_start_matches('#');
-    badge.logo_color = Some(format!("#{}", logo));
-
-    // Set text color if specified
-    if let Some(tc) = text_color {
-        let tc = tc.trim_start_matches('#');
-        badge.text_color = Some(format!("#{}", tc));
-    }
-
-    // Set font if specified
-    if let Some(f) = font {
-        badge.font = Some(f.to_string());
-    }
-
-    // Set border if specified
-    if let Some(bc) = border_color {
-        let bc = bc.trim_start_matches('#');
-        let width = border_width.unwrap_or(2);
-        badge.border = Some(Border::new(format!("#{}", bc), width));
-    }
-
-    // Set corners if specified
-    if let Some([tl, tr, br, bl]) = corners {
-        badge.corners = Some(Corners::custom(tl, tr, br, bl));
-    } else if let Some(r) = rx {
-        badge.corners = Some(Corners::uniform(r));
-    }
-
-    // Set chevron if specified
-    if let Some(chev) = chevron {
-        let depth = 10.0; // Default chevron depth
-        badge.chevron = Some(match chev {
-            "left" => Chevron::left(depth),
-            "right" => Chevron::right(depth),
-            "both" => Chevron::both(depth),
-            _ => Chevron::right(depth),
-        });
-    }
-
-    // Set separate segment colors if specified
-    if let Some(bl) = bg_left {
-        let bl = bl.trim_start_matches('#');
-        badge.bg_left = Some(format!("#{}", bl));
-    }
-    if let Some(br) = bg_right {
-        let br = br.trim_start_matches('#');
-        badge.bg_right = Some(format!("#{}", br));
-    }
-
-    // Set custom icon if specified
-    if let Some(icon) = custom_icon {
-        badge.custom_icon = Some(icon.to_string());
-    }
-
-    // Set logo size if specified
-    if let Some(size) = logo_size {
-        badge.logo_size = badgefx::badge::LogoSize::parse(size);
-    }
-
-    // Set raised effect if specified
-    badge.raised = raised;
-
-    // Handle outline style
-    if style.to_lowercase() == "outline" || style.to_lowercase() == "ghost" {
-        badge.outline = true;
-    }
-
-    // Render the badge
-    badgefx::render(&badge)
 }
 
 #[cfg(test)]
