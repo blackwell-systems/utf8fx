@@ -8,7 +8,6 @@ Example templates and rendered outputs demonstrating mdfx capabilities.
 |---------|-------------|
 | [neon-tech-showcase](neon-tech-showcase.md) | Tech badges with custom styling, icons, and logo sizes |
 | [tech-badges](tech-badges.md) | Technology badge styles and options |
-| [tech-showcase](tech-showcase.md) | Tech stack demonstrations |
 | [dashboard-showcase](dashboard-showcase.md) | Dashboard layouts and status indicators |
 | [donuts-and-gauges-gallery](donuts-and-gauges-gallery.md) | Donut charts and gauge visualizations |
 | [progress-gallery](progress-gallery.md) | Progress bars and indicators |
