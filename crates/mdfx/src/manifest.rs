@@ -336,6 +336,7 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            corners: None,
             text_color: None,
             font: None,
             source: None,

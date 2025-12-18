@@ -112,6 +112,7 @@ impl SvgBackend {
                 border_color,
                 border_width,
                 rx,
+                corners,
                 text_color,
                 font,
                 source,
@@ -125,6 +126,7 @@ impl SvgBackend {
                 border_color.hash(&mut hasher);
                 border_width.hash(&mut hasher);
                 rx.hash(&mut hasher);
+                corners.hash(&mut hasher);
                 text_color.hash(&mut hasher);
                 font.hash(&mut hasher);
                 source.hash(&mut hasher);
@@ -358,6 +360,7 @@ impl Renderer for SvgBackend {
                 border_color,
                 border_width,
                 rx,
+                corners,
                 text_color,
                 font,
                 source,
@@ -393,6 +396,7 @@ impl Renderer for SvgBackend {
                     border_color.as_deref(),
                     *border_width,
                     *rx,
+                    *corners,
                     text_color.as_deref(),
                     font.as_deref(),
                 )
@@ -595,6 +599,7 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            corners: None,
             text_color: None,
             font: None,
             source: None,
@@ -621,6 +626,7 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            corners: None,
             text_color: None,
             font: None,
             source: Some("shields".to_string()),

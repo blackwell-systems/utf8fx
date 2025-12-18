@@ -75,8 +75,10 @@ pub enum Primitive {
         border_color: Option<String>,
         /// Border width in pixels. SVG-only.
         border_width: Option<u32>,
-        /// Corner radius. SVG-only.
+        /// Corner radius (uniform). SVG-only.
         rx: Option<u32>,
+        /// Per-corner radii [top-left, top-right, bottom-right, bottom-left]. SVG-only.
+        corners: Option<[u32; 4]>,
         /// Text/label color (hex). SVG-only.
         text_color: Option<String>,
         /// Font family. SVG-only.
@@ -452,6 +454,7 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            corners: None,
             text_color: None,
             font: None,
             source: None,
@@ -475,6 +478,7 @@ mod tests {
             border_color: None,
             border_width: None,
             rx: None,
+            corners: None,
             text_color: None,
             font: None,
             source: None,
@@ -499,6 +503,7 @@ mod tests {
             border_color: Some("F41C80".to_string()),
             border_width: Some(2),
             rx: Some(8),
+            corners: None,
             text_color: None,
             font: None,
             source: None,

@@ -81,8 +81,29 @@ struct TechOptions<'a> {
     border_color: Option<&'a str>,
     border_width: u32,
     rx: u32,
+    /// Per-corner radii [top-left, top-right, bottom-right, bottom-left]
+    corners: Option<[u32; 4]>,
     text_color: Option<&'a str>,
     font: Option<&'a str>,
+}
+
+/// Generate SVG path for a rectangle with per-corner radii
+/// Order: [top-left, top-right, bottom-right, bottom-left]
+fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> String {
+    let [tl, tr, br, bl] = corners.map(|c| c as f32);
+
+    format!(
+        "M{} {}H{}Q{} {} {} {}V{}Q{} {} {} {}H{}Q{} {} {} {}V{}Q{} {} {} {}Z",
+        x + tl, y,                          // Start after top-left corner
+        x + w - tr,                         // Horizontal to top-right
+        x + w, y, x + w, y + tr,            // Top-right corner arc
+        y + h - br,                         // Vertical to bottom-right
+        x + w, y + h, x + w - br, y + h,    // Bottom-right corner arc
+        x + bl,                             // Horizontal to bottom-left
+        x, y + h, x, y + h - bl,            // Bottom-left corner arc
+        y + tl,                             // Vertical to top-left
+        x, y, x + tl, y                     // Top-left corner arc
+    )
 }
 
 /// Render a tech badge with full options
@@ -90,7 +111,7 @@ struct TechOptions<'a> {
 /// Supports:
 /// - Icon only or Icon + label layouts
 /// - Custom border color and width
-/// - Custom corner radius
+/// - Custom corner radius (uniform or per-corner)
 /// - Custom text color and font
 #[allow(clippy::too_many_arguments)]
 pub fn render_with_options(
@@ -102,12 +123,14 @@ pub fn render_with_options(
     border_color: Option<&str>,
     border_width: Option<u32>,
     rx: Option<u32>,
+    corners: Option<[u32; 4]>,
     text_color: Option<&str>,
     font: Option<&str>,
 ) -> String {
     let metrics = super::swatch::SvgMetrics::from_style(style);
     let opts = TechOptions {
         rx: rx.unwrap_or(metrics.rx),
+        corners,
         border_color,
         border_width: border_width.unwrap_or(0),
         metrics,
@@ -172,24 +195,99 @@ fn render_two_segment(
         String::new()
     };
 
+    // Generate left and right segments based on corners
+    let (left_segment, right_segment) = if let Some([tl, tr, br, bl]) = opts.corners {
+        // Per-corner radii: split into left and right segments
+        let left_corners = [tl, 0, 0, bl];
+        let right_corners = [0, tr, br, 0];
+        let left_path = rounded_rect_path(0.0, 0.0, icon_width as f32, height as f32, left_corners);
+        let right_path = rounded_rect_path(
+            icon_width as f32,
+            0.0,
+            label_width as f32,
+            height as f32,
+            right_corners,
+        );
+        (
+            format!("<path d=\"{}\" fill=\"#{}\"{}/>", left_path, bg_color, border_attr),
+            format!("<path d=\"{}\" fill=\"#{}\"/>", right_path, right_bg),
+        )
+    } else {
+        // Uniform radius: use original 3-rect approach
+        (
+            format!(
+                "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
+  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"0\"/>",
+                total_width, height, bg_color, rx, border_attr,
+                icon_width, label_width, height, right_bg
+            ),
+            format!(
+                "<rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>",
+                total_width - rx, rx, height, right_bg, rx
+            ),
+        )
+    };
+
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
-  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"0\"/>\n\
-  <rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>\n\
+  {}\n\
+  {}\n\
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
   <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
         total_width, height, total_width, height,
-        total_width, height, bg_color, rx, border_attr,
-        icon_width, label_width, height, right_bg,
-        total_width - rx, rx, height, right_bg, rx,
+        left_segment,
+        right_segment,
         icon_x, icon_y, scale,
         logo_color, icon_path,
         text_x, text_y, text_color, font_family, font_size, label
     )
+}
+
+/// Generate background SVG element - rect or path based on corners
+fn render_bg_element(
+    x: f32,
+    y: f32,
+    width: f32,
+    height: f32,
+    color: &str,
+    rx: u32,
+    corners: Option<[u32; 4]>,
+    extra_attrs: &str,
+) -> String {
+    if let Some(c) = corners {
+        // Use path for per-corner radii
+        let path = rounded_rect_path(x, y, width, height, c);
+        format!("<path d=\"{}\" fill=\"#{}\"{}/>", path, color, extra_attrs)
+    } else if rx > 0 {
+        // Use rect with uniform radius
+        if x > 0.0 {
+            format!(
+                "<rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>",
+                x, width, height, color, rx, extra_attrs
+            )
+        } else {
+            format!(
+                "<rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>",
+                width, height, color, rx, extra_attrs
+            )
+        }
+    } else {
+        // Square corners
+        if x > 0.0 {
+            format!(
+                "<rect x=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\"{}/>",
+                x, width, height, color, extra_attrs
+            )
+        } else {
+            format!(
+                "<rect width=\"{}\" height=\"{}\" fill=\"#{}\"{}/>",
+                width, height, color, extra_attrs
+            )
+        }
+    }
 }
 
 /// Render icon-only badge
@@ -205,7 +303,6 @@ fn render_icon_only(
     let icon_x = (width as f32 - icon_size as f32) / 2.0;
     let icon_y = (height as f32 - icon_size as f32) / 2.0;
     let scale = icon_size as f32 / 24.0;
-    let rx = opts.rx;
 
     // Border stroke attribute
     let border_attr = if opts.border_width > 0 {
@@ -218,15 +315,26 @@ fn render_icon_only(
         String::new()
     };
 
+    let bg = render_bg_element(
+        0.0,
+        0.0,
+        width as f32,
+        height as f32,
+        bg_color,
+        opts.rx,
+        opts.corners,
+        &border_attr,
+    );
+
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
+  {}\n\
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
 </svg>",
         width, height, width, height,
-        width, height, bg_color, rx, border_attr,
+        bg,
         icon_x, icon_y, scale,
         logo_color, icon_path
     )
@@ -239,7 +347,6 @@ fn render_text_only(name: &str, label: Option<&str>, bg_color: &str, opts: &Tech
     let width = estimate_text_width(display_text) + 20;
     let font_size = if height > 24 { 12 } else { 11 };
     let text_y = height / 2 + font_size / 3;
-    let rx = opts.rx;
 
     // Border stroke attribute
     let border_attr = if opts.border_width > 0 {
@@ -252,13 +359,24 @@ fn render_text_only(name: &str, label: Option<&str>, bg_color: &str, opts: &Tech
         String::new()
     };
 
+    let bg = render_bg_element(
+        0.0,
+        0.0,
+        width as f32,
+        height as f32,
+        bg_color,
+        opts.rx,
+        opts.corners,
+        &border_attr,
+    );
+
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
-  <rect width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
+  {}\n\
   <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"white\" font-family=\"Verdana,Arial,sans-serif\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
         width, height, width, height,
-        width, height, bg_color, rx, border_attr,
+        bg,
         width / 2, text_y, font_size, display_text.to_uppercase()
     )
 }

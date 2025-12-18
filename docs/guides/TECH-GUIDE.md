@@ -51,7 +51,8 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `font` | string | Verdana | Font family (alias: `font_family`) |
 | `border` | color | none | Border color |
 | `border_width` | number | none | Border thickness in pixels |
-| `rx` | number | 0 | Corner radius in pixels |
+| `rx` | number | 0 | Corner radius (uniform or comma-separated per-corner) |
+| `corners` | preset | none | Corner preset: `left`, `right`, `none`, `all` |
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
 
 ---
@@ -274,6 +275,37 @@ Use `rx` to add rounded corners:
 **Rendered:**
 
 ![](assets/tech-guide/tech_f9fd032de0c9de6f.svg) ![](assets/tech-guide/tech_ffe256817a6fe4c7.svg)
+
+### Per-Corner Radius
+
+Control individual corners for connected badge groups using `corners` presets or custom `rx` values:
+
+**Presets:**
+| Preset | Effect | Use Case |
+|--------|--------|----------|
+| `corners=left` | Rounded left, square right | First badge in group |
+| `corners=right` | Square left, rounded right | Last badge in group |
+| `corners=none` | All square | Middle badges |
+| `corners=all` | All rounded | Standalone (default) |
+
+```markdown
+{{ui:tech:rust:corners=left/}}{{ui:tech:docker:corners=none/}}{{ui:tech:python:corners=right/}}
+```
+
+**Rendered (connected badge group):**
+
+![](assets/tech-guide/tech_17e033ae2a1decb0.svg)![](assets/tech-guide/tech_d979be81598c560f.svg)![](assets/tech-guide/tech_5680ee2214af26ab.svg)
+
+**Custom per-corner:** Use `rx=tl,tr,br,bl` (top-left, top-right, bottom-right, bottom-left):
+
+```markdown
+{{ui:tech:rust:rx=8,0,0,8/}}     <!-- Same as corners=left with rx=8 -->
+{{ui:tech:rust:rx=0,8,8,0/}}     <!-- Same as corners=right with rx=8 -->
+```
+
+**Rendered:**
+
+![](assets/tech-guide/tech_470db33614a9f505.svg) ![](assets/tech-guide/tech_28356f248bb4bf5c.svg)
 
 ---
 
