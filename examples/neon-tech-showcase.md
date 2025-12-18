@@ -7,7 +7,7 @@
 ## Cyber Stack
 
 <p align="center">
-<img alt="" src="assets/tech_d8a40841ffd14138.svg"> <img alt="" src="assets/tech_21c02e7d880cbe84.svg"> <img alt="" src="assets/tech_b5ca944c079a4d7f.svg">
+<img alt="" src="../assets/tech_2209e79a30a8a76b.svg"> <img alt="" src="../assets/tech_96ab5f4a1cc6627c.svg"> <img alt="" src="../assets/tech_5ab76d958b79bbe6.svg">
 </p>
 
 ---
@@ -17,7 +17,7 @@
 Outline badges for that clean, minimal cyberpunk aesthetic:
 
 <p align="center">
-<img alt="" src="assets/tech_b960671ed1a7f81b.svg"> <img alt="" src="assets/tech_65b2fdf50e39dc05.svg"> <img alt="" src="assets/tech_115e69899fe22564.svg"> <img alt="" src="assets/tech_26ede46a9af79b47.svg">
+<img alt="" src="../assets/tech_b224a696854bcac9.svg"> <img alt="" src="../assets/tech_d8323defb9d789ed.svg"> <img alt="" src="../assets/tech_e6f071f2202373f7.svg"> <img alt="" src="../assets/tech_56c77625ec291146.svg">
 </p>
 
 ---
@@ -25,7 +25,7 @@ Outline badges for that clean, minimal cyberpunk aesthetic:
 ## Neon Glow Stack
 
 <p align="center">
-<img alt="" src="assets/tech_2b892898f5ef0172.svg"> <img alt="" src="assets/tech_d68c278432fd5bde.svg"> <img alt="" src="assets/tech_28d12101c244d0d7.svg">
+<img alt="" src="../assets/tech_38a7317940e78801.svg"> <img alt="" src="../assets/tech_25764807ebd4370f.svg"> <img alt="" src="../assets/tech_2315960cf759e54a.svg">
 </p>
 
 ---
@@ -35,7 +35,7 @@ Outline badges for that clean, minimal cyberpunk aesthetic:
 Contrasting segment colors for that holographic effect:
 
 <p align="center">
-<img alt="" src="assets/tech_dca288024f808bdf.svg"> <img alt="" src="assets/tech_e863e185eb40fdb0.svg"> <img alt="" src="assets/tech_f35bc1ec8f83207c.svg">
+<img alt="" src="../assets/tech_4a5ee9756f570731.svg"> <img alt="" src="../assets/tech_3ddfbc972654c428.svg"> <img alt="" src="../assets/tech_f8dee1cbdec2ffdf.svg">
 </p>
 
 ---
@@ -43,7 +43,7 @@ Contrasting segment colors for that holographic effect:
 ## Terminal Green
 
 <p align="center">
-<img alt="" src="assets/tech_823da0d3bdda328d.svg"> <img alt="" src="assets/tech_8ff068d5b5489e29.svg"> <img alt="" src="assets/tech_b365e1cb6aaebc7c.svg">
+<img alt="" src="../assets/tech_13adcefc2f55acef.svg"> <img alt="" src="../assets/tech_5b117d1dfd98793b.svg"> <img alt="" src="../assets/tech_8b7dcfda06234038.svg">
 </p>
 
 ---
@@ -51,7 +51,7 @@ Contrasting segment colors for that holographic effect:
 ## Synthwave Dreams
 
 <p align="center">
-<img alt="" src="assets/tech_e3d1477734fe9cfd.svg"> <img alt="" src="assets/tech_9953b7d2d546a5d3.svg"> <img alt="" src="assets/tech_9b5a9f911a59e3f7.svg">
+<img alt="" src="../assets/tech_4da93cec17e98c6e.svg"> <img alt="" src="../assets/tech_e172e309725e560d.svg"> <img alt="" src="../assets/tech_67cac913dee66de7.svg">
 </p>
 
 ---
@@ -61,7 +61,7 @@ Contrasting segment colors for that holographic effect:
 Perfect for dark backgrounds:
 
 <p align="center">
-<img alt="" src="assets/tech_3a24edcd45a6a3fb.svg"> <img alt="" src="assets/tech_29d582007877b971.svg"> <img alt="" src="assets/tech_e7b5111797190dfa.svg">
+<img alt="" src="../assets/tech_42c812c263f5177.svg"> <img alt="" src="../assets/tech_e1d0d38274a089c9.svg"> <img alt="" src="../assets/tech_46c7012aaf7de578.svg">
 </p>
 
 ---
@@ -71,7 +71,7 @@ Perfect for dark backgrounds:
 Arrow-style badges creating a visual flow:
 
 <p align="center">
-<img alt="" src="assets/tech_f0866ae0cbb418c7.svg"><img alt="" src="assets/tech_c2a7bab5d27e1d1.svg"><img alt="" src="assets/tech_64ffd4a1457fe79d.svg"><img alt="" src="assets/tech_70d1ed4d361de6a1.svg">
+<img alt="" src="../assets/tech_3f581bc7b6f33c4a.svg"><img alt="" src="../assets/tech_d505610f6f65f533.svg"><img alt="" src="../assets/tech_7ff4793d2c12648e.svg"><img alt="" src="../assets/tech_3ef72a59cf399899.svg">
 </p>
 
 ---
@@ -79,7 +79,7 @@ Arrow-style badges creating a visual flow:
 ## Neon Chevrons
 
 <p align="center">
-<img alt="" src="assets/tech_357ca593f2a2fc61.svg"><img alt="" src="assets/tech_678340eb69bc7c9a.svg"><img alt="" src="assets/tech_7c9c13af314b4bd6.svg">
+<img alt="" src="../assets/tech_2587e04ad7297e69.svg"><img alt="" src="../assets/tech_2daa12f706f7408c.svg"><img alt="" src="../assets/tech_44807cb05b5ac0.svg">
 </p>
 
 ---
@@ -87,7 +87,7 @@ Arrow-style badges creating a visual flow:
 ## Ice & Fire
 
 <p align="center">
-<img alt="" src="assets/tech_2cae6676c7da9f40.svg"> <img alt="" src="assets/tech_5df515575a7f1945.svg"> <img alt="" src="assets/tech_e4ec671d3d071c0e.svg">
+<img alt="" src="../assets/tech_652b1bab5f4f5e86.svg"> <img alt="" src="../assets/tech_f5c4330d4e952a8a.svg"> <img alt="" src="../assets/tech_9f2131200963e1c4.svg">
 </p>
 
 ---
@@ -97,7 +97,7 @@ Arrow-style badges creating a visual flow:
 Clean, professional monochrome:
 
 <p align="center">
-<img alt="" src="assets/tech_8e4fd6bf145b2d07.svg"> <img alt="" src="assets/tech_1dca0333d6ba9ee6.svg"> <img alt="" src="assets/tech_14d9f235e268272c.svg">
+<img alt="" src="../assets/tech_dc5c6abffc4e7eea.svg"> <img alt="" src="../assets/tech_d30f0566a99d8b4c.svg"> <img alt="" src="../assets/tech_3378928fed4accef.svg">
 </p>
 
 ---
@@ -105,7 +105,7 @@ Clean, professional monochrome:
 ## Matrix Code
 
 <p align="center">
-<img alt="" src="assets/tech_cacd974ee31337be.svg"> <img alt="" src="assets/tech_15796e100650911b.svg"> <img alt="" src="assets/tech_f177a4e145605b34.svg">
+<img alt="" src="../assets/tech_25a1cd55ce9d992d.svg"> <img alt="" src="../assets/tech_39f0bdc577316c38.svg"> <img alt="" src="../assets/tech_24b69ce6343126f1.svg">
 </p>
 
 ---
@@ -113,7 +113,7 @@ Clean, professional monochrome:
 ## Vapor Wave
 
 <p align="center">
-<img alt="" src="assets/tech_f4a6e17b28f7dbc8.svg"> <img alt="" src="assets/tech_d18cdb6b968f61a0.svg"> <img alt="" src="assets/tech_3dea5472ae650ace.svg">
+<img alt="" src="../assets/tech_967218c16ada7cc6.svg"> <img alt="" src="../assets/tech_ea103b7cbbd1420a.svg"> <img alt="" src="../assets/tech_e4717fd57a2487fd.svg">
 </p>
 
 ---
@@ -123,7 +123,7 @@ Clean, professional monochrome:
 Ultra-dark with subtle borders:
 
 <p align="center">
-<img alt="" src="assets/tech_df3d2871f3ba56d1.svg"> <img alt="" src="assets/tech_7117761da5381699.svg"> <img alt="" src="assets/tech_4b7f0695c9519e1c.svg">
+<img alt="" src="../assets/tech_90eba22ad4d1433c.svg"> <img alt="" src="../assets/tech_c8dadbeb8cdd69ca.svg"> <img alt="" src="../assets/tech_8cf039760621a4d2.svg">
 </p>
 
 ---
@@ -131,7 +131,7 @@ Ultra-dark with subtle borders:
 ## Outline Rainbow
 
 <p align="center">
-<img alt="" src="assets/tech_9d81387afe9a04cc.svg"> <img alt="" src="assets/tech_232737907cb4aea7.svg"> <img alt="" src="assets/tech_dcd6f3c7d48a888a.svg"> <img alt="" src="assets/tech_67f5a570e788656d.svg"> <img alt="" src="assets/tech_362cb9b5e40dcba5.svg"> <img alt="" src="assets/tech_80eb2be9c0686f2f.svg">
+<img alt="" src="../assets/tech_4a5669d75859b8fc.svg"> <img alt="" src="../assets/tech_891211ef08a604ce.svg"> <img alt="" src="../assets/tech_bc6c1cc1d2f04d2f.svg"> <img alt="" src="../assets/tech_7b1483ffeafc1712.svg"> <img alt="" src="../assets/tech_2c62b1938e4331f9.svg"> <img alt="" src="../assets/tech_5af65b86ee9076ec.svg">
 </p>
 
 ---
@@ -139,7 +139,7 @@ Ultra-dark with subtle borders:
 ## Cyberpunk 2077
 
 <p align="center">
-<img alt="" src="assets/tech_701a82228e5039a8.svg"> <img alt="" src="assets/tech_f45f8e320e8030ce.svg"> <img alt="" src="assets/tech_9bade42a7df7e430.svg">
+<img alt="" src="../assets/tech_94b4c2e4a824cdc8.svg"> <img alt="" src="../assets/tech_b2ea447e5932d0ba.svg"> <img alt="" src="../assets/tech_d7bc286265f15a14.svg">
 </p>
 
 ---
@@ -149,7 +149,7 @@ Ultra-dark with subtle borders:
 For late night coding sessions:
 
 <p align="center">
-<img alt="" src="assets/tech_a4123f8a2b47445f.svg"> <img alt="" src="assets/tech_9dde1bda9f26f52f.svg"> <img alt="" src="assets/tech_73f805563cd12688.svg">
+<img alt="" src="../assets/tech_3e8eeb8e1d4d4202.svg"> <img alt="" src="../assets/tech_aaf14c7fa0aa17aa.svg"> <img alt="" src="../assets/tech_cd227560f5dfe27f.svg">
 </p>
 
 ---
@@ -157,7 +157,7 @@ For late night coding sessions:
 ## Aurora Borealis
 
 <p align="center">
-<img alt="" src="assets/tech_cacb5883069eee6d.svg"> <img alt="" src="assets/tech_9688a5d2682eb4e6.svg"> <img alt="" src="assets/tech_23d5cbc92bff5c02.svg">
+<img alt="" src="../assets/tech_6b0227ee4269a87e.svg"> <img alt="" src="../assets/tech_d4e15a5232d536f8.svg"> <img alt="" src="../assets/tech_6d9735bff8349005.svg">
 </p>
 
 ---
@@ -166,17 +166,17 @@ For late night coding sessions:
 
 ### Frontend
 <p align="center">
-<img alt="" src="assets/tech_c0acaaa6c16b84e.svg"> <img alt="" src="assets/tech_83c0626cf58be0ad.svg"> <img alt="" src="assets/tech_f79afa81815fc290.svg">
+<img alt="" src="../assets/tech_f946f0101f740847.svg"> <img alt="" src="../assets/tech_a58273f5536e53c9.svg"> <img alt="" src="../assets/tech_1fe539acb531d35a.svg">
 </p>
 
 ### Backend
 <p align="center">
-<img alt="" src="assets/tech_757707bc3be2c593.svg"> <img alt="" src="assets/tech_fa124ffaa39865ed.svg"> <img alt="" src="assets/tech_1edb11df4484fc6.svg">
+<img alt="" src="../assets/tech_fc30e3cf3a0b8417.svg"> <img alt="" src="../assets/tech_808a16ec6c5c48a9.svg"> <img alt="" src="../assets/tech_65d27e3f9df6e504.svg">
 </p>
 
 ### Infrastructure
 <p align="center">
-<img alt="" src="assets/tech_906b232fbed6b493.svg"> <img alt="" src="assets/tech_2e04e6c81e2539b1.svg"> <img alt="" src="assets/tech_fad3e17b1c790fa.svg">
+<img alt="" src="../assets/tech_50696b978126ffe.svg"> <img alt="" src="../assets/tech_afc5b83ff3c706de.svg"> <img alt="" src="../assets/tech_2f95a8a31edfa99d.svg">
 </p>
 
 ---
@@ -184,7 +184,7 @@ For late night coding sessions:
 ## Electric Dreams
 
 <p align="center">
-<img alt="" src="assets/tech_b807ab4b7256bdc.svg"> <img alt="" src="assets/tech_295ad0c0d0e62753.svg"> <img alt="" src="assets/tech_a3d0dbb076a34f23.svg">
+<img alt="" src="../assets/tech_bc7857dc4e99ec12.svg"> <img alt="" src="../assets/tech_391b5a6f39fb14bc.svg"> <img alt="" src="../assets/tech_a73a16c48eee2871.svg">
 </p>
 
 ---
