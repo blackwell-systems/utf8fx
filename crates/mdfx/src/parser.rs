@@ -2034,6 +2034,7 @@ mod tests {
         test_process, test_process_bookends, test_process_contains, test_process_err,
         test_process_unchanged,
     };
+    use rstest::rstest;
 
     #[test]
     fn test_parser_new() {
@@ -2145,14 +2146,24 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         test_process!("{{mathbold}}A{{/mathbold}}{{italic}}B{{/italic}}" => "𝐀𝐵");
     }
 
-    #[test]
-    fn test_template_with_spacing() {
-        test_process!("{{mathbold:spacing=1}}HELLO{{/mathbold}}" => "𝐇 𝐄 𝐋 𝐋 𝐎");
-    }
+    // ========================================================================
+    // Spacing Tests (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_template_with_spacing_two() {
-        test_process!("{{script:spacing=2}}ABC{{/script}}" => "𝒜  ℬ  𝒞");
+    #[rstest]
+    #[case("mathbold", 1, "HELLO", "𝐇 𝐄 𝐋 𝐋 𝐎")]
+    #[case("script", 2, "ABC", "𝒜  ℬ  𝒞")]
+    #[case("mathbold", 0, "HELLO", "𝐇𝐄𝐋𝐋𝐎")]
+    fn test_template_with_spacing(
+        #[case] style: &str,
+        #[case] spacing: usize,
+        #[case] text: &str,
+        #[case] expected: &str,
+    ) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{{}:spacing={}}}}}{}{{{{/{}}}}}", style, spacing, text, style);
+        let result = parser.process(&input).unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -2168,34 +2179,25 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         test_process!("# {{mathbold:spacing=1}}HEADER{{/mathbold}}" => "# 𝐇 𝐄 𝐀 𝐃 𝐄 𝐑");
     }
 
-    #[test]
-    fn test_template_spacing_zero() {
-        test_process!("{{mathbold:spacing=0}}HELLO{{/mathbold}}" => "𝐇𝐄𝐋𝐋𝐎");
-    }
+    // ========================================================================
+    // Separator Tests (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_template_with_separator_dot() {
-        test_process!("{{mathbold:separator=dot}}HELLO{{/mathbold}}" => "𝐇·𝐄·𝐋·𝐋·𝐎");
-    }
-
-    #[test]
-    fn test_template_with_separator_dash() {
-        test_process!("{{mathbold:separator=dash}}HEADER{{/mathbold}}" => "𝐇─𝐄─𝐀─𝐃─𝐄─𝐑");
-    }
-
-    #[test]
-    fn test_template_with_separator_bolddash() {
-        test_process!("{{mathbold:separator=bolddash}}BOLD{{/mathbold}}" => "𝐁━𝐎━𝐋━𝐃");
-    }
-
-    #[test]
-    fn test_template_with_separator_arrow() {
-        test_process!("{{mathbold:separator=arrow}}ABC{{/mathbold}}" => "𝐀→𝐁→𝐂");
-    }
-
-    #[test]
-    fn test_template_with_separator_bullet() {
-        test_process!("{{mathbold:separator=bullet}}TEST{{/mathbold}}" => "𝐓•𝐄•𝐒•𝐓");
+    #[rstest]
+    #[case("dot", "HELLO", "𝐇·𝐄·𝐋·𝐋·𝐎")]
+    #[case("dash", "HEADER", "𝐇─𝐄─𝐀─𝐃─𝐄─𝐑")]
+    #[case("bolddash", "BOLD", "𝐁━𝐎━𝐋━𝐃")]
+    #[case("arrow", "ABC", "𝐀→𝐁→𝐂")]
+    #[case("bullet", "TEST", "𝐓•𝐄•𝐒•𝐓")]
+    fn test_template_with_separator(
+        #[case] separator: &str,
+        #[case] text: &str,
+        #[case] expected: &str,
+    ) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{mathbold:separator={}}}}}{}{{{{/mathbold}}}}", separator, text);
+        let result = parser.process(&input).unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -2317,14 +2319,22 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         }
     }
 
-    #[test]
-    fn test_frame_glyph_shorthand() {
-        test_process!("{{frame:glyph:star}}Title{{/frame}}" => "★\u{fe0e} Title ★\u{fe0e}");
-    }
+    // ========================================================================
+    // Frame Glyph Shorthand Tests (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_frame_glyph_shorthand_diamond() {
-        test_process!("{{frame:glyph:diamond}}Gem{{/frame}}" => "◆\u{fe0e} Gem ◆\u{fe0e}");
+    #[rstest]
+    #[case("star", "Title", "★\u{fe0e} Title ★\u{fe0e}")]
+    #[case("diamond", "Gem", "◆\u{fe0e} Gem ◆\u{fe0e}")]
+    fn test_frame_glyph_shorthand(
+        #[case] glyph: &str,
+        #[case] text: &str,
+        #[case] expected: &str,
+    ) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{frame:glyph:{}}}}}{}{{{{/frame}}}}", glyph, text);
+        let result = parser.process(&input).unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -2349,32 +2359,26 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         );
     }
 
-    #[test]
-    fn test_frame_glyph_multiplier_with_tight_padding() {
-        test_process!(
-            "{{frame:glyph:star*3/pad=0}}Title{{/frame}}"
-            => "★\u{fe0e}★\u{fe0e}★\u{fe0e}Title★\u{fe0e}★\u{fe0e}★\u{fe0e}"
-        );
-    }
+    // ========================================================================
+    // Frame Glyph Padding Tests (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_frame_glyph_multiplier_with_spaces() {
-        test_process!("{{frame:glyph:star*2/pad=3}}Title{{/frame}}" => "★\u{fe0e}★\u{fe0e}   Title   ★\u{fe0e}★\u{fe0e}");
-    }
-
-    #[test]
-    fn test_frame_glyph_custom_padding() {
-        test_process!("{{frame:glyph:diamond*2/pad=-}}Title{{/frame}}" => "◆\u{fe0e}◆\u{fe0e}-Title-◆\u{fe0e}◆\u{fe0e}");
-    }
-
-    #[test]
-    fn test_frame_glyph_unicode_padding() {
-        test_process!("{{frame:glyph:star*2/pad=·}}Title{{/frame}}" => "★\u{fe0e}★\u{fe0e}·Title·★\u{fe0e}★\u{fe0e}");
-    }
-
-    #[test]
-    fn test_frame_glyph_multi_char_padding() {
-        test_process!("{{frame:glyph:star/pad=--}}Title{{/frame}}" => "★\u{fe0e}--Title--★\u{fe0e}");
+    #[rstest]
+    #[case("star*3", "0", "Title", "★\u{fe0e}★\u{fe0e}★\u{fe0e}Title★\u{fe0e}★\u{fe0e}★\u{fe0e}")]
+    #[case("star*2", "3", "Title", "★\u{fe0e}★\u{fe0e}   Title   ★\u{fe0e}★\u{fe0e}")]
+    #[case("diamond*2", "-", "Title", "◆\u{fe0e}◆\u{fe0e}-Title-◆\u{fe0e}◆\u{fe0e}")]
+    #[case("star*2", "·", "Title", "★\u{fe0e}★\u{fe0e}·Title·★\u{fe0e}★\u{fe0e}")]
+    #[case("star", "--", "Title", "★\u{fe0e}--Title--★\u{fe0e}")]
+    fn test_frame_glyph_with_padding(
+        #[case] glyph_spec: &str,
+        #[case] pad: &str,
+        #[case] text: &str,
+        #[case] expected: &str,
+    ) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{frame:glyph:{}/pad={}}}}}{}{{{{/frame}}}}", glyph_spec, pad, text);
+        let result = parser.process(&input).unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -2435,60 +2439,62 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         );
     }
 
-    #[test]
-    fn test_frame_pattern_with_separator() {
-        // gradient pattern is ▓▒░, with separator should be ▓·▒·░
-        test_process!(
-            "{{fr:gradient/separator=dot}}Title{{/}}"
-            => "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Title ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}"
-        );
+    // ========================================================================
+    // Frame Pattern Separator Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("gradient", "dot", "Title", "▓\u{fe0e}·▒\u{fe0e}·░\u{fe0e} Title ░\u{fe0e}·▒\u{fe0e}·▓\u{fe0e}")]
+    #[case("gradient", "dash", "TEXT", "▓\u{fe0e}─▒\u{fe0e}─░\u{fe0e} TEXT ░\u{fe0e}─▒\u{fe0e}─▓\u{fe0e}")]
+    #[case("line-double", " ", "Title", "═\u{fe0e} ═\u{fe0e} ═\u{fe0e} Title ═\u{fe0e} ═\u{fe0e} ═\u{fe0e}")]
+    fn test_frame_pattern_with_separator(
+        #[case] pattern: &str,
+        #[case] separator: &str,
+        #[case] text: &str,
+        #[case] expected: &str,
+    ) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{fr:{}/separator={}}}}}{}{{{{/}}}}", pattern, separator, text);
+        let result = parser.process(&input).unwrap();
+        assert_eq!(result, expected);
     }
 
-    #[test]
-    fn test_frame_pattern_with_separator_named() {
-        test_process!(
-            "{{frame:gradient/separator=dash}}TEXT{{/frame}}"
-            => "▓\u{fe0e}─▒\u{fe0e}─░\u{fe0e} TEXT ░\u{fe0e}─▒\u{fe0e}─▓\u{fe0e}"
-        );
+    // ========================================================================
+    // Frame Pattern Spacing Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("gradient", 1, "TITLE", "▓\u{fe0e} ▒\u{fe0e} ░\u{fe0e} TITLE ░\u{fe0e} ▒\u{fe0e} ▓\u{fe0e}")]
+    #[case("gradient", 2, "X", "▓\u{fe0e}  ▒\u{fe0e}  ░\u{fe0e} X ░\u{fe0e}  ▒\u{fe0e}  ▓\u{fe0e}")]
+    fn test_frame_pattern_with_spacing(
+        #[case] pattern: &str,
+        #[case] spacing: usize,
+        #[case] text: &str,
+        #[case] expected: &str,
+    ) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{fr:{}/spacing={}}}}}{}{{{{/}}}}", pattern, spacing, text);
+        let result = parser.process(&input).unwrap();
+        assert_eq!(result, expected);
     }
 
-    #[test]
-    fn test_frame_pattern_with_separator_literal() {
-        test_process!(
-            "{{fr:line-double/separator= }}Title{{/}}"
-            => "═\u{fe0e} ═\u{fe0e} ═\u{fe0e} Title ═\u{fe0e} ═\u{fe0e} ═\u{fe0e}"
-        );
-    }
+    // ========================================================================
+    // Glyph Frame Spacing Tests (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_frame_pattern_with_spacing() {
-        // spacing=1 adds 1 space between each grapheme
-        test_process!(
-            "{{fr:gradient/spacing=1}}TITLE{{/}}"
-            => "▓\u{fe0e} ▒\u{fe0e} ░\u{fe0e} TITLE ░\u{fe0e} ▒\u{fe0e} ▓\u{fe0e}"
-        );
-    }
-
-    #[test]
-    fn test_frame_pattern_with_spacing_two() {
-        // spacing=2 adds 2 spaces between each grapheme
-        test_process!(
-            "{{fr:gradient/spacing=2}}X{{/}}"
-            => "▓\u{fe0e}  ▒\u{fe0e}  ░\u{fe0e} X ░\u{fe0e}  ▒\u{fe0e}  ▓\u{fe0e}"
-        );
-    }
-
-    #[test]
-    fn test_glyph_frame_with_spacing() {
-        test_process!(
-            "{{fr:glyph:star*3/spacing=1}}Text{{/}}"
-            => "★\u{fe0e} ★\u{fe0e} ★\u{fe0e} Text ★\u{fe0e} ★\u{fe0e} ★\u{fe0e}"
-        );
-    }
-
-    #[test]
-    fn test_glyph_frame_with_spacing_two() {
-        test_process!("{{fr:glyph:diamond*2/spacing=2}}Gem{{/}}" => "◆\u{fe0e}  ◆\u{fe0e} Gem ◆\u{fe0e}  ◆\u{fe0e}");
+    #[rstest]
+    #[case("star*3", 1, "Text", "★\u{fe0e} ★\u{fe0e} ★\u{fe0e} Text ★\u{fe0e} ★\u{fe0e} ★\u{fe0e}")]
+    #[case("diamond*2", 2, "Gem", "◆\u{fe0e}  ◆\u{fe0e} Gem ◆\u{fe0e}  ◆\u{fe0e}")]
+    fn test_glyph_frame_with_spacing(
+        #[case] glyph_spec: &str,
+        #[case] spacing: usize,
+        #[case] text: &str,
+        #[case] expected: &str,
+    ) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{fr:glyph:{}/spacing={}}}}}{}{{{{/}}}}", glyph_spec, spacing, text);
+        let result = parser.process(&input).unwrap();
+        assert_eq!(result, expected);
     }
 
     #[test]
@@ -3034,6 +3040,7 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#
 mod badge_style_tests {
     use super::*;
     use crate::test_process_contains;
+    use rstest::rstest;
 
     #[test]
     fn test_swatch_with_flat_style() {
@@ -3044,24 +3051,20 @@ mod badge_style_tests {
         assert!(!output.contains("style=flat-square"));
     }
 
-    #[test]
-    fn test_swatch_with_flat_square_style() {
-        test_process_contains!("{{ui:swatch:F41C80:style=flat-square/}}" => ["style=flat-square"]);
-    }
+    // ========================================================================
+    // Swatch Style Tests (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_swatch_with_for_the_badge_style() {
-        test_process_contains!("{{ui:swatch:F41C80:style=for-the-badge/}}" => ["style=for-the-badge"]);
-    }
-
-    #[test]
-    fn test_swatch_with_plastic_style() {
-        test_process_contains!("{{ui:swatch:F41C80:style=plastic/}}" => ["style=plastic"]);
-    }
-
-    #[test]
-    fn test_swatch_with_social_style() {
-        test_process_contains!("{{ui:swatch:F41C80:style=social/}}" => ["style=social"]);
+    #[rstest]
+    #[case("flat-square")]
+    #[case("for-the-badge")]
+    #[case("plastic")]
+    #[case("social")]
+    fn test_swatch_with_style(#[case] style: &str) {
+        let parser = TemplateParser::new().unwrap();
+        let input = format!("{{{{ui:swatch:F41C80:style={}/}}}}", style);
+        let result = parser.process(&input).unwrap();
+        assert!(result.contains(&format!("style={}", style)));
     }
 
     #[test]
