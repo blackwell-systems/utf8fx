@@ -141,9 +141,9 @@ pub fn handle_source(
     }))
 }
 
-/// Handle github component expansion
+/// Handle github source for live component
 ///
-/// Syntax: {{ui:github:owner/repo:metric/}}
+/// Syntax: {{ui:live:github:owner/repo:metric/}}
 ///
 /// Metrics:
 /// - stars - Repository star count
@@ -153,9 +153,9 @@ pub fn handle_source(
 /// - language - Primary programming language
 ///
 /// Examples:
-/// - {{ui:github:rust-lang/rust:stars/}}
-/// - {{ui:github:facebook/react:license/}}
-/// - {{ui:github:torvalds/linux:forks:bg=dark1/}}
+/// - {{ui:live:github:rust-lang/rust:stars/}}
+/// - {{ui:live:github:facebook/react:license/}}
+/// - {{ui:live:github:torvalds/linux:forks:bg=dark1/}}
 #[cfg(feature = "fetch")]
 pub fn handle_github(
     args: &[String],
@@ -167,9 +167,9 @@ pub fn handle_github(
     handle_source("github", args, params, style, resolve_color, fetch_ctx, "stars", "3B82F6")
 }
 
-/// Handle npm component expansion
+/// Handle npm source for live component
 ///
-/// Syntax: {{ui:npm:package-name:metric/}}
+/// Syntax: {{ui:live:npm:package-name:metric/}}
 ///
 /// Metrics:
 /// - version - Latest stable version
@@ -178,8 +178,8 @@ pub fn handle_github(
 /// - beta - Latest @beta tag version
 ///
 /// Examples:
-/// - {{ui:npm:react:version/}}
-/// - {{ui:npm:typescript:license/}}
+/// - {{ui:live:npm:react:version/}}
+/// - {{ui:live:npm:typescript:license/}}
 #[cfg(feature = "fetch")]
 pub fn handle_npm(
     args: &[String],
@@ -191,9 +191,9 @@ pub fn handle_npm(
     handle_source("npm", args, params, style, resolve_color, fetch_ctx, "version", "CB3837")
 }
 
-/// Handle crates component expansion
+/// Handle crates source for live component
 ///
-/// Syntax: {{ui:crates:crate-name:metric/}}
+/// Syntax: {{ui:live:crates:crate-name:metric/}}
 ///
 /// Metrics:
 /// - version - Latest version
@@ -201,8 +201,8 @@ pub fn handle_npm(
 /// - description - Crate description
 ///
 /// Examples:
-/// - {{ui:crates:serde:version/}}
-/// - {{ui:crates:tokio:downloads/}}
+/// - {{ui:live:crates:serde:version/}}
+/// - {{ui:live:crates:tokio:downloads/}}
 #[cfg(feature = "fetch")]
 pub fn handle_crates(
     args: &[String],
@@ -214,9 +214,9 @@ pub fn handle_crates(
     handle_source("crates", args, params, style, resolve_color, fetch_ctx, "version", "E57300")
 }
 
-/// Handle pypi component expansion
+/// Handle pypi source for live component
 ///
-/// Syntax: {{ui:pypi:package-name:metric/}}
+/// Syntax: {{ui:live:pypi:package-name:metric/}}
 ///
 /// Metrics:
 /// - version - Latest version
@@ -225,8 +225,8 @@ pub fn handle_crates(
 /// - python - Required Python version
 ///
 /// Examples:
-/// - {{ui:pypi:requests:version/}}
-/// - {{ui:pypi:numpy:python/}}
+/// - {{ui:live:pypi:requests:version/}}
+/// - {{ui:live:pypi:numpy:python/}}
 #[cfg(feature = "fetch")]
 pub fn handle_pypi(
     args: &[String],

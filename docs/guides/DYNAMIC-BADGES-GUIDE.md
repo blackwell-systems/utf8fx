@@ -2,6 +2,19 @@
 
 Dynamic badges fetch live data from external APIs to display real-time metrics like GitHub stars, npm versions, and crate downloads.
 
+## Syntax
+
+All live data badges use the `live:` namespace:
+
+```markdown
+{{ui:live:source:query:metric/}}
+```
+
+Where:
+- `source` - Data source: `github`, `npm`, `crates`, or `pypi`
+- `query` - Source-specific query (repo, package name, etc.)
+- `metric` - Metric to fetch (optional, defaults vary by source)
+
 ## Requirements
 
 Dynamic badges require the `fetch` feature to be enabled:
@@ -24,24 +37,24 @@ Fetch live repository metrics from GitHub.
 
 **Syntax:**
 ```markdown
-{{ui:github:owner/repo:metric/}}
+{{ui:live:github:owner/repo:metric/}}
 ```
 
 **Metrics:**
 | Metric | Description | Example |
 |--------|-------------|---------|
-| `stars` | Star count (default) | `{{ui:github:rust-lang/rust:stars/}}` |
-| `forks` | Fork count | `{{ui:github:facebook/react:forks/}}` |
-| `issues` | Open issue count | `{{ui:github:microsoft/vscode:issues/}}` |
-| `watchers` | Watcher count | `{{ui:github:torvalds/linux:watchers/}}` |
-| `license` | SPDX license identifier | `{{ui:github:rust-lang/rust:license/}}` |
-| `language` | Primary language | `{{ui:github:rust-lang/rust:language/}}` |
+| `stars` | Star count (default) | `{{ui:live:github:rust-lang/rust:stars/}}` |
+| `forks` | Fork count | `{{ui:live:github:facebook/react:forks/}}` |
+| `issues` | Open issue count | `{{ui:live:github:microsoft/vscode:issues/}}` |
+| `watchers` | Watcher count | `{{ui:live:github:torvalds/linux:watchers/}}` |
+| `license` | SPDX license identifier | `{{ui:live:github:rust-lang/rust:license/}}` |
+| `language` | Primary language | `{{ui:live:github:rust-lang/rust:language/}}` |
 
 **Examples:**
 ```markdown
-{{ui:github:rust-lang/rust/}}           <!-- stars (default) -->
-{{ui:github:rust-lang/rust:forks/}}     <!-- forks -->
-{{ui:github:rust-lang/rust:license/}}   <!-- license -->
+{{ui:live:github:rust-lang/rust/}}           <!-- stars (default) -->
+{{ui:live:github:rust-lang/rust:forks/}}     <!-- forks -->
+{{ui:live:github:rust-lang/rust:license/}}   <!-- license -->
 ```
 
 ### npm
@@ -50,22 +63,22 @@ Fetch package information from the npm registry.
 
 **Syntax:**
 ```markdown
-{{ui:npm:package-name:metric/}}
+{{ui:live:npm:package-name:metric/}}
 ```
 
 **Metrics:**
 | Metric | Description | Example |
 |--------|-------------|---------|
-| `version` | Latest stable version (default) | `{{ui:npm:react:version/}}` |
-| `license` | Package license | `{{ui:npm:typescript:license/}}` |
-| `next` | Latest @next tag | `{{ui:npm:react:next/}}` |
-| `beta` | Latest @beta tag | `{{ui:npm:vue:beta/}}` |
+| `version` | Latest stable version (default) | `{{ui:live:npm:react:version/}}` |
+| `license` | Package license | `{{ui:live:npm:typescript:license/}}` |
+| `next` | Latest @next tag | `{{ui:live:npm:react:next/}}` |
+| `beta` | Latest @beta tag | `{{ui:live:npm:vue:beta/}}` |
 
 **Examples:**
 ```markdown
-{{ui:npm:react/}}                <!-- version (default) -->
-{{ui:npm:typescript:license/}}   <!-- license -->
-{{ui:npm:react:next/}}           <!-- next version -->
+{{ui:live:npm:react/}}                <!-- version (default) -->
+{{ui:live:npm:typescript:license/}}   <!-- license -->
+{{ui:live:npm:react:next/}}           <!-- next version -->
 ```
 
 ### crates.io (Rust)
@@ -74,20 +87,20 @@ Fetch crate information from crates.io.
 
 **Syntax:**
 ```markdown
-{{ui:crates:crate-name:metric/}}
+{{ui:live:crates:crate-name:metric/}}
 ```
 
 **Metrics:**
 | Metric | Description | Example |
 |--------|-------------|---------|
-| `version` | Latest version (default) | `{{ui:crates:serde:version/}}` |
-| `downloads` | Total download count | `{{ui:crates:tokio:downloads/}}` |
-| `description` | Crate description | `{{ui:crates:clap:description/}}` |
+| `version` | Latest version (default) | `{{ui:live:crates:serde:version/}}` |
+| `downloads` | Total download count | `{{ui:live:crates:tokio:downloads/}}` |
+| `description` | Crate description | `{{ui:live:crates:clap:description/}}` |
 
 **Examples:**
 ```markdown
-{{ui:crates:serde/}}              <!-- version (default) -->
-{{ui:crates:tokio:downloads/}}    <!-- downloads -->
+{{ui:live:crates:serde/}}              <!-- version (default) -->
+{{ui:live:crates:tokio:downloads/}}    <!-- downloads -->
 ```
 
 ### PyPI (Python)
@@ -96,23 +109,23 @@ Fetch package information from PyPI.
 
 **Syntax:**
 ```markdown
-{{ui:pypi:package-name:metric/}}
+{{ui:live:pypi:package-name:metric/}}
 ```
 
 **Metrics:**
 | Metric | Description | Example |
 |--------|-------------|---------|
-| `version` | Latest version (default) | `{{ui:pypi:requests:version/}}` |
-| `license` | Package license | `{{ui:pypi:flask:license/}}` |
-| `author` | Package author | `{{ui:pypi:django:author/}}` |
-| `python` | Required Python version | `{{ui:pypi:numpy:python/}}` |
-| `summary` | Package summary | `{{ui:pypi:pytest:summary/}}` |
+| `version` | Latest version (default) | `{{ui:live:pypi:requests:version/}}` |
+| `license` | Package license | `{{ui:live:pypi:flask:license/}}` |
+| `author` | Package author | `{{ui:live:pypi:django:author/}}` |
+| `python` | Required Python version | `{{ui:live:pypi:numpy:python/}}` |
+| `summary` | Package summary | `{{ui:live:pypi:pytest:summary/}}` |
 
 **Examples:**
 ```markdown
-{{ui:pypi:requests/}}           <!-- version (default) -->
-{{ui:pypi:numpy:python/}}       <!-- Python requirement -->
-{{ui:pypi:flask:license/}}      <!-- license -->
+{{ui:live:pypi:requests/}}           <!-- version (default) -->
+{{ui:live:pypi:numpy:python/}}       <!-- Python requirement -->
+{{ui:live:pypi:flask:license/}}      <!-- license -->
 ```
 
 ## Styling Options
@@ -121,19 +134,19 @@ Dynamic badges support the same styling options as other components:
 
 ```markdown
 <!-- Custom background color -->
-{{ui:github:rust-lang/rust:bg=1a1a2e/}}
+{{ui:live:github:rust-lang/rust:stars:bg=1a1a2e/}}
 
 <!-- Custom text color -->
-{{ui:npm:react:text=white/}}
+{{ui:live:npm:react:version:text=white/}}
 
 <!-- Badge style -->
-{{ui:crates:serde:style=pill/}}
+{{ui:live:crates:serde:version:style=pill/}}
 
 <!-- Custom icon -->
-{{ui:pypi:requests:icon=python/}}
+{{ui:live:pypi:requests:version:icon=python/}}
 
 <!-- Width override -->
-{{ui:github:rust-lang/rust:width=200/}}
+{{ui:live:github:rust-lang/rust:stars:width=200/}}
 ```
 
 ## CLI Options
@@ -221,10 +234,10 @@ Be aware of API rate limits:
 
 | Metric | Value |
 |--------|-------|
-| Stars | {{ui:github:myorg/myrepo:stars/}} |
-| Version | {{ui:npm:my-package:version/}} |
-| Downloads | {{ui:crates:my-crate:downloads/}} |
-| License | {{ui:github:myorg/myrepo:license/}} |
+| Stars | {{ui:live:github:myorg/myrepo:stars/}} |
+| Version | {{ui:live:npm:my-package:version/}} |
+| Downloads | {{ui:live:crates:my-crate:downloads/}} |
+| License | {{ui:live:github:myorg/myrepo:license/}} |
 ```
 
 ### Multi-Language Project
@@ -232,17 +245,17 @@ Be aware of API rate limits:
 ```markdown
 ## Package Versions
 
-- **npm**: {{ui:npm:my-package:version/}}
-- **crates.io**: {{ui:crates:my-crate:version/}}
-- **PyPI**: {{ui:pypi:my-package:version/}}
+- **npm**: {{ui:live:npm:my-package:version/}}
+- **crates.io**: {{ui:live:crates:my-crate:version/}}
+- **PyPI**: {{ui:live:pypi:my-package:version/}}
 ```
 
 ### GitHub Project Stats
 
 ```markdown
-{{ui:github:rust-lang/rust:stars/}}
-{{ui:github:rust-lang/rust:forks/}}
-{{ui:github:rust-lang/rust:issues/}}
-{{ui:github:rust-lang/rust:license/}}
-{{ui:github:rust-lang/rust:language/}}
+{{ui:live:github:rust-lang/rust:stars/}}
+{{ui:live:github:rust-lang/rust:forks/}}
+{{ui:live:github:rust-lang/rust:issues/}}
+{{ui:live:github:rust-lang/rust:license/}}
+{{ui:live:github:rust-lang/rust:language/}}
 ```

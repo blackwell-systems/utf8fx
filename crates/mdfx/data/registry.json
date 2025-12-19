@@ -660,24 +660,30 @@
           }
         }
       },
-      "github": {
+      "live": {
         "type": "dynamic",
         "self_closing": true,
-        "description": "Live GitHub repository metrics badge (stars, forks, issues, license)",
+        "description": "Live data badges from external APIs (GitHub, npm, crates.io, PyPI)",
         "contexts": [
           "inline",
           "block"
         ],
         "args": [
-          "owner/repo",
+          "source",
+          "query",
           "metric"
         ],
         "optional_params": {
-          "metric": {
+          "source": {
             "type": "enum",
-            "values": ["stars", "forks", "issues", "watchers", "license", "language"],
-            "default": "stars",
-            "description": "Metric to display"
+            "values": ["github", "npm", "crates", "pypi"],
+            "default": "github",
+            "description": "Data source: github (stars/forks/issues), npm (version/license), crates (version/downloads), pypi (version/license/python)"
+          },
+          "metric": {
+            "type": "string",
+            "default": "",
+            "description": "Metric to display (source-specific, defaults to version/stars)"
           },
           "style": {
             "type": "shield_style",
@@ -687,100 +693,7 @@
           "bg": {
             "type": "color",
             "default": "",
-            "description": "Background color (auto-selected based on metric if not specified)"
-          }
-        }
-      },
-      "npm": {
-        "type": "dynamic",
-        "self_closing": true,
-        "description": "Live npm package metrics badge (version, license)",
-        "contexts": [
-          "inline",
-          "block"
-        ],
-        "args": [
-          "package-name",
-          "metric"
-        ],
-        "optional_params": {
-          "metric": {
-            "type": "enum",
-            "values": ["version", "license", "next", "beta"],
-            "default": "version",
-            "description": "Metric to display"
-          },
-          "style": {
-            "type": "shield_style",
-            "default": "flat-square",
-            "description": "Badge style"
-          },
-          "bg": {
-            "type": "color",
-            "default": "",
-            "description": "Background color (npm red by default)"
-          }
-        }
-      },
-      "crates": {
-        "type": "dynamic",
-        "self_closing": true,
-        "description": "Live crates.io package metrics badge (version, downloads)",
-        "contexts": [
-          "inline",
-          "block"
-        ],
-        "args": [
-          "crate-name",
-          "metric"
-        ],
-        "optional_params": {
-          "metric": {
-            "type": "enum",
-            "values": ["version", "downloads", "description"],
-            "default": "version",
-            "description": "Metric to display"
-          },
-          "style": {
-            "type": "shield_style",
-            "default": "flat-square",
-            "description": "Badge style"
-          },
-          "bg": {
-            "type": "color",
-            "default": "",
-            "description": "Background color (Rust orange by default)"
-          }
-        }
-      },
-      "pypi": {
-        "type": "dynamic",
-        "self_closing": true,
-        "description": "Live PyPI package metrics badge (version, license, python requirement)",
-        "contexts": [
-          "inline",
-          "block"
-        ],
-        "args": [
-          "package-name",
-          "metric"
-        ],
-        "optional_params": {
-          "metric": {
-            "type": "enum",
-            "values": ["version", "license", "summary", "author", "python"],
-            "default": "version",
-            "description": "Metric to display"
-          },
-          "style": {
-            "type": "shield_style",
-            "default": "flat-square",
-            "description": "Badge style"
-          },
-          "bg": {
-            "type": "color",
-            "default": "",
-            "description": "Background color (Python blue by default)"
+            "description": "Background color (auto-selected based on source if not specified)"
           }
         }
       },

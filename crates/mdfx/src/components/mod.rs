@@ -281,10 +281,27 @@ impl ComponentsRenderer {
         let resolve = |color: &str| self.resolve_color(color);
 
         match component {
-            "github" => handlers::handle_github(&positional, &params, &style, resolve, fetch_ctx),
-            "npm" => handlers::handle_npm(&positional, &params, &style, resolve, fetch_ctx),
-            "crates" => handlers::handle_crates(&positional, &params, &style, resolve, fetch_ctx),
-            "pypi" => handlers::handle_pypi(&positional, &params, &style, resolve, fetch_ctx),
+            "live" => {
+                // live:source:query:metric - source is first arg
+                if positional.is_empty() {
+                    return Err(Error::ParseError(
+                        "live component requires source (github, npm, crates, pypi)".to_string(),
+                    ));
+                }
+                let source = positional[0].as_str();
+                let remaining_args: Vec<String> = positional[1..].to_vec();
+
+                match source {
+                    "github" => handlers::handle_github(&remaining_args, &params, &style, resolve, fetch_ctx),
+                    "npm" => handlers::handle_npm(&remaining_args, &params, &style, resolve, fetch_ctx),
+                    "crates" => handlers::handle_crates(&remaining_args, &params, &style, resolve, fetch_ctx),
+                    "pypi" => handlers::handle_pypi(&remaining_args, &params, &style, resolve, fetch_ctx),
+                    _ => Err(Error::ParseError(format!(
+                        "Unknown live source '{}'. Available: github, npm, crates, pypi",
+                        source
+                    ))),
+                }
+            }
             _ => Err(Error::ParseError(format!(
                 "Dynamic component '{}' has no implementation",
                 component
