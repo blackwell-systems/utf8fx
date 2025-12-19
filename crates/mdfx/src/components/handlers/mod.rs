@@ -5,6 +5,8 @@
 
 pub mod donut;
 pub mod gauge;
+#[cfg(feature = "fetch")]
+pub mod github;
 pub mod license;
 pub mod progress;
 pub mod rating;
@@ -15,3 +17,6 @@ pub mod tech;
 pub mod tech_group;
 pub mod version;
 pub mod waveform;
+
+#[cfg(feature = "fetch")]
+pub use github::FetchContext;

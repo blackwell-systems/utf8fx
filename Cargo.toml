@@ -4,7 +4,8 @@ members = [
     "crates/mdfx",
     "crates/mdfx-cli",
     "crates/mdfx-colors",
-    "crates/mdfx-icons", 
+    "crates/mdfx-icons",
+    "crates/mdfx-fetch",
     "crates/badgefx",
 ]
 

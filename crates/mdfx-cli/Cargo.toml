@@ -12,11 +12,13 @@ license.workspace = true
 homepage.workspace = true
 
 [features]
-default = []
+default = ["fetch"]
 lsp = ["tower-lsp", "tokio"]
+fetch = ["mdfx/fetch", "mdfx-fetch"]
 
 [dependencies]
 mdfx = { version = "1.0.0", path = "../mdfx" }
+mdfx-fetch = { version = "1.0.0", path = "../mdfx-fetch", optional = true }
 mdfx-icons = { version = "1.0.0", path = "../mdfx-icons" }
 clap = { version = "4.4", features = ["derive", "cargo"] }
 clap_complete = "4.4"
