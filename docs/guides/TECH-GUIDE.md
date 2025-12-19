@@ -432,43 +432,16 @@ For technologies not included in Simple Icons, you can provide custom SVG path d
 
 Control the icon size within badges using the `logo_size` parameter (alias: `icon_size`).
 
-### Size Presets
+| Preset | Size | Syntax | Result |
+|--------|------|--------|--------|
+| `xs` | 10px | `{{ui:tech:rust:logo_size=xs/}}` | ![](assets/tech-guide/tech_a6dea7b9e22bd9ef.svg) |
+| `sm` | 12px | `{{ui:tech:rust:logo_size=sm/}}` | ![](assets/tech-guide/tech_559f6e1d5f9063ef.svg) |
+| `md` | 14px | `{{ui:tech:rust:logo_size=md/}}` | ![](assets/tech-guide/tech_2cd2b404c5fdc9a6.svg) |
+| `lg` | 16px | `{{ui:tech:rust:logo_size=lg/}}` | ![](assets/tech-guide/tech_bc1d19c7323981de.svg) |
+| `xl` | 18px | `{{ui:tech:rust:logo_size=xl/}}` | ![](assets/tech-guide/tech_b4e69040a819f346.svg) |
+| `xxl` | 20px | `{{ui:tech:rust:logo_size=xxl/}}` | ![](assets/tech-guide/tech_3b53bb1ab7701071.svg) |
 
-| Preset | Size | Use Case |
-|--------|------|----------|
-| `xs` | 10px | Compact badges, inline text |
-| `sm` | 12px | Small badges |
-| `md` | 14px | Default size |
-| `lg` | 16px | Emphasized badges |
-| `xl` | 18px | Large, prominent badges |
-| `xxl` | 20px | Extra large badges |
-
-### Syntax
-
-```markdown
-{{ui:tech:rust:logo_size=xs/}}    <!-- Extra small -->
-{{ui:tech:rust:logo_size=sm/}}    <!-- Small -->
-{{ui:tech:rust:logo_size=md/}}    <!-- Medium (default) -->
-{{ui:tech:rust:logo_size=lg/}}    <!-- Large -->
-{{ui:tech:rust:logo_size=xl/}}    <!-- Extra large -->
-{{ui:tech:rust:logo_size=20/}}    <!-- Custom: 20px -->
-```
-
-### Examples
-
-Create a size progression:
-
-```markdown
-{{ui:tech:rust:logo_size=xs/}} {{ui:tech:rust:logo_size=sm/}} {{ui:tech:rust:logo_size=md/}} {{ui:tech:rust:logo_size=lg/}} {{ui:tech:rust:logo_size=xl/}}
-```
-
-Use larger icons for hero sections:
-
-```markdown
-{{ui:tech:rust:logo_size=xl:label=Rust Programming/}}
-```
-
-**Note:** The badge width automatically adjusts based on the logo size.
+Custom pixel values also supported: `logo_size=20` for 20px.
 
 ---
 
@@ -503,25 +476,13 @@ The `style` parameter changes the badge appearance:
 
 ## Raised Icon Badge
 
-The `raised` parameter creates badges where the icon section extends above and below the label section, creating a distinctive 3D tab effect.
+The `raised` parameter creates badges where the icon section extends above and below the label section. The value is the number of pixels to extend on each side.
 
-### Syntax
+![](assets/tech-guide/tech_f895c7a30580a635.svg) ![](assets/tech-guide/tech_5f9dfb9503acf669.svg) ![](assets/tech-guide/tech_c620466fae625ee5.svg)
 
 ```markdown
 {{ui:tech:rust:label=Rust:raised=4/}}
 {{ui:tech:docker:label=Container:raised=6/}}
-```
-
-The `raised` value is the number of pixels the icon section extends on each side (top and bottom).
-
-### Use Cases
-
-- **Emphasized badges** - Draw attention to important technologies
-- **Hero sections** - Create prominent badge displays
-- **Status indicators** - Make key technologies stand out
-
-```markdown
-{{ui:tech:rust:label=Primary:raised=4:border=f41c80:border_width=2/}}
 {{ui:tech:postgresql:label=Database:raised=6:logo_size=lg/}}
 ```
 

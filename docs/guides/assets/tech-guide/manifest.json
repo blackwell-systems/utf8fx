@@ -1,13 +1,13 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-19T03:12:32.016721176+00:00",
+  "created_at": "2025-12-19T03:19:10.674506741+00:00",
   "backend": "svg",
   "assets_dir": "docs/guides/assets/tech-guide",
-  "total_assets": 11,
+  "total_assets": 9,
   "assets": [
     {
-      "path": "docs/guides/assets/tech-guide/tech_4c5f16d733e3653.svg",
-      "sha256": "b79b38469c82fbc1a61863a6db37c46fbb6306af75f97bf92da0a9a21de95ab3",
+      "path": "docs/guides/assets/tech-guide/tech_a6dea7b9e22bd9ef.svg",
+      "sha256": "dd38a7cf6ce88e855299087b2717bf8c655300a51d66c49fddd437c1bae68899",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -16,11 +16,11 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2220
+      "size_bytes": 2296
     },
     {
-      "path": "docs/guides/assets/tech-guide/tech_adc8b3d2d9c0299d.svg",
-      "sha256": "d4823f195aae3cf5e049754d99bc9072d1d1b748b90a5bfdb6fadf3f483b7a13",
+      "path": "docs/guides/assets/tech-guide/tech_559f6e1d5f9063ef.svg",
+      "sha256": "619f22e346b8a2190d12c3dc785530fd31a9a9e37e02af1ff0e3d9ad503e196c",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -29,76 +29,11 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2223
+      "size_bytes": 2289
     },
     {
-      "path": "docs/guides/assets/tech-guide/tech_beee4d4eef0fc1fd.svg",
-      "sha256": "fe5b2bac4e8653110dc689b158228eeb1ebc121aaff40d383c19f329b4a1db4b",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "DEA584",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 2235
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_4c5f16d733e3653.svg",
-      "sha256": "b79b38469c82fbc1a61863a6db37c46fbb6306af75f97bf92da0a9a21de95ab3",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "DEA584",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 2220
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_3e14e5521023bef8.svg",
-      "sha256": "ed6d136c5b12353d17d9ecea8ee6124c1766d3097f7878cec404b5cc795d53be",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "3178C6",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1592
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_5a747462b1e82e92.svg",
-      "sha256": "7c6a7db424b280602d04fcd5db1dcad9340ceea97e1cecfc9a0d71c673438ef4",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "docker",
-        "bg_color": "2496ED",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 2084
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_fa7ca15a0812d6cb.svg",
-      "sha256": "85db056575f737d0954ae3ef9592603b85041ad6f877780877ea61cafe812d6c",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "postgresql",
-        "bg_color": "4169E1",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 3839
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_77cb0965d56f00bd.svg",
-      "sha256": "cf72d38f5fa8aa3d899d56e08df2f91ca1385f60f5b55af1f18a74a0075707ef",
+      "path": "docs/guides/assets/tech-guide/tech_2cd2b404c5fdc9a6.svg",
+      "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -110,21 +45,8 @@
       "size_bytes": 2295
     },
     {
-      "path": "docs/guides/assets/tech-guide/tech_24fa14755759825f.svg",
-      "sha256": "55481b230e22a37f43c117ac5d0b00f8b721da745e2bc1ceadb0584a28b05243",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "python",
-        "bg_color": "3776AB",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1895
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_fe00a167f32d408f.svg",
-      "sha256": "69d3cead9c0af6617440f425e55b6313ec53a4f1727fe8f46728194d196b53a9",
+      "path": "docs/guides/assets/tech-guide/tech_bc1d19c7323981de.svg",
+      "sha256": "20b6ded00b9fbce14a477d1853438de347eb544714b79f2a5bf3d0422b6df529",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -133,20 +55,72 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2220
+      "size_bytes": 2295
     },
     {
-      "path": "docs/guides/assets/tech-guide/tech_299ba9ffc141a779.svg",
-      "sha256": "b455f51e6709ee18ccc49c0900ca553ab5addfc25e756dcb85af94c9f0c7778b",
+      "path": "docs/guides/assets/tech-guide/tech_b4e69040a819f346.svg",
+      "sha256": "1a5c76d9d4e1611d7a59351036f1deb1eae8788dae273567deaa130253414593",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "3178C6",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2289
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_3b53bb1ab7701071.svg",
+      "sha256": "5dc98871f98ef4d8b3c879323d39efc27ff67f66945238b0f737e9bf5af8aa4a",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2294
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_f895c7a30580a635.svg",
+      "sha256": "208e2e33113f85d65e4096da1e6b6f442a7a41d067b9065e66e9f745005566f3",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2247
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_5f9dfb9503acf669.svg",
+      "sha256": "bf4c0d211c7eb979f9e8aacbeda358f53e04bdfb687ac6fe6f911c0445269bff",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2099
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_c620466fae625ee5.svg",
+      "sha256": "daff62a1bd2e2478b1ada1b5df139d0b2fc28888fea8df328fc89c320fa4bf1c",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "postgresql",
+        "bg_color": "4169E1",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1581
+      "size_bytes": 3860
     }
   ]
 }
