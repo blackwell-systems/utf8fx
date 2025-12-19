@@ -924,16 +924,13 @@ mod tests {
         assert_eq!(result.len(), 6);
     }
 
-    #[test]
-    fn test_get_logo_color_for_bg_dark() {
-        let color = get_logo_color_for_bg("#000000");
-        assert_eq!(color, "FFFFFF");
-    }
-
-    #[test]
-    fn test_get_logo_color_for_bg_light() {
-        let color = get_logo_color_for_bg("#FFFFFF");
-        assert_eq!(color, "000000");
+    #[rstest]
+    #[case("#000000", "FFFFFF")] // dark bg -> white logo
+    #[case("#FFFFFF", "000000")] // light bg -> black logo
+    #[case("#FF0000", "FFFFFF")] // red bg -> white logo
+    #[case("#00FF00", "000000")] // green bg -> black logo
+    fn test_get_logo_color_for_bg(#[case] bg: &str, #[case] expected: &str) {
+        assert_eq!(get_logo_color_for_bg(bg), expected);
     }
 
     #[test]

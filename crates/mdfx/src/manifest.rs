@@ -831,4 +831,154 @@ mod tests {
         assert!(stats.by_type.contains_key("swatch"));
         assert_eq!(stats.by_type["swatch"].count, 2);
     }
+
+    // ========================================================================
+    // PrimitiveInfo Conversion Tests (Parameterized)
+    // ========================================================================
+
+    #[test]
+    fn test_primitive_info_from_progress() {
+        let primitive = Primitive::simple_progress(75, "#E0E0E0", "#4CAF50");
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Progress {
+                percent,
+                width,
+                height,
+            } => {
+                assert_eq!(percent, 75);
+                assert_eq!(width, 100); // default
+                assert_eq!(height, 10); // default
+            }
+            _ => panic!("Expected Progress variant"),
+        }
+    }
+
+    #[test]
+    fn test_primitive_info_from_donut() {
+        let primitive = Primitive::simple_donut(50, "#E0E0E0", "#2196F3");
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Donut {
+                percent,
+                size,
+                thickness,
+            } => {
+                assert_eq!(percent, 50);
+                assert_eq!(size, 40); // default
+                assert_eq!(thickness, 4); // default
+            }
+            _ => panic!("Expected Donut variant"),
+        }
+    }
+
+    #[test]
+    fn test_primitive_info_from_gauge() {
+        let primitive = Primitive::Gauge {
+            percent: 80,
+            size: 100,
+            thickness: 10,
+            track_color: "#E0E0E0".to_string(),
+            fill_color: "#FF5722".to_string(),
+            show_label: true,
+            label_color: Some("#000000".to_string()),
+            thumb_size: None,
+            thumb_color: None,
+        };
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Gauge {
+                percent,
+                size,
+                thickness,
+            } => {
+                assert_eq!(percent, 80);
+                assert_eq!(size, 100);
+                assert_eq!(thickness, 10);
+            }
+            _ => panic!("Expected Gauge variant"),
+        }
+    }
+
+    #[test]
+    fn test_primitive_info_from_sparkline() {
+        let primitive = Primitive::Sparkline {
+            values: vec![1.0, 2.0, 3.0, 4.0, 5.0],
+            width: 120,
+            height: 30,
+            chart_type: "line".to_string(),
+            fill_color: "#9C27B0".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 3,
+        };
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Sparkline {
+                point_count,
+                width,
+                height,
+                chart_type,
+            } => {
+                assert_eq!(point_count, 5);
+                assert_eq!(width, 120);
+                assert_eq!(height, 30);
+                assert_eq!(chart_type, "line");
+            }
+            _ => panic!("Expected Sparkline variant"),
+        }
+    }
+
+    #[test]
+    fn test_primitive_info_from_rating() {
+        let primitive = Primitive::Rating {
+            value: 4.0,
+            max: 5,
+            icon: "star".to_string(),
+            fill_color: "#FFD700".to_string(),
+            empty_color: "#E0E0E0".to_string(),
+            size: 20,
+            spacing: 2,
+        };
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Rating { value, max, icon } => {
+                assert!((value - 4.0).abs() < f32::EPSILON);
+                assert_eq!(max, 5);
+                assert_eq!(icon, "star");
+            }
+            _ => panic!("Expected Rating variant"),
+        }
+    }
+
+    #[test]
+    fn test_primitive_info_from_waveform() {
+        let primitive = Primitive::Waveform {
+            values: vec![0.5, 0.8, 0.3, 0.9, 0.6],
+            width: 100,
+            height: 40,
+            positive_color: "#00BCD4".to_string(),
+            negative_color: "#FF5722".to_string(),
+            bar_width: 3,
+            spacing: 1,
+            track_color: None,
+            show_center_line: false,
+            center_line_color: None,
+        };
+        let info = PrimitiveInfo::from(&primitive);
+        match info {
+            PrimitiveInfo::Waveform {
+                point_count,
+                width,
+                height,
+            } => {
+                assert_eq!(point_count, 5);
+                assert_eq!(width, 100);
+                assert_eq!(height, 40);
+            }
+            _ => panic!("Expected Waveform variant"),
+        }
+    }
 }

@@ -309,15 +309,33 @@ mod tests {
     }
 
     // ========================================================================
-    // BadgeBuilder Methods (Parameterized)
+    // BadgeBuilder String Setters (Parameterized)
     // ========================================================================
 
-    #[test]
-    fn test_builder_custom_icon() {
-        let badge = BadgeBuilder::new("custom")
-            .custom_icon("M0 0 L10 10")
-            .build();
-        assert_eq!(badge.custom_icon, Some("M0 0 L10 10".to_string()));
+    #[rstest]
+    #[case("custom_icon", "M0 0 L10 10")]
+    #[case("text_color", "#FFFFFF")]
+    #[case("logo_color", "#000000")]
+    #[case("bg_left", "#FF0000")]
+    #[case("bg_right", "#00FF00")]
+    fn test_builder_string_setters(#[case] field: &str, #[case] value: &str) {
+        let badge = match field {
+            "custom_icon" => BadgeBuilder::new("test").custom_icon(value).build(),
+            "text_color" => BadgeBuilder::new("test").text_color(value).build(),
+            "logo_color" => BadgeBuilder::new("test").logo_color(value).build(),
+            "bg_left" => BadgeBuilder::new("test").bg_left(value).build(),
+            "bg_right" => BadgeBuilder::new("test").bg_right(value).build(),
+            _ => panic!("Unknown field"),
+        };
+        let actual = match field {
+            "custom_icon" => badge.custom_icon,
+            "text_color" => badge.text_color,
+            "logo_color" => badge.logo_color,
+            "bg_left" => badge.bg_left,
+            "bg_right" => badge.bg_right,
+            _ => None,
+        };
+        assert_eq!(actual, Some(value.to_string()));
     }
 
     #[test]
@@ -328,28 +346,6 @@ mod tests {
             .build();
         assert!(badge.border_full);
         assert!(badge.border.is_some());
-    }
-
-    #[test]
-    fn test_builder_bg_left_right() {
-        let badge = BadgeBuilder::new("rust")
-            .bg_left("#FF0000")
-            .bg_right("#00FF00")
-            .build();
-        assert_eq!(badge.bg_left, Some("#FF0000".to_string()));
-        assert_eq!(badge.bg_right, Some("#00FF00".to_string()));
-    }
-
-    #[test]
-    fn test_builder_text_color() {
-        let badge = BadgeBuilder::new("rust").text_color("#FFFFFF").build();
-        assert_eq!(badge.text_color, Some("#FFFFFF".to_string()));
-    }
-
-    #[test]
-    fn test_builder_logo_color() {
-        let badge = BadgeBuilder::new("rust").logo_color("#000000").build();
-        assert_eq!(badge.logo_color, Some("#000000".to_string()));
     }
 
     #[test]
