@@ -336,6 +336,40 @@ The LSP server now provides full IntelliSense support for tech badges with conte
 
 ### Changed
 
+#### Component Handler Parameter Helpers
+
+Added reusable helper functions to `handlers/mod.rs` to reduce boilerplate across component handlers:
+
+- `parse_param()` / `parse_param_opt()` - Parse numeric parameters with defaults
+- `parse_bool()` - Parse boolean parameters (accepts "true" or "1")
+- `resolve_color_with_default()` / `resolve_color_with_fallback()` - Color resolution with defaults
+- `resolve_color_opt()` - Optional color resolution
+- `get_string()` / `get_string_opt()` - String parameter helpers
+
+Updated 6 handlers to use new helpers: progress, donut, gauge, sparkline, rating, waveform. Reduces ~180 lines of duplicated parameter parsing code.
+
+#### Converter O(1) Alias Lookup
+
+Optimized `Converter.get_style()` from O(n) to O(1) complexity:
+
+- Added pre-built `alias_map: HashMap<String, String>` to Converter struct
+- Alias lookups now use hash table instead of `.values().find()` linear scan
+- No API changes - performance improvement only
+
+#### Test Helper Macros
+
+Added test utility macros in `test_utils.rs` to reduce test boilerplate:
+
+- `test_process!` - Basic input to expected output test
+- `test_process_err!` - Test that processing fails
+- `test_process_unchanged!` - Test input preserved unchanged
+- `test_process_cases!` - Multiple input/output pairs
+- `test_convert!` / `test_convert_err!` - Converter tests
+- `test_process_contains!` / `test_process_not_contains!` - Substring assertions
+- `test_process_bookends!` - starts_with/ends_with assertions
+
+Converted ~90 tests in parser.rs to use macros. Net reduction of ~325 lines of test code while maintaining full test coverage.
+
 #### TechConfig Struct Refactor (Test Maintainability)
 
 Refactored `Primitive::Tech` from a struct variant to a tuple variant wrapping the new `TechConfig` struct. This enables `..Default::default()` syntax in tests, making them resilient to new field additions.
