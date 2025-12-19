@@ -39,11 +39,11 @@ impl Renderer for PlainTextBackend {
                 }
             }
 
-            Primitive::Tech { name, label, .. } => {
-                if let Some(lbl) = label {
-                    format!("[{} | {}]", name, lbl)
+            Primitive::Tech(cfg) => {
+                if let Some(lbl) = &cfg.label {
+                    format!("[{} | {}]", cfg.name, lbl)
                 } else {
-                    format!("[{}]", name)
+                    format!("[{}]", cfg.name)
                 }
             }
 
@@ -230,56 +230,22 @@ mod tests {
 
     #[test]
     fn test_plaintext_tech() {
+        use crate::primitive::TechConfig;
         let backend = PlainTextBackend::new();
-        let primitive = Primitive::Tech {
-            name: "rust".to_string(),
-            bg_color: "DEA584".to_string(),
-            logo_color: "000000".to_string(),
-            style: "flat-square".to_string(),
-            label: None,
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+        let primitive = Primitive::Tech(TechConfig::new("rust"));
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust]");
     }
 
     #[test]
     fn test_plaintext_tech_with_label() {
+        use crate::primitive::TechConfig;
         let backend = PlainTextBackend::new();
-        let primitive = Primitive::Tech {
+        let primitive = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
-            bg_color: "DEA584".to_string(),
-            logo_color: "000000".to_string(),
-            style: "flat-square".to_string(),
             label: Some("v1.80".to_string()),
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+            ..Default::default()
+        });
         let asset = backend.render(&primitive).unwrap();
         assert_eq!(asset.to_markdown(), "[rust | v1.80]");
     }

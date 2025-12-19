@@ -103,47 +103,27 @@ impl SvgBackend {
                 border_bottom.hash(&mut hasher);
                 border_left.hash(&mut hasher);
             }
-            Primitive::Tech {
-                name,
-                bg_color,
-                logo_color,
-                style,
-                label,
-                border_color,
-                border_width,
-                border_full,
-                divider,
-                rx,
-                corners,
-                text_color,
-                font,
-                source,
-                chevron,
-                bg_left,
-                bg_right,
-                raised,
-                logo_size,
-            } => {
+            Primitive::Tech(cfg) => {
                 "tech".hash(&mut hasher);
-                name.hash(&mut hasher);
-                bg_color.hash(&mut hasher);
-                logo_color.hash(&mut hasher);
-                style.hash(&mut hasher);
-                label.hash(&mut hasher);
-                border_color.hash(&mut hasher);
-                raised.hash(&mut hasher);
-                border_width.hash(&mut hasher);
-                border_full.hash(&mut hasher);
-                divider.hash(&mut hasher);
-                rx.hash(&mut hasher);
-                corners.hash(&mut hasher);
-                text_color.hash(&mut hasher);
-                font.hash(&mut hasher);
-                source.hash(&mut hasher);
-                chevron.hash(&mut hasher);
-                bg_left.hash(&mut hasher);
-                bg_right.hash(&mut hasher);
-                logo_size.hash(&mut hasher);
+                cfg.name.hash(&mut hasher);
+                cfg.bg_color.hash(&mut hasher);
+                cfg.logo_color.hash(&mut hasher);
+                cfg.style.hash(&mut hasher);
+                cfg.label.hash(&mut hasher);
+                cfg.border_color.hash(&mut hasher);
+                cfg.raised.hash(&mut hasher);
+                cfg.border_width.hash(&mut hasher);
+                cfg.border_full.hash(&mut hasher);
+                cfg.divider.hash(&mut hasher);
+                cfg.rx.hash(&mut hasher);
+                cfg.corners.hash(&mut hasher);
+                cfg.text_color.hash(&mut hasher);
+                cfg.font.hash(&mut hasher);
+                cfg.source.hash(&mut hasher);
+                cfg.chevron.hash(&mut hasher);
+                cfg.bg_left.hash(&mut hasher);
+                cfg.bg_right.hash(&mut hasher);
+                cfg.logo_size.hash(&mut hasher);
             }
             Primitive::Progress {
                 percent,
@@ -300,7 +280,7 @@ impl SvgBackend {
         let hash = hasher.finish();
         let type_name = match primitive {
             Primitive::Swatch { .. } => "swatch",
-            Primitive::Tech { .. } => "tech",
+            Primitive::Tech(_) => "tech",
             Primitive::Progress { .. } => "progress",
             Primitive::Donut { .. } => "donut",
             Primitive::Gauge { .. } => "gauge",
@@ -365,30 +345,10 @@ impl Renderer for SvgBackend {
                 border_left: border_left.as_deref(),
             }),
 
-            Primitive::Tech {
-                name,
-                bg_color,
-                logo_color,
-                style,
-                label,
-                border_color,
-                border_width,
-                border_full,
-                divider,
-                rx,
-                corners,
-                text_color,
-                font,
-                source,
-                chevron,
-                bg_left,
-                bg_right,
-                raised,
-                logo_size,
-            } => {
+            Primitive::Tech(cfg) => {
                 // If source=shields, use shields.io URL instead of SVG
-                if source.as_deref() == Some("shields") {
-                    let label_text = label.as_deref().unwrap_or(name);
+                if cfg.source.as_deref() == Some("shields") {
+                    let label_text = cfg.label.as_deref().unwrap_or(&cfg.name);
                     // Simple URL encoding for common characters
                     let encode = |s: &str| {
                         s.replace(' ', "%20")
@@ -400,33 +360,33 @@ impl Renderer for SvgBackend {
                         "https://img.shields.io/badge/{}-{}-{}?style={}&logo={}&logoColor={}",
                         encode(label_text),
                         encode(label_text),
-                        bg_color,
-                        style,
-                        encode(name),
-                        logo_color
+                        cfg.bg_color,
+                        cfg.style,
+                        encode(&cfg.name),
+                        cfg.logo_color
                     );
                     return Ok(RenderedAsset::InlineMarkdown(format!("![]({})", url)));
                 }
                 // Otherwise render as SVG
                 tech::render_with_options(
-                    name,
-                    label.as_deref(),
-                    bg_color,
-                    logo_color,
-                    style,
-                    border_color.as_deref(),
-                    *border_width,
-                    *border_full,
-                    *divider,
-                    *rx,
-                    *corners,
-                    text_color.as_deref(),
-                    font.as_deref(),
-                    chevron.as_deref(),
-                    bg_left.as_deref(),
-                    bg_right.as_deref(),
-                    *raised,
-                    *logo_size,
+                    &cfg.name,
+                    cfg.label.as_deref(),
+                    &cfg.bg_color,
+                    &cfg.logo_color,
+                    &cfg.style,
+                    cfg.border_color.as_deref(),
+                    cfg.border_width,
+                    cfg.border_full,
+                    cfg.divider,
+                    cfg.rx,
+                    cfg.corners,
+                    cfg.text_color.as_deref(),
+                    cfg.font.as_deref(),
+                    cfg.chevron.as_deref(),
+                    cfg.bg_left.as_deref(),
+                    cfg.bg_right.as_deref(),
+                    cfg.raised,
+                    cfg.logo_size,
                 )
             }
 
@@ -618,28 +578,14 @@ mod tests {
 
     #[test]
     fn test_render_tech_primitive() {
+        use crate::primitive::TechConfig;
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Tech {
+        let primitive = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
             bg_color: "000000".to_string(),
             logo_color: "FFFFFF".to_string(),
-            style: "flat-square".to_string(),
-            label: None,
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+            ..Default::default()
+        });
 
         let result = backend.render(&primitive).unwrap();
         let svg = String::from_utf8(result.file_bytes().unwrap().to_vec()).unwrap();
@@ -652,28 +598,15 @@ mod tests {
 
     #[test]
     fn test_render_tech_with_shields_source() {
+        use crate::primitive::TechConfig;
         let backend = SvgBackend::new("assets");
-        let primitive = Primitive::Tech {
+        let primitive = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
             bg_color: "000000".to_string(),
             logo_color: "FFFFFF".to_string(),
-            style: "flat-square".to_string(),
-            label: None,
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
             source: Some("shields".to_string()),
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+            ..Default::default()
+        });
 
         let result = backend.render(&primitive).unwrap();
         let markdown = result.to_markdown();

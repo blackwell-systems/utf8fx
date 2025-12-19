@@ -2,7 +2,7 @@
 
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
-use crate::primitive::Primitive;
+use crate::primitive::{Primitive, TechConfig};
 use crate::renderer::svg::tech::{get_brand_color, get_logo_color_for_bg};
 use std::collections::HashMap;
 
@@ -137,7 +137,7 @@ pub fn handle(
     // Logo/icon size - supports presets (xs, sm, md, lg, xl, xxl) or custom px values
     let logo_size = parse_logo_size(params.get("logo_size").or_else(|| params.get("icon_size")));
 
-    Ok(ComponentOutput::Primitive(Primitive::Tech {
+    Ok(ComponentOutput::Primitive(Primitive::Tech(TechConfig {
         name,
         bg_color,
         logo_color,
@@ -157,5 +157,5 @@ pub fn handle(
         bg_right,
         raised,
         logo_size,
-    }))
+    })))
 }

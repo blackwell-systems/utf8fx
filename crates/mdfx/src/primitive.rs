@@ -1,20 +1,108 @@
-/// Rendering-neutral primitives for image-based visual elements.
+//! Rendering-neutral primitives for image-based visual elements.
+//!
+//! These primitives represent the SEMANTIC intent of UI components
+//! without committing to a specific rendering backend (shields.io, SVG, etc.).
+//!
+//! Each primitive corresponds to a high-level UI concept:
+//! - Swatch: Single colored block
+//! - Tech: Technology logo badge
+//! - Progress: Progress bar with customizable track and fill
+//! - Donut: Circular progress/ring chart
+//! - Gauge: Semi-circular meter (half-donut)
+//! - Sparkline: Mini inline chart for data visualization
+//! - Rating: Star/heart rating display with partial fills
+//! - Waveform: Audio-style visualization with bars above/below center
+//!
+//! Text-based transformations (frames, styles, badges) remain as direct
+//! Unicode rendering and don't use this abstraction.
+
+/// Configuration for a technology badge.
 ///
-/// These primitives represent the SEMANTIC intent of UI components
-/// without committing to a specific rendering backend (shields.io, SVG, etc.).
-///
-/// Each primitive corresponds to a high-level UI concept:
-/// - Swatch: Single colored block
-/// - Tech: Technology logo badge
-/// - Progress: Progress bar with customizable track and fill
-/// - Donut: Circular progress/ring chart
-/// - Gauge: Semi-circular meter (half-donut)
-/// - Sparkline: Mini inline chart for data visualization
-/// - Rating: Star/heart rating display with partial fills
-/// - Waveform: Audio-style visualization with bars above/below center
-///
-/// Text-based transformations (frames, styles, badges) remain as direct
-/// Unicode rendering and don't use this abstraction.
+/// Using a struct with Default allows tests to use `..Default::default()`
+/// syntax, making them resilient to new field additions.
+#[derive(Debug, Clone, PartialEq)]
+pub struct TechConfig {
+    pub name: String,
+    pub bg_color: String,
+    pub logo_color: String,
+    pub style: String,
+    /// Optional label for two-segment badge
+    pub label: Option<String>,
+    /// Border color (hex). SVG-only.
+    pub border_color: Option<String>,
+    /// Border width in pixels. SVG-only.
+    pub border_width: Option<u32>,
+    /// Apply border to full badge (both segments). SVG-only.
+    pub border_full: bool,
+    /// Show vertical divider line between segments. SVG-only.
+    pub divider: bool,
+    /// Corner radius (uniform). SVG-only.
+    pub rx: Option<u32>,
+    /// Per-corner radii [top-left, top-right, bottom-right, bottom-left]. SVG-only.
+    pub corners: Option<[u32; 4]>,
+    /// Text/label color (hex). SVG-only.
+    pub text_color: Option<String>,
+    /// Font family. SVG-only.
+    pub font: Option<String>,
+    /// Rendering source: "svg" (default) or "shields" (shields.io URL)
+    pub source: Option<String>,
+    /// Chevron/arrow shape: "left", "right", "both". Creates pointed tab-style badges.
+    pub chevron: Option<String>,
+    /// Left segment background color (icon area). Defaults to bg_color.
+    pub bg_left: Option<String>,
+    /// Right segment background color (label area). Defaults to darkened bg_color.
+    pub bg_right: Option<String>,
+    /// Raised icon effect: pixels the icon extends above/below the label section.
+    pub raised: Option<u32>,
+    /// Logo/icon size in pixels (default: 14 for two-segment, 16 for icon-only).
+    pub logo_size: Option<u32>,
+}
+
+impl Default for TechConfig {
+    fn default() -> Self {
+        Self {
+            name: String::new(),
+            bg_color: "000000".to_string(),
+            logo_color: "FFFFFF".to_string(),
+            style: "flat-square".to_string(),
+            label: None,
+            border_color: None,
+            border_width: None,
+            border_full: false,
+            divider: false,
+            rx: None,
+            corners: None,
+            text_color: None,
+            font: None,
+            source: None,
+            chevron: None,
+            bg_left: None,
+            bg_right: None,
+            raised: None,
+            logo_size: None,
+        }
+    }
+}
+
+impl TechConfig {
+    /// Create a new TechConfig with the given name and default values.
+    pub fn new(name: &str) -> Self {
+        Self {
+            name: name.to_string(),
+            ..Default::default()
+        }
+    }
+
+    /// Create a new TechConfig with name and background color.
+    pub fn with_colors(name: &str, bg_color: &str, logo_color: &str) -> Self {
+        Self {
+            name: name.to_string(),
+            bg_color: bg_color.to_string(),
+            logo_color: logo_color.to_string(),
+            ..Default::default()
+        }
+    }
+}
 
 #[derive(Debug, Clone, PartialEq)]
 #[allow(clippy::large_enum_variant)]
@@ -63,43 +151,9 @@ pub enum Primitive {
         border_left: Option<String>,
     },
 
-    /// Technology badge with logo (uses Simple Icons)
-    Tech {
-        name: String,
-        bg_color: String,
-        logo_color: String,
-        style: String,
-        /// Optional label for two-segment badge
-        label: Option<String>,
-        /// Border color (hex). SVG-only.
-        border_color: Option<String>,
-        /// Border width in pixels. SVG-only.
-        border_width: Option<u32>,
-        /// Apply border to full badge (both segments). SVG-only.
-        border_full: bool,
-        /// Show vertical divider line between segments. SVG-only.
-        divider: bool,
-        /// Corner radius (uniform). SVG-only.
-        rx: Option<u32>,
-        /// Per-corner radii [top-left, top-right, bottom-right, bottom-left]. SVG-only.
-        corners: Option<[u32; 4]>,
-        /// Text/label color (hex). SVG-only.
-        text_color: Option<String>,
-        /// Font family. SVG-only.
-        font: Option<String>,
-        /// Rendering source: "svg" (default) or "shields" (shields.io URL)
-        source: Option<String>,
-        /// Chevron/arrow shape: "left", "right", "both". Creates pointed tab-style badges.
-        chevron: Option<String>,
-        /// Left segment background color (icon area). Defaults to bg_color.
-        bg_left: Option<String>,
-        /// Right segment background color (label area). Defaults to darkened bg_color.
-        bg_right: Option<String>,
-        /// Raised icon effect: pixels the icon extends above/below the label section.
-        raised: Option<u32>,
-        /// Logo/icon size in pixels (default: 14 for two-segment, 16 for icon-only).
-        logo_size: Option<u32>,
-    },
+    /// Technology badge with logo (uses Simple Icons).
+    /// Wraps TechConfig to enable `..Default::default()` in tests.
+    Tech(TechConfig),
 
     /// Progress bar with customizable track and fill
     Progress {
@@ -459,30 +513,10 @@ mod tests {
 
     #[test]
     fn test_primitive_tech() {
-        let tech = Primitive::Tech {
-            name: "rust".to_string(),
-            bg_color: "000000".to_string(),
-            logo_color: "ffffff".to_string(),
-            style: "flat-square".to_string(),
-            label: None,
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+        let tech = Primitive::Tech(TechConfig::new("rust"));
 
-        if let Primitive::Tech { name, .. } = tech {
-            assert_eq!(name, "rust");
+        if let Primitive::Tech(cfg) = tech {
+            assert_eq!(cfg.name, "rust");
         } else {
             panic!("Expected Tech primitive");
         }
@@ -490,31 +524,15 @@ mod tests {
 
     #[test]
     fn test_primitive_tech_with_label() {
-        let tech = Primitive::Tech {
+        let tech = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
-            bg_color: "000000".to_string(),
-            logo_color: "ffffff".to_string(),
-            style: "flat-square".to_string(),
             label: Some("v1.80".to_string()),
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+            ..Default::default()
+        });
 
-        if let Primitive::Tech { name, label, .. } = tech {
-            assert_eq!(name, "rust");
-            assert_eq!(label, Some("v1.80".to_string()));
+        if let Primitive::Tech(cfg) = tech {
+            assert_eq!(cfg.name, "rust");
+            assert_eq!(cfg.label, Some("v1.80".to_string()));
         } else {
             panic!("Expected Tech primitive");
         }
@@ -522,40 +540,20 @@ mod tests {
 
     #[test]
     fn test_primitive_tech_with_border() {
-        let tech = Primitive::Tech {
+        let tech = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
-            bg_color: "000000".to_string(),
-            logo_color: "ffffff".to_string(),
-            style: "flat-square".to_string(),
             label: Some("v1.80".to_string()),
             border_color: Some("F41C80".to_string()),
             border_width: Some(2),
-            border_full: false,
-            divider: false,
             rx: Some(8),
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+            ..Default::default()
+        });
 
-        if let Primitive::Tech {
-            name,
-            border_color,
-            border_width,
-            rx,
-            ..
-        } = tech
-        {
-            assert_eq!(name, "rust");
-            assert_eq!(border_color, Some("F41C80".to_string()));
-            assert_eq!(border_width, Some(2));
-            assert_eq!(rx, Some(8));
+        if let Primitive::Tech(cfg) = tech {
+            assert_eq!(cfg.name, "rust");
+            assert_eq!(cfg.border_color, Some("F41C80".to_string()));
+            assert_eq!(cfg.border_width, Some(2));
+            assert_eq!(cfg.rx, Some(8));
         } else {
             panic!("Expected Tech primitive");
         }

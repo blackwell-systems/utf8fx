@@ -615,9 +615,9 @@ mod tests {
 
         // Tech should return a Primitive::Tech with brand color
         match result {
-            ComponentOutput::Primitive(Primitive::Tech { name, bg_color, .. }) => {
-                assert_eq!(name, "rust");
-                assert_eq!(bg_color, "DEA584"); // Rust brand color
+            ComponentOutput::Primitive(Primitive::Tech(cfg)) => {
+                assert_eq!(cfg.name, "rust");
+                assert_eq!(cfg.bg_color, "DEA584"); // Rust brand color
             }
             _ => panic!("Expected Primitive::Tech"),
         }

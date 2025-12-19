@@ -74,17 +74,11 @@ impl From<&Primitive> for PrimitiveInfo {
                 color: color.clone(),
                 style: style.clone(),
             },
-            Primitive::Tech {
-                name,
-                bg_color,
-                logo_color,
-                style,
-                ..
-            } => PrimitiveInfo::Tech {
-                name: name.clone(),
-                bg_color: bg_color.clone(),
-                logo_color: logo_color.clone(),
-                style: style.clone(),
+            Primitive::Tech(cfg) => PrimitiveInfo::Tech {
+                name: cfg.name.clone(),
+                bg_color: cfg.bg_color.clone(),
+                logo_color: cfg.logo_color.clone(),
+                style: cfg.style.clone(),
             },
             Primitive::Progress {
                 percent,
@@ -327,27 +321,13 @@ mod tests {
 
     #[test]
     fn test_primitive_info_conversion() {
-        let primitive = Primitive::Tech {
+        use crate::primitive::TechConfig;
+        let primitive = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
             bg_color: "292A2D".to_string(),
             logo_color: "FFFFFF".to_string(),
-            style: "flat-square".to_string(),
-            label: None,
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+            ..Default::default()
+        });
 
         let info = PrimitiveInfo::from(&primitive);
         match info {

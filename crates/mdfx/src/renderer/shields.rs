@@ -62,15 +62,10 @@ impl Renderer for ShieldsBackend {
                 }
             }
 
-            Primitive::Tech {
-                name,
-                bg_color,
-                logo_color,
-                style,
-                ..
-            } => self
-                .shields
-                .render_icon(name, bg_color, logo_color, style)?,
+            Primitive::Tech(cfg) => {
+                self.shields
+                    .render_icon(&cfg.name, &cfg.bg_color, &cfg.logo_color, &cfg.style)?
+            }
 
             // Progress bars use a simple percentage badge as shields.io fallback
             // Full progress bar rendering requires SVG backend
@@ -195,28 +190,14 @@ mod tests {
 
     #[test]
     fn test_render_tech_primitive() {
+        use crate::primitive::TechConfig;
         let backend = ShieldsBackend::new().unwrap();
-        let primitive = Primitive::Tech {
+        let primitive = Primitive::Tech(TechConfig {
             name: "rust".to_string(),
             bg_color: "000000".to_string(),
             logo_color: "FFFFFF".to_string(),
-            style: "flat-square".to_string(),
-            label: None,
-            border_color: None,
-            border_width: None,
-            border_full: false,
-            divider: false,
-            rx: None,
-            corners: None,
-            text_color: None,
-            font: None,
-            source: None,
-            chevron: None,
-            bg_left: None,
-            bg_right: None,
-            raised: None,
-            logo_size: None,
-        };
+            ..Default::default()
+        });
 
         let result = backend.render(&primitive).unwrap();
         let markdown = result.to_markdown();

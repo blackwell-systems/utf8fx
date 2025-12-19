@@ -48,7 +48,7 @@ impl HybridBackend {
                     || border_left.is_some()
             }
             // Tech badges use shields.io
-            Primitive::Tech { .. } => false,
+            Primitive::Tech(_) => false,
             // Progress bars always use SVG for proper rendering
             Primitive::Progress { .. } => true,
             // Donut charts always use SVG for proper rendering
