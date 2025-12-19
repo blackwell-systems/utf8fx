@@ -862,4 +862,90 @@ mod tests {
         assert!(svg.contains("stroke=\"#FF0000\""));
         assert!(svg.contains("stroke-width=\"2\""));
     }
+
+    // ========================================================================
+    // Additional Coverage Tests
+    // ========================================================================
+
+    #[test]
+    fn test_render_with_border_full() {
+        let badge = BadgeBuilder::new("rust")
+            .border("#000000", 2)
+            .border_full()
+            .build();
+
+        let svg = render(&badge);
+        // border_full adds an outline rect on top
+        assert!(svg.contains("fill=\"none\""));
+        assert!(svg.contains("stroke=\"#000000\""));
+    }
+
+    #[test]
+    fn test_render_with_per_corner_radii() {
+        let badge = TechBadge {
+            corners: Some(crate::style::Corners {
+                top_left: 0,
+                top_right: 4,
+                bottom_right: 4,
+                bottom_left: 0,
+            }),
+            ..TechBadge::new("rust")
+        };
+
+        let svg = render(&badge);
+        // Per-corner radii use path elements instead of rect
+        assert!(svg.contains("<path d=\"M"));
+    }
+
+    #[test]
+    fn test_render_with_bg_left_right() {
+        let badge = BadgeBuilder::new("rust")
+            .bg_left("#FF0000")
+            .bg_right("#00FF00")
+            .build();
+
+        let svg = render(&badge);
+        assert!(svg.contains("FF0000"));
+        assert!(svg.contains("00FF00"));
+    }
+
+    #[test]
+    fn test_render_text_only_with_outline() {
+        let badge = BadgeBuilder::new("unknown-tech").outline().build();
+
+        let svg = render(&badge);
+        assert!(svg.contains("<svg"));
+    }
+
+    #[test]
+    fn test_darken_color_helper() {
+        let result = darken_color("#FF0000", 0.1);
+        assert!(!result.starts_with('#'));
+        assert_eq!(result.len(), 6);
+    }
+
+    #[test]
+    fn test_get_logo_color_for_bg_dark() {
+        let color = get_logo_color_for_bg("#000000");
+        assert_eq!(color, "FFFFFF");
+    }
+
+    #[test]
+    fn test_get_logo_color_for_bg_light() {
+        let color = get_logo_color_for_bg("#FFFFFF");
+        assert_eq!(color, "000000");
+    }
+
+    #[test]
+    fn test_render_to_file_creates_file() {
+        let badge = BadgeBuilder::new("rust").build();
+        let temp_path = std::env::temp_dir().join("test_badge.svg");
+
+        let result = render_to_file(&badge, &temp_path);
+        assert!(result.is_ok());
+        assert!(temp_path.exists());
+
+        // Clean up
+        let _ = std::fs::remove_file(&temp_path);
+    }
 }

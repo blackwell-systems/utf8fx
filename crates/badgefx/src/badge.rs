@@ -307,4 +307,54 @@ mod tests {
         };
         assert_eq!(badge.effective_bg_color(), expected);
     }
+
+    // ========================================================================
+    // BadgeBuilder Methods (Parameterized)
+    // ========================================================================
+
+    #[test]
+    fn test_builder_custom_icon() {
+        let badge = BadgeBuilder::new("custom")
+            .custom_icon("M0 0 L10 10")
+            .build();
+        assert_eq!(badge.custom_icon, Some("M0 0 L10 10".to_string()));
+    }
+
+    #[test]
+    fn test_builder_border_full() {
+        let badge = BadgeBuilder::new("rust")
+            .border("#000000", 2)
+            .border_full()
+            .build();
+        assert!(badge.border_full);
+        assert!(badge.border.is_some());
+    }
+
+    #[test]
+    fn test_builder_bg_left_right() {
+        let badge = BadgeBuilder::new("rust")
+            .bg_left("#FF0000")
+            .bg_right("#00FF00")
+            .build();
+        assert_eq!(badge.bg_left, Some("#FF0000".to_string()));
+        assert_eq!(badge.bg_right, Some("#00FF00".to_string()));
+    }
+
+    #[test]
+    fn test_builder_text_color() {
+        let badge = BadgeBuilder::new("rust").text_color("#FFFFFF").build();
+        assert_eq!(badge.text_color, Some("#FFFFFF".to_string()));
+    }
+
+    #[test]
+    fn test_builder_logo_color() {
+        let badge = BadgeBuilder::new("rust").logo_color("#000000").build();
+        assert_eq!(badge.logo_color, Some("#000000".to_string()));
+    }
+
+    #[test]
+    fn test_display_label_empty_name() {
+        let badge = TechBadge::new("");
+        assert_eq!(badge.display_label(), "");
+    }
 }

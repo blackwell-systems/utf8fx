@@ -374,4 +374,94 @@ mod tests {
         let entry = cache.get(source, query, metric).unwrap();
         assert_eq!(entry.value, DataValue::String(value.to_string()));
     }
+
+    // ========================================================================
+    // Additional Coverage Tests
+    // ========================================================================
+
+    #[test]
+    fn test_cache_config_default() {
+        let config = CacheConfig::default();
+        assert_eq!(config.dir, PathBuf::from(".mdfx-cache"));
+        assert_eq!(config.default_ttl, 3600);
+    }
+
+    #[test]
+    fn test_cache_entry_time_remaining() {
+        // Entry with long TTL should have time remaining
+        let entry = CacheEntry {
+            value: DataValue::Number(42),
+            created_at: std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_secs(),
+            ttl: 3600,
+        };
+        assert!(entry.time_remaining().as_secs() > 0);
+
+        // Entry with 0 TTL should have zero time remaining
+        let expired_entry = CacheEntry {
+            value: DataValue::Number(42),
+            created_at: std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_secs(),
+            ttl: 0,
+        };
+        assert_eq!(expired_entry.time_remaining(), std::time::Duration::ZERO);
+    }
+
+    #[test]
+    fn test_cache_remove_nonexistent() {
+        let (cache, _dir) = temp_cache();
+        // Should not error when removing non-existent entry
+        assert!(cache.remove("github", "nonexistent/repo", "stars").is_ok());
+    }
+
+    #[test]
+    fn test_cache_clear_expired() {
+        let (cache, _dir) = temp_cache();
+
+        // Add expired entry
+        cache
+            .set("github", "a/b", "stars", DataValue::Number(1), Some(0))
+            .unwrap();
+
+        // Add fresh entry
+        cache
+            .set("github", "c/d", "forks", DataValue::Number(2), Some(3600))
+            .unwrap();
+
+        let stats = cache.stats().unwrap();
+        assert_eq!(stats.total_entries, 2);
+        assert_eq!(stats.expired_entries, 1);
+
+        // Clear only expired entries
+        let removed = cache.clear_expired().unwrap();
+        assert_eq!(removed, 1);
+
+        // Only fresh entry should remain
+        let stats = cache.stats().unwrap();
+        assert_eq!(stats.total_entries, 1);
+        assert_eq!(stats.expired_entries, 0);
+    }
+
+    #[test]
+    fn test_cache_stats_with_size() {
+        let (cache, _dir) = temp_cache();
+
+        cache
+            .set(
+                "github",
+                "test/repo",
+                "stars",
+                DataValue::Number(12345),
+                None,
+            )
+            .unwrap();
+
+        let stats = cache.stats().unwrap();
+        assert_eq!(stats.total_entries, 1);
+        assert!(stats.size_bytes > 0);
+    }
 }
