@@ -6,7 +6,7 @@ use std::path::Path;
 
 use crate::badge::TechBadge;
 use crate::shapes::rounded_rect_path;
-use crate::style::SvgMetrics;
+use crate::style::{BadgeStyle, SvgMetrics};
 
 /// Render a badge to SVG string (pixel-perfect match to original mdfx)
 pub fn render(badge: &TechBadge) -> String {
@@ -38,12 +38,15 @@ pub fn render(badge: &TechBadge) -> String {
         .effective_bg_color()
         .unwrap_or_else(|| "#555".to_string());
     let bg_color = bg_color.trim_start_matches('#');
+
+    // Logo color: use explicit if provided, otherwise calculate from actual bg_color
+    // This matches mdfx behavior where logo contrast is based on the actual background,
+    // not the brand's default color
     let logo_color = badge
         .logo_color
         .as_deref()
         .map(|c| c.trim_start_matches('#'))
-        .or_else(|| mdfx_icons::brand_contrast_color(&badge.name))
-        .unwrap_or("FFFFFF");
+        .unwrap_or_else(|| get_logo_color_for_bg(bg_color));
 
     match (icon_path, !label.is_empty()) {
         // Icon + Label: Two-segment badge
@@ -259,7 +262,12 @@ fn render_two_segment(
 }
 
 /// Render icon-only badge (matching original mdfx)
-fn render_icon_only(badge: &TechBadge, icon_path: &str, bg_color: &str, logo_color: &str) -> String {
+fn render_icon_only(
+    badge: &TechBadge,
+    icon_path: &str,
+    bg_color: &str,
+    logo_color: &str,
+) -> String {
     let metrics = SvgMetrics::from_style(badge.style);
     let height = metrics.height as u32;
     let width: u32 = 40;
@@ -382,7 +390,8 @@ fn render_outline_two_segment(
     label: &str,
     brand_color: &str,
 ) -> String {
-    let metrics = SvgMetrics::from_style(badge.style);
+    // Outline style uses flat-square metrics (rx=0) to match original mdfx
+    let metrics = SvgMetrics::from_style(BadgeStyle::FlatSquare);
     let height = metrics.height as u32;
     let rx = badge
         .corners
@@ -463,7 +472,8 @@ fn render_outline_two_segment(
 
 /// Render outline-style icon-only badge
 fn render_outline_icon_only(badge: &TechBadge, icon_path: &str, brand_color: &str) -> String {
-    let metrics = SvgMetrics::from_style(badge.style);
+    // Outline style uses flat-square metrics (rx=0) to match original mdfx
+    let metrics = SvgMetrics::from_style(BadgeStyle::FlatSquare);
     let height = metrics.height as u32;
     let width: u32 = 40;
     let icon_size: u32 = 16;
@@ -517,7 +527,8 @@ fn render_outline_icon_only(badge: &TechBadge, icon_path: &str, brand_color: &st
 
 /// Render outline-style text-only badge
 fn render_outline_text_only(badge: &TechBadge, label: &str, brand_color: &str) -> String {
-    let metrics = SvgMetrics::from_style(badge.style);
+    // Outline style uses flat-square metrics (rx=0) to match original mdfx
+    let metrics = SvgMetrics::from_style(BadgeStyle::FlatSquare);
     let height = metrics.height as u32;
     let width = estimate_text_width(label) + 20;
     let font_size = if height > 24 { 12 } else { 11 };
