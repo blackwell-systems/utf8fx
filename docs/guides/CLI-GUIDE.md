@@ -21,9 +21,6 @@ Command-line usage for mdfx, including multi-target rendering.
   - [Config File Format](#config-file-format)
   - [Using Partials](#using-partials)
 - [Custom Palettes](#custom-palettes)
-- [Tech Badges](#tech-badges)
-  - [Intelligent Logo Colors](#intelligent-logo-colors)
-  - [Text Customization](#text-customization)
 - [Common Workflows](#common-workflows)
 - [Other Commands](#other-commands)
   - [mdfx verify](#mdfx-verify)
@@ -60,10 +57,20 @@ mdfx process <INPUT> [OPTIONS]
 | Flag | Description | Default |
 |------|-------------|---------|
 | `-o, --output <FILE>` | Output file path | stdout |
+| `-i, --in-place` | Modify input file in place | — |
 | `--target <TARGET>` | Target platform | `github` |
 | `--backend <BACKEND>` | Rendering backend | auto |
 | `--assets-dir <DIR>` | Directory for SVG assets | `assets/mdfx` |
 | `--palette <FILE>` | Custom palette JSON | none |
+| `--config <FILE>` | Config file (partials, palette) | auto-discover `.mdfx.json` |
+
+**Dynamic badge options** (requires `--features fetch`):
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--offline` | Use cached data only, no network | — |
+| `--refresh` | Force refresh cached data | — |
+| `--cache-dir <DIR>` | Cache directory for badge data | `.mdfx-cache` |
 
 **Examples:**
 
@@ -145,6 +152,9 @@ mdfx watch <INPUT> [OPTIONS]
 | `-o, --output <FILE>` | Output file | required |
 | `--target <TARGET>` | Target platform | `github` |
 | `--backend <BACKEND>` | Rendering backend | auto |
+| `--assets-dir <DIR>` | Directory for SVG assets | `assets/mdfx` |
+| `--palette <FILE>` | Custom palette JSON | none |
+| `--config <FILE>` | Config file | auto-discover `.mdfx.json` |
 | `--debounce <MS>` | Rebuild delay | `100` |
 
 **Examples:**
@@ -167,72 +177,21 @@ mdfx supports 5 rendering targets, each optimized for different platforms.
 
 | Target | Platform | Backend | Use Case |
 |--------|----------|---------|----------|
-| `github` | GitHub | SVG | GitHub READMEs (default) |
-| `gitlab` | GitLab | SVG | GitLab READMEs |
-| `npm` | npm | SVG | npm package READMEs |
-| `local` | Local docs | SVG | Offline documentation |
-| `pypi` | PyPI | plaintext | Python package descriptions |
+| `github` | GitHub | `svg` | GitHub READMEs (default) |
+| `gitlab` | GitLab | `svg` | GitLab READMEs |
+| `npm` | npm | `svg` | npm package READMEs |
+| `local` | Local docs | `svg` | Offline documentation |
+| `pypi` | PyPI | `plaintext` | Python package descriptions (ASCII-safe) |
 
 ### Target Details
 
-#### `github` (default)
-
-Best for GitHub READMEs. Uses SVG assets for full-fidelity rendering.
-
-```bash
-mdfx process input.md --target github -o README.md --assets-dir assets
-```
-
-- Local SVG files for charts and badges
-- Full customization (borders, fonts, colors)
-- Full Unicode support
-- GitHub-flavored markdown
-
-#### `gitlab`
-
-For GitLab repositories. Similar to GitHub with some extra features.
-
-```bash
-mdfx process input.md --target gitlab -o README.md
-```
-
-- More permissive HTML support
-- GitLab-specific alert syntax
-
-#### `npm`
-
-For npm package READMEs. Optimized for npmjs.com display.
-
-```bash
-mdfx process input.md --target npm -o README.md
-```
-
-- Similar constraints to GitHub
-- shields.io badges
-
-#### `pypi`
-
-For PyPI package descriptions. Uses plain text fallbacks.
-
-```bash
-mdfx process input.md --target pypi -o PKG-INFO.md
-```
-
-- No embedded images
-- ASCII-safe output
-- Plain text fallbacks for visual elements
-
-#### `local`
-
-For offline documentation. Generates local SVG files.
-
-```bash
-mdfx process input.md --target local -o docs/index.md --assets-dir docs/assets
-```
-
-- No external dependencies
-- SVG files stored locally
-- Asset manifest for tracking
+| Target | Notes |
+|--------|-------|
+| `github` | Default. Full SVG rendering, GitHub-flavored markdown |
+| `gitlab` | Like GitHub with more permissive HTML support |
+| `npm` | For npmjs.com package READMEs |
+| `pypi` | Plain text only - no images, ASCII-safe output |
+| `local` | Offline docs with local SVG files, asset manifest |
 
 ---
 
@@ -383,72 +342,6 @@ Then reference in templates:
 
 ---
 
-## Tech Badges
-
-Tech badges display technology logos with brand colors using Simple Icons.
-
-### Basic Usage
-
-```markdown
-{{ui:tech:rust/}}
-{{ui:tech:python/}}
-{{ui:tech:typescript/}}
-```
-
-### Intelligent Logo Colors
-
-Logo colors are automatically selected based on background luminance:
-
-| Background | Logo Color | Example |
-|------------|------------|---------|
-| Light (orange, cyan) | Black | Rust, Go |
-| Dark (blue, black) | White | PostgreSQL, Docker |
-
-Override with `logo` parameter:
-
-```markdown
-{{ui:tech:rust:logo=white/}}      <!-- Force white logo -->
-{{ui:tech:docker:logo=000000/}}   <!-- Force black logo -->
-```
-
-### Text Customization
-
-Customize the label text appearance:
-
-```markdown
-{{ui:tech:rust:text_color=white/}}           <!-- White text -->
-{{ui:tech:python:font=Monaco,monospace/}}    <!-- Custom font -->
-{{ui:tech:go:text=000000:font=Arial/}}       <!-- Both -->
-```
-
-**Parameters:**
-
-| Parameter | Aliases | Description |
-|-----------|---------|-------------|
-| `text_color` | `text`, `color` | Label text color (hex) |
-| `font` | `font_family` | Font family for label |
-| `logo` | - | Logo color override (hex) |
-| `bg` | - | Background color override |
-| `label` | - | Custom label text |
-
-### Examples
-
-```markdown
-<!-- Default: auto logo color based on brand -->
-{{ui:tech:rust/}}
-
-<!-- Custom styling -->
-{{ui:tech:postgresql:text_color=FFFFFF:font=monospace/}}
-
-<!-- Override background -->
-{{ui:tech:docker:bg=000000/}}
-
-<!-- Custom label -->
-{{ui:tech:typescript:label=TS/}}
-```
-
----
-
 ## Common Workflows
 
 ### GitHub README
@@ -524,6 +417,18 @@ Convert text to a Unicode style.
 mdfx convert --style mathbold "HELLO"     # Output: 𝐇𝐄𝐋𝐋𝐎
 mdfx convert --style fraktur "Gothic"     # Output: 𝔊𝔬𝔱𝔥𝔦𝔠
 ```
+
+### `mdfx completions`
+
+Generate shell completion scripts.
+
+```bash
+mdfx completions bash > /etc/bash_completion.d/mdfx
+mdfx completions zsh > ~/.zsh/completions/_mdfx
+mdfx completions fish > ~/.config/fish/completions/mdfx.fish
+```
+
+Supported shells: `bash`, `zsh`, `fish`, `elvish`, `powershell`
 
 ### `mdfx verify`
 
