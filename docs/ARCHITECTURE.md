@@ -1,7 +1,7 @@
 # mdfx Architecture
 
 **Version:** 1.0.0
-**Last Updated:** 2025-12-14
+**Last Updated:** 2025-12-19
 
 ## Overview
 
@@ -33,7 +33,7 @@ mdfx is a **markdown compiler** that transforms template syntax into rich visual
 
 ## Workspace Structure
 
-mdfx uses a Cargo workspace to separate library and CLI concerns:
+mdfx uses a Cargo workspace with five packages:
 
 ```
 mdfx/
@@ -43,7 +43,7 @@ mdfx/
 │   ├── mdfx/                     # Core library (compiler)
 │   │   ├── Cargo.toml           # Package: mdfx
 │   │   ├── data/
-│   │   │   └── registry.json    # Unified data registry (single source of truth)
+│   │   │   └── registry.json    # Unified data registry
 │   │   └── src/
 │   │       ├── lib.rs
 │   │       ├── converter.rs     # Character transformation
@@ -51,16 +51,20 @@ mdfx/
 │   │       ├── components.rs    # Component expansion
 │   │       ├── primitive.rs     # Rendering-neutral AST
 │   │       ├── registry.rs      # Unified registry loader
+│   │       ├── manifest.rs      # Asset manifest system
 │   │       ├── targets.rs       # Target platform selection
-│   │       ├── renderer/
-│   │       │   ├── mod.rs       # Renderer trait
-│   │       │   ├── shields.rs   # shields.io backend
-│   │       │   └── svg.rs       # Local SVG backend
-│   │       └── ...
-│   └── mdfx-cli/                # CLI application
-│       ├── Cargo.toml           # Package: mdfx-cli
-│       └── src/
-│           └── main.rs          # Binary: mdfx
+│   │       └── renderer/
+│   │           ├── mod.rs       # Renderer trait
+│   │           ├── shields.rs   # shields.io backend
+│   │           └── svg/         # Local SVG backend
+│   ├── mdfx-cli/                # CLI application
+│   │   └── src/main.rs          # Binary: mdfx
+│   ├── badgefx/                 # Badge rendering library
+│   │   └── src/                 # Tech badge SVG generation
+│   ├── mdfx-icons/              # Icon library
+│   │   └── src/                 # 90+ tech icons with brand colors
+│   └── mdfx-colors/             # Color utilities
+│       └── src/                 # Contrast, luminance, darken
 ```
 
 ### Design Rationale
@@ -83,19 +87,28 @@ mdfx/
 ```toml
 serde = "1.0"              # JSON deserialization
 serde_json = "1.0"         # Registry loading
-thiserror = "2.0"          # Error handling
+thiserror = "1.0"          # Error handling
 unicode-segmentation = "1" # Grapheme cluster support
-sha2 = "0.10"              # Asset hashing
+sha2 = "0.10"              # Content-addressed hashing
 chrono = "0.4"             # Manifest timestamps
+xxhash-rust = "0.8"        # Stable filename hashing
+badgefx = { path }         # Badge rendering
+mdfx-icons = { path }      # Icon library
+mdfx-colors = { path }     # Color utilities
 ```
 
 **CLI (`mdfx-cli`):**
 ```toml
-mdfx = { path = "../mdfx" }     # Core compiler
-clap = "4.4"                     # Argument parsing
-clap_complete = "4.4"            # Shell completions
-colored = "2.1"                  # Terminal colors
-serde_json = "1.0"               # Custom palette loading
+mdfx = { path = "../mdfx" }      # Core compiler
+clap = "4.4"                      # Argument parsing
+colored = "2.1"                   # Terminal colors
+notify = "6.1"                    # File watching
+```
+
+**Badge Rendering (`badgefx`):**
+```toml
+mdfx-icons = { path }      # Icon paths and brand colors
+mdfx-colors = { path }     # Contrast calculation
 ```
 
 ---

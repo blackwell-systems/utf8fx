@@ -14,6 +14,8 @@ Components are reusable UI elements that render to visual primitives like badges
   - [sparkline](#sparkline)
   - [rating](#rating)
   - [row](#row)
+  - [waveform](#waveform)
+  - [tech-group](#tech-group)
 - [Badge Styles](#badge-styles)
 - [Practical Examples](#practical-examples)
 - [Component Reference](#component-reference)
@@ -473,6 +475,82 @@ content
 
 ---
 
+### waveform
+
+Renders an audio-style waveform visualization with bars above/below center.
+
+**Syntax:**
+```markdown
+{{ui:waveform:values/}}
+{{ui:waveform:values:param=value/}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `values` | string | required | Comma-separated floats (-1 to 1) |
+| `width` | number | 200 | Width in pixels |
+| `height` | number | 40 | Height in pixels |
+| `positive` | color | success | Positive bar color |
+| `negative` | color | error | Negative bar color |
+| `bar_width` | number | 3 | Width of each bar |
+| `spacing` | number | 1 | Space between bars |
+| `track` | color | none | Background color |
+| `center` | boolean | true | Show center line |
+| `center_color` | color | slate | Center line color |
+
+**Basic Examples:**
+```markdown
+{{ui:waveform:0.5,0.8,-0.3,0.6,-0.7,0.4,-0.2,0.9,-0.5,0.3/}}
+{{ui:waveform:0.2,0.5,0.8,0.4,0.1,-0.2,-0.5,-0.8,-0.4,-0.1/}}
+```
+
+**Custom Colors:**
+```markdown
+{{ui:waveform:0.5,-0.5,0.8,-0.3:positive=accent:negative=warning/}}
+```
+
+**Note:** Values range from -1 to 1. Positive values render above center, negative below.
+
+---
+
+### tech-group
+
+Groups multiple tech badges with automatic corner handling for seamless pill-style display.
+
+**Syntax:**
+```markdown
+{{ui:tech-group:gap=value}}
+{{ui:tech:name/}}
+{{ui:tech:name/}}
+{{/ui}}
+```
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `gap` | number | 0 | Gap between badges in pixels |
+
+**Examples:**
+```markdown
+{{ui:tech-group}}
+{{ui:tech:rust/}}
+{{ui:tech:typescript/}}
+{{ui:tech:docker/}}
+{{/ui}}
+
+{{ui:tech-group:gap=4}}
+{{ui:tech:python/}}
+{{ui:tech:go/}}
+{{/ui}}
+```
+
+**Note:** When gap=0, badges merge into a single pill. When gap>0, they appear as separate rounded badges.
+
+---
+
 ## Badge Styles
 
 All components that render badges support these styles:
@@ -560,10 +638,12 @@ Volume: {{ui:progress:65:width=150:thumb=12/}}
 |-----------|------|--------------|---------|
 | `swatch` | native | yes | inline, block |
 | `tech` | native | yes | inline, block |
+| `tech-group` | native | no | block |
 | `progress` | native | yes | inline, block |
 | `donut` | native | yes | inline, block |
 | `gauge` | native | yes | inline, block |
 | `sparkline` | native | yes | inline, block |
+| `waveform` | native | yes | inline, block |
 | `rating` | native | yes | inline, block |
 | `row` | native | no | block |
 

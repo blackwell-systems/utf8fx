@@ -497,40 +497,32 @@ mdfx process docs/index.template.md \
 
 ## Other Commands
 
-### `mdfx styles`
+### `mdfx list`
 
-List available text styles.
+Discover available resources. Lists styles by default, or specify a resource type.
 
 ```bash
-mdfx styles
-mdfx styles --examples
+mdfx list                        # List styles (default)
+mdfx list styles --samples       # List styles with sample output
+mdfx list components             # List all UI components with params
+mdfx list glyphs                 # List glyphs grouped by category
+mdfx list frames                 # List frames with previews
+mdfx list palette                # List palette colors
 ```
 
-### `mdfx frames`
-
-List available frames.
-
+**Filter results:**
 ```bash
-mdfx frames
-mdfx frames --examples
+mdfx list glyphs -f star         # Filter glyphs containing "star"
+mdfx list components -f progress # Filter components
 ```
 
-### `mdfx glyphs`
+### `mdfx convert`
 
-List available glyphs.
-
-```bash
-mdfx glyphs
-mdfx glyphs --category stars
-```
-
-### `mdfx separators`
-
-List available separator characters.
+Convert text to a Unicode style.
 
 ```bash
-mdfx separators
-mdfx separators --examples
+mdfx convert --style mathbold "HELLO"     # Output: 𝐇𝐄𝐋𝐋𝐎
+mdfx convert --style fraktur "Gothic"     # Output: 𝔊𝔬𝔱𝔥𝔦𝔠
 ```
 
 ### `mdfx verify`
