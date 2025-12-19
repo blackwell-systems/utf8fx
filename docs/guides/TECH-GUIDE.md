@@ -535,13 +535,7 @@ The `style` parameter changes the badge appearance:
 
 ## Raised Icon Badge
 
-The `raised` parameter creates badges where the icon section extends above and below the label section, creating a distinctive 3D tab effect:
-
-```
-    ┌────┐
-════│icon│════════
-    └────┘
-```
+The `raised` parameter creates badges where the icon section extends above and below the label section, creating a distinctive 3D tab effect.
 
 ### Syntax
 
