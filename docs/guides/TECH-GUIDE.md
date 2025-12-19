@@ -848,23 +848,7 @@ When overriding backgrounds, ensure contrast:
 
 **Rendered:** ![](assets/tech-guide/tech_2831da29465584bd.svg) ![](assets/tech-guide/tech_342f9caaad33cd0e.svg) ![](assets/tech-guide/tech_e4e09f595a9c8901.svg)
 
-### 4. Version Badges in Tables
-
-```markdown
-| Dependency | Version |
-|------------|---------|
-| {{ui:tech:rust:label=rustc/}} | 1.75.0 |
-| {{ui:tech:nodejs:label=node/}} | 20.10.0 |
-```
-
-**Rendered:**
-
-| Dependency | Version |
-|------------|---------|
-| ![](assets/tech-guide/tech_dcf122d8ba1567c6.svg) | 1.75.0 |
-| ![](assets/tech-guide/tech_c3cf2473b757a130.svg) | 20.10.0 |
-
-### 5. Monochrome for Professional Docs
+### 4. Monochrome for Professional Docs
 
 ```markdown
 {{ui:tech:rust:bg=333:logo=white:text_color=white/}}
