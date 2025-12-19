@@ -205,6 +205,7 @@ mod tests {
             border_color: None,
             border_width: None,
             border_full: false,
+            divider: false,
             rx: None,
             corners: None,
             text_color: None,

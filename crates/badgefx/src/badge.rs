@@ -25,6 +25,8 @@ pub struct TechBadge {
     pub border: Option<Border>,
     /// Apply border to full badge (both segments) instead of just icon segment
     pub border_full: bool,
+    /// Show vertical divider line between icon and label segments
+    pub divider: bool,
     /// Custom corner radii
     pub corners: Option<Corners>,
     /// Chevron/arrow configuration
@@ -55,6 +57,7 @@ impl TechBadge {
             text_color: None,
             border: None,
             border_full: false,
+            divider: false,
             corners: None,
             chevron: None,
             raised: None,
@@ -172,6 +175,12 @@ impl BadgeBuilder {
     /// Apply border to full badge (both segments)
     pub fn border_full(mut self) -> Self {
         self.badge.border_full = true;
+        self
+    }
+
+    /// Show vertical divider line between icon and label segments
+    pub fn divider(mut self) -> Self {
+        self.badge.divider = true;
         self
     }
 

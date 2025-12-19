@@ -100,6 +100,10 @@ pub fn handle(
         .get("border_full")
         .map(|v| v == "true" || v == "1")
         .unwrap_or(false);
+    let divider = params
+        .get("divider")
+        .map(|v| v == "true" || v == "1")
+        .unwrap_or(false);
 
     // Parse rx - can be single value or comma-separated for per-corner
     let rx_param = params.get("rx");
@@ -144,6 +148,7 @@ pub fn handle(
         border_color,
         border_width,
         border_full,
+        divider,
         rx,
         corners,
         text_color,

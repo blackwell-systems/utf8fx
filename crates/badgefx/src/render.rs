@@ -274,6 +274,25 @@ fn render_two_segment(
         String::new()
     };
 
+    // Divider line between segments (uses border color if available)
+    let divider_line = if badge.divider {
+        if let Some(border) = &badge.border {
+            let color = border.color.trim_start_matches('#');
+            format!(
+                "\n  <line x1=\"{}\" y1=\"0\" x2=\"{}\" y2=\"{}\" stroke=\"#{}\" stroke-width=\"{}\"/>",
+                icon_width, icon_width, height, color, border.width
+            )
+        } else {
+            // Default divider with subtle gray color
+            format!(
+                "\n  <line x1=\"{}\" y1=\"0\" x2=\"{}\" y2=\"{}\" stroke=\"#555\" stroke-width=\"1\"/>",
+                icon_width, icon_width, height
+            )
+        }
+    } else {
+        String::new()
+    };
+
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
   {}\n\
@@ -281,7 +300,7 @@ fn render_two_segment(
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
-  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>{}\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>{}{}\n\
 </svg>",
         total_width, height, total_width, height,
         left_segment,
@@ -289,7 +308,8 @@ fn render_two_segment(
         icon_x, icon_y, scale,
         logo_color, icon_path,
         text_x, text_y, text_color, font_family, font_size, label,
-        full_border_outline
+        full_border_outline,
+        divider_line
     )
 }
 

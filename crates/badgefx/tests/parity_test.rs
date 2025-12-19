@@ -30,6 +30,7 @@ fn mdfx_render_full(
         border_color,
         border_width,
         false, // border_full
+        false, // divider
         None,  // rx
         None,  // corners
         text_color,

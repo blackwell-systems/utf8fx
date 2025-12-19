@@ -58,6 +58,25 @@ Tech badges now support `border_full=true` to draw a border around the entire ba
 
 The full border is rendered as a separate outline rect on top of all segments, creating a clean perimeter without a dividing line between icon and label areas.
 
+#### Segment Divider (`divider`)
+
+Tech badges now support `divider=true` to draw a vertical line between the icon and label segments.
+
+**Usage:**
+```markdown
+{{ui:tech:react:border=61DAFB:divider=true/}}                      <!-- Divider only -->
+{{ui:tech:react:border=61DAFB:border_full=true:divider=true/}}     <!-- Full border + divider -->
+```
+
+**Border Hierarchy:**
+| Mode | Perimeter Border | Center Divider |
+|------|-----------------|----------------|
+| `border=COLOR` | Left segment only | ❌ |
+| `border=COLOR:border_full=true` | ✅ Full | ❌ |
+| `border=COLOR:divider=true` | Left segment only | ✅ |
+| `border=COLOR:border_full=true:divider=true` | ✅ Full | ✅ |
+| `style=outline` | ✅ Full | ✅ (automatic) |
+
 ### Changed
 
 #### mdfx Tech Renderer Migration to badgefx

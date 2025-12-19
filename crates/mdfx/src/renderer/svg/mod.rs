@@ -112,6 +112,7 @@ impl SvgBackend {
                 border_color,
                 border_width,
                 border_full,
+                divider,
                 rx,
                 corners,
                 text_color,
@@ -133,6 +134,7 @@ impl SvgBackend {
                 raised.hash(&mut hasher);
                 border_width.hash(&mut hasher);
                 border_full.hash(&mut hasher);
+                divider.hash(&mut hasher);
                 rx.hash(&mut hasher);
                 corners.hash(&mut hasher);
                 text_color.hash(&mut hasher);
@@ -372,6 +374,7 @@ impl Renderer for SvgBackend {
                 border_color,
                 border_width,
                 border_full,
+                divider,
                 rx,
                 corners,
                 text_color,
@@ -414,6 +417,7 @@ impl Renderer for SvgBackend {
                     border_color.as_deref(),
                     *border_width,
                     *border_full,
+                    *divider,
                     *rx,
                     *corners,
                     text_color.as_deref(),
@@ -624,6 +628,7 @@ mod tests {
             border_color: None,
             border_width: None,
             border_full: false,
+            divider: false,
             rx: None,
             corners: None,
             text_color: None,
@@ -657,6 +662,7 @@ mod tests {
             border_color: None,
             border_width: None,
             border_full: false,
+            divider: false,
             rx: None,
             corners: None,
             text_color: None,
