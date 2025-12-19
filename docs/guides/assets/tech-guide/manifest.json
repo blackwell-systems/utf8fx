@@ -1,87 +1,113 @@
 {
   "version": "1.0.0",
-  "created_at": "2025-12-19T03:51:08.645116972+00:00",
+  "created_at": "2025-12-19T03:55:38.686116648+00:00",
   "backend": "svg",
   "assets_dir": "docs/guides/assets/tech-guide",
-  "total_assets": 6,
+  "total_assets": 8,
   "assets": [
     {
-      "path": "docs/guides/assets/tech-guide/tech_24f5e6e760ca333b.svg",
-      "sha256": "b948476f154e3f19e1843712d27c45df228de114c51ea57461e7ba1534e0cf25",
+      "path": "docs/guides/assets/tech-guide/tech_4b359f770f12d88f.svg",
+      "sha256": "2f5f076898e9fbbf3945c9e983349485df4be54c255d8032776df8c0c695128f",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "rust",
         "bg_color": "DEA584",
         "logo_color": "000000",
-        "style": "outline"
+        "style": "flat-square"
       },
-      "size_bytes": 2280
+      "size_bytes": 2262
     },
     {
-      "path": "docs/guides/assets/tech-guide/tech_a9004ad74dd1ce01.svg",
-      "sha256": "666065784734ef1166f49ee59b31aa57f4386a6cef056055d237785cd6ac9991",
+      "path": "docs/guides/assets/tech-guide/tech_d507b8eab2a8d265.svg",
+      "sha256": "f0acb9330ca5433a702fbf072f6ab7a810cd0989ac2e38106a72c78736577cdb",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "typescript",
         "bg_color": "3178C6",
         "logo_color": "FFFFFF",
-        "style": "outline"
+        "style": "flat-square"
       },
-      "size_bytes": 1638
+      "size_bytes": 1613
     },
     {
-      "path": "docs/guides/assets/tech-guide/tech_14e6697439dde7ef.svg",
-      "sha256": "1e919b84f6699d039ec3d979c29ff4e284aab13ee9f12ef0b18e8bd0b63a19e0",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "python",
-        "bg_color": "3776AB",
-        "logo_color": "FFFFFF",
-        "style": "outline"
-      },
-      "size_bytes": 1880
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_a5ef42e473be143d.svg",
-      "sha256": "20c8f8bd61466611f080c6027608e19245984a75ab54f4942502df0bbb4b7059",
+      "path": "docs/guides/assets/tech-guide/tech_5dc98f9c998100d2.svg",
+      "sha256": "487fd158317aee24fe3eca5b0f96d6904a40b62eacc6d183694526300d585b23",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "docker",
         "bg_color": "2496ED",
         "logo_color": "000000",
-        "style": "outline"
-      },
-      "size_bytes": 2127
-    },
-    {
-      "path": "docs/guides/assets/tech-guide/tech_137ce9fa97d45e1d.svg",
-      "sha256": "bd7cafbeefb0b71a05254a4fc137e92621bf5dc145e8fb2bd00fae16669dd23a",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "mydb",
-        "bg_color": "336791",
-        "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 274
+      "size_bytes": 2111
     },
     {
-      "path": "docs/guides/assets/tech-guide/tech_17c9bee7760f8225.svg",
-      "sha256": "501a6c28b98c08925384c526a12b6e3db3c9ab9616fedd6604e6475eaaf86e57",
+      "path": "docs/guides/assets/tech-guide/tech_ec4dda8d6c53178a.svg",
+      "sha256": "62cb40282b9095e4373d8785153ae5ee09130e1efaab6f0af7ed748c4559bd77",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
-        "name": "cloud",
-        "bg_color": "2196F3",
+        "name": "react",
+        "bg_color": "61DAFB",
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 275
+      "size_bytes": 3270
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_e65b3824eab484b7.svg",
+      "sha256": "f1b99885b7ccff46f12f60fdc09c7c9036d75a00b8397cddf7c3f5d220245fc4",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1626
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_8856d74e9e5f5137.svg",
+      "sha256": "5838d5409acfd63e8a19503749960485fd897fed8876e5474f17a7074675243b",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "docker",
+        "bg_color": "2496ED",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2109
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_b65657c7069e8137.svg",
+      "sha256": "c85cff98d1876d16eabb13620ed8001f6a424500e0e5e870dfe8f98207f2f1c8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "kubernetes",
+        "bg_color": "326CE5",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1660
+    },
+    {
+      "path": "docs/guides/assets/tech-guide/tech_35b10ae14aef1ea4.svg",
+      "sha256": "6cc5c5587657be32e0f7a7a71809120319ee37828fe092f0e8c3e742e8a6af69",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "terraform",
+        "bg_color": "844FBA",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 711
     }
   ]
 }

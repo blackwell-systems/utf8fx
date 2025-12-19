@@ -436,54 +436,19 @@ The `raised` parameter creates badges where the icon section extends above and b
 
 ## Tech Groups
 
-The `tech-group` component automatically applies corner presets for seamless badge groups:
+The `tech-group` component creates seamless badge groups by auto-applying corner presets (first=left, middle=none, last=right).
+
+![](assets/tech-guide/tech_4b359f770f12d88f.svg)![](assets/tech-guide/tech_d507b8eab2a8d265.svg)![](assets/tech-guide/tech_5dc98f9c998100d2.svg)
 
 ```markdown
 {{ui:tech-group}}
-{{ui:tech:rust/}}
-{{ui:tech:typescript/}}
-{{ui:tech:docker/}}
+{{ui:tech:rust/}}{{ui:tech:typescript/}}{{ui:tech:docker/}}
 {{/ui}}
 ```
 
-### How It Works
+### More Examples
 
-The component analyzes badges inside and applies:
-- **First badge**: `corners=left` (rounded left, square right)
-- **Middle badges**: `corners=none` (all square corners)
-- **Last badge**: `corners=right` (square left, rounded right)
-
-This creates a seamless "pill" group where badges connect visually.
-
-### Tech Group Examples
-
-**Two technologies:**
-```markdown
-{{ui:tech-group}}
-{{ui:tech:react/}}{{ui:tech:typescript/}}
-{{/ui}}
-```
-
-**Stack visualization:**
-```markdown
-{{ui:tech-group}}
-{{ui:tech:docker/}}{{ui:tech:kubernetes/}}{{ui:tech:terraform/}}
-{{/ui}}
-```
-
-### Combining with Row
-
-For centered badge groups, wrap in a row:
-
-```markdown
-{{ui:row}}
-{{ui:tech-group}}
-{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
-{{/ui}}
-{{/ui}}
-```
-
-**Note:** Single badges in a tech-group are not modified (all corners remain rounded).
+![](assets/tech-guide/tech_ec4dda8d6c53178a.svg)![](assets/tech-guide/tech_e65b3824eab484b7.svg) | ![](assets/tech-guide/tech_8856d74e9e5f5137.svg)![](assets/tech-guide/tech_b65657c7069e8137.svg)![](assets/tech-guide/tech_35b10ae14aef1ea4.svg)
 
 ---
 
