@@ -5,6 +5,7 @@
 
 pub mod donut;
 pub mod gauge;
+pub mod license;
 pub mod progress;
 pub mod rating;
 pub mod row;
@@ -12,4 +13,5 @@ pub mod sparkline;
 pub mod swatch;
 pub mod tech;
 pub mod tech_group;
+pub mod version;
 pub mod waveform;

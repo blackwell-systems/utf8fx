@@ -1026,6 +1026,80 @@
             "description": "Color of center line (if center=true)"
           }
         }
+      },
+      "version": {
+        "type": "native",
+        "self_closing": true,
+        "description": "Version badge with semver-aware coloring (green=stable, yellow=beta, orange=alpha, red=deprecated)",
+        "contexts": [
+          "inline",
+          "block"
+        ],
+        "args": [
+          "version"
+        ],
+        "optional_params": {
+          "status": {
+            "type": "enum",
+            "values": ["stable", "beta", "alpha", "deprecated", "dev"],
+            "default": "stable",
+            "description": "Override auto-detected status (auto-detected from version string if not specified)"
+          },
+          "bg": {
+            "type": "color",
+            "default": "auto",
+            "description": "Custom background color (default: status-based)"
+          },
+          "text": {
+            "type": "color",
+            "default": "auto",
+            "description": "Custom text color (default: auto-contrast)"
+          },
+          "prefix": {
+            "type": "string",
+            "default": "v",
+            "description": "Version prefix (empty string to disable)"
+          },
+          "style": {
+            "type": "shield_style",
+            "default": "flat-square",
+            "description": "Badge style"
+          }
+        }
+      },
+      "license": {
+        "type": "native",
+        "self_closing": true,
+        "description": "License badge with category-aware coloring (green=permissive, blue=weak-copyleft, yellow=copyleft, gray=proprietary)",
+        "contexts": [
+          "inline",
+          "block"
+        ],
+        "args": [
+          "license"
+        ],
+        "optional_params": {
+          "label": {
+            "type": "string",
+            "default": "auto",
+            "description": "Custom label (default: formatted license name)"
+          },
+          "bg": {
+            "type": "color",
+            "default": "auto",
+            "description": "Custom background color (default: category-based)"
+          },
+          "text": {
+            "type": "color",
+            "default": "auto",
+            "description": "Custom text color (default: auto-contrast)"
+          },
+          "style": {
+            "type": "shield_style",
+            "default": "flat-square",
+            "description": "Badge style"
+          }
+        }
       }
     },
     "frames": {

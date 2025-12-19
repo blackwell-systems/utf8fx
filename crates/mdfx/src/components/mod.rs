@@ -221,6 +221,8 @@ impl ComponentsRenderer {
             "rating" => handlers::rating::handle(&positional, &params, resolve),
             "waveform" => handlers::waveform::handle(&positional, &params, resolve),
             "row" => handlers::row::handle(&params, content),
+            "version" => handlers::version::handle(&positional, &params, &style, resolve),
+            "license" => handlers::license::handle(&positional, &params, &style, resolve),
             _ => Err(Error::ParseError(format!(
                 "Native component '{}' has no implementation",
                 component

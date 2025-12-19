@@ -198,6 +198,62 @@ Use cases:
 - Link to documentation or download pages
 - Create navigation badges in documentation
 
+#### Version Badge Component
+
+New `version` component with semver-aware coloring:
+
+```markdown
+{{ui:version:1.0.0/}}              <!-- green (stable) -->
+{{ui:version:2.0.0-beta.1/}}       <!-- yellow (auto-detected beta) -->
+{{ui:version:0.5.0/}}              <!-- yellow (0.x treated as beta) -->
+{{ui:version:1.0.0-alpha/}}        <!-- orange (alpha) -->
+{{ui:version:1.0.0:status=deprecated/}}  <!-- red (override) -->
+```
+
+**Status detection:**
+| Version Pattern | Status | Color |
+|-----------------|--------|-------|
+| `1.0.0` | stable | green |
+| `0.x.x` | beta | yellow |
+| `-beta`, `-rc`, `-preview` | beta | yellow |
+| `-alpha` | alpha | orange |
+| `-dev`, `-snapshot`, `-nightly` | dev | purple |
+| `-deprecated`, `-eol` | deprecated | red |
+
+**Parameters:**
+- `status` - Override auto-detection: stable, beta, alpha, deprecated, dev
+- `bg` - Custom background color
+- `text` - Custom text color
+- `prefix` - Version prefix (default: "v", use "" to disable)
+- `style` - Badge style
+
+#### License Badge Component
+
+New `license` component with category-aware coloring:
+
+```markdown
+{{ui:license:MIT/}}           <!-- green (permissive) -->
+{{ui:license:GPL-3.0/}}       <!-- yellow (copyleft) -->
+{{ui:license:LGPL-3.0/}}      <!-- blue (weak copyleft) -->
+{{ui:license:CC0/}}           <!-- cyan (public domain) -->
+{{ui:license:Proprietary/}}   <!-- gray -->
+```
+
+**License categories:**
+| Category | Licenses | Color |
+|----------|----------|-------|
+| Permissive | MIT, Apache-2.0, BSD-3-Clause, ISC | green |
+| Weak Copyleft | LGPL, MPL, EPL, CDDL | blue |
+| Copyleft | GPL, AGPL | yellow |
+| Public Domain | CC0, Unlicense | cyan |
+| Proprietary | Proprietary, Commercial | gray |
+
+**Parameters:**
+- `label` - Custom label (default: formatted license name)
+- `bg` - Custom background color
+- `text` - Custom text color
+- `style` - Badge style
+
 #### Tech Badge IntelliSense (LSP)
 
 The LSP server now provides full IntelliSense support for tech badges with contextual completions:
