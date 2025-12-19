@@ -1,6 +1,6 @@
-# Dynamic Badges Guide
+# Live Badges Guide
 
-Dynamic badges fetch live data from external APIs to display real-time metrics like GitHub stars, npm versions, and crate downloads.
+Live badges fetch data from external APIs to display real-time metrics like GitHub stars, npm versions, and crate downloads.
 
 ## Syntax
 
@@ -17,7 +17,7 @@ Where:
 
 ## Requirements
 
-Dynamic badges require the `fetch` feature to be enabled:
+Live badges require the `fetch` feature to be enabled:
 
 ```bash
 cargo build --release --features fetch
@@ -130,7 +130,7 @@ Fetch package information from PyPI.
 
 ## Styling Options
 
-Dynamic badges support the same styling options as other components:
+Live badges support the same styling options as other components:
 
 ```markdown
 <!-- Custom background color -->
@@ -207,7 +207,7 @@ Default cache directory is `.mdfx-cache` in the current working directory.
 
 ## Error Handling
 
-Dynamic badges handle errors gracefully:
+Live badges handle errors gracefully:
 
 1. **Network errors**: Fall back to stale cache if available
 2. **API errors**: Display error message in badge
