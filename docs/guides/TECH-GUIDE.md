@@ -18,10 +18,10 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Logo Size](#logo-size)
 - [Badge Styles](#badge-styles)
 - [Tech Groups](#tech-groups)
-- [Available Technologies](#available-technologies)
 - [Complete Examples](#complete-examples)
 - [Backend Differences](#backend-differences)
 - [Tips & Tricks](#tips--tricks)
+- [Available Technologies](#available-technologies)
 
 ---
 
@@ -88,26 +88,7 @@ By default, tech badges render as local SVG files with full customization suppor
 
 ## Brand Colors
 
-Tech badges automatically use brand colors from Simple Icons:
-
-| Technology | Brand Color | Background |
-|------------|-------------|------------|
-| rust | `#DEA584` | Orange |
-| python | `#3776AB` | Blue |
-| typescript | `#3178C6` | Blue |
-| javascript | `#F7DF1E` | Yellow |
-| go | `#00ADD8` | Cyan |
-| docker | `#2496ED` | Blue |
-| postgresql | `#4169E1` | Royal Blue |
-| redis | `#DC382D` | Red |
-| react | `#61DAFB` | Cyan |
-| vue | `#4FC08D` | Green |
-| nodejs | `#339933` | Green |
-| github | `#181717` | Black |
-
-### Override Brand Color
-
-Use `bg` to override the brand color:
+Tech badges automatically use brand colors from Simple Icons. Override with `bg`:
 
 ```markdown
 {{ui:tech:rust:bg=000000/}}        <!-- Black background -->
@@ -637,83 +618,6 @@ For centered badge groups, wrap in a row:
 
 ---
 
-## Available Technologies
-
-### Languages
-
-| Name | Icon |
-|------|------|
-| `rust` | Rust |
-| `python` | Python |
-| `typescript` | TypeScript |
-| `javascript` | JavaScript |
-| `go` | Go |
-| `java` | Java |
-| `csharp` | C# |
-| `cpp` | C++ |
-| `ruby` | Ruby |
-| `php` | PHP |
-| `swift` | Swift |
-| `kotlin` | Kotlin |
-
-### Frameworks & Libraries
-
-| Name | Icon |
-|------|------|
-| `react` | React |
-| `vue` | Vue.js |
-| `angular` | Angular |
-| `svelte` | Svelte |
-| `nextjs` | Next.js |
-| `nuxt` | Nuxt.js |
-| `express` | Express |
-| `fastapi` | FastAPI |
-| `django` | Django |
-| `flask` | Flask |
-
-### Databases
-
-| Name | Icon |
-|------|------|
-| `postgresql` | PostgreSQL |
-| `mysql` | MySQL |
-| `mongodb` | MongoDB |
-| `redis` | Redis |
-| `sqlite` | SQLite |
-| `elasticsearch` | Elasticsearch |
-
-### DevOps & Cloud
-
-| Name | Icon |
-|------|------|
-| `docker` | Docker |
-| `kubernetes` | Kubernetes |
-| `aws` | AWS |
-| `googlecloud` | Google Cloud |
-| `azure` | Azure |
-| `terraform` | Terraform |
-| `github` | GitHub |
-| `gitlab` | GitLab |
-| `jenkins` | Jenkins |
-| `circleci` | CircleCI |
-
-### Tools
-
-| Name | Icon |
-|------|------|
-| `git` | Git |
-| `npm` | npm |
-| `yarn` | Yarn |
-| `pnpm` | pnpm |
-| `vscode` | VS Code |
-| `vim` | Vim |
-| `neovim` | Neovim |
-| `linux` | Linux |
-| `macos` | macOS |
-| `windows` | Windows |
-
----
-
 ## Complete Examples
 
 ### Tech Stack Showcase
@@ -968,6 +872,88 @@ When overriding backgrounds, ensure contrast:
 ```
 
 **Rendered:** ![](assets/tech-guide/tech_6194845c38af3b48.svg) ![](assets/tech-guide/tech_b59a52b8bd8e85da.svg)
+
+---
+
+## Available Technologies
+
+<details>
+<summary>Click to expand full list of supported technologies</summary>
+
+### Languages
+
+| Name | Icon |
+|------|------|
+| `rust` | Rust |
+| `python` | Python |
+| `typescript` | TypeScript |
+| `javascript` | JavaScript |
+| `go` | Go |
+| `java` | Java |
+| `csharp` | C# |
+| `cpp` | C++ |
+| `ruby` | Ruby |
+| `php` | PHP |
+| `swift` | Swift |
+| `kotlin` | Kotlin |
+
+### Frameworks & Libraries
+
+| Name | Icon |
+|------|------|
+| `react` | React |
+| `vue` | Vue.js |
+| `angular` | Angular |
+| `svelte` | Svelte |
+| `nextjs` | Next.js |
+| `nuxt` | Nuxt.js |
+| `express` | Express |
+| `fastapi` | FastAPI |
+| `django` | Django |
+| `flask` | Flask |
+
+### Databases
+
+| Name | Icon |
+|------|------|
+| `postgresql` | PostgreSQL |
+| `mysql` | MySQL |
+| `mongodb` | MongoDB |
+| `redis` | Redis |
+| `sqlite` | SQLite |
+| `elasticsearch` | Elasticsearch |
+
+### DevOps & Cloud
+
+| Name | Icon |
+|------|------|
+| `docker` | Docker |
+| `kubernetes` | Kubernetes |
+| `aws` | AWS |
+| `googlecloud` | Google Cloud |
+| `azure` | Azure |
+| `terraform` | Terraform |
+| `github` | GitHub |
+| `gitlab` | GitLab |
+| `jenkins` | Jenkins |
+| `circleci` | CircleCI |
+
+### Tools
+
+| Name | Icon |
+|------|------|
+| `git` | Git |
+| `npm` | npm |
+| `yarn` | Yarn |
+| `pnpm` | pnpm |
+| `vscode` | VS Code |
+| `vim` | Vim |
+| `neovim` | Neovim |
+| `linux` | Linux |
+| `macos` | macOS |
+| `windows` | Windows |
+
+</details>
 
 ---
 
