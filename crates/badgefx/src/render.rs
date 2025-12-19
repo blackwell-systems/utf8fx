@@ -214,10 +214,19 @@ fn render_two_segment(
 
     // Generate segments based on corners
     let (left_segment, right_segment) = if let Some(corners) = &badge.corners {
-        // Per-corner radii: split into left and right segments
-        let left_corners = [corners.top_left, 0, 0, corners.bottom_left];
+        // Per-corner radii: use layered approach to hide inner border (matching rect behavior)
+        // 1. Full-width background path with border
+        // 2. Right segment overlays to hide the inner portion of the border
+        let full_corners = [
+            corners.top_left,
+            corners.top_right,
+            corners.bottom_right,
+            corners.bottom_left,
+        ];
+        let full_path =
+            rounded_rect_path(0.0, 0.0, total_width as f32, height as f32, full_corners);
+
         let right_corners = [0, corners.top_right, corners.bottom_right, 0];
-        let left_path = rounded_rect_path(0.0, 0.0, icon_width as f32, height as f32, left_corners);
         let right_path = rounded_rect_path(
             icon_width as f32,
             0.0,
@@ -225,12 +234,25 @@ fn render_two_segment(
             height as f32,
             right_corners,
         );
+
+        // Corner patch for the right side (to restore rounded corner after overlay)
+        let corner_patch = rounded_rect_path(
+            (total_width - corners.top_right.max(corners.bottom_right)) as f32,
+            0.0,
+            corners.top_right.max(corners.bottom_right) as f32,
+            height as f32,
+            [0, corners.top_right, corners.bottom_right, 0],
+        );
+
         (
             format!(
                 "<path d=\"{}\" fill=\"#{}\"{}/>",
-                left_path, left_bg, border_attr
+                full_path, left_bg, border_attr
             ),
-            format!("<path d=\"{}\" fill=\"#{}\"/>", right_path, right_bg),
+            format!(
+                "<path d=\"{}\" fill=\"#{}\"/>\n  <path d=\"{}\" fill=\"#{}\"/>",
+                right_path, right_bg, corner_patch, right_bg
+            ),
         )
     } else {
         // Uniform radius: use original 3-rect approach
