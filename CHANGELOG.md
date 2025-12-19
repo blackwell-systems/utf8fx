@@ -110,6 +110,39 @@ The LSP server now provides full IntelliSense support for tech badges with conte
 
 ### Changed
 
+#### TechConfig Struct Refactor (Test Maintainability)
+
+Refactored `Primitive::Tech` from a struct variant to a tuple variant wrapping the new `TechConfig` struct. This enables `..Default::default()` syntax in tests, making them resilient to new field additions.
+
+**Before (fragile - every new field breaks all tests):**
+```rust
+let tech = Primitive::Tech {
+    name: "rust".to_string(),
+    bg_color: "000000".to_string(),
+    logo_color: "FFFFFF".to_string(),
+    style: "flat-square".to_string(),
+    label: None,
+    border_color: None,
+    // ... 14 more fields that must be listed
+};
+```
+
+**After (resilient to new fields):**
+```rust
+let tech = Primitive::Tech(TechConfig {
+    name: "rust".to_string(),
+    ..Default::default()
+});
+
+// Or use the helper:
+let tech = Primitive::Tech(TechConfig::new("rust"));
+```
+
+**Benefits:**
+- Adding new Tech fields only requires updating `TechConfig` and its `Default` impl
+- Test code reduced by ~140 lines across 9 files
+- Helper methods: `TechConfig::new(name)`, `TechConfig::with_colors(name, bg, logo)`
+
 #### mdfx Tech Renderer Migration to badgefx
 
 The mdfx tech badge renderer has been migrated to use the `badgefx` crate:
