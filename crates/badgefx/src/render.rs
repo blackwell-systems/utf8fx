@@ -338,7 +338,7 @@ fn render_raised_badge(
     let border_attr = get_border_attr(badge);
 
     // Generate SVG
-    // Icon section: full height rectangle on left
+    // Icon section: full height rectangle on left (extends 1px into label to prevent seam)
     // Label section: shorter rectangle on right, vertically centered
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
@@ -350,8 +350,8 @@ fn render_raised_badge(
   <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
 </svg>",
         total_width, total_height, total_width, total_height,
-        // Icon section background (full height)
-        icon_width, total_height, bg_color, rx, border_attr,
+        // Icon section background (full height, +1px overlap to prevent seam)
+        icon_width + 1, total_height, bg_color, rx, border_attr,
         // Label section background (shorter, centered)
         icon_width, label_y_offset, label_width, label_height, bg_color,
         // Icon

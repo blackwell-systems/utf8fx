@@ -7,8 +7,15 @@ pub const CHEVRON_ARROW_DEPTH: f32 = 10.0;
 
 /// Generate SVG path for a rectangle with per-corner radii
 /// Order: [top-left, top-right, bottom-right, bottom-left]
+/// Corner radii are clamped to avoid path artifacts (max half of width/height)
 pub fn rounded_rect_path(x: f32, y: f32, w: f32, h: f32, corners: [u32; 4]) -> String {
-    let [tl, tr, br, bl] = corners.map(|c| c as f32);
+    // Clamp corner radii to prevent path artifacts when radius >= dimension
+    let max_h_radius = h / 2.0;
+    let max_w_radius = w / 2.0;
+    let [tl, tr, br, bl] = corners.map(|c| {
+        let r = c as f32;
+        r.min(max_h_radius).min(max_w_radius)
+    });
 
     let mut path = String::new();
 
