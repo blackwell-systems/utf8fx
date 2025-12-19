@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="115" height="20" viewBox="0 0 115 20">
-<rect width="115" height="20" fill="#35495e" rx="0"/>
-<rect x="36" width="79" height="20" fill="#4FC08D" rx="0"/>
-<rect x="115" width="0" height="20" fill="#4FC08D" rx="0"/>
-<g transform="translate(11, 3) scale(0.5833333)">
-<path fill="#4FC08D" d="M24 1.61h-9.94L12 5.16 9.94 1.61H0l12 20.78ZM12 14.08 5.16 2.23h4.43L12 6.41l2.41-4.18h4.43Z"/>
-</g>
-<text x="75" y="13" text-anchor="middle" fill="#000000" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">Framework</text>
-</svg>

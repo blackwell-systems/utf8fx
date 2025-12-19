@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="94" height="20" viewBox="0 0 94 20">
-<rect width="94" height="20" fill="#F59E0B" rx="0"/>
-<rect x="36" width="58" height="20" fill="#D08609" rx="0"/>
-<rect x="94" width="0" height="20" fill="#D08609" rx="0"/>
-<g transform="translate(11, 3) scale(0.5833333)">
-<path fill="#FFFFFF" d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.5L17 8v8l-5 3-5-3V8l5-3.5z"/>
-</g>
-<text x="65" y="13" text-anchor="middle" fill="#000000" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">Fusion</text>
-</svg>

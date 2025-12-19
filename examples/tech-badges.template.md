@@ -55,11 +55,11 @@ Use any SVG path data for unsupported technologies:
 Ghost-style badges with transparent backgrounds:
 
 {{ui:row:align=center}}
-{{ui:tech:rust:outline=true/}} {{ui:tech:python:outline=true/}} {{ui:tech:go:outline=true/}} {{ui:tech:typescript:outline=true/}}
+{{ui:tech:rust:style=outline/}} {{ui:tech:python:style=outline/}} {{ui:tech:go:style=outline/}} {{ui:tech:typescript:style=outline/}}
 {{/ui}}
 
 {{ui:row:align=center}}
-{{ui:tech:docker:outline=true:label=Container/}} {{ui:tech:kubernetes:outline=true:label=K8s/}} {{ui:tech:terraform:outline=true:label=IaC/}}
+{{ui:tech:docker:style=outline:label=Container/}} {{ui:tech:kubernetes:style=outline:label=K8s/}} {{ui:tech:terraform:style=outline:label=IaC/}}
 {{/ui}}
 
 ---
@@ -148,9 +148,9 @@ Directional arrow shapes:
 ### {{frame:star}}{{script}}Frontend Magic{{/script}}{{/frame}}
 
 {{ui:row:align=center}}
-{{ui:tech:react:outline=true:logo_size=lg/}}
-{{ui:tech:tailwindcss:outline=true:logo_size=lg/}}
-{{ui:tech:vite:outline=true:logo_size=lg/}}
+{{ui:tech:react:style=outline:logo_size=lg/}}
+{{ui:tech:tailwindcss:style=outline:logo_size=lg/}}
+{{ui:tech:vite:style=outline:logo_size=lg/}}
 {{/ui}}
 
 ---
@@ -168,10 +168,10 @@ Directional arrow shapes:
 ### {{negative-circled}}DEV{{/negative-circled}} Development Tools
 
 {{ui:row:align=center}}
-{{ui:tech:neovim:outline=true/}}
-{{ui:tech:visualstudiocode:outline=true/}}
-{{ui:tech:git:outline=true/}}
-{{ui:tech:docker:outline=true/}}
+{{ui:tech:neovim:style=outline/}}
+{{ui:tech:visualstudiocode:style=outline/}}
+{{ui:tech:git:style=outline/}}
+{{ui:tech:docker:style=outline/}}
 {{/ui}}
 
 ### {{squared-latin}}BETA{{/squared-latin}} Experimental

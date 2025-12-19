@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="73" height="20" viewBox="0 0 73 20">
-<path d="M0 0H67Q73 0 73 6V14Q73 20 67 20H0L0 20V0L0 0Z" fill="none" stroke="#4FC08D" stroke-width="2"/>
-<line x1="36" y1="0" x2="36" y2="20" stroke="#4FC08D" stroke-width="2"/>
-<g transform="translate(11, 3) scale(0.5833333)">
-<path fill="#4FC08D" d="M24 1.61h-9.94L12 5.16 9.94 1.61H0l12 20.78ZM12 14.08 5.16 2.23h4.43L12 6.41l2.41-4.18h4.43Z"/>
-</g>
-<text x="54" y="13" text-anchor="middle" fill="#4FC08D" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">vue</text>
-</svg>

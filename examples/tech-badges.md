@@ -53,11 +53,11 @@ Use any SVG path data for unsupported technologies:
 Ghost-style badges with transparent backgrounds:
 
 <p align="center">
-<img alt="" src="assets/tech_4bf3d7300d6d8693.svg"> <img alt="" src="assets/tech_db5b9663af39915c.svg"> <img alt="" src="assets/tech_4d369e5b001f8f0e.svg"> <img alt="" src="assets/tech_dbf5e1d25b2b52a0.svg">
+<img alt="" src="assets/tech_24f5e6e760ca333b.svg"> <img alt="" src="assets/tech_14e6697439dde7ef.svg"> <img alt="" src="assets/tech_647fa59850b2ae79.svg"> <img alt="" src="assets/tech_a9004ad74dd1ce01.svg">
 </p>
 
 <p align="center">
-<img alt="" src="assets/tech_c838d128701e387d.svg"> <img alt="" src="assets/tech_6fa28b0282d0d94b.svg"> <img alt="" src="assets/tech_6f5eb41c8de5302c.svg">
+<img alt="" src="assets/tech_128fb2e26ed7bd57.svg"> <img alt="" src="assets/tech_f34a6428bc497066.svg"> <img alt="" src="assets/tech_2b87f72a637fc8a5.svg">
 </p>
 
 ---
@@ -138,7 +138,7 @@ Directional arrow shapes:
 ### ★︎ ℱ𝓇ℴ𝓃𝓉ℯ𝓃𝒹 ℳ𝒶ℊ𝒾𝒸 ☆︎
 
 <p align="center">
-<img alt="" src="assets/tech_e0bbc9f270ec27e5.svg"> <img alt="" src="assets/tech_fd586e59aaba620e.svg"> <img alt="" src="assets/tech_c156265bbbaec82e.svg">
+<img alt="" src="assets/tech_3277c08911e12942.svg"> <img alt="" src="assets/tech_6575d5b6f4b6f1a2.svg"> <img alt="" src="assets/tech_d2f7cb0707aef92d.svg">
 </p>
 
 ---
@@ -154,7 +154,7 @@ Directional arrow shapes:
 ### 🅓🅔🅥 Development Tools
 
 <p align="center">
-<img alt="" src="assets/tech_4cabdf56073681ce.svg"> <img alt="" src="assets/tech_1ff7f47a738d1bef.svg"> <img alt="" src="assets/tech_c85cf73764f0c2db.svg"> <img alt="" src="assets/tech_f290fd0cb162e616.svg">
+<img alt="" src="assets/tech_3851dfccda04211.svg"> <img alt="" src="assets/tech_ed0191239d478b61.svg"> <img alt="" src="assets/tech_76e2a666fa7391f7.svg"> <img alt="" src="assets/tech_c8e5e5216e95ec78.svg">
 </p>
 
 ### 🄱🄴🅃🄰 Experimental
