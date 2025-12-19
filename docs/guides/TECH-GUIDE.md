@@ -46,6 +46,9 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 
 ## All Parameters
 
+<details>
+<summary>Click to expand parameter reference</summary>
+
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `name` | string | *required* | Technology name (first positional argument) |
@@ -67,6 +70,8 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
 | `icon` | string | none | Custom SVG path data for unsupported technologies |
 | `logo_size` | preset/number | md | Logo size: `xs` (10px), `sm` (12px), `md` (14px), `lg` (16px), `xl` (18px), or custom px |
+
+</details>
 
 ---
 
@@ -92,15 +97,11 @@ By default, tech badges render as local SVG files with full customization suppor
 
 Tech badges automatically use brand colors from Simple Icons. Override with `bg`:
 
-```markdown
-{{ui:tech:rust:bg=000000/}}        <!-- Black background -->
-{{ui:tech:docker:bg=accent/}}      <!-- Theme accent color -->
-{{ui:tech:python:bg=1a1a2e/}}      <!-- Custom dark blue -->
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_1237c8aa58e9b89d.svg) ![](assets/tech-guide/tech_34f82a292fc3ed60.svg) ![](assets/tech-guide/tech_bf2629c068b2fdad.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg=000000/}}` | ![](assets/tech-guide/tech_1237c8aa58e9b89d.svg) |
+| `{{ui:tech:docker:bg=accent/}}` | ![](assets/tech-guide/tech_34f82a292fc3ed60.svg) |
+| `{{ui:tech:python:bg=1a1a2e/}}` | ![](assets/tech-guide/tech_bf2629c068b2fdad.svg) |
 
 ---
 
@@ -122,16 +123,12 @@ Logo colors auto-select based on background luminance (white on dark, black on l
 
 Control the label text color with `text_color` (aliases: `text`, `color`):
 
-```markdown
-{{ui:tech:rust:text_color=white/}}      <!-- White text -->
-{{ui:tech:rust:text=FFFFFF/}}           <!-- Same, using alias -->
-{{ui:tech:rust:color=000000/}}          <!-- Black text -->
-{{ui:tech:docker:text_color=accent/}}   <!-- Theme color -->
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_26e6cfd450055ea4.svg) ![](assets/tech-guide/tech_26e6cfd450055ea4.svg) ![](assets/tech-guide/tech_baf4bcddc14d2b27.svg) ![](assets/tech-guide/tech_3ee2b5649f7a2368.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:text_color=white/}}` | ![](assets/tech-guide/tech_26e6cfd450055ea4.svg) |
+| `{{ui:tech:rust:text=FFFFFF/}}` | ![](assets/tech-guide/tech_26e6cfd450055ea4.svg) |
+| `{{ui:tech:rust:color=000000/}}` | ![](assets/tech-guide/tech_baf4bcddc14d2b27.svg) |
+| `{{ui:tech:docker:text_color=accent/}}` | ![](assets/tech-guide/tech_3ee2b5649f7a2368.svg) |
 
 Text color also auto-selects based on the right segment luminance if not specified.
 
@@ -139,27 +136,19 @@ Text color also auto-selects based on the right segment luminance if not specifi
 
 Customize the font with `font` (alias: `font_family`):
 
-```markdown
-{{ui:tech:rust:font=monospace/}}
-{{ui:tech:python:font=Monaco,Consolas,monospace/}}
-{{ui:tech:go:font_family=Arial/}}
-{{ui:tech:docker:font=Georgia,serif/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_43f9fd273c8ee379.svg) ![](assets/tech-guide/tech_1f0a070cb2d460e1.svg) ![](assets/tech-guide/tech_faf509df3f7b09aa.svg) ![](assets/tech-guide/tech_b43e28e3b3897212.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:font=monospace/}}` | ![](assets/tech-guide/tech_43f9fd273c8ee379.svg) |
+| `{{ui:tech:python:font=Monaco,Consolas,monospace/}}` | ![](assets/tech-guide/tech_1f0a070cb2d460e1.svg) |
+| `{{ui:tech:go:font_family=Arial/}}` | ![](assets/tech-guide/tech_faf509df3f7b09aa.svg) |
+| `{{ui:tech:docker:font=Georgia,serif/}}` | ![](assets/tech-guide/tech_b43e28e3b3897212.svg) |
 
 ### Combined Text Styling
 
-```markdown
-{{ui:tech:rust:text_color=white:font=monospace/}}
-{{ui:tech:postgresql:text=FFFFFF:font=Monaco,monospace/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_a85573bc3b99b7a1.svg) ![](assets/tech-guide/tech_7cbbeb42ea6baba6.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:text_color=white:font=monospace/}}` | ![](assets/tech-guide/tech_a85573bc3b99b7a1.svg) |
+| `{{ui:tech:postgresql:text=FFFFFF:font=Monaco,monospace/}}` | ![](assets/tech-guide/tech_7cbbeb42ea6baba6.svg) |
 
 ---
 
@@ -409,13 +398,11 @@ The `style` parameter changes the badge appearance:
 
 The `raised` parameter creates badges where the icon section extends above and below the label section. The value is the number of pixels to extend on each side.
 
-![](assets/tech-guide/tech_f895c7a30580a635.svg) ![](assets/tech-guide/tech_5f9dfb9503acf669.svg) ![](assets/tech-guide/tech_c620466fae625ee5.svg)
-
-```markdown
-{{ui:tech:rust:label=Rust:raised=4/}}
-{{ui:tech:docker:label=Container:raised=6/}}
-{{ui:tech:postgresql:label=Database:raised=6:logo_size=lg/}}
-```
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:label=Rust:raised=4/}}` | ![](assets/tech-guide/tech_f895c7a30580a635.svg) |
+| `{{ui:tech:docker:label=Container:raised=6/}}` | ![](assets/tech-guide/tech_5f9dfb9503acf669.svg) |
+| `{{ui:tech:postgresql:label=Database:raised=6:logo_size=lg/}}` | ![](assets/tech-guide/tech_c620466fae625ee5.svg) |
 
 ---
 
@@ -548,15 +535,11 @@ Space-efficient badges for dense layouts:
 
 Light backgrounds with dark logos for light-themed docs:
 
-```markdown
-{{ui:tech:rust:bg=FFF5EE:logo=000000:text_color=000000/}}
-{{ui:tech:docker:bg=E6F3FF:logo=000000:text_color=000000/}}
-{{ui:tech:nodejs:bg=E6FFE6:logo=000000:text_color=000000/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_e49485130e8d0fb0.svg) ![](assets/tech-guide/tech_64cf72de9fe2d3c4.svg) ![](assets/tech-guide/tech_da6031514b345f33.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:bg=FFF5EE:logo=000000:text_color=000000/}}` | ![](assets/tech-guide/tech_e49485130e8d0fb0.svg) |
+| `{{ui:tech:docker:bg=E6F3FF:logo=000000:text_color=000000/}}` | ![](assets/tech-guide/tech_64cf72de9fe2d3c4.svg) |
+| `{{ui:tech:nodejs:bg=E6FFE6:logo=000000:text_color=000000/}}` | ![](assets/tech-guide/tech_da6031514b345f33.svg) |
 
 ---
 
@@ -564,13 +547,11 @@ Light backgrounds with dark logos for light-themed docs:
 
 Large, prominent badges for headers:
 
-```markdown
-{{ui:tech:rust:style=for-the-badge/}} {{ui:tech:typescript:style=for-the-badge/}} {{ui:tech:docker:style=for-the-badge/}}
-```
-
-**Rendered:**
-
-![](assets/tech-guide/tech_3eac9722cea4ae70.svg) ![](assets/tech-guide/tech_9976657f202f84ab.svg) ![](assets/tech-guide/tech_b0c5402df31934d.svg)
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:style=for-the-badge/}}` | ![](assets/tech-guide/tech_3eac9722cea4ae70.svg) |
+| `{{ui:tech:typescript:style=for-the-badge/}}` | ![](assets/tech-guide/tech_9976657f202f84ab.svg) |
+| `{{ui:tech:docker:style=for-the-badge/}}` | ![](assets/tech-guide/tech_b0c5402df31934d.svg) |
 
 ---
 
