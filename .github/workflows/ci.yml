@@ -66,6 +66,15 @@ jobs:
       - name: Run clippy
         run: cargo clippy --all-features -- -D warnings
 
+      - name: Check for pending snapshots
+        run: |
+          if find . -name "*.snap.new" | grep -q .; then
+            echo "Error: Found pending snapshot files (.snap.new)"
+            echo "Run 'cargo insta review' locally and commit the accepted snapshots"
+            find . -name "*.snap.new"
+            exit 1
+          fi
+
   build:
     name: Build
     runs-on: ${{ matrix.os }}
