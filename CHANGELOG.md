@@ -384,13 +384,21 @@ Added `rstest` crate for parameterized testing, significantly reducing test boil
 - **badgefx/badge.rs**: Display labels (7 cases) and effective_bg_color (3 cases)
 - **badgefx/group.rs**: Corner radii, position (12 cases), spacing (6 cases), dimensions (3 cases)
 - **badgefx/style.rs**: Style properties (5 cases), parsing (7 cases), corners (3 cases), chevron (3 cases)
+- **badgefx/shapes.rs**: Rounded rect paths (3 cases), chevron paths (3 cases)
+- **mdfx-icons/lib.rs**: Icon lookup (8 cases), brand colors (5 cases), aliases (3 cases), contrast colors (4 cases)
 - **mdfx-fetch/value.rs**: Number formatting (5 cases), DataValue display (6 cases)
 - **mdfx-fetch/error.rs**: Error recoverability (7 cases)
+- **mdfx-fetch/cache.rs**: Cache key sanitization (4 cases)
+- **mdfx-fetch/fetcher.rs**: Source availability (5 cases)
 - **mdfx-fetch/sources/mod.rs**: 4 registry tests consolidated into 1 parameterized
 - **mdfx-fetch/sources/github.rs**: Query parsing (4 cases), metric colors (9 cases)
 - **mdfx-fetch/sources/npm.rs**: Metric labels (6 cases)
 - **mdfx-fetch/sources/pypi.rs**: Metric labels (6 cases)
 - **mdfx-fetch/sources/crates.rs**: Metric colors (5 cases)
+- **mdfx/renderer/plaintext.rs**: Swatch rendering (4 cases), tech badge rendering (3 cases)
+- **mdfx/renderer/hybrid.rs**: SVG feature detection (6 cases)
+- **mdfx/renderer/svg/mod.rs**: Content-addressed filenames (4 cases), type prefixes (4 cases)
+- **mdfx/components/handlers/github.rs**: Offline mode (4 cases), missing query (4 cases)
 
 Example transformation:
 ```rust
