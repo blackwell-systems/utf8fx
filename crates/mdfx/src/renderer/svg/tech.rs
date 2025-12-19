@@ -43,6 +43,7 @@ pub fn render_with_options(
     style: &str,
     border_color: Option<&str>,
     border_width: Option<u32>,
+    border_full: bool,
     rx: Option<u32>,
     corners: Option<[u32; 4]>,
     text_color: Option<&str>,
@@ -94,6 +95,11 @@ pub fn render_with_options(
     } else if let Some(width) = border_width {
         // Border width without color - use default border color
         builder = builder.border("#FFFFFF", width);
+    }
+
+    // Set border_full if specified (border around entire badge instead of just icon)
+    if border_full {
+        builder = builder.border_full();
     }
 
     // Set corners if specified
@@ -191,7 +197,7 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None, None, None, None, None, None, None, None, None, None, None,
+            None, None, false, None, None, None, None, None, None, None, None, None,
         );
 
         assert!(svg.contains("<svg"));
@@ -208,6 +214,7 @@ mod tests {
             "flat-square",
             Some("FF0000"),
             Some(2),
+            false, // border_full
             None, None, None, None, None, None, None, None, None,
         );
 
@@ -223,7 +230,7 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "outline",
-            None, None, None, None, None, None, None, None, None, None, None,
+            None, None, false, None, None, None, None, None, None, None, None, None,
         );
 
         assert!(svg.contains("<svg"));
@@ -239,7 +246,7 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None, None, None, None, None, None,
+            None, None, false, None, None, None, None,
             Some("right"),
             None, None, None, None,
         );
@@ -257,7 +264,7 @@ mod tests {
             "DEA584",
             "000000",
             "flat",
-            None, None, None, None, None, None, None, None, None,
+            None, None, false, None, None, None, None, None, None, None,
             Some(4), // 4px raised
             None,
         );
@@ -275,7 +282,7 @@ mod tests {
             "DEA584",
             "FFFFFF",
             "flat-square",
-            None, None, None, None, None, None, None, None, None, None,
+            None, None, false, None, None, None, None, None, None, None, None,
             Some(18), // 18px logo
         );
 

@@ -23,6 +23,8 @@ pub struct TechBadge {
     pub text_color: Option<String>,
     /// Border styling
     pub border: Option<Border>,
+    /// Apply border to full badge (both segments) instead of just icon segment
+    pub border_full: bool,
     /// Custom corner radii
     pub corners: Option<Corners>,
     /// Chevron/arrow configuration
@@ -52,6 +54,7 @@ impl TechBadge {
             logo_color: None,
             text_color: None,
             border: None,
+            border_full: false,
             corners: None,
             chevron: None,
             raised: None,
@@ -163,6 +166,12 @@ impl BadgeBuilder {
     /// Add border styling
     pub fn border(mut self, color: impl Into<String>, width: u32) -> Self {
         self.badge.border = Some(Border::new(color, width));
+        self
+    }
+
+    /// Apply border to full badge (both segments)
+    pub fn border_full(mut self) -> Self {
+        self.badge.border_full = true;
         self
     }
 

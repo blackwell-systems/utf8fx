@@ -96,6 +96,10 @@ pub fn handle(
     let label = params.get("label").cloned().or_else(|| Some(name.clone()));
     let border_color = params.get("border").map(|c| resolve_color(c));
     let border_width = params.get("border_width").and_then(|v| v.parse().ok());
+    let border_full = params
+        .get("border_full")
+        .map(|v| v == "true" || v == "1")
+        .unwrap_or(false);
 
     // Parse rx - can be single value or comma-separated for per-corner
     let rx_param = params.get("rx");
@@ -139,6 +143,7 @@ pub fn handle(
         label,
         border_color,
         border_width,
+        border_full,
         rx,
         corners,
         text_color,

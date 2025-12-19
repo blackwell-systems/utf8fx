@@ -75,6 +75,8 @@ pub enum Primitive {
         border_color: Option<String>,
         /// Border width in pixels. SVG-only.
         border_width: Option<u32>,
+        /// Apply border to full badge (both segments). SVG-only.
+        border_full: bool,
         /// Corner radius (uniform). SVG-only.
         rx: Option<u32>,
         /// Per-corner radii [top-left, top-right, bottom-right, bottom-left]. SVG-only.
@@ -463,6 +465,7 @@ mod tests {
             label: None,
             border_color: None,
             border_width: None,
+            border_full: false,
             rx: None,
             corners: None,
             text_color: None,
@@ -492,6 +495,7 @@ mod tests {
             label: Some("v1.80".to_string()),
             border_color: None,
             border_width: None,
+            border_full: false,
             rx: None,
             corners: None,
             text_color: None,
@@ -522,6 +526,7 @@ mod tests {
             label: Some("v1.80".to_string()),
             border_color: Some("F41C80".to_string()),
             border_width: Some(2),
+            border_full: false,
             rx: Some(8),
             corners: None,
             text_color: None,

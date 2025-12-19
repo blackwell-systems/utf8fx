@@ -129,7 +129,12 @@ fn render_two_segment(
         .unwrap_or_else(|| get_logo_color_for_bg(&right_bg));
 
     let font_family = badge.font.as_deref().unwrap_or("Verdana,Arial,sans-serif");
-    let border_attr = get_border_attr(badge);
+    // Only apply border to left segment if not border_full mode
+    let border_attr = if badge.border_full {
+        String::new()
+    } else {
+        get_border_attr(badge)
+    };
 
     // Handle chevron shapes
     if let Some(chevron) = &badge.chevron {
@@ -254,6 +259,21 @@ fn render_two_segment(
         )
     };
 
+    // Full border outline (drawn last, on top)
+    let full_border_outline = if badge.border_full {
+        if let Some(border) = &badge.border {
+            let color = border.color.trim_start_matches('#');
+            format!(
+                "\n  <rect width=\"{}\" height=\"{}\" fill=\"none\" rx=\"{}\" stroke=\"#{}\" stroke-width=\"{}\"/>",
+                total_width, height, rx, color, border.width
+            )
+        } else {
+            String::new()
+        }
+    } else {
+        String::new()
+    };
+
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
   {}\n\
@@ -261,14 +281,15 @@ fn render_two_segment(
   <g transform=\"translate({}, {}) scale({})\">\n\
     <path fill=\"#{}\" d=\"{}\"/>\n\
   </g>\n\
-  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>{}\n\
 </svg>",
         total_width, height, total_width, height,
         left_segment,
         right_segment,
         icon_x, icon_y, scale,
         logo_color, icon_path,
-        text_x, text_y, text_color, font_family, font_size, label
+        text_x, text_y, text_color, font_family, font_size, label,
+        full_border_outline
     )
 }
 

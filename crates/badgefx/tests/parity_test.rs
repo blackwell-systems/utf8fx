@@ -29,8 +29,9 @@ fn mdfx_render_full(
         style,
         border_color,
         border_width,
-        None, // rx
-        None, // corners
+        false, // border_full
+        None,  // rx
+        None,  // corners
         text_color,
         None, // font
         chevron,
