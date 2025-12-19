@@ -150,6 +150,30 @@ Tech badges now support `divider=true` to draw a vertical line between the icon 
 | `border=COLOR:border_full=true:divider=true` | ✅ Full | ✅ |
 | `style=outline` | ✅ Full | ✅ (automatic) |
 
+#### LSP Extension Installer
+
+One-command setup for VS Code LSP integration:
+
+```bash
+mdfx lsp install                # Install VS Code extension automatically
+mdfx lsp install --editor vscode  # Explicit editor flag
+```
+
+**Features:**
+- Generates `package.json` and `extension.js` in `~/.vscode/extensions/mdfx-lsp/`
+- Automatically runs `npm install` for dependencies
+- Detects VS Code variants (`.vscode`, `.vscode-server`, `.vscode-insiders`)
+- Configures extension with correct mdfx binary path
+- Works with VS Code Remote and Devcontainers
+
+**New CLI structure:**
+```bash
+mdfx lsp run      # Start LSP server (for editors)
+mdfx lsp install  # Install editor extension
+```
+
+**Backward compatibility:** Editor configurations should update from `mdfx lsp` to `mdfx lsp run`.
+
 #### Tech Badge IntelliSense (LSP)
 
 The LSP server now provides full IntelliSense support for tech badges with contextual completions:
