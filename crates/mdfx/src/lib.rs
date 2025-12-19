@@ -51,6 +51,11 @@ pub mod shields;
 pub mod styles;
 pub mod targets;
 
+// Test utilities - macros available crate-wide in test mode
+#[cfg(test)]
+#[macro_use]
+pub mod test_utils;
+
 // Re-export main types for convenience
 pub use components::{ComponentDef, ComponentOutput, ComponentsRenderer, PostProcess};
 #[cfg(feature = "fetch")]

@@ -2030,6 +2030,7 @@ impl Default for TemplateParser {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::{test_process, test_process_err, test_process_unchanged};
 
     #[test]
     fn test_parser_new() {
@@ -2037,73 +2038,52 @@ mod tests {
         assert!(parser.is_ok());
     }
 
+    // Basic template tests using macros
     #[test]
     fn test_simple_template() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold}}HELLO{{/mathbold}}";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "𝐇𝐄𝐋𝐋𝐎");
+        test_process!("{{mathbold}}HELLO{{/mathbold}}" => "𝐇𝐄𝐋𝐋𝐎");
     }
 
     #[test]
     fn test_template_in_heading() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "# {{mathbold}}TITLE{{/mathbold}}";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "# 𝐓𝐈𝐓𝐋𝐄");
+        test_process!("# {{mathbold}}TITLE{{/mathbold}}" => "# 𝐓𝐈𝐓𝐋𝐄");
     }
 
     #[test]
     fn test_multiple_templates() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{mathbold}}BOLD{{/mathbold}} and {{italic}}italic{{/italic}}";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "𝐁𝐎𝐋𝐃 and 𝑖𝑡𝑎𝑙𝑖𝑐");
+        test_process!(
+            "{{mathbold}}BOLD{{/mathbold}} and {{italic}}italic{{/italic}}"
+            => "𝐁𝐎𝐋𝐃 and 𝑖𝑡𝑎𝑙𝑖𝑐"
+        );
     }
 
+    // Code preservation tests
     #[test]
     fn test_preserves_code_blocks() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "```\n{{mathbold}}CODE{{/mathbold}}\n```";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "```\n{{mathbold}}CODE{{/mathbold}}\n```");
+        test_process_unchanged!("```\n{{mathbold}}CODE{{/mathbold}}\n```");
     }
 
     #[test]
     fn test_preserves_code_blocks_with_language() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "```markdown\n{{ui:test:arg/}}\nMore {{/ui}} content\n```";
-        let result = parser.process(input).unwrap();
-
-        // Code block content should be preserved exactly
-        assert_eq!(
-            result,
-            "```markdown\n{{ui:test:arg/}}\nMore {{/ui}} content\n```"
-        );
+        test_process_unchanged!("```markdown\n{{ui:test:arg/}}\nMore {{/ui}} content\n```");
     }
 
     #[test]
     fn test_preserves_inline_code() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "Text `{{mathbold}}code{{/mathbold}}` more text";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "Text `{{mathbold}}code{{/mathbold}}` more text");
+        test_process_unchanged!("Text `{{mathbold}}code{{/mathbold}}` more text");
     }
 
     #[test]
     fn test_multiline_template() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "Line 1\n{{mathbold}}TITLE{{/mathbold}}\nLine 3";
-        let result = parser.process(input).unwrap();
-        assert_eq!(result, "Line 1\n𝐓𝐈𝐓𝐋𝐄\nLine 3");
+        test_process!(
+            "Line 1\n{{mathbold}}TITLE{{/mathbold}}\nLine 3"
+            => "Line 1\n𝐓𝐈𝐓𝐋𝐄\nLine 3"
+        );
     }
 
     #[test]
     fn test_unknown_style_error() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{fakestyle}}TEXT{{/fakestyle}}";
-        let result = parser.process(input);
-        assert!(result.is_err());
+        test_process_err!("{{fakestyle}}TEXT{{/fakestyle}}");
     }
 
     #[test]
