@@ -206,9 +206,37 @@ The LSP provides completions for:
 | `{{` | All styles, components, `glyph:`, `frame:` |
 | `{{glyph:` | All 389 glyph names |
 | `{{frame:` | All frame names |
+| `{{ui:tech:` | All 90+ tech badge names (rust, typescript, docker, etc.) |
+| `{{ui:tech:rust:` | Tech badge parameters (border, logo_size, corners, etc.) |
+| `{{ui:tech:rust:logo_size=` | Parameter values (xs, sm, md, lg, xl, xxl) |
 | `{{swatch:` | Palette colors |
 | `bg=` / `fg=` | Palette colors |
 | `style=` | Shield styles (flat, flat-square, for-the-badge, plastic, social) |
+
+### Tech Badge Completions
+
+Full IntelliSense support for tech badges with contextual completions:
+
+```markdown
+{{ui:tech:|}}           <!-- Shows all 90+ tech names: rust, typescript, docker... -->
+{{ui:tech:rust:|}}      <!-- Shows all parameters: border, logo_size, corners... -->
+{{ui:tech:rust:logo_size=|}}  <!-- Shows size presets: xs, sm, md, lg, xl, xxl -->
+{{ui:tech:rust:corners=|}}    <!-- Shows corner presets: left, right, none, all -->
+{{ui:tech:rust:style=|}}      <!-- Shows badge styles: flat, outline, ghost... -->
+{{ui:tech:rust:bg=|}}         <!-- Shows palette colors: accent, cobalt, plum... -->
+```
+
+**Supported parameter completions:**
+
+| Parameter | Values |
+|-----------|--------|
+| `logo_size` / `icon_size` | xs (10px), sm (12px), md (14px), lg (16px), xl (18px), xxl (20px) |
+| `corners` | left, right, none, all |
+| `chevron` | left, right, both |
+| `style` | flat, flat-square, plastic, for-the-badge, social, outline, ghost |
+| `border_full` / `divider` | true, false |
+| `source` | shields |
+| Color params (`bg`, `logo`, `border`, etc.) | All palette colors |
 
 ### Shield/SVG Style Completion
 
@@ -217,7 +245,7 @@ When using components that support badge styles, type `style=` to get completion
 ```markdown
 {{swatch:cobalt:style=|}}  <!-- cursor here triggers shield style completions -->
 {{swatch:accent:style=flat-square/}}
-{{tech:rust:style=for-the-badge/}}
+{{ui:tech:rust:style=for-the-badge/}}
 ```
 
 Available styles:
@@ -226,6 +254,7 @@ Available styles:
 - `for-the-badge` - Tall header bar style
 - `plastic` - Glossy plastic look
 - `social` - Social media style
+- `outline` / `ghost` - Border-only with transparent fill
 
 ### Hover Documentation
 

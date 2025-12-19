@@ -896,6 +896,7 @@ dependencies = [
  "colored",
  "glob",
  "mdfx",
+ "mdfx-icons",
  "notify",
  "regex",
  "serde_json",

@@ -77,6 +77,37 @@ Tech badges now support `divider=true` to draw a vertical line between the icon 
 | `border=COLOR:border_full=true:divider=true` | ✅ Full | ✅ |
 | `style=outline` | ✅ Full | ✅ (automatic) |
 
+#### Tech Badge IntelliSense (LSP)
+
+The LSP server now provides full IntelliSense support for tech badges with contextual completions:
+
+**Tech name completions** - After `{{ui:tech:` shows all 90+ available tech names with brand colors:
+```markdown
+{{ui:tech:|}}  <!-- rust, typescript, docker, kubernetes, etc. -->
+```
+
+**Parameter completions** - After the tech name, shows all available parameters:
+```markdown
+{{ui:tech:rust:|}}  <!-- border, logo_size, corners, chevron, style, etc. -->
+```
+
+**Value completions** - After `=`, shows valid values for each parameter:
+```markdown
+{{ui:tech:rust:logo_size=|}}  <!-- xs, sm, md, lg, xl, xxl -->
+{{ui:tech:rust:corners=|}}    <!-- left, right, none, all -->
+{{ui:tech:rust:style=|}}      <!-- flat, outline, ghost, plastic... -->
+{{ui:tech:rust:bg=|}}         <!-- palette colors: accent, cobalt, plum... -->
+```
+
+**Supported parameter value completions:**
+- `logo_size`/`icon_size`: xs (10px), sm (12px), md (14px), lg (16px), xl (18px), xxl (20px)
+- `corners`: left, right, none, all
+- `chevron`: left, right, both
+- `style`: flat, flat-square, plastic, for-the-badge, social, outline, ghost
+- `border_full`/`divider`: true, false
+- `source`: shields
+- Color params (`bg`, `bg_left`, `bg_right`, `logo`, `text`, `border`): All palette colors
+
 ### Changed
 
 #### mdfx Tech Renderer Migration to badgefx

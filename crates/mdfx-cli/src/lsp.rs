@@ -1,11 +1,12 @@
 //! LSP Server for mdfx template syntax
 //!
 //! Provides language server protocol support for mdfx template syntax,
-//! including autocompletion for glyphs, styles, frames, and components.
+//! including autocompletion for glyphs, styles, frames, components, and tech badges.
 //!
 //! Enable with: `cargo install mdfx-cli --features lsp`
 
 use mdfx::Registry;
+use mdfx_icons::{brand_color, list_icons};
 use std::sync::Arc;
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
@@ -227,6 +228,180 @@ impl MdfxLanguageServer {
             .collect()
     }
 
+    /// Build completion items for tech badge names (rust, typescript, docker, etc.)
+    fn tech_name_completions(&self, prefix: &str) -> Vec<CompletionItem> {
+        list_icons()
+            .iter()
+            .filter(|name| prefix.is_empty() || name.starts_with(prefix))
+            .map(|name| {
+                let color = brand_color(name).unwrap_or("unknown");
+                CompletionItem {
+                    label: name.to_string(),
+                    kind: Some(CompletionItemKind::VALUE),
+                    detail: Some(format!("Tech badge: #{}", color)),
+                    documentation: Some(Documentation::String(format!(
+                        "Technology: {}\nBrand color: #{}\n\nUsage: {{{{ui:tech:{}/}}}}",
+                        name, color, name
+                    ))),
+                    insert_text: Some(format!("{}:", name)),
+                    insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                    ..Default::default()
+                }
+            })
+            .collect()
+    }
+
+    /// Build completion items for tech badge parameters
+    fn tech_param_completions(&self, prefix: &str) -> Vec<CompletionItem> {
+        let params = vec![
+            // Basic
+            ("label", "Custom label text", "label=My Label"),
+            ("bg", "Background color (both segments)", "bg=1a1a1a"),
+            (
+                "bg_left",
+                "Left (icon) segment background",
+                "bg_left=DEA584",
+            ),
+            (
+                "bg_right",
+                "Right (label) segment background",
+                "bg_right=B8856E",
+            ),
+            ("logo", "Icon/logo color", "logo=FFFFFF"),
+            ("text", "Label text color", "text=000000"),
+            (
+                "text_color",
+                "Label text color (alias)",
+                "text_color=FFFFFF",
+            ),
+            ("color", "Label text color (alias)", "color=000000"),
+            ("font", "Custom font family", "font=Monaco,monospace"),
+            (
+                "font_family",
+                "Custom font family (alias)",
+                "font_family=Arial",
+            ),
+            // Sizing
+            (
+                "logo_size",
+                "Icon size (xs/sm/md/lg/xl/xxl or pixels)",
+                "logo_size=lg",
+            ),
+            (
+                "icon_size",
+                "Icon size (alias for logo_size)",
+                "icon_size=16",
+            ),
+            ("height", "Badge height in pixels", "height=24"),
+            ("raised", "Raised icon effect (pixels)", "raised=4"),
+            // Corners & Shape
+            ("rx", "Uniform corner radius", "rx=6"),
+            (
+                "corners",
+                "Corner preset (left/right/none/all)",
+                "corners=left",
+            ),
+            ("top_left", "Top-left corner radius", "top_left=8"),
+            ("top_right", "Top-right corner radius", "top_right=8"),
+            ("bottom_left", "Bottom-left corner radius", "bottom_left=8"),
+            (
+                "bottom_right",
+                "Bottom-right corner radius",
+                "bottom_right=8",
+            ),
+            ("chevron", "Arrow shape (left/right/both)", "chevron=right"),
+            // Borders
+            ("border", "Border color", "border=61DAFB"),
+            ("border_width", "Border thickness", "border_width=2"),
+            (
+                "border_full",
+                "Border around entire badge",
+                "border_full=true",
+            ),
+            ("divider", "Center divider line", "divider=true"),
+            // Style
+            ("style", "Badge style", "style=flat"),
+            // Advanced
+            ("icon", "Custom SVG path data", "icon=M12 2L2 7..."),
+            (
+                "source",
+                "Render source (shields for shields.io)",
+                "source=shields",
+            ),
+        ];
+
+        params
+            .into_iter()
+            .filter(|(name, _, _)| prefix.is_empty() || name.starts_with(prefix))
+            .map(|(name, desc, example)| CompletionItem {
+                label: name.to_string(),
+                kind: Some(CompletionItemKind::PROPERTY),
+                detail: Some(desc.to_string()),
+                documentation: Some(Documentation::String(format!(
+                    "{}\n\nExample: {}",
+                    desc, example
+                ))),
+                insert_text: Some(format!("{}=", name)),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                ..Default::default()
+            })
+            .collect()
+    }
+
+    /// Build completion items for tech badge parameter values
+    fn tech_param_value_completions(&self, param: &str, prefix: &str) -> Vec<CompletionItem> {
+        let values: Vec<(&str, &str)> = match param {
+            "logo_size" | "icon_size" => vec![
+                ("xs", "10px - Extra small"),
+                ("sm", "12px - Small"),
+                ("md", "14px - Medium (default)"),
+                ("lg", "16px - Large"),
+                ("xl", "18px - Extra large"),
+                ("xxl", "20px - Extra extra large"),
+            ],
+            "corners" => vec![
+                ("left", "Rounded left, square right"),
+                ("right", "Square left, rounded right"),
+                ("none", "All square corners"),
+                ("all", "All rounded corners"),
+            ],
+            "chevron" => vec![
+                ("left", "Left-pointing arrow ←"),
+                ("right", "Right-pointing arrow →"),
+                ("both", "Both arrows ← →"),
+            ],
+            "style" => vec![
+                ("flat", "Rounded corners (rx=3)"),
+                ("flat-square", "Sharp corners (default)"),
+                ("plastic", "Shiny gradient overlay"),
+                ("for-the-badge", "Tall blocks (height=28)"),
+                ("social", "Very rounded (rx=10)"),
+                ("outline", "Border-only with transparent fill"),
+                ("ghost", "Alias for outline"),
+            ],
+            "border_full" | "divider" => vec![("true", "Enable"), ("false", "Disable (default)")],
+            "source" => vec![("shields", "Use shields.io URL instead of SVG")],
+            // For color parameters, return palette completions
+            "bg" | "bg_left" | "bg_right" | "logo" | "text" | "text_color" | "color" | "border" => {
+                return self.palette_completions(prefix);
+            }
+            _ => vec![],
+        };
+
+        values
+            .into_iter()
+            .filter(|(val, _)| prefix.is_empty() || val.starts_with(prefix))
+            .map(|(val, desc)| CompletionItem {
+                label: val.to_string(),
+                kind: Some(CompletionItemKind::ENUM_MEMBER),
+                detail: Some(desc.to_string()),
+                insert_text: Some(val.to_string()),
+                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                ..Default::default()
+            })
+            .collect()
+    }
+
     /// Analyze the text around the cursor to determine completion context
     fn get_completion_context(&self, text: &str, position: Position) -> CompletionContext {
         let lines: Vec<&str> = text.lines().collect();
@@ -256,6 +431,47 @@ impl MdfxLanguageServer {
             // Check for frame: prefix
             if let Some(rest) = after_open.strip_prefix("frame:") {
                 return CompletionContext::Frame(rest.to_string());
+            }
+
+            // Check for tech badge context: {{ui:tech:...
+            if let Some(rest) = after_open.strip_prefix("ui:tech:") {
+                // Parse the rest to determine context
+                // Format: NAME:param1=value1:param2=value2
+                let parts: Vec<&str> = rest.split(':').collect();
+
+                if parts.is_empty() || (parts.len() == 1 && !rest.contains(':')) {
+                    // Just after {{ui:tech: - show tech names
+                    return CompletionContext::TechName(rest.to_string());
+                }
+
+                // We have at least a tech name
+                let _tech_name = parts[0];
+
+                // Check if we're in a parameter value (after =)
+                if let Some(eq_pos) = rest.rfind('=') {
+                    let after_eq = &rest[eq_pos + 1..];
+                    // Find which parameter we're completing a value for
+                    let before_eq = &rest[..eq_pos];
+                    if let Some(colon_pos) = before_eq.rfind(':') {
+                        let param_name = &before_eq[colon_pos + 1..];
+                        return CompletionContext::TechParamValue(
+                            param_name.to_string(),
+                            after_eq.to_string(),
+                        );
+                    }
+                }
+
+                // Check if we're after a colon (ready for param name)
+                if rest.ends_with(':') || parts.len() > 1 {
+                    // Get the last incomplete part as prefix for param completion
+                    let last_part = parts.last().unwrap_or(&"");
+                    // If it contains =, we're in a value, otherwise param name
+                    if !last_part.contains('=') {
+                        return CompletionContext::TechParam(last_part.to_string());
+                    }
+                }
+
+                return CompletionContext::TechParam(String::new());
             }
 
             // Check for style= parameter (shield styles like flat, flat-square, for-the-badge)
@@ -315,6 +531,9 @@ enum CompletionContext {
     Frame(String),       // After {{frame: - show frame names
     Palette(String),     // Inside color parameter - show palette colors
     ShieldStyle(String), // After style= - show shield styles (flat, flat-square, etc.)
+    TechName(String),    // After {{ui:tech: - show tech names (rust, typescript, etc.)
+    TechParam(String),   // After {{ui:tech:NAME: - show parameter names
+    TechParamValue(String, String), // After {{ui:tech:NAME:param= - show values for param
 }
 
 #[tower_lsp::async_trait]
@@ -416,6 +635,11 @@ impl LanguageServer for MdfxLanguageServer {
             CompletionContext::Frame(prefix) => self.frame_completions(&prefix),
             CompletionContext::Palette(prefix) => self.palette_completions(&prefix),
             CompletionContext::ShieldStyle(prefix) => self.shield_style_completions(&prefix),
+            CompletionContext::TechName(prefix) => self.tech_name_completions(&prefix),
+            CompletionContext::TechParam(prefix) => self.tech_param_completions(&prefix),
+            CompletionContext::TechParamValue(param, prefix) => {
+                self.tech_param_value_completions(&param, &prefix)
+            }
         };
 
         if items.is_empty() {
