@@ -1,6 +1,6 @@
-//! GitHub badge component handler
+//! Dynamic badge component handlers
 //!
-//! Renders badges with live GitHub repository data.
+//! Renders badges with live data from external APIs (GitHub, npm, crates.io, PyPI).
 //! Requires the `fetch` feature to be enabled.
 
 use crate::components::ComponentOutput;
@@ -31,54 +31,47 @@ impl FetchContext {
     }
 }
 
-/// Handle github component expansion
+/// Generic handler for any data source
 ///
-/// Syntax: {{ui:github:owner/repo:metric/}}
-///
-/// Metrics:
-/// - stars - Repository star count
-/// - forks - Fork count
-/// - issues - Open issue count
-/// - license - SPDX license identifier
-/// - language - Primary programming language
-///
-/// Examples:
-/// - {{ui:github:rust-lang/rust:stars/}}
-/// - {{ui:github:facebook/react:license/}}
-/// - {{ui:github:torvalds/linux:forks:bg=dark1/}}
+/// This is the core function that handles fetching data from any source
+/// and rendering it as a badge.
 #[cfg(feature = "fetch")]
-pub fn handle(
+pub fn handle_source(
+    source_id: &str,
     args: &[String],
     params: &HashMap<String, String>,
     style: &str,
     resolve_color: impl Fn(&str) -> String,
     fetch_ctx: &FetchContext,
+    default_metric: &str,
+    default_color: &str,
 ) -> Result<ComponentOutput> {
     if args.is_empty() {
-        return Err(Error::ParseError(
-            "github component requires owner/repo argument".to_string(),
-        ));
+        return Err(Error::ParseError(format!(
+            "{} component requires a query argument",
+            source_id
+        )));
     }
 
-    let repo = &args[0];
+    let query = &args[0];
 
     // Metric can be second arg or param
     let metric = args
         .get(1)
         .or_else(|| params.get("metric"))
         .map(|s| s.as_str())
-        .unwrap_or("stars");
+        .unwrap_or(default_metric);
 
     // Fetch the data
     let value = fetch_ctx
         .fetcher
-        .fetch("github", repo, metric)
-        .map_err(|e| Error::ParseError(format!("Failed to fetch GitHub data: {}", e)))?;
+        .fetch(source_id, query, metric)
+        .map_err(|e| Error::ParseError(format!("Failed to fetch {} data: {}", source_id, e)))?;
 
     // Get metric info
     let label = fetch_ctx
         .fetcher
-        .metric_info("github", metric)
+        .metric_info(source_id, metric)
         .map(|info| info.label)
         .unwrap_or_else(|| metric.to_string());
 
@@ -86,18 +79,18 @@ pub fn handle(
     let bg_color = params.get("bg").map(|c| resolve_color(c)).unwrap_or_else(|| {
         fetch_ctx
             .fetcher
-            .metric_color("github", metric, &value)
-            .unwrap_or_else(|| "3B82F6".to_string())
+            .metric_color(source_id, metric, &value)
+            .unwrap_or_else(|| default_color.to_string())
     });
 
-    // Text color (default white for most colors, black for yellow)
+    // Text color (default white for most colors, black for yellow/bright)
     let text_color = params
         .get("text")
         .or_else(|| params.get("text_color"))
         .map(|c| resolve_color(c))
         .unwrap_or_else(|| {
             // Use black text for yellow-ish backgrounds
-            if bg_color == "EAB308" || bg_color == "FFD700" {
+            if bg_color == "EAB308" || bg_color == "FFD700" || bg_color == "FFD43B" {
                 "000000".to_string()
             } else {
                 "FFFFFF".to_string()
@@ -121,15 +114,7 @@ pub fn handle(
     let rx = params.get("rx").and_then(|v| v.parse().ok()).or(Some(3));
 
     // Optional icon
-    let icon = params.get("icon").cloned().or_else(|| {
-        // Default icons for some metrics
-        match metric {
-            "stars" => Some("star".to_string()),
-            "forks" => Some("git-branch".to_string()),
-            "issues" => Some("issue-opened".to_string()),
-            _ => None,
-        }
-    });
+    let icon = params.get("icon").cloned();
 
     Ok(ComponentOutput::Primitive(Primitive::Swatch {
         color: bg_color,
@@ -156,23 +141,106 @@ pub fn handle(
     }))
 }
 
-/// Placeholder handler when fetch feature is not enabled
-#[cfg(not(feature = "fetch"))]
-pub fn handle(
-    _args: &[String],
-    _params: &HashMap<String, String>,
-    _style: &str,
-    _resolve_color: impl Fn(&str) -> String,
+/// Handle github component expansion
+///
+/// Syntax: {{ui:github:owner/repo:metric/}}
+///
+/// Metrics:
+/// - stars - Repository star count
+/// - forks - Fork count
+/// - issues - Open issue count
+/// - license - SPDX license identifier
+/// - language - Primary programming language
+///
+/// Examples:
+/// - {{ui:github:rust-lang/rust:stars/}}
+/// - {{ui:github:facebook/react:license/}}
+/// - {{ui:github:torvalds/linux:forks:bg=dark1/}}
+#[cfg(feature = "fetch")]
+pub fn handle_github(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
 ) -> Result<ComponentOutput> {
-    Err(Error::ParseError(
-        "GitHub badges require the 'fetch' feature. Enable with: mdfx --features fetch".to_string(),
-    ))
+    handle_source("github", args, params, style, resolve_color, fetch_ctx, "stars", "3B82F6")
+}
+
+/// Handle npm component expansion
+///
+/// Syntax: {{ui:npm:package-name:metric/}}
+///
+/// Metrics:
+/// - version - Latest stable version
+/// - license - Package license
+/// - next - Latest @next tag version
+/// - beta - Latest @beta tag version
+///
+/// Examples:
+/// - {{ui:npm:react:version/}}
+/// - {{ui:npm:typescript:license/}}
+#[cfg(feature = "fetch")]
+pub fn handle_npm(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source("npm", args, params, style, resolve_color, fetch_ctx, "version", "CB3837")
+}
+
+/// Handle crates component expansion
+///
+/// Syntax: {{ui:crates:crate-name:metric/}}
+///
+/// Metrics:
+/// - version - Latest version
+/// - downloads - Total download count
+/// - description - Crate description
+///
+/// Examples:
+/// - {{ui:crates:serde:version/}}
+/// - {{ui:crates:tokio:downloads/}}
+#[cfg(feature = "fetch")]
+pub fn handle_crates(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source("crates", args, params, style, resolve_color, fetch_ctx, "version", "E57300")
+}
+
+/// Handle pypi component expansion
+///
+/// Syntax: {{ui:pypi:package-name:metric/}}
+///
+/// Metrics:
+/// - version - Latest version
+/// - license - Package license
+/// - author - Package author
+/// - python - Required Python version
+///
+/// Examples:
+/// - {{ui:pypi:requests:version/}}
+/// - {{ui:pypi:numpy:python/}}
+#[cfg(feature = "fetch")]
+pub fn handle_pypi(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source("pypi", args, params, style, resolve_color, fetch_ctx, "version", "3776AB")
 }
 
 #[cfg(all(test, feature = "fetch"))]
 mod tests {
     use super::*;
-    use std::path::PathBuf;
     use tempfile::TempDir;
 
     fn temp_fetch_ctx(offline: bool) -> (FetchContext, TempDir) {
@@ -188,18 +256,70 @@ mod tests {
     }
 
     #[test]
-    fn test_handle_offline_no_cache() {
+    fn test_github_offline_no_cache() {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
-        let result = handle(
+        let result = handle_github(
             &["rust-lang/rust".to_string()],
             &params,
             "flat",
             |c| c.to_string(),
             &ctx,
         );
-
-        // Should fail in offline mode with no cache
         assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_npm_offline_no_cache() {
+        let (ctx, _dir) = temp_fetch_ctx(true);
+        let params = HashMap::new();
+        let result = handle_npm(
+            &["react".to_string()],
+            &params,
+            "flat",
+            |c| c.to_string(),
+            &ctx,
+        );
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_crates_offline_no_cache() {
+        let (ctx, _dir) = temp_fetch_ctx(true);
+        let params = HashMap::new();
+        let result = handle_crates(
+            &["serde".to_string()],
+            &params,
+            "flat",
+            |c| c.to_string(),
+            &ctx,
+        );
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_pypi_offline_no_cache() {
+        let (ctx, _dir) = temp_fetch_ctx(true);
+        let params = HashMap::new();
+        let result = handle_pypi(
+            &["requests".to_string()],
+            &params,
+            "flat",
+            |c| c.to_string(),
+            &ctx,
+        );
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn test_missing_query() {
+        let (ctx, _dir) = temp_fetch_ctx(true);
+        let params = HashMap::new();
+
+        // All handlers should error with empty args
+        assert!(handle_github(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
+        assert!(handle_npm(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
+        assert!(handle_crates(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
+        assert!(handle_pypi(&[], &params, "flat", |c| c.to_string(), &ctx).is_err());
     }
 }

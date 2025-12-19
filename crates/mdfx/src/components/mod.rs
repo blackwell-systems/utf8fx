@@ -8,6 +8,9 @@
 
 mod handlers;
 
+#[cfg(feature = "fetch")]
+pub use handlers::FetchContext;
+
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
 use serde::Deserialize;
@@ -17,6 +20,8 @@ use std::collections::HashMap;
 pub struct ComponentsRenderer {
     palette: HashMap<String, String>,
     components: HashMap<String, ComponentDef>,
+    #[cfg(feature = "fetch")]
+    fetch_ctx: Option<handlers::FetchContext>,
 }
 
 /// Post-processing operations applied after template expansion
@@ -91,7 +96,21 @@ impl ComponentsRenderer {
         Ok(ComponentsRenderer {
             palette: registry.palette,
             components: registry.renderables.components,
+            #[cfg(feature = "fetch")]
+            fetch_ctx: None,
         })
+    }
+
+    /// Set the fetch context for dynamic badges
+    #[cfg(feature = "fetch")]
+    pub fn set_fetch_context(&mut self, ctx: handlers::FetchContext) {
+        self.fetch_ctx = Some(ctx);
+    }
+
+    /// Check if fetch context is available
+    #[cfg(feature = "fetch")]
+    pub fn has_fetch_context(&self) -> bool {
+        self.fetch_ctx.is_some()
     }
 
     /// Extend the palette with custom color definitions
@@ -149,6 +168,16 @@ impl ComponentsRenderer {
                 // Native components return Primitives
                 self.expand_native(component, args, content)
             }
+            #[cfg(feature = "fetch")]
+            "dynamic" => {
+                // Dynamic components require fetch context
+                self.expand_dynamic(component, args, content)
+            }
+            #[cfg(not(feature = "fetch"))]
+            "dynamic" => Err(Error::ParseError(format!(
+                "Dynamic component '{}' requires the 'fetch' feature. Rebuild with: --features fetch",
+                component
+            ))),
             "expand" => {
                 // Expand components return Templates
                 let template = self.expand_template(component, args, content)?;
@@ -225,6 +254,39 @@ impl ComponentsRenderer {
             "license" => handlers::license::handle(&positional, &params, &style, resolve),
             _ => Err(Error::ParseError(format!(
                 "Native component '{}' has no implementation",
+                component
+            ))),
+        }
+    }
+
+    /// Expand a dynamic component that fetches data from external APIs
+    #[cfg(feature = "fetch")]
+    fn expand_dynamic(
+        &self,
+        component: &str,
+        args: &[String],
+        _content: Option<&str>,
+    ) -> Result<ComponentOutput> {
+        let fetch_ctx = self.fetch_ctx.as_ref().ok_or_else(|| {
+            Error::ParseError(
+                "Dynamic badges require fetch context. Use --offline=false or configure fetch."
+                    .to_string(),
+            )
+        })?;
+
+        let (args, style) = Self::split_style_arg(args);
+        let (positional, params) = Self::extract_params(&args);
+
+        // Create a closure for color resolution
+        let resolve = |color: &str| self.resolve_color(color);
+
+        match component {
+            "github" => handlers::handle_github(&positional, &params, &style, resolve, fetch_ctx),
+            "npm" => handlers::handle_npm(&positional, &params, &style, resolve, fetch_ctx),
+            "crates" => handlers::handle_crates(&positional, &params, &style, resolve, fetch_ctx),
+            "pypi" => handlers::handle_pypi(&positional, &params, &style, resolve, fetch_ctx),
+            _ => Err(Error::ParseError(format!(
+                "Dynamic component '{}' has no implementation",
                 component
             ))),
         }

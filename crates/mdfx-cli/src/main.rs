@@ -148,6 +148,21 @@ enum Commands {
         /// Contains partials, palette, and other project settings
         #[arg(long)]
         config: Option<PathBuf>,
+
+        /// Run in offline mode (use cached data only, no network requests)
+        #[cfg(feature = "fetch")]
+        #[arg(long)]
+        offline: bool,
+
+        /// Force refresh of cached data (ignore cache, fetch fresh)
+        #[cfg(feature = "fetch")]
+        #[arg(long)]
+        refresh: bool,
+
+        /// Cache directory for dynamic badge data
+        #[cfg(feature = "fetch")]
+        #[arg(long, default_value = ".mdfx-cache")]
+        cache_dir: String,
     },
 
     /// Generate shell completions
@@ -366,7 +381,23 @@ fn run(cli: Cli) -> Result<(), Error> {
             assets_dir,
             palette,
             config,
+            #[cfg(feature = "fetch")]
+            offline,
+            #[cfg(feature = "fetch")]
+            refresh,
+            #[cfg(feature = "fetch")]
+            cache_dir,
         } => {
+            #[cfg(feature = "fetch")]
+            let fetch_config = Some(mdfx_fetch::FetchConfig {
+                cache_dir: std::path::PathBuf::from(&cache_dir),
+                default_ttl: 3600,
+                offline,
+                refresh,
+            });
+            #[cfg(not(feature = "fetch"))]
+            let fetch_config: Option<()> = None;
+
             process_file(
                 input,
                 output,
@@ -376,6 +407,7 @@ fn run(cli: Cli) -> Result<(), Error> {
                 &assets_dir,
                 palette.as_deref(),
                 config.as_deref(),
+                fetch_config,
             )?;
         }
 
@@ -725,6 +757,8 @@ fn process_file(
     assets_dir: &str,
     palette_path: Option<&std::path::Path>,
     config_path: Option<&std::path::Path>,
+    #[cfg(feature = "fetch")] fetch_config: Option<mdfx_fetch::FetchConfig>,
+    #[cfg(not(feature = "fetch"))] _fetch_config: Option<()>,
 ) -> Result<(), Error> {
     // Resolve target (with auto-detection support)
     let target: Box<dyn Target> = if target_name == "auto" {
@@ -818,6 +852,24 @@ fn process_file(
             palette_file.display()
         );
         parser.extend_palette(custom_palette);
+    }
+
+    // Set up fetch context for dynamic badges (if fetch feature is enabled)
+    #[cfg(feature = "fetch")]
+    if let Some(config) = fetch_config {
+        match mdfx::FetchContext::new(config) {
+            Ok(ctx) => {
+                if !ctx.fetcher().config().offline {
+                    eprintln!("{} Dynamic badges enabled (use --offline to disable)", "Info:".cyan());
+                } else {
+                    eprintln!("{} Dynamic badges in offline mode (cache only)", "Info:".cyan());
+                }
+                parser.set_fetch_context(ctx);
+            }
+            Err(e) => {
+                eprintln!("{} Failed to initialize fetch: {}", "Warning:".yellow(), e);
+            }
+        }
     }
 
     // Read input
@@ -1479,6 +1531,7 @@ fn watch_file(
         assets_dir,
         palette_path,
         config_path,
+        None, // watch mode doesn't support fetch currently
     ) {
         Ok(()) => println!("{} Build complete", "[watch]".green()),
         Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),
@@ -1520,6 +1573,7 @@ fn watch_file(
                         assets_dir,
                         palette_path,
                         config_path,
+                        None, // watch mode doesn't support fetch currently
                     ) {
                         Ok(()) => println!("{} Build complete", "[watch]".green()),
                         Err(e) => eprintln!("{} Build failed: {}", "[watch]".red(), e),

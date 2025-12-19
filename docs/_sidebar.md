@@ -15,6 +15,7 @@
   - [Colors](/guides/COLORS-GUIDE.md)
   - [Swatches](/guides/SWATCH-GUIDE.md)
   - [Tech Badges](/guides/TECH-GUIDE.md)
+  - [Dynamic Badges](/guides/DYNAMIC-BADGES-GUIDE.md)
   - [Components](/guides/COMPONENTS-GUIDE.md)
   - [Progress Bars](/guides/PROGRESS-GUIDE.md)
   - [Donut & Gauge](/guides/DONUT-GAUGE-GUIDE.md)

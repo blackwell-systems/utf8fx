@@ -660,6 +660,130 @@
           }
         }
       },
+      "github": {
+        "type": "dynamic",
+        "self_closing": true,
+        "description": "Live GitHub repository metrics badge (stars, forks, issues, license)",
+        "contexts": [
+          "inline",
+          "block"
+        ],
+        "args": [
+          "owner/repo",
+          "metric"
+        ],
+        "optional_params": {
+          "metric": {
+            "type": "enum",
+            "values": ["stars", "forks", "issues", "watchers", "license", "language"],
+            "default": "stars",
+            "description": "Metric to display"
+          },
+          "style": {
+            "type": "shield_style",
+            "default": "flat-square",
+            "description": "Badge style"
+          },
+          "bg": {
+            "type": "color",
+            "default": "",
+            "description": "Background color (auto-selected based on metric if not specified)"
+          }
+        }
+      },
+      "npm": {
+        "type": "dynamic",
+        "self_closing": true,
+        "description": "Live npm package metrics badge (version, license)",
+        "contexts": [
+          "inline",
+          "block"
+        ],
+        "args": [
+          "package-name",
+          "metric"
+        ],
+        "optional_params": {
+          "metric": {
+            "type": "enum",
+            "values": ["version", "license", "next", "beta"],
+            "default": "version",
+            "description": "Metric to display"
+          },
+          "style": {
+            "type": "shield_style",
+            "default": "flat-square",
+            "description": "Badge style"
+          },
+          "bg": {
+            "type": "color",
+            "default": "",
+            "description": "Background color (npm red by default)"
+          }
+        }
+      },
+      "crates": {
+        "type": "dynamic",
+        "self_closing": true,
+        "description": "Live crates.io package metrics badge (version, downloads)",
+        "contexts": [
+          "inline",
+          "block"
+        ],
+        "args": [
+          "crate-name",
+          "metric"
+        ],
+        "optional_params": {
+          "metric": {
+            "type": "enum",
+            "values": ["version", "downloads", "description"],
+            "default": "version",
+            "description": "Metric to display"
+          },
+          "style": {
+            "type": "shield_style",
+            "default": "flat-square",
+            "description": "Badge style"
+          },
+          "bg": {
+            "type": "color",
+            "default": "",
+            "description": "Background color (Rust orange by default)"
+          }
+        }
+      },
+      "pypi": {
+        "type": "dynamic",
+        "self_closing": true,
+        "description": "Live PyPI package metrics badge (version, license, python requirement)",
+        "contexts": [
+          "inline",
+          "block"
+        ],
+        "args": [
+          "package-name",
+          "metric"
+        ],
+        "optional_params": {
+          "metric": {
+            "type": "enum",
+            "values": ["version", "license", "summary", "author", "python"],
+            "default": "version",
+            "description": "Metric to display"
+          },
+          "style": {
+            "type": "shield_style",
+            "default": "flat-square",
+            "description": "Badge style"
+          },
+          "bg": {
+            "type": "color",
+            "default": "",
+            "description": "Background color (Python blue by default)"
+          }
+        }
+      },
       "row": {
         "type": "native",
         "self_closing": false,

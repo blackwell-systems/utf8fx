@@ -14,6 +14,7 @@ Comprehensive guides for every mdfx feature. Each guide covers syntax, parameter
 |-------|-------------|
 | [Tech Badges](TECH-GUIDE.md) | 90+ technology logos with brand colors, auto logo colors |
 | [Version & License](VERSION-LICENSE-GUIDE.md) | Semantic version and license badges with auto coloring |
+| [Dynamic Badges](DYNAMIC-BADGES-GUIDE.md) | Live badges from GitHub, npm, crates.io, PyPI |
 | [Swatches](SWATCH-GUIDE.md) | Color blocks with styles, borders, labels, icons |
 | [Progress Bars](PROGRESS-GUIDE.md) | Progress bars with thumbs, labels, custom styling |
 | [Donut & Gauge](DONUT-GAUGE-GUIDE.md) | Circular progress charts |

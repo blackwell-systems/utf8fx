@@ -1,8 +1,14 @@
 //! Data sources for fetching metrics from external APIs
 
+mod crates;
 mod github;
+mod npm;
+mod pypi;
 
+pub use crates::CratesSource;
 pub use github::GitHubSource;
+pub use npm::NpmSource;
+pub use pypi::PyPISource;
 
 use crate::error::Result;
 use crate::value::DataValue;
@@ -62,7 +68,12 @@ impl SourceRegistry {
     /// Create a new registry with all built-in sources
     pub fn new() -> Self {
         SourceRegistry {
-            sources: vec![Box::new(GitHubSource::new())],
+            sources: vec![
+                Box::new(GitHubSource::new()),
+                Box::new(NpmSource::new()),
+                Box::new(CratesSource::new()),
+                Box::new(PyPISource::new()),
+            ],
         }
     }
 
@@ -99,9 +110,30 @@ mod tests {
     }
 
     #[test]
+    fn test_registry_has_npm() {
+        let registry = SourceRegistry::new();
+        assert!(registry.get("npm").is_some());
+    }
+
+    #[test]
+    fn test_registry_has_crates() {
+        let registry = SourceRegistry::new();
+        assert!(registry.get("crates").is_some());
+    }
+
+    #[test]
+    fn test_registry_has_pypi() {
+        let registry = SourceRegistry::new();
+        assert!(registry.get("pypi").is_some());
+    }
+
+    #[test]
     fn test_registry_list() {
         let registry = SourceRegistry::new();
         let sources = registry.list();
         assert!(sources.contains(&"github"));
+        assert!(sources.contains(&"npm"));
+        assert!(sources.contains(&"crates"));
+        assert!(sources.contains(&"pypi"));
     }
 }

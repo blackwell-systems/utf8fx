@@ -19,4 +19,4 @@ pub mod version;
 pub mod waveform;
 
 #[cfg(feature = "fetch")]
-pub use github::FetchContext;
+pub use github::{FetchContext, handle_github, handle_npm, handle_crates, handle_pypi};

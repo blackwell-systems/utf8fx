@@ -151,6 +151,11 @@ impl Fetcher {
     pub fn has_source(&self, source_id: &str) -> bool {
         self.sources.get(source_id).is_some()
     }
+
+    /// Get the fetcher configuration
+    pub fn config(&self) -> &FetchConfig {
+        &self.config
+    }
 }
 
 /// Metadata about a metric

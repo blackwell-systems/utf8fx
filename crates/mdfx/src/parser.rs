@@ -157,6 +157,15 @@ impl TemplateParser {
         }
     }
 
+    /// Set the fetch context for dynamic badges (GitHub, npm, etc.)
+    ///
+    /// This enables dynamic components like `{{ui:github:owner/repo:stars/}}`
+    /// that fetch live data from external APIs.
+    #[cfg(feature = "fetch")]
+    pub fn set_fetch_context(&mut self, ctx: crate::components::FetchContext) {
+        self.components_renderer.set_fetch_context(ctx);
+    }
+
     /// Add a single partial template
     ///
     /// # Arguments
