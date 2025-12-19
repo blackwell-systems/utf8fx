@@ -399,6 +399,7 @@ Added `rstest` crate for parameterized testing, significantly reducing test boil
 - **mdfx/renderer/hybrid.rs**: SVG feature detection (6 cases)
 - **mdfx/renderer/svg/mod.rs**: Content-addressed filenames (4 cases), type prefixes (4 cases)
 - **mdfx/components/handlers/github.rs**: Offline mode (4 cases), missing query (4 cases)
+- **mdfx/parser.rs**: Separator types (5 cases), spacing values (3 cases), frame glyph shorthand (2 cases), glyph padding (5 cases), frame pattern separators (3 cases), frame pattern spacing (2 cases), glyph frame spacing (2 cases), badge styles (4 cases)
 
 Example transformation:
 ```rust
