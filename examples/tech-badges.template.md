@@ -19,12 +19,6 @@ Scale your tech logos from tiny to prominent:
 | Extra Large | `logo_size=xl` | {{ui:tech:rust:logo_size=xl/}} |
 | XXL | `logo_size=xxl` | {{ui:tech:rust:logo_size=xxl/}} |
 
-### Size Comparison Row
-
-{{ui:row:align=center}}
-{{ui:tech:typescript:logo_size=xs/}} {{ui:tech:typescript:logo_size=sm/}} {{ui:tech:typescript:logo_size=md/}} {{ui:tech:typescript:logo_size=lg/}} {{ui:tech:typescript:logo_size=xl/}} {{ui:tech:typescript:logo_size=xxl/}}
-{{/ui}}
-
 ---
 
 ## {{negative-circled}}NEW{{/negative-circled}} Custom Icons
@@ -165,15 +159,6 @@ Directional arrow shapes:
 {{ui:tech:redis:label=v7.2:bg=22C55E:logo=white/}}
 {{/ui}}
 
-### {{negative-circled}}DEV{{/negative-circled}} Development Tools
-
-{{ui:row:align=center}}
-{{ui:tech:neovim:style=outline/}}
-{{ui:tech:visualstudiocode:style=outline/}}
-{{ui:tech:git:style=outline/}}
-{{ui:tech:docker:style=outline/}}
-{{/ui}}
-
 ### {{squared-latin}}BETA{{/squared-latin}} Experimental
 
 {{ui:row:align=center}}
@@ -192,17 +177,6 @@ Directional arrow shapes:
 {{ui:tech:typescript:logo_size=xl:border=f41c80:border_width=1/}}
 {{ui:tech:go:logo_size=xl:border=f41c80:border_width=1/}}
 {{ui:swatch:f41c80:width=8:height=36:rx=4:shadow=f41c80/15/0/0/}}
-
-### Categorized Stack
-
-{{frame:gradient}}{{negative-squared}}LANG{{/negative-squared}}{{/frame}}
-{{ui:tech:rust/}} {{ui:tech:typescript/}} {{ui:tech:python/}} {{ui:tech:go/}}
-
-{{frame:gradient}}{{negative-squared}}INFRA{{/negative-squared}}{{/frame}}
-{{ui:tech:docker/}} {{ui:tech:kubernetes/}} {{ui:tech:terraform/}} {{ui:tech:ansible/}}
-
-{{frame:gradient}}{{negative-squared}}DATA{{/negative-squared}}{{/frame}}
-{{ui:tech:postgresql/}} {{ui:tech:redis/}} {{ui:tech:mongodb/}} {{ui:tech:elasticsearch/}}
 
 ---
 
@@ -254,36 +228,6 @@ Directional arrow shapes:
 {{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.filled/}} {{mathbold}}SECTION{{/mathbold}} {{glyph:star.filled/}}{{glyph:star.filled/}}{{glyph:star.filled/}}
 
 {{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}} {{glyph:diamond.filled/}}
-
----
-
-## {{frame:line-double}}{{mathbold}}MEGA SHOWCASE{{/mathbold}}{{/frame}}
-
-### Full-Stack Developer Badge Wall
-
-{{ui:row:align=center}}
-{{ui:tech:rust:logo_size=lg:label=Systems/}}
-{{ui:tech:go:logo_size=lg:label=Services/}}
-{{ui:tech:python:logo_size=lg:label=ML/}}
-{{/ui}}
-
-{{ui:row:align=center}}
-{{ui:tech:typescript:logo_size=lg:label=Frontend/}}
-{{ui:tech:react:logo_size=lg:label=UI/}}
-{{ui:tech:nextdotjs:logo_size=lg:label=SSR/}}
-{{/ui}}
-
-{{ui:row:align=center}}
-{{ui:tech:postgresql:logo_size=lg:label=SQL/}}
-{{ui:tech:mongodb:logo_size=lg:label=NoSQL/}}
-{{ui:tech:redis:logo_size=lg:label=Cache/}}
-{{/ui}}
-
-{{ui:row:align=center}}
-{{ui:tech:docker:logo_size=lg:label=Container/}}
-{{ui:tech:kubernetes:logo_size=lg:label=Orchestration/}}
-{{ui:tech:terraform:logo_size=lg:label=IaC/}}
-{{/ui}}
 
 ---
 

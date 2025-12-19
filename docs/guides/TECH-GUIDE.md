@@ -10,7 +10,6 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Logo Colors](#logo-colors)
 - [Text Customization](#text-customization)
 - [Custom Labels](#custom-labels)
-  - [Unicode & Special Characters](#unicode--special-characters-in-labels)
 - [Borders & Corners](#borders--corners)
 - [Chevron Badges](#chevron-badges)
 - [Independent Segment Colors](#independent-segment-colors)
@@ -245,37 +244,7 @@ Use `label` to customize the displayed text:
 
 ![](assets/tech-guide/tech_53e24c544590d9f6.svg) ![](assets/tech-guide/tech_a1820d73eb86ed5a.svg) ![](assets/tech-guide/tech_1fdd23a31cc08678.svg)
 
-### Unicode & Special Characters in Labels
-
-Labels support Unicode characters, glyphs, and symbols directly. This enables creative badge designs with decorative elements:
-
-**Supported Characters:**
-- Stars and shapes: ★ ☆ ◆ ◇ ● ○
-- Arrows: → ← ↑ ↓ ⇒ ⇐
-- Numbers: ① ② ③ ④ ⑤
-- Hearts and cards: ♥ ♦ ♣ ♠
-- Checkmarks: ✓ ✗ ☑ ☐
-- Mathematical: 𝐁𝐎𝐋𝐃 𝒮𝒸𝓇𝒾𝓅𝓉 𝔉𝔯𝔞𝔨𝔱𝔲𝔯
-
-**Examples:**
-
-```markdown
-{{ui:tech:rust:label=★ Rust/}}
-{{ui:tech:docker:label=① Container/}}
-{{ui:tech:postgresql:label=✓ Connected/}}
-{{ui:tech:react:label=♥ React/}}
-```
-
-**Pre-transformed Unicode Text:**
-
-You can use Unicode text styles directly in labels for stylized text:
-
-```markdown
-{{ui:tech:rust:label=𝐑𝐔𝐒𝐓/}}           <!-- Mathematical Bold -->
-{{ui:tech:python:label=𝒫𝓎𝓉𝒽ℴ𝓃/}}        <!-- Script style -->
-```
-
-**Glyph Syntax in Labels:**
+### Glyph Syntax in Labels
 
 You can embed glyph templates directly inside label values:
 
@@ -816,30 +785,6 @@ Define team responsibilities with tech stacks:
 
 ---
 
-### Project Status Dashboard
-
-```markdown
-| Service | Tech | Status | Uptime |
-|---------|------|--------|--------|
-| API Gateway | {{ui:tech:nginx:label=Running/}} | 🟢 | 99.9% |
-| Auth Service | {{ui:tech:rust:label=Healthy/}} | 🟢 | 99.8% |
-| Database | {{ui:tech:postgresql:label=Primary/}} | 🟢 | 99.99% |
-| Cache | {{ui:tech:redis:label=Cluster/}} | 🟡 | 98.5% |
-| Search | {{ui:tech:elasticsearch:label=Indexing/}} | 🔵 | - |
-```
-
-**Rendered:**
-
-| Service | Tech | Status | Uptime |
-|---------|------|--------|--------|
-| API Gateway | ![](assets/tech-guide/tech_e5cec997c1a0265b.svg) | 🟢 | 99.9% |
-| Auth Service | ![](assets/tech-guide/tech_85f45ace8601e1a6.svg) | 🟢 | 99.8% |
-| Database | ![](assets/tech-guide/tech_12086181a8203feb.svg) | 🟢 | 99.99% |
-| Cache | ![](assets/tech-guide/tech_d3d8d37ed36a3db1.svg) | 🟡 | 98.5% |
-| Search | ![](assets/tech-guide/tech_ab192457039fa652.svg) | 🔵 | - |
-
----
-
 ### Sleek Monochrome
 
 Professional look with consistent dark styling:
@@ -871,28 +816,6 @@ Simulate gradients with colored borders on matching dark backgrounds:
 **Rendered:**
 
 ![](assets/tech-guide/tech_b98d8fd6327e60cc.svg) ![](assets/tech-guide/tech_454e55bd5f6b01b6.svg) ![](assets/tech-guide/tech_ff06050996c4906c.svg) ![](assets/tech-guide/tech_408300884aadd55e.svg)
-
----
-
-### Skills Matrix
-
-```markdown
-| Skill | Proficiency | Years |
-|-------|-------------|-------|
-| {{ui:tech:rust/}} | ████████░░ Expert | 5+ |
-| {{ui:tech:typescript/}} | ███████░░░ Advanced | 4 |
-| {{ui:tech:python/}} | ██████░░░░ Intermediate | 3 |
-| {{ui:tech:go/}} | ████░░░░░░ Learning | 1 |
-```
-
-**Rendered:**
-
-| Skill | Proficiency | Years |
-|-------|-------------|-------|
-| ![](assets/tech-guide/tech_4d3dc36ab190463c.svg) | ████████░░ Expert | 5+ |
-| ![](assets/tech-guide/tech_9fa73146667d5e15.svg) | ███████░░░ Advanced | 4 |
-| ![](assets/tech-guide/tech_612cae4b1bd8fe91.svg) | ██████░░░░ Intermediate | 3 |
-| ![](assets/tech-guide/tech_710a7adb9ff00951.svg) | ████░░░░░░ Learning | 1 |
 
 ---
 

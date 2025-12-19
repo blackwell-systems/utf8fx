@@ -19,12 +19,6 @@ Scale your tech logos from tiny to prominent:
 | Extra Large | `logo_size=xl` | ![](assets/tech_b4e69040a819f346.svg) |
 | XXL | `logo_size=xxl` | ![](assets/tech_3b53bb1ab7701071.svg) |
 
-### Size Comparison Row
-
-<p align="center">
-<img alt="" src="assets/tech_ec59b156a8509ef6.svg"> <img alt="" src="assets/tech_4a6198bcfe609dd5.svg"> <img alt="" src="assets/tech_22ac3299f7ece4f0.svg"> <img alt="" src="assets/tech_bc7cec3fca8663bc.svg"> <img alt="" src="assets/tech_723ba66e8627805c.svg"> <img alt="" src="assets/tech_efd115d0c6266db3.svg">
-</p>
-
 ---
 
 ## 🅝🅔🅦 Custom Icons
@@ -151,12 +145,6 @@ Directional arrow shapes:
 <img alt="" src="assets/tech_37b88a190c7fdf95.svg"> <img alt="" src="assets/tech_465478e722acdec.svg"> <img alt="" src="assets/tech_b3fd2e7be05d48af.svg">
 </p>
 
-### 🅓🅔🅥 Development Tools
-
-<p align="center">
-<img alt="" src="assets/tech_3851dfccda04211.svg"> <img alt="" src="assets/tech_ed0191239d478b61.svg"> <img alt="" src="assets/tech_76e2a666fa7391f7.svg"> <img alt="" src="assets/tech_c8e5e5216e95ec78.svg">
-</p>
-
 ### 🄱🄴🅃🄰 Experimental
 
 <p align="center">
@@ -174,17 +162,6 @@ Directional arrow shapes:
 ![](assets/tech_5a5b6ded71368e36.svg)
 ![](assets/tech_9ef9bb8a128a0f74.svg)
 ![](assets/swatch_a1edcf795a965ec9.svg)
-
-### Categorized Stack
-
-▓︎▒︎░︎ 🅻🅰🅽🅶 ░︎▒︎▓︎
-![](assets/tech_4bf3d7300d6d8693.svg) ![](assets/tech_dbf5e1d25b2b52a0.svg) ![](assets/tech_db5b9663af39915c.svg) ![](assets/tech_4d369e5b001f8f0e.svg)
-
-▓︎▒︎░︎ 🅸🅽🅵🆁🅰 ░︎▒︎▓︎
-![](assets/tech_f290fd0cb162e616.svg) ![](assets/tech_887742265def5c36.svg) ![](assets/tech_5146f1d7e7da067a.svg) ![](assets/tech_d7f011fef55c9a8e.svg)
-
-▓︎▒︎░︎ 🅳🅰🆃🅰 ░︎▒︎▓︎
-![](assets/tech_d49749365eeefbe6.svg) ![](assets/tech_a688bac08e03e091.svg) ![](assets/tech_d13b4760fe18e9a1.svg) ![](assets/tech_7f33c6bdc44ea6a0.svg)
 
 ---
 
@@ -236,28 +213,6 @@ Directional arrow shapes:
 ★︎★︎★︎ 𝐒𝐄𝐂𝐓𝐈𝐎𝐍 ★︎★︎★︎
 
 ◆︎ ◆︎ ◆︎ ◆︎ ◆︎
-
----
-
-## ═︎═︎═︎ 𝐌𝐄𝐆𝐀 𝐒𝐇𝐎𝐖𝐂𝐀𝐒𝐄 ═︎═︎═︎
-
-### Full-Stack Developer Badge Wall
-
-<p align="center">
-<img alt="" src="assets/tech_d5818541a500bd85.svg"> <img alt="" src="assets/tech_87b2ee49132b4b3c.svg"> <img alt="" src="assets/tech_41bfcfe0161d027e.svg">
-</p>
-
-<p align="center">
-<img alt="" src="assets/tech_4ea6db9296256950.svg"> <img alt="" src="assets/tech_1ad99cf8b7312928.svg"> <img alt="" src="assets/tech_f3c613c36e51fbc2.svg">
-</p>
-
-<p align="center">
-<img alt="" src="assets/tech_b608d9f9ce9b22a1.svg"> <img alt="" src="assets/tech_2f44e537622f711e.svg"> <img alt="" src="assets/tech_23ac7809662ab5ae.svg">
-</p>
-
-<p align="center">
-<img alt="" src="assets/tech_5fb577d46404fba1.svg"> <img alt="" src="assets/tech_76578bb833d56d00.svg"> <img alt="" src="assets/tech_38b95358e5767bc1.svg">
-</p>
 
 ---
 
