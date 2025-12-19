@@ -274,10 +274,10 @@ mod tests {
     // ========================================================================
 
     #[rstest]
-    #[case("stars", DataValue::Number(50000), Some("FFD700"))]  // gold
-    #[case("stars", DataValue::Number(5000), Some("C0C0C0"))]   // silver
-    #[case("stars", DataValue::Number(500), Some("CD7F32"))]    // bronze
-    #[case("stars", DataValue::Number(50), Some("22C55E"))]     // green
+    #[case("stars", DataValue::Number(50000), Some("FFD700"))] // gold
+    #[case("stars", DataValue::Number(5000), Some("C0C0C0"))] // silver
+    #[case("stars", DataValue::Number(500), Some("CD7F32"))] // bronze
+    #[case("stars", DataValue::Number(50), Some("22C55E"))] // green
     #[case("license", DataValue::String("MIT".to_string()), Some("22C55E"))]
     #[case("license", DataValue::String("GPL-3.0".to_string()), Some("EAB308"))]
     #[case("license", DataValue::String("NONE".to_string()), Some("6B7280"))]

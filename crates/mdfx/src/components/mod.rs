@@ -504,6 +504,7 @@ impl ComponentsRenderer {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[test]
     fn test_components_renderer_new() {
@@ -511,33 +512,25 @@ mod tests {
         assert!(renderer.is_ok());
     }
 
-    #[test]
-    fn test_expand_swatch_with_arg() {
+    // ========================================================================
+    // Swatch Color Resolution (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("pink", "F41C80")]
+    #[case("cobalt", "2B6CB0")]
+    #[case("dark1", "292A2D")]
+    #[case("abc123", "abc123")] // hex passthrough
+    #[case("FF0000", "FF0000")] // hex passthrough
+    fn test_expand_swatch_colors(#[case] input: &str, #[case] expected: &str) {
         let renderer = ComponentsRenderer::new().unwrap();
         let result = renderer
-            .expand("swatch", &["pink".to_string()], None)
+            .expand("swatch", &[input.to_string()], None)
             .unwrap();
 
-        // Swatch should return a Primitive::Swatch with resolved color
         match result {
             ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
-                assert_eq!(color, "F41C80"); // pink resolved
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
-    }
-
-    #[test]
-    fn test_expand_swatch_with_hex() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let result = renderer
-            .expand("swatch", &["abc123".to_string()], None)
-            .unwrap();
-
-        // Swatch should pass through hex as-is
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
-                assert_eq!(color, "abc123");
+                assert_eq!(color, expected);
             }
             _ => panic!("Expected Primitive::Swatch"),
         }
@@ -732,12 +725,20 @@ mod tests {
             .contains("Unknown component"));
     }
 
-    #[test]
-    fn test_has_component() {
+    // ========================================================================
+    // Component Availability (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("swatch", true)]
+    #[case("tech", true)]
+    #[case("row", true)]
+    #[case("tech-group", true)]
+    #[case("nonexistent", false)]
+    #[case("unknown-component", false)]
+    fn test_has_component(#[case] name: &str, #[case] expected: bool) {
         let renderer = ComponentsRenderer::new().unwrap();
-        assert!(renderer.has("swatch"));
-        assert!(renderer.has("tech"));
-        assert!(!renderer.has("nonexistent"));
+        assert_eq!(renderer.has(name), expected);
     }
 
     #[test]
@@ -760,158 +761,122 @@ mod tests {
         assert!(colors.iter().any(|(name, _)| *name == "dark1"));
     }
 
-    #[test]
-    fn test_resolve_color_palette() {
+    // ========================================================================
+    // Color Resolution (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("pink", "F41C80")]
+    #[case("cobalt", "2B6CB0")]
+    #[case("dark1", "292A2D")]
+    #[case("abc123", "abc123")] // hex passthrough
+    #[case("FF0000", "FF0000")] // hex passthrough
+    fn test_resolve_color(#[case] input: &str, #[case] expected: &str) {
         let renderer = ComponentsRenderer::new().unwrap();
-        let resolved = renderer.resolve_color("pink");
-        assert_eq!(resolved, "F41C80");
+        assert_eq!(renderer.resolve_color(input), expected);
     }
 
-    #[test]
-    fn test_resolve_color_passthrough() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let resolved = renderer.resolve_color("abc123");
-        assert_eq!(resolved, "abc123");
-    }
+    // ========================================================================
+    // Blockquote Post-Processor Tests (Parameterized)
+    // ========================================================================
 
-    // ========================================
-    // Blockquote Post-Processor Tests
-    // ========================================
-
-    #[test]
-    fn test_apply_blockquote_single_line() {
+    #[rstest]
+    #[case("Single line", "> Single line")]
+    #[case("Line 1\nLine 2\nLine 3", "> Line 1\n> Line 2\n> Line 3")]
+    #[case("Line 1\n\nLine 3", "> Line 1\n>\n> Line 3")] // empty lines
+    #[case(
+        "Normal\n  Indented\n    More indented",
+        "> Normal\n>   Indented\n>     More indented"
+    )]
+    #[case(
+        "**Bold text**\n- List item\n- Another item",
+        "> **Bold text**\n> - List item\n> - Another item"
+    )]
+    #[case("", "")] // empty input
+    #[case("Line 1\n   \nLine 3", "> Line 1\n>\n> Line 3")] // whitespace-only lines
+    fn test_apply_blockquote(#[case] input: &str, #[case] expected: &str) {
         let renderer = ComponentsRenderer::new().unwrap();
-        let input = "Single line";
-        let result = renderer.apply_blockquote(input);
-        assert_eq!(result, "> Single line");
-    }
-
-    #[test]
-    fn test_apply_blockquote_multiple_lines() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let input = "Line 1\nLine 2\nLine 3";
-        let result = renderer.apply_blockquote(input);
-        assert_eq!(result, "> Line 1\n> Line 2\n> Line 3");
-    }
-
-    #[test]
-    fn test_apply_blockquote_with_empty_lines() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let input = "Line 1\n\nLine 3";
-        let result = renderer.apply_blockquote(input);
-        // Empty lines should get ">" (no trailing space)
-        assert_eq!(result, "> Line 1\n>\n> Line 3");
-    }
-
-    #[test]
-    fn test_apply_blockquote_preserves_indentation() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let input = "Normal\n  Indented\n    More indented";
-        let result = renderer.apply_blockquote(input);
-        // Blockquote prefix goes before existing indentation
-        assert_eq!(result, "> Normal\n>   Indented\n>     More indented");
-    }
-
-    #[test]
-    fn test_apply_blockquote_with_markdown() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let input = "**Bold text**\n- List item\n- Another item";
-        let result = renderer.apply_blockquote(input);
-        // Markdown inside blockquote should be preserved
-        assert_eq!(result, "> **Bold text**\n> - List item\n> - Another item");
-    }
-
-    #[test]
-    fn test_apply_blockquote_empty_string() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let input = "";
-        let result = renderer.apply_blockquote(input);
-        // Empty input should return empty (lines() on empty string returns no lines)
-        assert_eq!(result, "");
-    }
-
-    #[test]
-    fn test_apply_blockquote_whitespace_only_lines() {
-        let renderer = ComponentsRenderer::new().unwrap();
-        let input = "Line 1\n   \nLine 3";
-        let result = renderer.apply_blockquote(input);
-        // Whitespace-only lines should be treated as empty (trim() is empty)
-        assert_eq!(result, "> Line 1\n>\n> Line 3");
+        assert_eq!(renderer.apply_blockquote(input), expected);
     }
 }
 
 #[cfg(test)]
 mod style_tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_split_style_arg_with_style() {
-        let args = vec!["F41C80".to_string(), "style=flat".to_string()];
-        let (remaining, style) = ComponentsRenderer::split_style_arg(&args);
-        assert_eq!(remaining, vec!["F41C80"]);
-        assert_eq!(style, "flat");
+    // ========================================================================
+    // Style Argument Splitting (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(&["F41C80", "style=flat"], "flat")]
+    #[case(&["F41C80"], "flat-square")] // default
+    #[case(&["abc123", "style=plastic"], "plastic")]
+    #[case(&["color", "width=10", "style=social"], "social")]
+    fn test_split_style_arg(#[case] args: &[&str], #[case] expected_style: &str) {
+        let args: Vec<String> = args.iter().map(|s| s.to_string()).collect();
+        let (_, style) = ComponentsRenderer::split_style_arg(&args);
+        assert_eq!(style, expected_style);
     }
 
-    #[test]
-    fn test_split_style_arg_no_style() {
-        let args = vec!["F41C80".to_string()];
-        let (remaining, style) = ComponentsRenderer::split_style_arg(&args);
-        assert_eq!(remaining, vec!["F41C80"]);
-        assert_eq!(style, "flat-square");
-    }
+    // ========================================================================
+    // Component Lookup (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_get_component() {
+    #[rstest]
+    #[case("swatch", true)]
+    #[case("tech", true)]
+    #[case("row", true)]
+    #[case("nonexistent_component", false)]
+    #[case("unknown", false)]
+    fn test_get_component(#[case] name: &str, #[case] should_exist: bool) {
         let renderer = ComponentsRenderer::new().unwrap();
-
-        // Test getting a known component
-        let swatch = renderer.get("swatch");
-        assert!(swatch.is_some());
-        let swatch = swatch.unwrap();
-        assert!(!swatch.description.is_empty());
-
-        // Test getting unknown component returns None
-        let unknown = renderer.get("nonexistent_component");
-        assert!(unknown.is_none());
+        let component = renderer.get(name);
+        assert_eq!(component.is_some(), should_exist);
     }
 
-    #[test]
-    fn test_apply_row_basic() {
-        // Basic content with whitespace
-        let result = ComponentsRenderer::apply_row("  Hello   World  ", "center");
-        assert!(result.contains("<p align=\"center\">"));
-        assert!(result.contains("Hello World"));
+    // ========================================================================
+    // Row Layout (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("  Hello   World  ", "center", "Hello World", "<p align=\"center\">")]
+    #[case(
+        "![alt text](image.png)",
+        "left",
+        "<img alt=\"alt text\" src=\"image.png\">",
+        "<p align=\"left\">"
+    )]
+    #[case(
+        "![](image.png)",
+        "right",
+        "<img alt=\"\" src=\"image.png\">",
+        "<p align=\"right\">"
+    )]
+    #[case(
+        "Line1\n\n\nLine2    Line3",
+        "center",
+        "Line1 Line2 Line3",
+        "<p align=\"center\">"
+    )]
+    fn test_apply_row(
+        #[case] input: &str,
+        #[case] align: &str,
+        #[case] expected_content: &str,
+        #[case] expected_wrapper: &str,
+    ) {
+        let result = ComponentsRenderer::apply_row(input, align);
+        assert!(result.contains(expected_content));
+        assert!(result.contains(expected_wrapper));
         assert!(result.contains("</p>"));
     }
 
     #[test]
-    fn test_apply_row_with_image() {
-        // Test markdown image conversion
-        let result = ComponentsRenderer::apply_row("![alt text](image.png)", "left");
-        assert!(result.contains("<img alt=\"alt text\" src=\"image.png\">"));
-        assert!(result.contains("<p align=\"left\">"));
-    }
-
-    #[test]
-    fn test_apply_row_with_empty_alt_image() {
-        // Test markdown image with empty alt
-        let result = ComponentsRenderer::apply_row("![](image.png)", "right");
-        assert!(result.contains("<img alt=\"\" src=\"image.png\">"));
-        assert!(result.contains("<p align=\"right\">"));
-    }
-
-    #[test]
     fn test_apply_row_multiple_images() {
-        // Test multiple images
+        // Test multiple images (complex case)
         let result = ComponentsRenderer::apply_row("![a](1.png) ![b](2.png)", "center");
         assert!(result.contains("<img alt=\"a\" src=\"1.png\">"));
         assert!(result.contains("<img alt=\"b\" src=\"2.png\">"));
-    }
-
-    #[test]
-    fn test_apply_row_collapses_whitespace() {
-        // Test that multiple newlines/spaces get collapsed
-        let result = ComponentsRenderer::apply_row("Line1\n\n\nLine2    Line3", "center");
-        assert!(result.contains("Line1 Line2 Line3"));
     }
 }

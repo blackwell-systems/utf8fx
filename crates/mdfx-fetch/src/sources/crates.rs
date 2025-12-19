@@ -158,10 +158,10 @@ mod tests {
     // ========================================================================
 
     #[rstest]
-    #[case("downloads", DataValue::Number(2_000_000), Some("FFD700"))]  // gold
-    #[case("downloads", DataValue::Number(500_000), Some("C0C0C0"))]    // silver
-    #[case("downloads", DataValue::Number(50_000), Some("CD7F32"))]     // bronze
-    #[case("downloads", DataValue::Number(1_000), Some("22C55E"))]      // green
+    #[case("downloads", DataValue::Number(2_000_000), Some("FFD700"))] // gold
+    #[case("downloads", DataValue::Number(500_000), Some("C0C0C0"))] // silver
+    #[case("downloads", DataValue::Number(50_000), Some("CD7F32"))] // bronze
+    #[case("downloads", DataValue::Number(1_000), Some("22C55E"))] // green
     #[case("version", DataValue::String("1.0.0".to_string()), Some("DEA584"))]
     fn test_metric_colors(
         #[case] metric: &str,

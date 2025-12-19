@@ -6,6 +6,7 @@
 //! Test cases are derived from the Neon Tech Badge Showcase examples.
 
 use badgefx::{badge, BadgeStyle, Chevron};
+use rstest::rstest;
 
 /// Helper to generate a badge using mdfx's tech renderer with all options
 #[allow(clippy::too_many_arguments)]
@@ -58,81 +59,43 @@ fn mdfx_render_tech(
 }
 
 // =============================================================================
-// BASIC BADGE TESTS
+// BASIC BADGE TESTS (Parameterized)
 // =============================================================================
 
-#[test]
-fn test_parity_basic_rust_badge() {
-    let name = "rust";
-    let label = "rust";
-    let bg_color = "DEA584";
-    let logo_color = "000000";
-
-    let mdfx_svg = mdfx_render_tech(name, Some(label), bg_color, logo_color, "flat");
+#[rstest]
+#[case("rust", Some("rust"), "DEA584", "000000", "Rust badge")]
+#[case(
+    "typescript",
+    Some("typescript"),
+    "3178C6",
+    "FFFFFF",
+    "TypeScript badge"
+)]
+#[case("python", Some("python"), "3776AB", "FFFFFF", "Python badge")]
+#[case("docker", None, "2496ED", "FFFFFF", "Docker icon-only")]
+#[case(
+    "unknown-tech",
+    Some("unknown-tech"),
+    "555555",
+    "FFFFFF",
+    "text-only badge"
+)]
+fn test_parity_basic_badges(
+    #[case] name: &str,
+    #[case] label: Option<&str>,
+    #[case] bg_color: &str,
+    #[case] logo_color: &str,
+    #[case] description: &str,
+) {
+    let mdfx_svg = mdfx_render_tech(name, label, bg_color, logo_color, "flat");
     let badgefx_svg = badge(name)
-        .label(label)
-        .bg_color("#DEA584")
-        .logo_color("#000000")
+        .label(label.unwrap_or(""))
+        .bg_color(format!("#{}", bg_color))
+        .logo_color(format!("#{}", logo_color))
         .style(BadgeStyle::Flat)
         .render();
 
-    assert_eq!(mdfx_svg, badgefx_svg, "Rust badge should match");
-}
-
-#[test]
-fn test_parity_typescript_badge() {
-    let name = "typescript";
-    let label = "typescript";
-    let bg_color = "3178C6";
-    let logo_color = "FFFFFF";
-
-    let mdfx_svg = mdfx_render_tech(name, Some(label), bg_color, logo_color, "flat");
-    let badgefx_svg = badge(name)
-        .label(label)
-        .bg_color("#3178C6")
-        .logo_color("#FFFFFF")
-        .style(BadgeStyle::Flat)
-        .render();
-
-    assert_eq!(mdfx_svg, badgefx_svg, "TypeScript badge should match");
-}
-
-#[test]
-fn test_parity_icon_only() {
-    let name = "docker";
-    let bg_color = "2496ED";
-    let logo_color = "FFFFFF";
-
-    let mdfx_svg = mdfx_render_tech(name, None, bg_color, logo_color, "flat");
-    let badgefx_svg = badge(name)
-        .label("")
-        .bg_color("#2496ED")
-        .logo_color("#FFFFFF")
-        .style(BadgeStyle::Flat)
-        .render();
-
-    assert_eq!(mdfx_svg, badgefx_svg, "Docker icon-only badge should match");
-}
-
-#[test]
-fn test_parity_text_only() {
-    let name = "unknown-tech";
-    let label = "unknown-tech";
-    let bg_color = "555555";
-    let logo_color = "FFFFFF";
-
-    let mdfx_svg = mdfx_render_tech(name, Some(label), bg_color, logo_color, "flat");
-    let badgefx_svg = badge(name)
-        .label(label)
-        .bg_color("#555555")
-        .logo_color("#FFFFFF")
-        .style(BadgeStyle::Flat)
-        .render();
-
-    assert_eq!(
-        mdfx_svg, badgefx_svg,
-        "Unknown tech text-only badge should match"
-    );
+    assert_eq!(mdfx_svg, badgefx_svg, "{} should match", description);
 }
 
 // =============================================================================
@@ -227,17 +190,25 @@ fn test_neon_cyber_stack_docker() {
 }
 
 // =============================================================================
-// NEON TECH SHOWCASE: GHOST PROTOCOL (outline style)
+// NEON TECH SHOWCASE: GHOST PROTOCOL (outline style) - Parameterized
 // =============================================================================
 
-#[test]
-fn test_neon_ghost_protocol_rust() {
-    // {{ui:tech:rust:style=outline/}}
+#[rstest]
+#[case("rust", "DEA584", "Rust")]
+#[case("python", "3776AB", "Python")]
+#[case("typescript", "3178C6", "TypeScript")]
+#[case("go", "00ADD8", "Go")]
+fn test_neon_ghost_protocol(
+    #[case] name: &str,
+    #[case] brand_color: &str,
+    #[case] description: &str,
+) {
+    // {{ui:tech:NAME:style=outline/}}
     let mdfx_svg = mdfx_render_full(
-        "rust",
-        Some("rust"),
-        "DEA584", // brand color used as outline color
-        "DEA584",
+        name,
+        Some(name),
+        brand_color,
+        brand_color,
         "outline",
         None,
         None,
@@ -247,44 +218,16 @@ fn test_neon_ghost_protocol_rust() {
         None,
     );
 
-    let badgefx_svg = badge("rust")
-        .label("rust")
-        .bg_color("#DEA584")
+    let badgefx_svg = badge(name)
+        .label(name)
+        .bg_color(format!("#{}", brand_color))
         .outline()
         .render();
 
     assert_eq!(
         mdfx_svg, badgefx_svg,
-        "Ghost Protocol Rust badge should match"
-    );
-}
-
-#[test]
-fn test_neon_ghost_protocol_python() {
-    // {{ui:tech:python:style=outline/}}
-    let mdfx_svg = mdfx_render_full(
-        "python",
-        Some("python"),
-        "3776AB",
-        "3776AB",
-        "outline",
-        None,
-        None,
-        None,
-        None,
-        None,
-        None,
-    );
-
-    let badgefx_svg = badge("python")
-        .label("python")
-        .bg_color("#3776AB")
-        .outline()
-        .render();
-
-    assert_eq!(
-        mdfx_svg, badgefx_svg,
-        "Ghost Protocol Python badge should match"
+        "Ghost Protocol {} badge should match",
+        description
     );
 }
 
@@ -418,96 +361,53 @@ fn test_neon_synthwave_rust() {
 }
 
 // =============================================================================
-// NEON TECH SHOWCASE: CHEVRON FLOW
+// NEON TECH SHOWCASE: CHEVRON FLOW (Parameterized)
 // =============================================================================
 
-#[test]
-fn test_neon_chevron_rust_right() {
-    // {{ui:tech:rust:chevron=right:bg=1a1a2e:bg_right=2a2a3e/}}
+#[rstest]
+#[case("rust", "1a1a2e", "2a2a3e", "right", "Rust right")]
+#[case("typescript", "2a2a3e", "3a3a4e", "both", "TypeScript both")]
+#[case("kubernetes", "4a4a5e", "5a5a6e", "left", "Kubernetes left")]
+#[case("docker", "3a3a4e", "4a4a5e", "right", "Docker right")]
+fn test_neon_chevron_flow(
+    #[case] name: &str,
+    #[case] bg: &str,
+    #[case] bg_right: &str,
+    #[case] direction: &str,
+    #[case] description: &str,
+) {
     let mdfx_svg = mdfx_render_full(
-        "rust",
-        Some("rust"),
-        "1a1a2e",
+        name,
+        Some(name),
+        bg,
         "FFFFFF",
         "flat",
         None,
         None,
         None,
-        Some("right"),
+        Some(direction),
         None,
-        Some("2a2a3e"),
+        Some(bg_right),
     );
 
-    let badgefx_svg = badge("rust")
-        .label("rust")
-        .bg_color("#1a1a2e")
-        .bg_right("#2a2a3e")
-        .chevron(Chevron::right(10.0))
+    let chevron = match direction {
+        "left" => Chevron::left(10.0),
+        "right" => Chevron::right(10.0),
+        "both" => Chevron::both(10.0),
+        _ => Chevron::right(10.0),
+    };
+
+    let badgefx_svg = badge(name)
+        .label(name)
+        .bg_color(format!("#{}", bg))
+        .bg_right(format!("#{}", bg_right))
+        .chevron(chevron)
         .render();
 
     assert_eq!(
         mdfx_svg, badgefx_svg,
-        "Chevron Right Rust badge should match"
-    );
-}
-
-#[test]
-fn test_neon_chevron_typescript_both() {
-    // {{ui:tech:typescript:chevron=both:bg=2a2a3e:bg_right=3a3a4e/}}
-    let mdfx_svg = mdfx_render_full(
-        "typescript",
-        Some("typescript"),
-        "2a2a3e",
-        "FFFFFF",
-        "flat",
-        None,
-        None,
-        None,
-        Some("both"),
-        None,
-        Some("3a3a4e"),
-    );
-
-    let badgefx_svg = badge("typescript")
-        .label("typescript")
-        .bg_color("#2a2a3e")
-        .bg_right("#3a3a4e")
-        .chevron(Chevron::both(10.0))
-        .render();
-
-    assert_eq!(
-        mdfx_svg, badgefx_svg,
-        "Chevron Both TypeScript badge should match"
-    );
-}
-
-#[test]
-fn test_neon_chevron_kubernetes_left() {
-    // {{ui:tech:kubernetes:chevron=left:bg=4a4a5e:bg_right=5a5a6e/}}
-    let mdfx_svg = mdfx_render_full(
-        "kubernetes",
-        Some("kubernetes"),
-        "4a4a5e",
-        "FFFFFF",
-        "flat",
-        None,
-        None,
-        None,
-        Some("left"),
-        None,
-        Some("5a5a6e"),
-    );
-
-    let badgefx_svg = badge("kubernetes")
-        .label("kubernetes")
-        .bg_color("#4a4a5e")
-        .bg_right("#5a5a6e")
-        .chevron(Chevron::left(10.0))
-        .render();
-
-    assert_eq!(
-        mdfx_svg, badgefx_svg,
-        "Chevron Left Kubernetes badge should match"
+        "Chevron {} badge should match",
+        description
     );
 }
 
@@ -913,40 +813,37 @@ fn test_neon_infra_terraform_chevron() {
 }
 
 // =============================================================================
-// UTILITY TESTS
+// UTILITY TESTS (Parameterized)
 // =============================================================================
 
-#[test]
-fn test_darken_color_parity() {
-    let colors = ["DEA584", "3178C6", "3776AB", "2496ED", "FFFFFF", "000000"];
-
-    for color in colors {
-        let darkened = mdfx_colors::darken(&format!("#{}", color), 0.15);
-        assert!(
-            !darkened.is_empty(),
-            "Darkened color should not be empty for {}",
-            color
-        );
-    }
+#[rstest]
+#[case("DEA584")] // Rust orange
+#[case("3178C6")] // TypeScript blue
+#[case("3776AB")] // Python blue
+#[case("2496ED")] // Docker blue
+#[case("FFFFFF")] // White
+#[case("000000")] // Black
+fn test_darken_color_parity(#[case] color: &str) {
+    let darkened = mdfx_colors::darken(&format!("#{}", color), 0.15);
+    assert!(
+        !darkened.is_empty(),
+        "Darkened color should not be empty for {}",
+        color
+    );
 }
 
-#[test]
-fn test_contrast_color_parity() {
-    let test_cases = [
-        ("FFFFFF", "000000"),
-        ("000000", "FFFFFF"),
-        ("3178C6", "FFFFFF"),
-        ("F7DF1E", "000000"),
-        ("DEA584", "000000"),
-    ];
-
-    for (bg, expected) in test_cases {
-        let result = mdfx_colors::contrast_color(&format!("#{}", bg));
-        let result = result.trim_start_matches('#');
-        assert_eq!(
-            result, expected,
-            "Contrast color for {} should be {}",
-            bg, expected
-        );
-    }
+#[rstest]
+#[case("FFFFFF", "000000")] // White bg -> black text
+#[case("000000", "FFFFFF")] // Black bg -> white text
+#[case("3178C6", "FFFFFF")] // TypeScript blue -> white
+#[case("F7DF1E", "000000")] // JavaScript yellow -> black
+#[case("DEA584", "000000")] // Rust orange -> black
+fn test_contrast_color_parity(#[case] bg: &str, #[case] expected: &str) {
+    let result = mdfx_colors::contrast_color(&format!("#{}", bg));
+    let result = result.trim_start_matches('#');
+    assert_eq!(
+        result, expected,
+        "Contrast color for {} should be {}",
+        bg, expected
+    );
 }

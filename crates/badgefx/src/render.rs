@@ -786,6 +786,7 @@ mod tests {
     use super::*;
     use crate::badge::BadgeBuilder;
     use crate::style::BadgeStyle;
+    use rstest::rstest;
 
     #[test]
     fn test_render_with_icon() {
@@ -822,27 +823,34 @@ mod tests {
         assert!(svg.contains("3178C6"));
     }
 
-    #[test]
-    fn test_estimate_text_width() {
-        assert_eq!(estimate_text_width("Rust"), 28); // 4 chars * 7
-        assert_eq!(estimate_text_width("TypeScript"), 70); // 10 chars * 7
-        assert_eq!(estimate_text_width("ab"), 20); // min 20
+    // ========================================================================
+    // Text Width Estimation (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("Rust", 28)] // 4 chars * 7
+    #[case("TypeScript", 70)] // 10 chars * 7
+    #[case("ab", 20)] // min 20
+    #[case("Go", 20)] // min 20
+    #[case("JavaScript", 70)] // 10 chars * 7
+    fn test_estimate_text_width(#[case] text: &str, #[case] expected: u32) {
+        assert_eq!(estimate_text_width(text), expected);
     }
 
-    #[test]
-    fn test_font_sizes() {
-        assert_eq!(calculate_font_size(BadgeStyle::Flat), 10);
-        assert_eq!(calculate_font_size(BadgeStyle::ForTheBadge), 11);
-        assert_eq!(calculate_font_size(BadgeStyle::Social), 10); // Social has height 20
-    }
+    // ========================================================================
+    // Font Size Calculation (Parameterized)
+    // ========================================================================
 
-    fn calculate_font_size(style: BadgeStyle) -> u32 {
+    #[rstest]
+    #[case(BadgeStyle::Flat, 10)]
+    #[case(BadgeStyle::FlatSquare, 10)]
+    #[case(BadgeStyle::ForTheBadge, 11)] // height > 24
+    #[case(BadgeStyle::Social, 10)] // Social has height 20
+    #[case(BadgeStyle::Plastic, 10)]
+    fn test_font_sizes(#[case] style: BadgeStyle, #[case] expected: u32) {
         let metrics = SvgMetrics::from_style(style);
-        if metrics.height as u32 > 24 {
-            11
-        } else {
-            10
-        }
+        let font_size = if metrics.height as u32 > 24 { 11 } else { 10 };
+        assert_eq!(font_size, expected);
     }
 
     #[test]

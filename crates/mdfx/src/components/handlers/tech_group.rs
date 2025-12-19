@@ -151,48 +151,40 @@ pub fn handle(params: &HashMap<String, String>, content: Option<&str>) -> Result
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_single_badge_unchanged() {
+    // ========================================================================
+    // Corner Preset Assignment (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    // Single badge - no corner modification
+    #[case("{{ui:tech:rust/}}", &[], "{{ui:tech:rust/}}")]
+    // Two badges - left and right corners
+    #[case("{{ui:tech:rust/}}{{ui:tech:typescript/}}", &["corners=left", "corners=right"], "")]
+    // Three badges - left, none, right
+    #[case("{{ui:tech:rust/}}{{ui:tech:typescript/}}{{ui:tech:docker/}}", &["corners=left", "corners=none", "corners=right"], "")]
+    fn test_corner_assignments(
+        #[case] content: &str,
+        #[case] expected_corners: &[&str],
+        #[case] exact_match: &str,
+    ) {
         let params = HashMap::new();
-        let content = "{{ui:tech:rust/}}";
-
         let result = handle(&params, Some(content)).unwrap();
 
         if let ComponentOutput::Template(template) = result {
-            // Single badge should not have corners modified
-            assert_eq!(template, "{{ui:tech:rust/}}");
-        } else {
-            panic!("Expected Template output");
-        }
-    }
-
-    #[test]
-    fn test_two_badges_corners() {
-        let params = HashMap::new();
-        let content = "{{ui:tech:rust/}}{{ui:tech:typescript/}}";
-
-        let result = handle(&params, Some(content)).unwrap();
-
-        if let ComponentOutput::Template(template) = result {
-            assert!(template.contains("corners=left"));
-            assert!(template.contains("corners=right"));
-        } else {
-            panic!("Expected Template output");
-        }
-    }
-
-    #[test]
-    fn test_three_badges_corners() {
-        let params = HashMap::new();
-        let content = "{{ui:tech:rust/}}{{ui:tech:typescript/}}{{ui:tech:docker/}}";
-
-        let result = handle(&params, Some(content)).unwrap();
-
-        if let ComponentOutput::Template(template) = result {
-            assert!(template.contains("corners=left"));
-            assert!(template.contains("corners=none"));
-            assert!(template.contains("corners=right"));
+            if !exact_match.is_empty() {
+                assert_eq!(template, exact_match);
+            } else {
+                for corner in expected_corners {
+                    assert!(
+                        template.contains(corner),
+                        "Expected {} in {}",
+                        corner,
+                        template
+                    );
+                }
+            }
         } else {
             panic!("Expected Template output");
         }
@@ -214,79 +206,95 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_style_inheritance() {
+    // ========================================================================
+    // Style Inheritance (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    // Basic inheritance - bg and border passed to both badges
+    #[case(
+        &[("bg", "1a1a2e"), ("border", "00ff00")],
+        "{{ui:tech:rust/}}{{ui:tech:go/}}",
+        &["bg=1a1a2e", "border=00ff00"],
+        2, 2  // bg count, border count
+    )]
+    // Override - second badge has its own bg, shouldn't inherit
+    #[case(
+        &[("bg", "1a1a2e")],
+        "{{ui:tech:rust/}}{{ui:tech:go:bg=custom/}}",
+        &["bg=1a1a2e", "bg=custom"],
+        1, 0  // bg=1a1a2e appears once, no border
+    )]
+    // Single badge inherits styles but no corners
+    #[case(
+        &[("border", "ff0000")],
+        "{{ui:tech:rust/}}",
+        &["border=ff0000"],
+        0, 1  // no bg, border appears once
+    )]
+    fn test_style_inheritance(
+        #[case] params_input: &[(&str, &str)],
+        #[case] content: &str,
+        #[case] expected_contains: &[&str],
+        #[case] bg_count: usize,
+        #[case] border_count: usize,
+    ) {
         let mut params = HashMap::new();
-        params.insert("bg".to_string(), "1a1a2e".to_string());
-        params.insert("border".to_string(), "00ff00".to_string());
-        let content = "{{ui:tech:rust/}}{{ui:tech:go/}}";
+        for (k, v) in params_input {
+            params.insert(k.to_string(), v.to_string());
+        }
 
         let result = handle(&params, Some(content)).unwrap();
 
         if let ComponentOutput::Template(template) = result {
-            // Both badges should inherit bg and border
-            assert!(template.contains("bg=1a1a2e"));
-            assert!(template.contains("border=00ff00"));
-            // Should appear twice (once per badge)
-            assert_eq!(template.matches("bg=1a1a2e").count(), 2);
-            assert_eq!(template.matches("border=00ff00").count(), 2);
+            for expected in expected_contains {
+                assert!(
+                    template.contains(expected),
+                    "Expected {} in {}",
+                    expected,
+                    template
+                );
+            }
+            if bg_count > 0 {
+                assert_eq!(template.matches("bg=1a1a2e").count(), bg_count);
+            }
+            if border_count > 0 {
+                let border_key = if params_input.iter().any(|(k, _)| *k == "border") {
+                    params_input.iter().find(|(k, _)| *k == "border").unwrap().1
+                } else {
+                    "00ff00"
+                };
+                assert_eq!(
+                    template.matches(&format!("border={}", border_key)).count(),
+                    border_count
+                );
+            }
         } else {
             panic!("Expected Template output");
         }
     }
 
-    #[test]
-    fn test_style_inheritance_with_override() {
-        let mut params = HashMap::new();
-        params.insert("bg".to_string(), "1a1a2e".to_string());
-        let content = "{{ui:tech:rust/}}{{ui:tech:go:bg=custom/}}";
+    // ========================================================================
+    // Mixed Badge Types (Parameterized)
+    // ========================================================================
 
-        let result = handle(&params, Some(content)).unwrap();
-
-        if let ComponentOutput::Template(template) = result {
-            // First badge inherits bg
-            assert!(template.contains("rust") && template.contains("bg=1a1a2e"));
-            // Second badge keeps its own bg=custom (not overwritten)
-            assert!(template.contains("bg=custom"));
-            // Inherited bg should only appear once (not on the overridden badge)
-            assert_eq!(template.matches("bg=1a1a2e").count(), 1);
-        } else {
-            panic!("Expected Template output");
-        }
-    }
-
-    #[test]
-    fn test_style_inheritance_single_badge() {
-        let mut params = HashMap::new();
-        params.insert("border".to_string(), "ff0000".to_string());
-        let content = "{{ui:tech:rust/}}";
-
-        let result = handle(&params, Some(content)).unwrap();
-
-        if let ComponentOutput::Template(template) = result {
-            // Single badge should still inherit styles
-            assert!(template.contains("border=ff0000"));
-            // But should not have corners modified
-            assert!(!template.contains("corners="));
-        } else {
-            panic!("Expected Template output");
-        }
-    }
-
-    #[test]
-    fn test_mixed_badge_types() {
+    #[rstest]
+    #[case(
+        "{{ui:version:1.0.0/}}{{ui:tech:rust/}}{{ui:license:MIT/}}",
+        &["version:1.0.0:corners=left", "tech:rust:corners=none", "license:MIT:corners=right"]
+    )]
+    #[case(
+        "{{ui:tech:docker/}}{{ui:license:Apache/}}",
+        &["corners=left", "corners=right"]
+    )]
+    fn test_mixed_badge_types(#[case] content: &str, #[case] expected: &[&str]) {
         let params = HashMap::new();
-        let content = "{{ui:version:1.0.0/}}{{ui:tech:rust/}}{{ui:license:MIT/}}";
-
         let result = handle(&params, Some(content)).unwrap();
 
         if let ComponentOutput::Template(template) = result {
-            // First (version): left corners
-            assert!(template.contains("version:1.0.0:corners=left"));
-            // Middle (tech): no corners
-            assert!(template.contains("tech:rust:corners=none"));
-            // Last (license): right corners
-            assert!(template.contains("license:MIT:corners=right"));
+            for exp in expected {
+                assert!(template.contains(exp), "Expected {} in {}", exp, template);
+            }
         } else {
             panic!("Expected Template output");
         }

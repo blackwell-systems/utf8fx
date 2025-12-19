@@ -132,7 +132,14 @@ mod tests {
     #[case("#808080", 0.45, 0.55)] // Gray - medium
     fn test_luminance(#[case] hex: &str, #[case] min: f32, #[case] max: f32) {
         let lum = luminance(hex);
-        assert!(lum >= min && lum <= max, "luminance({}) = {} not in [{}, {}]", hex, lum, min, max);
+        assert!(
+            lum >= min && lum <= max,
+            "luminance({}) = {} not in [{}, {}]",
+            hex,
+            lum,
+            min,
+            max
+        );
     }
 
     // ========================================================================

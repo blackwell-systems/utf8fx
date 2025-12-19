@@ -315,8 +315,14 @@ mod tests {
     // ========================================================================
 
     #[rstest]
-    #[case(r#"<svg width="100" height="20"><path d="..."/></svg>"#, r#"<path d="..."/>"#)]
-    #[case(r#"<svg xmlns="..." width="100" height="20"><g><path/></g></svg>"#, r#"<g><path/></g>"#)]
+    #[case(
+        r#"<svg width="100" height="20"><path d="..."/></svg>"#,
+        r#"<path d="..."/>"#
+    )]
+    #[case(
+        r#"<svg xmlns="..." width="100" height="20"><g><path/></g></svg>"#,
+        r#"<g><path/></g>"#
+    )]
     fn test_extract_svg_content(#[case] svg: &str, #[case] expected: &str) {
         assert_eq!(extract_svg_content(svg), expected);
     }

@@ -115,7 +115,11 @@ mod tests {
     #[case("pypi")]
     fn test_registry_has_source(#[case] source_id: &str) {
         let registry = SourceRegistry::new();
-        assert!(registry.get(source_id).is_some(), "Registry should have source: {}", source_id);
+        assert!(
+            registry.get(source_id).is_some(),
+            "Registry should have source: {}",
+            source_id
+        );
     }
 
     #[test]

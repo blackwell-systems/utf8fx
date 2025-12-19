@@ -168,31 +168,52 @@ fn ensure_hash_prefix(color: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_get_brand_color() {
-        assert_eq!(get_brand_color("rust"), Some("DEA584"));
-        assert_eq!(get_brand_color("typescript"), Some("3178C6"));
-        assert_eq!(get_brand_color("unknown"), None);
+    // ========================================================================
+    // Brand Color Lookup (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("rust", Some("DEA584"))]
+    #[case("typescript", Some("3178C6"))]
+    #[case("python", Some("3776AB"))]
+    #[case("docker", Some("2496ED"))]
+    #[case("unknown", None)]
+    #[case("nonexistent-tech", None)]
+    fn test_get_brand_color(#[case] name: &str, #[case] expected: Option<&str>) {
+        assert_eq!(get_brand_color(name), expected);
     }
 
-    #[test]
-    fn test_get_logo_color_for_bg() {
-        // Dark backgrounds -> white logo
-        assert_eq!(get_logo_color_for_bg("000000"), "FFFFFF");
-        assert_eq!(get_logo_color_for_bg("#000000"), "FFFFFF");
-        assert_eq!(get_logo_color_for_bg("3178C6"), "FFFFFF");
+    // ========================================================================
+    // Logo Color for Background (Parameterized)
+    // ========================================================================
 
-        // Light backgrounds -> black logo
-        assert_eq!(get_logo_color_for_bg("FFFFFF"), "000000");
-        assert_eq!(get_logo_color_for_bg("#FFFFFF"), "000000");
-        assert_eq!(get_logo_color_for_bg("F7DF1E"), "000000");
+    #[rstest]
+    // Dark backgrounds -> white logo
+    #[case("000000", "FFFFFF")]
+    #[case("#000000", "FFFFFF")]
+    #[case("3178C6", "FFFFFF")] // TypeScript blue (dark)
+    // Light backgrounds -> black logo
+    #[case("FFFFFF", "000000")]
+    #[case("#FFFFFF", "000000")]
+    #[case("F7DF1E", "000000")] // JavaScript yellow (light)
+    #[case("DEA584", "000000")] // Rust orange (light)
+    fn test_get_logo_color_for_bg(#[case] bg: &str, #[case] expected: &str) {
+        assert_eq!(get_logo_color_for_bg(bg), expected);
     }
 
-    #[test]
-    fn test_ensure_hash_prefix() {
-        assert_eq!(ensure_hash_prefix("FF0000"), "#FF0000");
-        assert_eq!(ensure_hash_prefix("#FF0000"), "#FF0000");
+    // ========================================================================
+    // Hash Prefix Normalization (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("FF0000", "#FF0000")]
+    #[case("#FF0000", "#FF0000")]
+    #[case("abc123", "#abc123")]
+    #[case("#ABC123", "#ABC123")]
+    fn test_ensure_hash_prefix(#[case] input: &str, #[case] expected: &str) {
+        assert_eq!(ensure_hash_prefix(input), expected);
     }
 
     #[test]

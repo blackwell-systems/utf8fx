@@ -368,7 +368,12 @@ mod tests {
     fn test_corners_uniform(#[case] radius: u32, #[case] expected: [u32; 4]) {
         let corners = Corners::uniform(radius);
         assert_eq!(
-            [corners.top_left, corners.top_right, corners.bottom_right, corners.bottom_left],
+            [
+                corners.top_left,
+                corners.top_right,
+                corners.bottom_right,
+                corners.bottom_left
+            ],
             expected
         );
     }
