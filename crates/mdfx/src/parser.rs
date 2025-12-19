@@ -2030,7 +2030,7 @@ impl Default for TemplateParser {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{test_process, test_process_err, test_process_unchanged};
+    use crate::{test_process, test_process_bookends, test_process_contains, test_process_err, test_process_unchanged};
 
     #[test]
     fn test_parser_new() {
@@ -2108,8 +2108,8 @@ mod tests {
 
     #[test]
     fn test_complex_markdown() {
-        let parser = TemplateParser::new().unwrap();
-        let input = r#"# {{mathbold}}TITLE{{/mathbold}}
+        test_process_contains!(
+            r#"# {{mathbold}}TITLE{{/mathbold}}
 
 This is a {{negative-squared}}WARNING{{/negative-squared}} message.
 
@@ -2117,14 +2117,14 @@ This is a {{negative-squared}}WARNING{{/negative-squared}} message.
 let code = "{{mathbold}}not processed{{/mathbold}}";
 ```
 
-And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
-
-        let result = parser.process(input).unwrap();
-
-        assert!(result.contains("𝐓𝐈𝐓𝐋𝐄"));
-        assert!(result.contains("🆆🅰🆁🅽🅸🅽🅶"));
-        assert!(result.contains("{{mathbold}}not processed{{/mathbold}}"));
-        assert!(result.contains("`{{mathbold}}inline code{{/mathbold}}`"));
+And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
+            => [
+                "𝐓𝐈𝐓𝐋𝐄",
+                "🆆🅰🆁🅽🅸🅽🅶",
+                "{{mathbold}}not processed{{/mathbold}}",
+                "`{{mathbold}}inline code{{/mathbold}}`"
+            ]
+        );
     }
 
     #[test]
@@ -2747,104 +2747,74 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#;
 
     #[test]
     fn test_complex_composition() {
-        let parser = TemplateParser::new().unwrap();
-        let input = r#"# {{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
+        test_process_contains!(
+            r#"# {{frame:gradient}}{{mathbold:separator=dot}}TITLE{{/mathbold}}{{/frame}}
 
 {{frame:solid-left}}{{italic}}Important note{{/italic}}{{/frame}}
 
-Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
-
-        let result = parser.process(input).unwrap();
-
-        assert!(
-            result.contains("▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓·𝐈·𝐓·𝐋·𝐄 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}")
+Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#
+            => [
+                "▓\u{fe0e}▒\u{fe0e}░\u{fe0e} 𝐓·𝐈·𝐓·𝐋·𝐄 ░\u{fe0e}▒\u{fe0e}▓\u{fe0e}",
+                "█\u{fe0e}▌\u{fe0e}𝐼𝑚𝑝𝑜𝑟𝑡𝑎𝑛𝑡 𝑛𝑜𝑡𝑒",
+                "𝐬 𝐩 𝐚 𝐜 𝐢 𝐧 𝐠"
+            ]
         );
-        assert!(result.contains("█\u{fe0e}▌\u{fe0e}𝐼𝑚𝑝𝑜𝑟𝑡𝑎𝑛𝑡 𝑛𝑜𝑡𝑒"));
-        assert!(result.contains("𝐬 𝐩 𝐚 𝐜 𝐢 𝐧 𝐠"));
     }
 
     // UI Component Tests
 
     #[test]
     fn test_ui_swatch() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:pink/}}";
-        let result = parser.process(input).unwrap();
         // Should expand to shields:block with pink color resolved
-        assert!(result.contains("![]("));
-        assert!(result.contains("F41C80")); // pink color (uppercased by shields)
+        test_process_contains!("{{ui:swatch:pink/}}" => ["![](", "F41C80"]);
     }
 
     #[test]
     fn test_ui_tech() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:tech:rust/}}";
-        let result = parser.process(input).unwrap();
         // Should expand to shields:icon with logo
-        assert!(result.contains("![]("));
-        assert!(result.contains("logo=rust"));
+        test_process_contains!("{{ui:tech:rust/}}" => ["![](", "logo=rust"]);
     }
 
     #[test]
     fn test_ui_multiple_inline() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:tech:rust/}} {{ui:tech:python/}}";
-        let result = parser.process(input).unwrap();
-        // Should have two shields
-        assert_eq!(result.matches("![](").count(), 2);
-        assert!(result.contains("logo=rust"));
-        assert!(result.contains("logo=python"));
+        // Should have two shields with different logos
+        test_process_contains!("{{ui:tech:rust/}} {{ui:tech:python/}}" => ["logo=rust", "logo=python"]);
     }
 
     #[test]
     fn test_ui_in_markdown() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "# Header\n\n{{ui:swatch:pink/}}\n\n## Section";
-        let result = parser.process(input).unwrap();
-        assert!(result.contains("# Header"));
-        assert!(result.contains("![]("));
-        assert!(result.contains("## Section"));
+        test_process_contains!("# Header\n\n{{ui:swatch:pink/}}\n\n## Section" => ["# Header", "![](", "## Section"]);
     }
 
     #[test]
     fn test_ui_unknown_component() {
+        // Keep verbose - tests specific error message content
         let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:nonexistent/}}";
-        let result = parser.process(input);
+        let result = parser.process("{{ui:nonexistent/}}");
         assert!(result.is_err());
-        assert!(result
-            .unwrap_err()
-            .to_string()
-            .contains("Unknown component"));
+        assert!(result.unwrap_err().to_string().contains("Unknown component"));
     }
 
     #[test]
     fn test_ui_unclosed() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:row}}TITLE";
-        let result = parser.process(input);
-        assert!(result.is_err());
+        test_process_err!("{{ui:row}}TITLE");
     }
 
     #[test]
     fn test_frame_multiline() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{frame:gradient}}\nLine 1\nLine 2\n{{/frame}}";
-        let result = parser.process(input).unwrap();
-        assert!(result.starts_with("▓\u{fe0e}▒\u{fe0e}░\u{fe0e}"));
-        assert!(result.ends_with("░\u{fe0e}▒\u{fe0e}▓\u{fe0e}"));
-        assert!(result.contains("Line 1"));
-        assert!(result.contains("Line 2"));
+        test_process_bookends!(
+            "{{frame:gradient}}\nLine 1\nLine 2\n{{/frame}}"
+            => starts "▓\u{fe0e}▒\u{fe0e}░\u{fe0e}", ends "░\u{fe0e}▒\u{fe0e}▓\u{fe0e}",
+            contains ["Line 1", "Line 2"]
+        );
     }
 
     #[test]
     fn test_frame_multiline_with_styles() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{frame:solid-left}}\n### {{mathbold}}Title{{/mathbold}}\nContent\n{{/frame}}";
-        let result = parser.process(input).unwrap();
-        assert!(result.starts_with("█\u{fe0e}▌\u{fe0e}"));
-        assert!(result.contains("𝐓𝐢𝐭𝐥𝐞"));
-        assert!(result.contains("Content"));
+        test_process_contains!(
+            "{{frame:solid-left}}\n### {{mathbold}}Title{{/mathbold}}\nContent\n{{/frame}}"
+            => ["█\u{fe0e}▌\u{fe0e}", "𝐓𝐢𝐭𝐥𝐞", "Content"]
+        );
     }
 
     #[test]
@@ -2884,41 +2854,37 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
 
     #[test]
     fn test_shields_primitive_block() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{shields:block:color=cobalt:style=flat-square/}}";
-        let result = parser.process(input).unwrap();
         // Should render shields directly (cobalt is in shields.json palette)
-        assert!(result.contains("![]("));
-        assert!(result.contains("2B6CB0")); // cobalt resolved from shields palette
+        test_process_contains!(
+            "{{shields:block:color=cobalt:style=flat-square/}}"
+            => ["![](", "2B6CB0"]
+        );
     }
 
     #[test]
     fn test_shields_primitive_bar() {
+        // Should render 3 inline badges - keep verbose for count check
         let parser = TemplateParser::new().unwrap();
-        let input = "{{shields:bar:colors=success,warning,error:style=flat-square/}}";
-        let result = parser.process(input).unwrap();
-        // Should render 3 inline badges
+        let result = parser.process("{{shields:bar:colors=success,warning,error:style=flat-square/}}").unwrap();
         assert_eq!(result.matches("![](").count(), 3);
     }
 
     #[test]
     fn test_shields_bar_with_separator() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{shields:bar:colors=success,warning:style=flat-square:separator= /}}";
-        let result = parser.process(input).unwrap();
         // Should render 2 badges with space between them
-        assert_eq!(result.matches("![](").count(), 2);
-        // Should have space separator between badges
-        assert!(result.contains(") ![](")); // space between closing ) and opening ![](
+        test_process_contains!(
+            "{{shields:bar:colors=success,warning:style=flat-square:separator= /}}"
+            => [") ![]("]
+        );
     }
 
     #[test]
     fn test_shields_bar_with_named_separator() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{shields:bar:colors=pink,success:style=flat-square:separator=dot/}}";
-        let result = parser.process(input).unwrap();
         // Should render 2 badges with · separator
-        assert!(result.contains(")·![](")); // dot separator
+        test_process_contains!(
+            "{{shields:bar:colors=pink,success:style=flat-square:separator=dot/}}"
+            => [")·![]("]
+        );
     }
 
     // ========================================
@@ -2988,174 +2954,124 @@ Regular text with {{mathbold:spacing=1}}spacing{{/mathbold}}"#;
 
     #[test]
     fn test_component_expansion_with_indentation() {
-        let parser = TemplateParser::new().unwrap();
-
-        // Nested list with component
-        let input = "- Outer\n  - {{italic}}Nested{{/italic}} item\n  - Another nested";
-        let result = parser.process(input).unwrap();
-
-        // Should preserve indentation
-        assert!(result.contains("  - 𝑁𝑒𝑠𝑡𝑒𝑑 item\n"));
-        assert!(result.contains("  - Another nested"));
+        // Should preserve indentation in nested lists
+        test_process_contains!(
+            "- Outer\n  - {{italic}}Nested{{/italic}} item\n  - Another nested"
+            => ["  - 𝑁𝑒𝑠𝑡𝑒𝑑 item\n", "  - Another nested"]
+        );
     }
 
     #[test]
     fn test_multiline_component_content_preserves_structure() {
-        let parser = TemplateParser::new().unwrap();
-
-        // Multiline content in component (using frame)
-        let input = "{{frame:gradient}}Multi\nLine\nTitle{{/frame}}";
-        let result = parser.process(input).unwrap();
-
         // Content should be processed but structure preserved
-        assert!(!result.is_empty());
-        assert!(result.contains("▓\u{fe0e}▒\u{fe0e}░\u{fe0e}")); // gradient frame prefix
+        test_process_contains!(
+            "{{frame:gradient}}Multi\nLine\nTitle{{/frame}}"
+            => ["▓\u{fe0e}▒\u{fe0e}░\u{fe0e}"]
+        );
     }
 
     #[test]
     fn test_adjacent_components_no_extra_whitespace() {
-        let parser = TemplateParser::new().unwrap();
-
-        // Two components with single newline between
-        let input = "{{mathbold}}FIRST{{/mathbold}}\n{{mathbold}}SECOND{{/mathbold}}";
-        let result = parser.process(input).unwrap();
-
         // Should preserve single newline (not add extra)
-        assert_eq!(result.matches('\n').count(), 1);
-        assert!(result.contains("𝐅𝐈𝐑𝐒𝐓\n𝐒𝐄𝐂𝐎𝐍𝐃"));
+        test_process!(
+            "{{mathbold}}FIRST{{/mathbold}}\n{{mathbold}}SECOND{{/mathbold}}"
+            => "𝐅𝐈𝐑𝐒𝐓\n𝐒𝐄𝐂𝐎𝐍𝐃"
+        );
     }
 
     #[test]
     fn test_component_in_blockquote_preserves_prefix() {
-        let parser = TemplateParser::new().unwrap();
-
-        // Component inside manually-written blockquote
-        let input = "> Quote with {{mathbold}}BOLD{{/mathbold}} text";
-        let result = parser.process(input).unwrap();
-
         // Should preserve the "> " prefix
-        assert!(result.starts_with("> "));
-        assert!(result.contains("𝐁𝐎𝐋𝐃"));
+        test_process_bookends!(
+            "> Quote with {{mathbold}}BOLD{{/mathbold}} text"
+            => starts "> ", ends "text",
+            contains ["𝐁𝐎𝐋𝐃"]
+        );
     }
 
     #[test]
     fn test_component_with_trailing_newline() {
+        // Should preserve trailing newline - keep verbose for ends_with check
         let parser = TemplateParser::new().unwrap();
-
-        // Component at end of document with trailing newline
-        let input = "Text before\n{{ui:swatch:pink/}}\n";
-        let result = parser.process(input).unwrap();
-
-        // Should preserve trailing newline
+        let result = parser.process("Text before\n{{ui:swatch:pink/}}\n").unwrap();
         assert!(result.ends_with('\n'), "Trailing newline was lost");
     }
 
     #[test]
     fn test_component_without_trailing_newline() {
+        // Should NOT add trailing newline - keep verbose for ends_with check
         let parser = TemplateParser::new().unwrap();
-
-        // Component at end without trailing newline
-        let input = "Text before\n{{ui:swatch:pink/}}";
-        let result = parser.process(input).unwrap();
-
-        // Should NOT add trailing newline
+        let result = parser.process("Text before\n{{ui:swatch:pink/}}").unwrap();
         assert!(!result.ends_with('\n'), "Unexpected trailing newline added");
     }
 
     #[test]
     fn test_component_expansion_preserves_empty_lines_in_content() {
-        let parser = TemplateParser::new().unwrap();
-
-        // Block component with empty lines in content (using frame)
-        let input = "{{frame:solid-left}}Line 1\n\nLine 3{{/frame}}";
-        let result = parser.process(input).unwrap();
-
         // Empty line in content should be preserved
-        assert!(!result.is_empty());
-        assert!(result.contains("█\u{fe0e}▌\u{fe0e}")); // solid-left frame prefix
+        test_process_contains!(
+            "{{frame:solid-left}}Line 1\n\nLine 3{{/frame}}"
+            => ["█\u{fe0e}▌\u{fe0e}"]
+        );
     }
 }
 
 #[cfg(test)]
 mod badge_style_tests {
     use super::*;
+    use crate::test_process_contains;
 
     #[test]
     fn test_swatch_with_flat_style() {
+        // Note: style=flat should NOT contain style=flat-square (keep verbose)
         let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:F41C80:style=flat/}}";
-        let output = parser.process(input).unwrap();
+        let output = parser.process("{{ui:swatch:F41C80:style=flat/}}").unwrap();
         assert!(output.contains("style=flat"));
         assert!(!output.contains("style=flat-square"));
     }
 
     #[test]
     fn test_swatch_with_flat_square_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:F41C80:style=flat-square/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=flat-square"));
+        test_process_contains!("{{ui:swatch:F41C80:style=flat-square/}}" => ["style=flat-square"]);
     }
 
     #[test]
     fn test_swatch_with_for_the_badge_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:F41C80:style=for-the-badge/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=for-the-badge"));
+        test_process_contains!("{{ui:swatch:F41C80:style=for-the-badge/}}" => ["style=for-the-badge"]);
     }
 
     #[test]
     fn test_swatch_with_plastic_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:F41C80:style=plastic/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=plastic"));
+        test_process_contains!("{{ui:swatch:F41C80:style=plastic/}}" => ["style=plastic"]);
     }
 
     #[test]
     fn test_swatch_with_social_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:F41C80:style=social/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=social"));
+        test_process_contains!("{{ui:swatch:F41C80:style=social/}}" => ["style=social"]);
     }
 
     #[test]
     fn test_swatch_default_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:F41C80/}}";
-        let output = parser.process(input).unwrap();
         // Should default to flat-square
-        assert!(output.contains("style=flat-square"));
+        test_process_contains!("{{ui:swatch:F41C80/}}" => ["style=flat-square"]);
     }
 
     #[test]
     fn test_tech_with_style() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:tech:rust:style=plastic/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=plastic"));
-        assert!(output.contains("logo=rust"));
+        test_process_contains!("{{ui:tech:rust:style=plastic/}}" => ["style=plastic", "logo=rust"]);
     }
 
     #[test]
     fn test_multiple_components_different_styles() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:FF0000:style=flat/}} {{ui:swatch:00FF00:style=for-the-badge/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=flat"));
-        assert!(output.contains("style=for-the-badge"));
+        test_process_contains!(
+            "{{ui:swatch:FF0000:style=flat/}} {{ui:swatch:00FF00:style=for-the-badge/}}"
+            => ["style=flat", "style=for-the-badge"]
+        );
     }
 
     #[test]
     fn test_style_with_palette_color() {
-        let parser = TemplateParser::new().unwrap();
-        let input = "{{ui:swatch:pink:style=plastic/}}";
-        let output = parser.process(input).unwrap();
-        assert!(output.contains("style=plastic"));
         // Should resolve pink color
-        assert!(output.contains("F41C80"));
+        test_process_contains!("{{ui:swatch:pink:style=plastic/}}" => ["style=plastic", "F41C80"]);
     }
 }
 

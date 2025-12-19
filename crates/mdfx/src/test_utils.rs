@@ -149,6 +149,75 @@ macro_rules! test_convert_err {
     }};
 }
 
+/// Test that processing output contains expected substrings.
+///
+/// # Example
+///
+/// ```rust,ignore
+/// test_process_contains!("{{ui:swatch:pink/}}" => ["![](", "F41C80"]);
+/// ```
+#[macro_export]
+macro_rules! test_process_contains {
+    ($input:expr => [$($expected:expr),+ $(,)?]) => {{
+        let parser = $crate::TemplateParser::new().expect("Failed to create parser");
+        let result = parser.process($input).expect("Processing failed");
+        $(
+            assert!(
+                result.contains($expected),
+                "Expected output to contain '{}'\nInput: {}\nGot: {}",
+                $expected, $input, result
+            );
+        )+
+    }};
+}
+
+/// Test output starts with prefix and ends with suffix.
+///
+/// # Example
+///
+/// ```rust,ignore
+/// test_process_bookends!("{{frame:gradient}}X{{/}}" => starts "▓", ends "▓");
+/// ```
+#[macro_export]
+macro_rules! test_process_bookends {
+    ($input:expr => starts $prefix:expr, ends $suffix:expr) => {{
+        let parser = $crate::TemplateParser::new().expect("Failed to create parser");
+        let result = parser.process($input).expect("Processing failed");
+        assert!(
+            result.starts_with($prefix),
+            "Expected output to start with '{}'\nInput: {}\nGot: {}",
+            $prefix, $input, result
+        );
+        assert!(
+            result.ends_with($suffix),
+            "Expected output to end with '{}'\nInput: {}\nGot: {}",
+            $suffix, $input, result
+        );
+    }};
+
+    ($input:expr => starts $prefix:expr, ends $suffix:expr, contains [$($expected:expr),+ $(,)?]) => {{
+        let parser = $crate::TemplateParser::new().expect("Failed to create parser");
+        let result = parser.process($input).expect("Processing failed");
+        assert!(
+            result.starts_with($prefix),
+            "Expected output to start with '{}'\nInput: {}\nGot: {}",
+            $prefix, $input, result
+        );
+        assert!(
+            result.ends_with($suffix),
+            "Expected output to end with '{}'\nInput: {}\nGot: {}",
+            $suffix, $input, result
+        );
+        $(
+            assert!(
+                result.contains($expected),
+                "Expected output to contain '{}'\nInput: {}\nGot: {}",
+                $expected, $input, result
+            );
+        )+
+    }};
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
