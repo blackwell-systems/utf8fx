@@ -451,11 +451,23 @@ The `raised` parameter creates badges where the icon section extends above and b
 
 The `tech-group` component creates seamless badge groups by auto-applying corner presets (first=left, middle=none, last=right).
 
+**Supported badge types:** `tech`, `version`, `license`
+
 ![](assets/tech-guide/tech_4b359f770f12d88f.svg)![](assets/tech-guide/tech_d507b8eab2a8d265.svg)![](assets/tech-guide/tech_5dc98f9c998100d2.svg)
 
 ```markdown
 {{ui:tech-group}}
 {{ui:tech:rust/}}{{ui:tech:typescript/}}{{ui:tech:docker/}}
+{{/ui}}
+```
+
+### Mixed Badge Types
+
+Combine version, tech, and license badges in one seamless pill:
+
+```markdown
+{{ui:tech-group:bg=1a1a2e:border=333}}
+{{ui:version:1.2.0/}}{{ui:tech:rust/}}{{ui:tech:docker/}}{{ui:license:MIT/}}
 {{/ui}}
 ```
 
@@ -467,7 +479,7 @@ The `tech-group` component creates seamless badge groups by auto-applying corner
 
 Style the group once and all child badges inherit those styles. Individual badges can override specific params.
 
-**Inheritable params:** `bg`, `border`, `border_width`, `text_color`, `logo`, `style`, `divider`, `logo_size`
+**All params are inheritable** - any param set on the group passes to children (unless overridden).
 
 ```markdown
 <!-- Dark theme group - all badges inherit bg and border -->

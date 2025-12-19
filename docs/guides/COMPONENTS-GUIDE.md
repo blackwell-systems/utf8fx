@@ -517,13 +517,16 @@ Renders an audio-style waveform visualization with bars above/below center.
 
 ### tech-group
 
-Groups multiple tech badges with automatic corner handling for seamless pill-style display. Supports style inheritance - set styles on the group and all child badges inherit them.
+Groups multiple badges with automatic corner handling for seamless pill-style display. Supports style inheritance - set styles on the group and all child badges inherit them.
+
+**Supported badge types:** `tech`, `version`, `license`
 
 **Syntax:**
 ```markdown
 {{ui:tech-group:bg=color:border=color}}
 {{ui:tech:name/}}
-{{ui:tech:name/}}
+{{ui:version:1.0.0/}}
+{{ui:license:MIT/}}
 {{/ui}}
 ```
 
@@ -531,15 +534,10 @@ Groups multiple tech badges with automatic corner handling for seamless pill-sty
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `gap` | number | 0 | Gap between badges in pixels |
-| `bg` | color | - | Background color inherited by all child badges |
-| `border` | color | - | Border color inherited by all child badges |
-| `border_width` | number | - | Border width inherited by all child badges |
-| `text_color` | color | - | Text color inherited by all child badges |
-| `logo` | color | - | Logo/icon color inherited by all child badges |
-| `style` | string | - | Badge style inherited by all child badges |
-| `divider` | boolean | false | Show divider, inherited by all child badges |
-| `logo_size` | string | - | Logo size inherited by all child badges |
+| `gap` | number | 0 | Gap between badges in pixels (group-only) |
+| `*` | any | - | All other params are inherited by child badges |
+
+**All params are inheritable** - any param set on the group passes to children (unless overridden).
 
 **Examples:**
 ```markdown
@@ -548,9 +546,9 @@ Groups multiple tech badges with automatic corner handling for seamless pill-sty
 {{ui:tech:rust/}}{{ui:tech:typescript/}}{{ui:tech:docker/}}
 {{/ui}}
 
-<!-- Dark theme group - all badges inherit styles -->
+<!-- Mixed badge types with shared styling -->
 {{ui:tech-group:bg=1a1a2e:border=333}}
-{{ui:tech:rust/}}{{ui:tech:go/}}{{ui:tech:python/}}
+{{ui:version:1.2.0/}}{{ui:tech:rust/}}{{ui:tech:docker/}}{{ui:license:MIT/}}
 {{/ui}}
 
 <!-- Override on specific badge -->

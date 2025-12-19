@@ -646,7 +646,7 @@
       "tech-group": {
         "type": "native",
         "self_closing": false,
-        "description": "Group of tech badges with automatic corner handling and style inheritance. Child badges inherit group styles unless they specify their own.",
+        "description": "Group of badges (tech, version, license) with automatic corner handling. All params are inherited by child badges unless overridden.",
         "contexts": [
           "inline",
           "block"
@@ -656,47 +656,7 @@
           "gap": {
             "type": "number",
             "default": "0",
-            "description": "Gap between badges in pixels"
-          },
-          "bg": {
-            "type": "color",
-            "default": "",
-            "description": "Background color inherited by all child badges"
-          },
-          "border": {
-            "type": "color",
-            "default": "",
-            "description": "Border color inherited by all child badges"
-          },
-          "border_width": {
-            "type": "number",
-            "default": "",
-            "description": "Border width inherited by all child badges"
-          },
-          "text_color": {
-            "type": "color",
-            "default": "",
-            "description": "Text color inherited by all child badges"
-          },
-          "logo": {
-            "type": "color",
-            "default": "",
-            "description": "Logo/icon color inherited by all child badges"
-          },
-          "style": {
-            "type": "string",
-            "default": "",
-            "description": "Badge style (flat, flat-square, plastic, for-the-badge) inherited by all child badges"
-          },
-          "divider": {
-            "type": "boolean",
-            "default": "false",
-            "description": "Show divider line between icon and label, inherited by all child badges"
-          },
-          "logo_size": {
-            "type": "string",
-            "default": "",
-            "description": "Logo size (xs, sm, md, lg, xl, xxl or pixels) inherited by all child badges"
+            "description": "Gap between badges in pixels (group-only, not inherited)"
           }
         }
       },
