@@ -13,20 +13,19 @@ mdfx is a **markdown compiler** that transforms template syntax into rich visual
 
 - [Workspace Structure](#workspace-structure)
 - [System Overview](#system-overview)
-- [Unified Registry](#unified-registry) 🆕
-- [Target System](#target-system) 🆕
+- [Unified Registry](#unified-registry)
+- [Target System](#target-system)
 - [Three-Layer Architecture](#three-layer-architecture)
 - [Component Responsibilities](#component-responsibilities)
 - [Expansion Model](#expansion-model)
 - [Parser Design](#parser-design)
 - [Multi-Backend Rendering](#multi-backend-rendering)
-- [Enhanced Swatch Primitives](#enhanced-swatch-primitives) 🆕
+- [Enhanced Swatch Primitives](#enhanced-swatch-primitives)
 - [Separator System](#separator-system)
 - [Asset Manifest System](#asset-manifest-system)
 - [Data Packaging](#data-packaging)
-- [Custom Palette Support](#custom-palette-support) 🆕
+- [Custom Palette Support](#custom-palette-support)
 - [Performance Characteristics](#performance-characteristics)
-- [Key Design Decisions](#key-design-decisions)
 - [Extension Points](#extension-points)
 
 ---
@@ -67,55 +66,9 @@ mdfx/
 │       └── src/                 # Contrast, luminance, darken
 ```
 
-### Design Rationale
-
-**Library Crate (`mdfx`):**
-- Minimal dependencies (8 total)
-- No CLI-specific deps (clap, colored excluded)
-- Can be embedded in other Rust applications
-- Smaller compile times for library users
-
-**CLI Crate (`mdfx-cli`):**
-- Thin wrapper around compiler library
-- Handles argument parsing (clap)
-- Terminal formatting (colored)
-- Binary named `mdfx` for UX
-
-### Dependency Analysis
-
-**Library (`mdfx`):**
-```toml
-serde = "1.0"              # JSON deserialization
-serde_json = "1.0"         # Registry loading
-thiserror = "1.0"          # Error handling
-unicode-segmentation = "1" # Grapheme cluster support
-sha2 = "0.10"              # Content-addressed hashing
-chrono = "0.4"             # Manifest timestamps
-xxhash-rust = "0.8"        # Stable filename hashing
-badgefx = { path }         # Badge rendering
-mdfx-icons = { path }      # Icon library
-mdfx-colors = { path }     # Color utilities
-```
-
-**CLI (`mdfx-cli`):**
-```toml
-mdfx = { path = "../mdfx" }      # Core compiler
-clap = "4.4"                      # Argument parsing
-colored = "2.1"                   # Terminal colors
-notify = "6.1"                    # File watching
-```
-
-**Badge Rendering (`badgefx`):**
-```toml
-mdfx-icons = { path }      # Icon paths and brand colors
-mdfx-colors = { path }     # Contrast calculation
-```
-
 ---
 
 ## System Overview
-
-mdfx is a **markdown compiler** that transforms template syntax into styled output through a multi-stage compilation pipeline. The compiler processes Unicode character mappings, decorative frames, and multi-backend rendering through a **unified registry** and **target-aware code generation**.
 
 ### Compiler Pipeline
 
@@ -398,7 +351,7 @@ let output = parser.process(&input)?;
 - Design token integration (palette colors)
 
 **Implementation:**
-- Defined in `data/components.json`
+- Defined in `registry.json` under `renderables.components`
 - Processed by `ComponentsRenderer` (`src/components.rs`)
 - Expand to primitives before rendering
 
@@ -449,7 +402,7 @@ let output = parser.process(&input)?;
 
 **Implementation:**
 - Converter (`src/converter.rs`) - Character transformation
-- Styles data (`data/styles.json`) - Unicode mappings
+- Styles defined in `registry.json` under `styles`
 
 ### How Layers Interact
 
@@ -1697,157 +1650,26 @@ Target-locked, zero validation:
 
 ---
 
-## Key Design Decisions
-
-### Decision: Components Expand (Not Render Directly)
-
-**Options:**
-- A) Components expand to template strings → recursive parse
-- B) Components call renderer methods directly in Rust
-
-**Chose A** because:
-- Components are data (JSON), not code
-- Users can define custom components without recompiling
-- Composability: expanded templates can use any primitive
-- Simpler implementation: reuse existing parsing logic
-
-**Trade-off:** Slight performance cost (re-parsing), but negligible for typical use
-
-### Decision: Generic {{/ui}} Closer
-
-**Options:**
-- A) Specific closers: `{{ui:row}}...{{/ui:row}}`
-- B) Generic closer: `{{ui:row}}...{{/ui}}`
-
-**Chose B** because:
-- UI is high-frequency authoring layer (ergonomics matter)
-- Reduces visual noise
-- Stack-based parsing is simple and reliable
-
-**Trade-off:** Potential mismatch bugs if nesting multiple UI blocks (rare)
-
-### Decision: Self-Closing Tags
-
-**Options:**
-- A) All tags require closers: `{{ui:swatch:accent}}{{/ui}}`
-- B) Self-closing for contentless: `{{ui:swatch:accent/}}`
-
-**Chose B** because:
-- Contentless components are common (swatches, tech badges)
-- Reduces verbosity by ~50% for these cases
-- Familiar syntax (XML/React JSX)
-
-**Trade-off:** Two tag syntaxes to learn
-
-### Decision: No Pipe Syntax
-
-**Rejected:** `{{mathbold|frame:gradient}}TEXT{{/mathbold}}`
-
-**Reasons:**
-- Ambiguous ordering (left-to-right or right-to-left?)
-- Parameter passing unclear
-- New grammar with edge cases
-- Nesting already works and is explicit
-
-**Alternative:** Use explicit nesting (current approach)
-
-### Decision: Palette at Component Layer
-
-**Options:**
-- A) Palette in ComponentsRenderer (current)
-- B) Palette in ShieldsRenderer
-- C) Global palette shared by all renderers
-
-**Chose A** because:
-- Components are the primary user-facing API
-- Color resolution happens at expansion time
-- Shields sees resolved hex (no palette lookup needed)
-- Single source of truth for design tokens
-
-### Decision: Primitives as Escape Hatch
-
-**Options:**
-- A) Hide primitives entirely (only UI components)
-- B) Expose primitives for advanced users (current)
-
-**Chose B** because:
-- Power users need direct control
-- Debugging: can test primitives in isolation
-- Migration path: existing primitive templates keep working
-
-**Documentation strategy:** Feature UI prominently, mention primitives briefly
-
----
-
 ## Extension Points
-
-### Adding New Components
-
-**User workflow:**
-1. Create `components.json` in project
-2. Define component with template
-3. Use `{{ui:mycomponent/}}`
-
-**Future (v0.2):**
-- mdfx will load project-local `components.json`
-- Merge with built-in components
-- User components override built-in
-
-### Adding New Primitives
-
-**Developer workflow:**
-1. Create new renderer (e.g., `TableRenderer`)
-2. Add data file (e.g., `tables.json`)
-3. Add parser method (`parse_table_at()`)
-4. Integrate into `process_templates()` priority order
-5. Components can now use `{{table:*}}` in templates
 
 ### Adding New Styles
 
-**Contributor workflow:**
 1. Find Unicode codepoint ranges (e.g., Mathematical Bold Italic)
-2. Update `data/styles.json` with mappings
-3. Add to appropriate category
-4. No code changes needed (data-driven)
+2. Add mappings to `registry.json` under `styles`
+3. No code changes needed (data-driven)
 
-### Custom Palette (Per-Project)
+### Adding New Components
 
-**Planned v0.2:**
-```json
-// my-project/palette.json
-{
-  "version": "1.0.0",
-  "colors": {
-    "brand": "FF6B35",
-    "accent": "F41C80"
-  }
-}
-```
+1. Add component definition to `registry.json` under `renderables.components`
+2. Use template with `$1`, `$2` positional placeholders
+3. Components can reference palette colors and expand to primitives
 
-Then: `{{ui:swatch:brand/}}`
+### Adding New Primitives
 
-### Native Components (Complex Logic)
-
-**Planned v0.2+:**
-
-For components requiring logic (not just template expansion):
-```json
-{
-  "progress": {
-    "type": "native",
-    "handler": "progress_bar"
-  }
-}
-```
-
-Rust implements:
-```rust
-fn progress_bar(args: &[String]) -> Result<String> {
-    let value = args[0].parse::<f32>()?;
-    // Calculate bar segments
-    // Return shields:bar with computed colors
-}
-```
+1. Create new renderer (e.g., `TableRenderer`)
+2. Add parser method (`parse_table_at()`)
+3. Integrate into `process_templates()` priority order
+4. Components can now expand to the new primitive type
 
 ---
 
@@ -1865,7 +1687,7 @@ fn progress_bar(args: &[String]) -> Result<String> {
 - `src/renderer/svg.rs` - SVG generation, enhanced swatches
 - `src/manifest.rs` - Asset manifest, SHA-256 verification
 
-**Total:** 280 tests across all modules
+**Total:** 368+ tests across all modules
 
 ### Integration Tests
 
