@@ -426,7 +426,7 @@ let output = parser.process(&input)?;
 ## Multi-Backend Rendering Architecture
 
 **Version:** 1.0.0
-**Status:** ✅ Fully implemented with ShieldsBackend and SvgBackend
+**Status:** Fully implemented with ShieldsBackend and SvgBackend
 
 ### Overview
 
@@ -509,7 +509,7 @@ Helper methods:
 
 #### ShieldsBackend (Default)
 
-**Status:** ✅ Shipped in v1.0.0
+**Status:** Shipped in v1.0.0
 
 Generates shields.io badge URLs wrapped in Markdown image syntax:
 ```rust
@@ -533,7 +533,7 @@ mdfx process input.md                     # same (shields is default)
 
 #### SvgBackend
 
-**Status:** ✅ Shipped in v1.0.0
+**Status:** Shipped in v1.0.0
 
 Generates local SVG files with deterministic hash-based naming:
 ```rust
@@ -568,7 +568,7 @@ mdfx process --backend svg --assets-dir ./docs/ui input.md
 
 #### PlainTextBackend
 
-**Status:** ✅ Shipped in v1.0.0
+**Status:** Shipped in v1.0.0
 
 Generates ASCII text representations for primitives (used by PyPI target):
 
@@ -600,19 +600,15 @@ mdfx process --target pypi input.md  # automatically uses plaintext
 
 ### Rendering Flow
 
-```
-{{ui:tech:rust/}}
-  ↓ ComponentsRenderer.expand()
-Primitive::Tech { name: "rust", bg_color: "292A2D", ... }
-  ↓ backend.render() [trait dispatch]
-  ├─ ShieldsBackend  → InlineMarkdown("![](https://img.shields.io/...)")
-  └─ SvgBackend      → File {
-                          relative_path: "assets/mdfx/tech_669db7effe993b2f.svg",
-                          bytes: vec![...],
-                          markdown_ref: "![](assets/mdfx/tech_669db7effe993b2f.svg)"
-                       }
-  ↓
-Markdown output
+```mermaid
+flowchart TD
+    A["{{ui:tech:rust/}}"] --> B["ComponentsRenderer.expand()"]
+    B --> C["Primitive::Tech { name, bg_color, ... }"]
+    C --> D{"backend.render()"}
+    D -->|ShieldsBackend| E["InlineMarkdown<br/>img.shields.io URL"]
+    D -->|SvgBackend| F["File { path, bytes, markdown_ref }"]
+    E --> G["Markdown output"]
+    F --> G
 ```
 
 ### Dual-Mode Components
@@ -759,15 +755,15 @@ fn render_swatch_svg(options: &SwatchOptions) -> String {
 
 | Feature | shields.io | SVG | PlainText |
 |---------|------------|-----|-----------|
-| Basic color | ✅ | ✅ | ✅ (as `[#hex]`) |
-| Style | ✅ | ✅ | ❌ (ignored) |
-| Opacity | ❌ (ignored) | ✅ | ❌ (ignored) |
-| Custom size | ❌ (ignored) | ✅ | ❌ (ignored) |
-| Border | ❌ (ignored) | ✅ | ❌ (ignored) |
-| Label | ✅ | ✅ | ❌ (ignored) |
-| Label color | ❌ (ignored) | ✅ | ❌ (ignored) |
-| Icon | ❌ (ignored) | ✅ | ❌ (ignored) |
-| Icon color | ❌ (ignored) | ✅ | ❌ (ignored) |
+| Basic color | Yes | Yes | Yes (as `[#hex]`) |
+| Style | Yes | Yes | No |
+| Opacity | No | Yes | No |
+| Custom size | No | Yes | No |
+| Border | No | Yes | No |
+| Label | Yes | Yes | No |
+| Label color | No | Yes | No |
+| Icon | No | Yes | No |
+| Icon color | No | Yes | No |
 
 **Design principle:** Enhanced options gracefully degrade - templates work on all backends, with extra features only visible in SVG output.
 
@@ -843,10 +839,10 @@ impl SeparatorsData {
 
 Uses **unicode-segmentation** crate for proper Unicode handling:
 
-- ✅ Simple characters: `·`, `→`, `★`
-- ✅ Single emoji: `⭐`, `⚡`, `🔥`
-- ✅ Emoji with variation selectors: `👨‍💻` (man technologist - 5 code points, 1 grapheme)
-- ✅ Flag emoji: `🇺🇸`, `🇬🇧` (2 regional indicator scalars, 1 grapheme)
+- Simple characters: `·`, `→`, `★`
+- Single emoji: `⭐`, `⚡`, `🔥`
+- Emoji with variation selectors: `👨‍💻` (man technologist - 5 code points, 1 grapheme)
+- Flag emoji: `🇺🇸`, `🇬🇧` (2 regional indicator scalars, 1 grapheme)
 
 **Why graphemes, not chars?**
 - `"👨‍💻".chars().count()` = 5 (wrong)
@@ -989,9 +985,9 @@ fi
 mdfx verify --assets-dir assets/mdfx
 
 # Output:
-#   ✓ assets/mdfx/swatch_8490176a.svg
-#   ✓ assets/mdfx/tech_669db7ef.svg
-# ✓ All assets verified successfully!
+#   assets/mdfx/swatch_8490176a.svg - OK
+#   assets/mdfx/tech_669db7ef.svg - OK
+# All assets verified successfully!
 ```
 
 #### 3. Cleanup After Refactoring
