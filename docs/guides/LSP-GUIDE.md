@@ -11,31 +11,47 @@ The LSP server is an optional feature to keep the default install lightweight:
 cargo install mdfx-cli --features lsp
 ```
 
-## Usage
+## Quick Start: VS Code
 
-Start the LSP server (communicates over stdio):
+The fastest way to get LSP support in VS Code:
 
 ```bash
-mdfx lsp
+# Install the VS Code extension automatically
+mdfx lsp install
 ```
+
+This creates the extension at `~/.vscode/extensions/mdfx-lsp/` and installs dependencies. After installation:
+
+1. Reload VS Code (`Cmd+Shift+P` → "Developer: Reload Window")
+2. Open any `.md` file
+3. Type `{{ui:tech:` to see completions
+
+## Usage
+
+Start the LSP server manually (for other editors):
+
+```bash
+mdfx lsp run
+```
+
+The server communicates over stdio using the LSP protocol.
 
 ## Editor Configuration
 
 ### VS Code
 
-Create `.vscode/settings.json` in your project:
+**Option 1: Automatic Installation (Recommended)**
 
-```json
-{
-  "files.associations": {
-    "*.md": "markdown"
-  }
-}
+```bash
+mdfx lsp install --editor vscode
 ```
 
-For full LSP support, you'll need a generic LSP client extension like [vscode-languageclient](https://github.com/AviAvni/vscode-languageclient) or create a simple extension.
+**Option 2: Manual Setup**
 
-Alternatively, create a VS Code extension with this `package.json`:
+<details>
+<summary>Click to expand manual setup instructions...</summary>
+
+Create a VS Code extension manually with this `package.json`:
 
 ```json
 {
@@ -53,6 +69,9 @@ Alternatively, create a VS Code extension with this `package.json`:
         }
       }
     }
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
   }
 }
 ```
@@ -60,14 +79,15 @@ Alternatively, create a VS Code extension with this `package.json`:
 With `extension.js`:
 
 ```javascript
-const { LanguageClient } = require('vscode-languageclient/node');
+const { LanguageClient, TransportKind } = require('vscode-languageclient/node');
 
 let client;
 
 function activate(context) {
   const serverOptions = {
     command: 'mdfx',
-    args: ['lsp']
+    args: ['lsp', 'run'],
+    transport: TransportKind.stdio
   };
 
   const clientOptions = {
@@ -85,6 +105,8 @@ function deactivate() {
 module.exports = { activate, deactivate };
 ```
 
+</details>
+
 ### Neovim
 
 Using [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig):
@@ -97,7 +119,7 @@ local configs = require('lspconfig.configs')
 if not configs.mdfx then
   configs.mdfx = {
     default_config = {
-      cmd = { 'mdfx', 'lsp' },
+      cmd = { 'mdfx', 'lsp', 'run' },
       filetypes = { 'markdown' },
       root_dir = function(fname)
         return lspconfig.util.find_git_ancestor(fname) or vim.fn.getcwd()
@@ -121,7 +143,7 @@ language-servers = ["mdfx"]
 
 [language-server.mdfx]
 command = "mdfx"
-args = ["lsp"]
+args = ["lsp", "run"]
 ```
 
 ### Emacs
@@ -135,7 +157,7 @@ Using [lsp-mode](https://emacs-lsp.github.io/lsp-mode/):
 
 (lsp-register-client
  (make-lsp-client
-  :new-connection (lsp-stdio-connection '("mdfx" "lsp"))
+  :new-connection (lsp-stdio-connection '("mdfx" "lsp" "run"))
   :major-modes '(markdown-mode)
   :server-id 'mdfx))
 
@@ -148,7 +170,7 @@ Using [eglot](https://github.com/joaotavora/eglot):
 (require 'eglot)
 
 (add-to-list 'eglot-server-programs
-             '(markdown-mode . ("mdfx" "lsp")))
+             '(markdown-mode . ("mdfx" "lsp" "run")))
 
 (add-hook 'markdown-mode-hook 'eglot-ensure)
 ```
@@ -166,7 +188,7 @@ Using [LSP](https://packagecontrol.io/packages/LSP):
   "clients": {
     "mdfx": {
       "enabled": true,
-      "command": ["mdfx", "lsp"],
+      "command": ["mdfx", "lsp", "run"],
       "selector": "text.html.markdown"
     }
   }
@@ -183,7 +205,7 @@ Add to `~/.config/zed/settings.json`:
     "mdfx": {
       "binary": {
         "path": "mdfx",
-        "arguments": ["lsp"]
+        "arguments": ["lsp", "run"]
       }
     }
   },
@@ -280,12 +302,17 @@ Completions include smart snippets:
 
 1. Verify mdfx is installed with LSP support:
    ```bash
-   mdfx lsp --help
+   mdfx lsp run --help
    ```
 
 2. Check the path is correct:
    ```bash
    which mdfx
+   ```
+
+3. For VS Code, try reinstalling the extension:
+   ```bash
+   mdfx lsp install --editor vscode
    ```
 
 ### No completions appearing

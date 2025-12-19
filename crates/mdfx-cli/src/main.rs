@@ -277,21 +277,40 @@ enum Commands {
         config: Option<PathBuf>,
     },
 
-    /// Start the Language Server Protocol (LSP) server
+    /// Language Server Protocol (LSP) commands
     ///
     /// Provides IDE integration with autocompletion for mdfx template syntax.
-    /// Works with any LSP-compatible editor (VS Code, Neovim, Emacs, Sublime, etc.)
-    ///
-    /// The server communicates over stdio using the LSP protocol.
+    /// Use 'mdfx lsp install' to set up editor extensions automatically.
     ///
     /// Requires: cargo install mdfx-cli --features lsp
-    ///
-    /// Editor setup:
-    ///   VS Code: Add mdfx-lsp extension or configure settings.json
-    ///   Neovim: Configure with nvim-lspconfig
-    ///   Emacs: Configure with lsp-mode or eglot
     #[cfg(feature = "lsp")]
-    Lsp,
+    #[command(subcommand)]
+    Lsp(LspCommands),
+}
+
+/// LSP subcommands
+#[cfg(feature = "lsp")]
+#[derive(Subcommand)]
+enum LspCommands {
+    /// Start the LSP server (default)
+    ///
+    /// The server communicates over stdio using the LSP protocol.
+    /// This is typically called by your editor, not manually.
+    Run,
+
+    /// Install editor extension for LSP support
+    ///
+    /// Automatically sets up the mdfx LSP extension for your editor.
+    /// Currently supports VS Code.
+    ///
+    /// Examples:
+    ///   mdfx lsp install --editor vscode
+    ///   mdfx lsp install  # defaults to vscode
+    Install {
+        /// Editor to install extension for (vscode)
+        #[arg(short, long, default_value = "vscode")]
+        editor: String,
+    },
 }
 
 fn main() {
@@ -416,12 +435,17 @@ fn run(cli: Cli) -> Result<(), Error> {
         }
 
         #[cfg(feature = "lsp")]
-        Commands::Lsp => {
-            // Run the LSP server using tokio runtime
-            tokio::runtime::Runtime::new()
-                .expect("Failed to create tokio runtime")
-                .block_on(lsp::run_lsp_server());
-        }
+        Commands::Lsp(lsp_cmd) => match lsp_cmd {
+            LspCommands::Run => {
+                // Run the LSP server using tokio runtime
+                tokio::runtime::Runtime::new()
+                    .expect("Failed to create tokio runtime")
+                    .block_on(lsp::run_lsp_server());
+            }
+            LspCommands::Install { editor } => {
+                install_lsp_extension(&editor)?;
+            }
+        },
     }
 
     Ok(())
@@ -1513,4 +1537,223 @@ fn watch_file(
     }
 
     Ok(())
+}
+
+#[cfg(feature = "lsp")]
+fn install_lsp_extension(editor: &str) -> Result<(), Error> {
+    match editor.to_lowercase().as_str() {
+        "vscode" | "code" => install_vscode_extension(),
+        _ => Err(Error::ParseError(format!(
+            "Unsupported editor '{}'. Currently supported: vscode",
+            editor
+        ))),
+    }
+}
+
+#[cfg(feature = "lsp")]
+fn install_vscode_extension() -> Result<(), Error> {
+    use std::process::Command;
+
+    println!("{}", "Installing mdfx LSP extension for VS Code...".bold());
+    println!();
+
+    // Find mdfx binary path
+    let mdfx_path = std::env::current_exe()
+        .map_err(Error::IoError)?
+        .to_string_lossy()
+        .to_string();
+
+    // Determine VS Code extensions directory
+    let extensions_dir = get_vscode_extensions_dir()?;
+    let extension_path = extensions_dir.join("mdfx-lsp");
+
+    println!("  {} {}", "Extension path:".cyan(), extension_path.display());
+    println!("  {} {}", "mdfx binary:".cyan(), mdfx_path);
+    println!();
+
+    // Create extension directory
+    fs::create_dir_all(&extension_path).map_err(Error::IoError)?;
+
+    // Write package.json
+    let package_json = generate_package_json(&mdfx_path);
+    let package_path = extension_path.join("package.json");
+    fs::write(&package_path, &package_json).map_err(Error::IoError)?;
+    println!("  {} package.json", "Created:".green());
+
+    // Write extension.js
+    let extension_js = generate_extension_js(&mdfx_path);
+    let extension_js_path = extension_path.join("extension.js");
+    fs::write(&extension_js_path, &extension_js).map_err(Error::IoError)?;
+    println!("  {} extension.js", "Created:".green());
+
+    println!();
+    println!("{} Installing npm dependencies...", "Info:".cyan());
+
+    // Run npm install
+    let npm_result = Command::new("npm")
+        .arg("install")
+        .arg("--production")
+        .current_dir(&extension_path)
+        .output();
+
+    match npm_result {
+        Ok(output) => {
+            if output.status.success() {
+                println!("  {} npm install", "Success:".green());
+            } else {
+                let stderr = String::from_utf8_lossy(&output.stderr);
+                eprintln!("  {} npm install failed: {}", "Warning:".yellow(), stderr);
+                eprintln!();
+                eprintln!("  You may need to run manually:");
+                eprintln!("    cd {} && npm install", extension_path.display());
+            }
+        }
+        Err(e) => {
+            eprintln!("  {} Could not run npm: {}", "Warning:".yellow(), e);
+            eprintln!();
+            eprintln!("  Please install dependencies manually:");
+            eprintln!("    cd {} && npm install", extension_path.display());
+        }
+    }
+
+    println!();
+    println!("{}", "✓ VS Code extension installed!".green().bold());
+    println!();
+    println!("{}", "Next steps:".bold());
+    println!("  1. Reload VS Code (Cmd+Shift+P → 'Developer: Reload Window')");
+    println!("  2. Open a .md file and type {{ui:tech: to see completions");
+    println!();
+    println!(
+        "{}",
+        "The extension will activate automatically for markdown files.".dimmed()
+    );
+
+    Ok(())
+}
+
+#[cfg(feature = "lsp")]
+fn get_vscode_extensions_dir() -> Result<PathBuf, Error> {
+    let home = std::env::var("HOME")
+        .or_else(|_| std::env::var("USERPROFILE"))
+        .map_err(|_| {
+            Error::ParseError("Could not determine home directory".to_string())
+        })?;
+
+    let home_path = PathBuf::from(home);
+
+    // Try different VS Code extension locations
+    let candidates = [
+        home_path.join(".vscode/extensions"),           // Standard VS Code
+        home_path.join(".vscode-server/extensions"),    // VS Code Remote
+        home_path.join(".vscode-insiders/extensions"),  // VS Code Insiders
+    ];
+
+    for candidate in &candidates {
+        if candidate.exists() {
+            return Ok(candidate.clone());
+        }
+    }
+
+    // Default to standard location (will be created)
+    Ok(candidates[0].clone())
+}
+
+#[cfg(feature = "lsp")]
+fn generate_package_json(mdfx_path: &str) -> String {
+    format!(
+        r#"{{
+  "name": "mdfx-lsp",
+  "displayName": "mdfx Language Server",
+  "description": "LSP support for mdfx markdown template syntax",
+  "version": "{}",
+  "publisher": "mdfx",
+  "engines": {{
+    "vscode": "^1.75.0"
+  }},
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./extension.js",
+  "contributes": {{
+    "configuration": {{
+      "type": "object",
+      "title": "mdfx",
+      "properties": {{
+        "mdfx.path": {{
+          "type": "string",
+          "default": "{}",
+          "description": "Path to mdfx executable"
+        }},
+        "mdfx.trace.server": {{
+          "type": "string",
+          "enum": ["off", "messages", "verbose"],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the mdfx language server"
+        }}
+      }}
+    }}
+  }},
+  "dependencies": {{
+    "vscode-languageclient": "^9.0.1"
+  }}
+}}
+"#,
+        env!("CARGO_PKG_VERSION"),
+        mdfx_path.replace('\\', "\\\\").replace('"', "\\\"")
+    )
+}
+
+#[cfg(feature = "lsp")]
+fn generate_extension_js(mdfx_path: &str) -> String {
+    format!(
+        r#"const vscode = require('vscode');
+const {{ LanguageClient, TransportKind }} = require('vscode-languageclient/node');
+
+let client;
+
+function activate(context) {{
+    const config = vscode.workspace.getConfiguration('mdfx');
+    const mdfxPath = config.get('path', '{}');
+
+    const serverOptions = {{
+        command: mdfxPath,
+        args: ['lsp', 'run'],
+        transport: TransportKind.stdio
+    }};
+
+    const clientOptions = {{
+        documentSelector: [
+            {{ scheme: 'file', language: 'markdown' }},
+            {{ scheme: 'untitled', language: 'markdown' }}
+        ],
+        synchronize: {{
+            fileEvents: vscode.workspace.createFileSystemWatcher('**/*.md')
+        }}
+    }};
+
+    client = new LanguageClient(
+        'mdfx',
+        'mdfx Language Server',
+        serverOptions,
+        clientOptions
+    );
+
+    client.start();
+    console.log('mdfx LSP client started');
+}}
+
+function deactivate() {{
+    if (client) {{
+        return client.stop();
+    }}
+}}
+
+module.exports = {{ activate, deactivate }};
+"#,
+        mdfx_path.replace('\\', "\\\\").replace('\'', "\\'")
+    )
 }
