@@ -298,24 +298,45 @@ impl Chevron {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_badge_styles() {
-        assert_eq!(BadgeStyle::Flat.default_radius(), 3);
-        assert_eq!(BadgeStyle::FlatSquare.default_radius(), 0);
-        assert_eq!(BadgeStyle::Plastic.default_radius(), 3);
-        assert_eq!(BadgeStyle::ForTheBadge.default_radius(), 3);
-        assert_eq!(BadgeStyle::Social.default_radius(), 10);
+    // ========================================================================
+    // Badge Style Properties (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(BadgeStyle::Flat, 3, 20, false, false)]
+    #[case(BadgeStyle::FlatSquare, 0, 20, false, false)]
+    #[case(BadgeStyle::Plastic, 3, 20, true, true)]
+    #[case(BadgeStyle::ForTheBadge, 3, 28, false, true)]
+    #[case(BadgeStyle::Social, 10, 20, false, false)]
+    fn test_badge_style_properties(
+        #[case] style: BadgeStyle,
+        #[case] radius: u32,
+        #[case] height: u32,
+        #[case] gradients: bool,
+        #[case] shadow: bool,
+    ) {
+        assert_eq!(style.default_radius(), radius);
+        assert_eq!(style.default_height(), height);
+        assert_eq!(style.has_gradients(), gradients);
+        assert_eq!(style.has_shadow(), shadow);
     }
 
-    #[test]
-    fn test_style_properties() {
-        assert!(BadgeStyle::Plastic.has_gradients());
-        assert!(!BadgeStyle::Flat.has_gradients());
+    // ========================================================================
+    // Style Parsing (Parameterized)
+    // ========================================================================
 
-        assert!(BadgeStyle::Plastic.has_shadow());
-        assert!(BadgeStyle::ForTheBadge.has_shadow());
-        assert!(!BadgeStyle::Flat.has_shadow());
+    #[rstest]
+    #[case("flat", BadgeStyle::Flat)]
+    #[case("flat-square", BadgeStyle::FlatSquare)]
+    #[case("flat_square", BadgeStyle::FlatSquare)]
+    #[case("plastic", BadgeStyle::Plastic)]
+    #[case("for-the-badge", BadgeStyle::ForTheBadge)]
+    #[case("social", BadgeStyle::Social)]
+    #[case("unknown", BadgeStyle::Flat)] // fallback
+    fn test_style_parsing(#[case] input: &str, #[case] expected: BadgeStyle) {
+        assert_eq!(BadgeStyle::parse(input), expected);
     }
 
     #[test]
@@ -336,14 +357,24 @@ mod tests {
         assert_eq!(border.width, 2);
     }
 
-    #[test]
-    fn test_corners() {
-        let uniform = Corners::uniform(5);
-        assert_eq!(uniform.top_left, 5);
-        assert_eq!(uniform.top_right, 5);
-        assert_eq!(uniform.bottom_right, 5);
-        assert_eq!(uniform.bottom_left, 5);
+    // ========================================================================
+    // Corners (Parameterized)
+    // ========================================================================
 
+    #[rstest]
+    #[case(5, [5, 5, 5, 5])] // uniform
+    #[case(0, [0, 0, 0, 0])]
+    #[case(10, [10, 10, 10, 10])]
+    fn test_corners_uniform(#[case] radius: u32, #[case] expected: [u32; 4]) {
+        let corners = Corners::uniform(radius);
+        assert_eq!(
+            [corners.top_left, corners.top_right, corners.bottom_right, corners.bottom_left],
+            expected
+        );
+    }
+
+    #[test]
+    fn test_corners_custom() {
         let custom = Corners::custom(1, 2, 3, 4);
         assert_eq!(custom.top_left, 1);
         assert_eq!(custom.top_right, 2);
@@ -351,8 +382,25 @@ mod tests {
         assert_eq!(custom.bottom_left, 4);
     }
 
+    // ========================================================================
+    // Chevron (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(ChevronDirection::Left, true, false)]
+    #[case(ChevronDirection::Right, false, true)]
+    #[case(ChevronDirection::Both, true, true)]
+    fn test_chevron_direction(
+        #[case] direction: ChevronDirection,
+        #[case] has_left: bool,
+        #[case] has_right: bool,
+    ) {
+        assert_eq!(direction.has_left(), has_left);
+        assert_eq!(direction.has_right(), has_right);
+    }
+
     #[test]
-    fn test_chevron() {
+    fn test_chevron_constructors() {
         let left = Chevron::left(10.0);
         assert_eq!(left.direction, ChevronDirection::Left);
         assert_eq!(left.depth, 10.0);

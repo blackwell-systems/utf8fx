@@ -242,18 +242,54 @@ impl DataSource for GitHubSource {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_parse_query() {
-        let (owner, repo) = GitHubSource::parse_query("rust-lang/rust").unwrap();
-        assert_eq!(owner, "rust-lang");
-        assert_eq!(repo, "rust");
+    // ========================================================================
+    // Query Parsing (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("rust-lang/rust", true, "rust-lang", "rust")]
+    #[case("owner/repo", true, "owner", "repo")]
+    #[case("invalid", false, "", "")]
+    #[case("too/many/parts", false, "", "")]
+    fn test_parse_query(
+        #[case] input: &str,
+        #[case] should_succeed: bool,
+        #[case] expected_owner: &str,
+        #[case] expected_repo: &str,
+    ) {
+        let result = GitHubSource::parse_query(input);
+        if should_succeed {
+            let (owner, repo) = result.unwrap();
+            assert_eq!(owner, expected_owner);
+            assert_eq!(repo, expected_repo);
+        } else {
+            assert!(result.is_err());
+        }
     }
 
-    #[test]
-    fn test_parse_query_invalid() {
-        let result = GitHubSource::parse_query("invalid");
-        assert!(result.is_err());
+    // ========================================================================
+    // Metric Colors (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("stars", DataValue::Number(50000), Some("FFD700"))]  // gold
+    #[case("stars", DataValue::Number(5000), Some("C0C0C0"))]   // silver
+    #[case("stars", DataValue::Number(500), Some("CD7F32"))]    // bronze
+    #[case("stars", DataValue::Number(50), Some("22C55E"))]     // green
+    #[case("license", DataValue::String("MIT".to_string()), Some("22C55E"))]
+    #[case("license", DataValue::String("GPL-3.0".to_string()), Some("EAB308"))]
+    #[case("license", DataValue::String("NONE".to_string()), Some("6B7280"))]
+    #[case("archived", DataValue::Bool(true), Some("EF4444"))]
+    #[case("archived", DataValue::Bool(false), Some("22C55E"))]
+    fn test_metric_colors(
+        #[case] metric: &str,
+        #[case] value: DataValue,
+        #[case] expected: Option<&str>,
+    ) {
+        let source = GitHubSource::new();
+        assert_eq!(source.metric_color(metric, &value), expected);
     }
 
     #[test]
@@ -263,22 +299,5 @@ mod tests {
         assert!(metrics.contains(&"stars"));
         assert!(metrics.contains(&"license"));
         assert!(metrics.contains(&"forks"));
-    }
-
-    #[test]
-    fn test_metric_colors() {
-        let source = GitHubSource::new();
-
-        // High stars = gold
-        let color = source.metric_color("stars", &DataValue::Number(50000));
-        assert_eq!(color, Some("FFD700"));
-
-        // MIT license = green
-        let color = source.metric_color("license", &DataValue::String("MIT".to_string()));
-        assert_eq!(color, Some("22C55E"));
-
-        // Archived = red
-        let color = source.metric_color("archived", &DataValue::Bool(true));
-        assert_eq!(color, Some("EF4444"));
     }
 }

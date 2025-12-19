@@ -239,6 +239,7 @@ impl BadgeBuilder {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
     #[test]
     fn test_badge_creation() {
@@ -247,13 +248,20 @@ mod tests {
         assert_eq!(badge.display_label(), "Rust");
     }
 
-    #[test]
-    fn test_display_labels() {
-        assert_eq!(TechBadge::new("javascript").display_label(), "JavaScript");
-        assert_eq!(TechBadge::new("typescript").display_label(), "TypeScript");
-        assert_eq!(TechBadge::new("nodejs").display_label(), "Node.js");
-        assert_eq!(TechBadge::new("postgresql").display_label(), "PostgreSQL");
-        assert_eq!(TechBadge::new("python").display_label(), "Python");
+    // ========================================================================
+    // Display Labels (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("javascript", "JavaScript")]
+    #[case("typescript", "TypeScript")]
+    #[case("nodejs", "Node.js")]
+    #[case("postgresql", "PostgreSQL")]
+    #[case("mongodb", "MongoDB")]
+    #[case("python", "Python")]
+    #[case("rust", "Rust")]
+    fn test_display_labels(#[case] name: &str, #[case] expected: &str) {
+        assert_eq!(TechBadge::new(name).display_label(), expected);
     }
 
     #[test]
@@ -280,21 +288,23 @@ mod tests {
         assert!(badge.outline);
     }
 
-    #[test]
-    fn test_effective_bg_color() {
-        // Custom color overrides brand color
+    // ========================================================================
+    // Effective Background Color (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("rust", Some("#FF0000"), Some("#FF0000".to_string()))] // custom overrides
+    #[case("rust", None, Some("#DEA584".to_string()))] // falls back to brand
+    #[case("unknown_tech_xyz", None, None)] // no color for unknown
+    fn test_effective_bg_color(
+        #[case] name: &str,
+        #[case] custom_color: Option<&str>,
+        #[case] expected: Option<String>,
+    ) {
         let badge = TechBadge {
-            bg_color: Some("#FF0000".to_string()),
-            ..TechBadge::new("rust")
+            bg_color: custom_color.map(|s| s.to_string()),
+            ..TechBadge::new(name)
         };
-        assert_eq!(badge.effective_bg_color(), Some("#FF0000".to_string()));
-
-        // Falls back to brand color
-        let badge = TechBadge::new("rust");
-        assert_eq!(badge.effective_bg_color(), Some("#DEA584".to_string()));
-
-        // No color for unknown tech
-        let badge = TechBadge::new("unknown");
-        assert_eq!(badge.effective_bg_color(), None);
+        assert_eq!(badge.effective_bg_color(), expected);
     }
 }

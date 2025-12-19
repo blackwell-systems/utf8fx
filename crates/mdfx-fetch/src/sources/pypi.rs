@@ -141,6 +141,23 @@ impl DataSource for PyPISource {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+
+    // ========================================================================
+    // Metric Labels (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("version", "Version")]
+    #[case("license", "License")]
+    #[case("summary", "Summary")]
+    #[case("author", "Author")]
+    #[case("python", "Python")]
+    #[case("unknown", "Unknown")]
+    fn test_metric_label(#[case] metric: &str, #[case] expected: &str) {
+        let source = PyPISource::new();
+        assert_eq!(source.metric_label(metric), expected);
+    }
 
     #[test]
     fn test_available_metrics() {
@@ -148,12 +165,5 @@ mod tests {
         let metrics = source.available_metrics();
         assert!(metrics.contains(&"version"));
         assert!(metrics.contains(&"license"));
-    }
-
-    #[test]
-    fn test_metric_label() {
-        let source = PyPISource::new();
-        assert_eq!(source.metric_label("version"), "Version");
-        assert_eq!(source.metric_label("python"), "Python");
     }
 }

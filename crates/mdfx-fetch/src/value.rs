@@ -109,24 +109,35 @@ fn format_number(n: u64) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_format_number() {
-        assert_eq!(format_number(500), "500");
-        assert_eq!(format_number(1_500), "1.5k");
-        assert_eq!(format_number(15_000), "15.0k");
-        assert_eq!(format_number(1_500_000), "1.5M");
-        assert_eq!(format_number(1_500_000_000), "1.5B");
+    // ========================================================================
+    // Number Formatting (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(500, "500")]
+    #[case(1_500, "1.5k")]
+    #[case(15_000, "15.0k")]
+    #[case(1_500_000, "1.5M")]
+    #[case(1_500_000_000, "1.5B")]
+    fn test_format_number(#[case] input: u64, #[case] expected: &str) {
+        assert_eq!(format_number(input), expected);
     }
 
-    #[test]
-    fn test_data_value_display() {
-        assert_eq!(DataValue::Number(42).format(), "42");
-        assert_eq!(DataValue::Number(1500).format(), "1.5k");
-        assert_eq!(DataValue::Float(2.75).format(), "2.8");
-        assert_eq!(DataValue::String("MIT".to_string()).format(), "MIT");
-        assert_eq!(DataValue::Bool(true).format(), "yes");
-        assert_eq!(DataValue::Bool(false).format(), "no");
+    // ========================================================================
+    // DataValue Display (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(DataValue::Number(42), "42")]
+    #[case(DataValue::Number(1500), "1.5k")]
+    #[case(DataValue::Float(2.75), "2.8")]
+    #[case(DataValue::String("MIT".to_string()), "MIT")]
+    #[case(DataValue::Bool(true), "yes")]
+    #[case(DataValue::Bool(false), "no")]
+    fn test_data_value_display(#[case] value: DataValue, #[case] expected: &str) {
+        assert_eq!(value.format(), expected);
     }
 
     #[test]

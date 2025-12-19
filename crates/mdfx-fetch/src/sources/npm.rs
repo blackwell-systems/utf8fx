@@ -145,6 +145,23 @@ impl DataSource for NpmSource {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
+
+    // ========================================================================
+    // Metric Labels (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("version", "Version")]
+    #[case("next", "Next")]
+    #[case("beta", "Beta")]
+    #[case("license", "License")]
+    #[case("description", "Description")]
+    #[case("unknown", "Unknown")]
+    fn test_metric_label(#[case] metric: &str, #[case] expected: &str) {
+        let source = NpmSource::new();
+        assert_eq!(source.metric_label(metric), expected);
+    }
 
     #[test]
     fn test_available_metrics() {
@@ -152,11 +169,5 @@ mod tests {
         let metrics = source.available_metrics();
         assert!(metrics.contains(&"version"));
         assert!(metrics.contains(&"license"));
-    }
-
-    #[test]
-    fn test_metric_label() {
-        let source = NpmSource::new();
-        assert_eq!(source.metric_label("version"), "Version");
     }
 }

@@ -79,16 +79,21 @@ impl FetchError {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_is_recoverable() {
-        let http_err = FetchError::HttpError("timeout".to_string());
-        assert!(http_err.is_recoverable());
+    // ========================================================================
+    // Error Recoverability (Parameterized)
+    // ========================================================================
 
-        let rate_err = FetchError::RateLimited { retry_after: 60 };
-        assert!(rate_err.is_recoverable());
-
-        let not_found = FetchError::NotFound("repo".to_string());
-        assert!(!not_found.is_recoverable());
+    #[rstest]
+    #[case(FetchError::HttpError("timeout".to_string()), true)]
+    #[case(FetchError::RateLimited { retry_after: 60 }, true)]
+    #[case(FetchError::ApiError { status: 500, message: "server error".to_string() }, true)]
+    #[case(FetchError::ApiError { status: 502, message: "bad gateway".to_string() }, true)]
+    #[case(FetchError::NotFound("repo".to_string()), false)]
+    #[case(FetchError::UnknownSource("unknown".to_string()), false)]
+    #[case(FetchError::ParseError("invalid json".to_string()), false)]
+    fn test_is_recoverable(#[case] error: FetchError, #[case] expected: bool) {
+        assert_eq!(error.is_recoverable(), expected);
     }
 }

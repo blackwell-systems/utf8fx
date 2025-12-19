@@ -117,6 +117,7 @@ dependencies = [
  "mdfx",
  "mdfx-colors",
  "mdfx-icons",
+ "rstest",
 ]
 
 [[package]]
@@ -1021,11 +1022,15 @@ dependencies = [
 [[package]]
 name = "mdfx-colors"
 version = "1.0.0"
+dependencies = [
+ "rstest",
+]
 
 [[package]]
 name = "mdfx-fetch"
 version = "1.0.0"
 dependencies = [
+ "rstest",
  "serde",
  "serde_json",
  "tempfile",

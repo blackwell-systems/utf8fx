@@ -11,3 +11,6 @@ keywords = ["color", "luminance", "contrast", "hex", "badges"]
 categories = ["graphics", "multimedia::color"]
 
 [dependencies]
+
+[dev-dependencies]
+rstest = "0.23"

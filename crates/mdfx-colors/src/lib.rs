@@ -120,55 +120,68 @@ pub fn parse_hex(s: &str) -> Option<(u8, u8, u8)> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_luminance() {
-        assert!(luminance("#FFFFFF") > 0.9); // White
-        assert!(luminance("#000000") < 0.1); // Black
+    // ========================================================================
+    // Luminance (Parameterized)
+    // ========================================================================
 
-        // Gray (128,128,128) has linear luminance ~0.5 (not sRGB perceptual)
-        let gray_lum = luminance("#808080");
-        assert!(gray_lum > 0.45 && gray_lum < 0.55);
+    #[rstest]
+    #[case("#FFFFFF", 0.9, 1.1)] // White - very bright
+    #[case("#000000", 0.0, 0.1)] // Black - very dark
+    #[case("#808080", 0.45, 0.55)] // Gray - medium
+    fn test_luminance(#[case] hex: &str, #[case] min: f32, #[case] max: f32) {
+        let lum = luminance(hex);
+        assert!(lum >= min && lum <= max, "luminance({}) = {} not in [{}, {}]", hex, lum, min, max);
     }
 
-    #[test]
-    fn test_contrast_color() {
-        assert_eq!(contrast_color("#FFFFFF"), "#000000"); // Black on white
-        assert_eq!(contrast_color("#000000"), "#FFFFFF"); // White on black
-        assert_eq!(contrast_color("#3178C6"), "#FFFFFF"); // White on TypeScript blue
-        assert_eq!(contrast_color("#F7DF1E"), "#000000"); // Black on JavaScript yellow
+    // ========================================================================
+    // Contrast Color (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("#FFFFFF", "#000000")] // Black on white
+    #[case("#000000", "#FFFFFF")] // White on black
+    #[case("#3178C6", "#FFFFFF")] // White on TypeScript blue
+    #[case("#F7DF1E", "#000000")] // Black on JavaScript yellow
+    fn test_contrast_color(#[case] bg: &str, #[case] expected: &str) {
+        assert_eq!(contrast_color(bg), expected);
     }
 
-    #[test]
-    fn test_darken() {
-        assert_eq!(darken("#FFFFFF", 0.0), "#FFFFFF"); // No change
-        assert_eq!(darken("#FFFFFF", 1.0), "#000000"); // Complete darkening
-        assert_eq!(darken("#FF0000", 0.5), "#800000"); // 50% red darkening (255 * 0.5 = 127.5 rounds to 128 = 0x80)
+    // ========================================================================
+    // Darken (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("#FFFFFF", 0.0, "#FFFFFF")] // No change
+    #[case("#FFFFFF", 1.0, "#000000")] // Complete darkening
+    #[case("#FF0000", 0.5, "#800000")] // 50% red darkening
+    fn test_darken(#[case] hex: &str, #[case] amount: f32, #[case] expected: &str) {
+        assert_eq!(darken(hex, amount), expected);
     }
 
-    #[test]
-    fn test_parse_hex() {
-        // 6-digit hex
-        assert_eq!(parse_hex("#FF0000"), Some((255, 0, 0)));
-        assert_eq!(parse_hex("00FF00"), Some((0, 255, 0)));
-        assert_eq!(parse_hex("#0000FF"), Some((0, 0, 255)));
+    // ========================================================================
+    // Hex Parsing (Parameterized)
+    // ========================================================================
 
-        // 3-digit hex expansion
-        assert_eq!(parse_hex("#F00"), Some((255, 0, 0)));
-        assert_eq!(parse_hex("0F0"), Some((0, 255, 0)));
-        assert_eq!(parse_hex("#00F"), Some((0, 0, 255)));
-
-        // Invalid input
-        assert_eq!(parse_hex("invalid"), None);
-        assert_eq!(parse_hex("#GG0000"), None);
-        assert_eq!(parse_hex("#FF"), None);
-        assert_eq!(parse_hex("#FF00000"), None);
-    }
-
-    #[test]
-    fn test_hex_case_insensitive() {
-        assert_eq!(parse_hex("#ff0000"), Some((255, 0, 0)));
-        assert_eq!(parse_hex("#FF0000"), Some((255, 0, 0)));
-        assert_eq!(parse_hex("#Ff0000"), Some((255, 0, 0)));
+    #[rstest]
+    // 6-digit hex
+    #[case("#FF0000", Some((255, 0, 0)))]
+    #[case("00FF00", Some((0, 255, 0)))]
+    #[case("#0000FF", Some((0, 0, 255)))]
+    // 3-digit hex expansion
+    #[case("#F00", Some((255, 0, 0)))]
+    #[case("0F0", Some((0, 255, 0)))]
+    #[case("#00F", Some((0, 0, 255)))]
+    // Case insensitive
+    #[case("#ff0000", Some((255, 0, 0)))]
+    #[case("#Ff0000", Some((255, 0, 0)))]
+    // Invalid input
+    #[case("invalid", None)]
+    #[case("#GG0000", None)]
+    #[case("#FF", None)]
+    #[case("#FF00000", None)]
+    fn test_parse_hex(#[case] input: &str, #[case] expected: Option<(u8, u8, u8)>) {
+        assert_eq!(parse_hex(input), expected);
     }
 }

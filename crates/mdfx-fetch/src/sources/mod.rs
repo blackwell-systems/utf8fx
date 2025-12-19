@@ -102,29 +102,20 @@ impl SourceRegistry {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_registry_has_github() {
-        let registry = SourceRegistry::new();
-        assert!(registry.get("github").is_some());
-    }
+    // ========================================================================
+    // Registry Source Availability (Parameterized)
+    // ========================================================================
 
-    #[test]
-    fn test_registry_has_npm() {
+    #[rstest]
+    #[case("github")]
+    #[case("npm")]
+    #[case("crates")]
+    #[case("pypi")]
+    fn test_registry_has_source(#[case] source_id: &str) {
         let registry = SourceRegistry::new();
-        assert!(registry.get("npm").is_some());
-    }
-
-    #[test]
-    fn test_registry_has_crates() {
-        let registry = SourceRegistry::new();
-        assert!(registry.get("crates").is_some());
-    }
-
-    #[test]
-    fn test_registry_has_pypi() {
-        let registry = SourceRegistry::new();
-        assert!(registry.get("pypi").is_some());
+        assert!(registry.get(source_id).is_some(), "Registry should have source: {}", source_id);
     }
 
     #[test]

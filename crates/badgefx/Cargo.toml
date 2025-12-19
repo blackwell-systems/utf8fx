@@ -20,3 +20,4 @@ mdfx-icons = { version = "1.0", path = "../mdfx-icons" }
 
 [dev-dependencies]
 mdfx = { version = "1.0", path = "../mdfx" }
+rstest = "0.23"

@@ -242,72 +242,83 @@ fn extract_svg_content(svg: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rstest::rstest;
 
-    #[test]
-    fn test_corner_radii_positions() {
-        assert_eq!(corner_radii_for_position("first", 4), [4, 0, 0, 4]);
-        assert_eq!(corner_radii_for_position("middle", 4), [0, 0, 0, 0]);
-        assert_eq!(corner_radii_for_position("last", 4), [0, 4, 4, 0]);
-        assert_eq!(corner_radii_for_position("single", 4), [4, 4, 4, 4]);
-        assert_eq!(corner_radii_for_position("unknown", 4), [4, 4, 4, 4]);
+    // ========================================================================
+    // Corner Radii (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("first", 4, [4, 0, 0, 4])]
+    #[case("middle", 4, [0, 0, 0, 0])]
+    #[case("last", 4, [0, 4, 4, 0])]
+    #[case("single", 4, [4, 4, 4, 4])]
+    #[case("unknown", 4, [4, 4, 4, 4])]
+    fn test_corner_radii_positions(
+        #[case] position: &str,
+        #[case] radius: u32,
+        #[case] expected: [u32; 4],
+    ) {
+        assert_eq!(corner_radii_for_position(position, radius), expected);
     }
 
-    #[test]
-    fn test_position_in_group() {
-        // Single badge
-        assert_eq!(position_in_group(0, 1), "single");
-        assert_eq!(position_in_group(0, 0), "single");
+    // ========================================================================
+    // Position in Group (Parameterized)
+    // ========================================================================
 
-        // Two badges
-        assert_eq!(position_in_group(0, 2), "first");
-        assert_eq!(position_in_group(1, 2), "last");
-
-        // Three badges
-        assert_eq!(position_in_group(0, 3), "first");
-        assert_eq!(position_in_group(1, 3), "middle");
-        assert_eq!(position_in_group(2, 3), "last");
-
-        // Five badges
-        assert_eq!(position_in_group(0, 5), "first");
-        assert_eq!(position_in_group(1, 5), "middle");
-        assert_eq!(position_in_group(2, 5), "middle");
-        assert_eq!(position_in_group(3, 5), "middle");
-        assert_eq!(position_in_group(4, 5), "last");
+    #[rstest]
+    #[case(0, 0, "single")]
+    #[case(0, 1, "single")]
+    #[case(0, 2, "first")]
+    #[case(1, 2, "last")]
+    #[case(0, 3, "first")]
+    #[case(1, 3, "middle")]
+    #[case(2, 3, "last")]
+    #[case(0, 5, "first")]
+    #[case(1, 5, "middle")]
+    #[case(2, 5, "middle")]
+    #[case(3, 5, "middle")]
+    #[case(4, 5, "last")]
+    fn test_position_in_group(#[case] index: usize, #[case] total: usize, #[case] expected: &str) {
+        assert_eq!(position_in_group(index, total), expected);
     }
 
-    #[test]
-    fn test_badge_spacing() {
-        assert_eq!(badge_spacing("flat", 1), 0);
-        assert_eq!(badge_spacing("flat", 3), 1);
-        assert_eq!(badge_spacing("plastic", 3), 2);
-        assert_eq!(badge_spacing("social", 3), 4);
-        assert_eq!(badge_spacing("for-the-badge", 3), 6);
-        assert_eq!(badge_spacing("unknown", 3), 1);
+    // ========================================================================
+    // Badge Spacing (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("flat", 1, 0)]
+    #[case("flat", 3, 1)]
+    #[case("plastic", 3, 2)]
+    #[case("social", 3, 4)]
+    #[case("for-the-badge", 3, 6)]
+    #[case("unknown", 3, 1)]
+    fn test_badge_spacing(#[case] style: &str, #[case] count: usize, #[case] expected: u32) {
+        assert_eq!(badge_spacing(style, count), expected);
     }
 
-    #[test]
-    fn test_extract_badge_dimensions() {
-        let svg = r#"<svg width="100" height="20">content</svg>"#;
-        assert_eq!(extract_badge_dimensions(svg), (100, 20));
+    // ========================================================================
+    // Dimension Extraction (Parameterized)
+    // ========================================================================
 
-        // Test with different order
-        let svg2 = r#"<svg height="25" width="150">content</svg>"#;
-        assert_eq!(extract_badge_dimensions(svg2), (150, 25));
-
-        // Test with defaults on malformed SVG
-        let svg3 = "<svg>content</svg>";
-        assert_eq!(extract_badge_dimensions(svg3), (100, 20));
+    #[rstest]
+    #[case(r#"<svg width="100" height="20">content</svg>"#, (100, 20))]
+    #[case(r#"<svg height="25" width="150">content</svg>"#, (150, 25))]
+    #[case("<svg>content</svg>", (100, 20))] // defaults
+    fn test_extract_badge_dimensions(#[case] svg: &str, #[case] expected: (u32, u32)) {
+        assert_eq!(extract_badge_dimensions(svg), expected);
     }
 
-    #[test]
-    fn test_extract_svg_content() {
-        let svg = r#"<svg width="100" height="20"><path d="..."/></svg>"#;
-        let content = extract_svg_content(svg);
-        assert_eq!(content, r#"<path d="..."/>"#);
+    // ========================================================================
+    // SVG Content Extraction (Parameterized)
+    // ========================================================================
 
-        let svg2 = r#"<svg xmlns="..." width="100" height="20"><g><path/></g></svg>"#;
-        let content2 = extract_svg_content(svg2);
-        assert_eq!(content2, r#"<g><path/></g>"#);
+    #[rstest]
+    #[case(r#"<svg width="100" height="20"><path d="..."/></svg>"#, r#"<path d="..."/>"#)]
+    #[case(r#"<svg xmlns="..." width="100" height="20"><g><path/></g></svg>"#, r#"<g><path/></g>"#)]
+    fn test_extract_svg_content(#[case] svg: &str, #[case] expected: &str) {
+        assert_eq!(extract_svg_content(svg), expected);
     }
 
     #[test]
