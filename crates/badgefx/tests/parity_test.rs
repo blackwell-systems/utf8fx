@@ -36,6 +36,7 @@ fn mdfx_render_full(
         chevron,
         bg_left,
         bg_right,
+        None, // raised
     )
 }
 

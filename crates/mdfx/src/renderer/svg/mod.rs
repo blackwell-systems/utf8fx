@@ -119,6 +119,7 @@ impl SvgBackend {
                 chevron,
                 bg_left,
                 bg_right,
+                raised,
             } => {
                 "tech".hash(&mut hasher);
                 name.hash(&mut hasher);
@@ -127,6 +128,7 @@ impl SvgBackend {
                 style.hash(&mut hasher);
                 label.hash(&mut hasher);
                 border_color.hash(&mut hasher);
+                raised.hash(&mut hasher);
                 border_width.hash(&mut hasher);
                 rx.hash(&mut hasher);
                 corners.hash(&mut hasher);
@@ -373,6 +375,7 @@ impl Renderer for SvgBackend {
                 chevron,
                 bg_left,
                 bg_right,
+                raised,
             } => {
                 // If source=shields, use shields.io URL instead of SVG
                 if source.as_deref() == Some("shields") {
@@ -411,6 +414,7 @@ impl Renderer for SvgBackend {
                     chevron.as_deref(),
                     bg_left.as_deref(),
                     bg_right.as_deref(),
+                    *raised,
                 )
             }
 
@@ -619,6 +623,7 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            raised: None,
         };
 
         let result = backend.render(&primitive).unwrap();
@@ -649,6 +654,7 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            raised: None,
         };
 
         let result = backend.render(&primitive).unwrap();

@@ -212,6 +212,7 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            raised: None,
         };
 
         let result = backend.render(&primitive).unwrap();

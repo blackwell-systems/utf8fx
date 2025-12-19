@@ -19,12 +19,27 @@ pub fn render(badge: &TechBadge) -> String {
         .as_deref()
         .or_else(|| mdfx_icons::icon_path(&badge.name));
 
+    // Get colors
+    let bg_color = badge
+        .effective_bg_color()
+        .unwrap_or_else(|| "#555".to_string());
+    let bg_color_clean = bg_color.trim_start_matches('#');
+
+    // Handle raised mode - icon section taller than label section
+    if let Some(raised_px) = badge.raised {
+        if let Some(path) = icon_path {
+            let logo_color = badge
+                .logo_color
+                .as_deref()
+                .map(|c| c.trim_start_matches('#'))
+                .unwrap_or_else(|| get_logo_color_for_bg(bg_color_clean));
+            return render_raised_badge(badge, path, label, bg_color_clean, logo_color, raised_px);
+        }
+    }
+
     // Handle outline mode separately for proper rendering
     if badge.outline {
-        let brand_color = badge
-            .effective_bg_color()
-            .unwrap_or_else(|| "#555".to_string());
-        let brand_color = brand_color.trim_start_matches('#');
+        let brand_color = bg_color_clean;
 
         return match (icon_path, !label.is_empty()) {
             (Some(path), true) => render_outline_two_segment(badge, path, label, brand_color),
@@ -33,11 +48,7 @@ pub fn render(badge: &TechBadge) -> String {
         };
     }
 
-    // Get colors
-    let bg_color = badge
-        .effective_bg_color()
-        .unwrap_or_else(|| "#555".to_string());
-    let bg_color = bg_color.trim_start_matches('#');
+    let bg_color = bg_color_clean;
 
     // Logo color: use explicit if provided, otherwise calculate from actual bg_color
     // This matches mdfx behavior where logo contrast is based on the actual background,
@@ -258,6 +269,96 @@ fn render_two_segment(
         icon_x, icon_y, scale,
         logo_color, icon_path,
         text_x, text_y, text_color, font_family, font_size, label
+    )
+}
+
+/// Render raised badge: icon section taller than label section
+///
+/// The raised badge has the icon extending above and below the skinnier label area.
+/// Uses a single background color for visual conformity.
+///
+/// ```text
+/// ┌─────────┬────────────┐
+/// │         │            │
+/// │  ICON   │   label    │  <- label section is vertically centered
+/// │         │            │
+/// └─────────┴────────────┘
+/// ```
+fn render_raised_badge(
+    badge: &TechBadge,
+    icon_path: &str,
+    label: &str,
+    bg_color: &str,
+    logo_color: &str,
+    raised_px: u32,
+) -> String {
+    let metrics = SvgMetrics::from_style(badge.style);
+
+    // Icon section is taller - full height plus raised pixels above and below
+    let icon_height = metrics.height as u32 + (raised_px * 2);
+    // Label section is the standard height
+    let label_height = metrics.height as u32;
+    // Total badge height is the icon section height
+    let total_height = icon_height;
+
+    // Widths
+    let icon_width: u32 = 36;
+    let label_width = estimate_text_width(label) + 16;
+    let total_width = icon_width + label_width;
+
+    // Icon sizing and positioning
+    let icon_size: u32 = 16; // Slightly larger icon for raised badges
+    let icon_x = (icon_width as f32 - icon_size as f32) / 2.0;
+    let icon_y = (icon_height as f32 - icon_size as f32) / 2.0;
+    let scale = icon_size as f32 / 24.0;
+
+    // Label positioning - vertically centered
+    let label_y_offset = raised_px as f32; // Offset from top
+    let font_size = if metrics.height > 24.0 { 11 } else { 10 };
+    let text_x = icon_width + label_width / 2;
+    let text_y = label_y_offset + label_height as f32 / 2.0 + font_size as f32 / 3.0;
+
+    // Text color
+    let text_color = badge
+        .text_color
+        .as_deref()
+        .map(|c| c.trim_start_matches('#'))
+        .unwrap_or_else(|| get_logo_color_for_bg(bg_color));
+
+    let font_family = badge.font.as_deref().unwrap_or("Verdana,Arial,sans-serif");
+
+    // Corner radius
+    let rx = badge
+        .corners
+        .as_ref()
+        .map(|c| c.top_left)
+        .unwrap_or(metrics.radius as u32);
+
+    // Border handling
+    let border_attr = get_border_attr(badge);
+
+    // Generate SVG
+    // Icon section: full height rectangle on left
+    // Label section: shorter rectangle on right, vertically centered
+    format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
+  <rect x=\"0\" y=\"0\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{}/>\n\
+  <rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\"/>\n\
+  <g transform=\"translate({}, {}) scale({})\">\n\
+    <path fill=\"#{}\" d=\"{}\"/>\n\
+  </g>\n\
+  <text x=\"{}\" y=\"{}\" text-anchor=\"middle\" fill=\"#{}\" font-family=\"{}\" font-size=\"{}\" font-weight=\"600\">{}</text>\n\
+</svg>",
+        total_width, total_height, total_width, total_height,
+        // Icon section background (full height)
+        icon_width, total_height, bg_color, rx, border_attr,
+        // Label section background (shorter, centered)
+        icon_width, label_y_offset, label_width, label_height, bg_color,
+        // Icon
+        icon_x, icon_y, scale,
+        logo_color, icon_path,
+        // Text
+        text_x, text_y as u32, text_color, font_family, font_size, label
     )
 }
 

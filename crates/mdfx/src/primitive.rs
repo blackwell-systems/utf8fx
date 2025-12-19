@@ -91,6 +91,8 @@ pub enum Primitive {
         bg_left: Option<String>,
         /// Right segment background color (label area). Defaults to darkened bg_color.
         bg_right: Option<String>,
+        /// Raised icon effect: pixels the icon extends above/below the label section.
+        raised: Option<u32>,
     },
 
     /// Progress bar with customizable track and fill
@@ -467,6 +469,7 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            raised: None,
         };
 
         if let Primitive::Tech { name, .. } = tech {
@@ -494,6 +497,7 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            raised: None,
         };
 
         if let Primitive::Tech { name, label, .. } = tech {
@@ -522,6 +526,7 @@ mod tests {
             chevron: None,
             bg_left: None,
             bg_right: None,
+            raised: None,
         };
 
         if let Primitive::Tech {

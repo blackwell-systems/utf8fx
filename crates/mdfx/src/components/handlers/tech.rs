@@ -109,6 +109,9 @@ pub fn handle(
     let bg_left = params.get("bg_left").map(|c| resolve_color(c));
     let bg_right = params.get("bg_right").map(|c| resolve_color(c));
 
+    // Raised icon effect: icon section extends above/below label
+    let raised = params.get("raised").and_then(|v| v.parse().ok());
+
     Ok(ComponentOutput::Primitive(Primitive::Tech {
         name,
         bg_color,
@@ -125,5 +128,6 @@ pub fn handle(
         chevron,
         bg_left,
         bg_right,
+        raised,
     }))
 }
