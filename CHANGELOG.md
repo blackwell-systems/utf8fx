@@ -7,7 +7,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+#### mdfx Tech Renderer Migration to badgefx
+
+The mdfx tech badge renderer has been migrated to use the `badgefx` crate:
+
+- **Single source of truth** - All tech badge rendering now goes through badgefx
+- **Reduced code duplication** - 775 lines of inline SVG rendering replaced by thin wrapper
+- **30 parity tests** - Comprehensive tests verify identical output to original renderer
+- **Breaking change** - `render_with_options` now has an additional `raised: Option<u32>` parameter
+
+The `tech.rs` module is now a lightweight wrapper that converts mdfx parameters to badgefx's `BadgeBuilder` API:
+
+```rust
+// Before: 850+ lines of inline SVG rendering
+// After: ~150 lines delegating to badgefx
+pub fn render_with_options(
+    name: &str,
+    label: Option<&str>,
+    // ... 14 other parameters ...
+    raised: Option<u32>,  // NEW
+) -> String {
+    BadgeBuilder::new(name)
+        .label(label.unwrap_or(""))
+        .bg_color(bg_color)
+        // ... configure badge ...
+        .render()
+}
+```
+
 ### Added
+
+#### Raised Badge Feature
+
+Tech badges now support the `raised` parameter for elevated icon styling:
+
+```
+{{ui:tech:rust:raised=4/}}
+```
+
+The raised badge has the icon section extending above and below the skinnier label section:
+
+```
+┌─────────┬────────────┐
+│         │            │
+│  ICON   │   label    │  <- label section is vertically centered
+│         │            │
+└─────────┴────────────┘
+```
+
+**Features:**
+- Icon section height = label height + (raised × 2)
+- Single background color for visual conformity
+- Available via `raised=N` parameter (N pixels above/below)
+- Also accessible in badgefx via `.raised(pixels)` builder method
 
 #### badgefx Crate - Standalone Badge Rendering
 
