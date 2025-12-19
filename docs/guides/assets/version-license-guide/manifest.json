@@ -1,0 +1,985 @@
+{
+  "version": "1.1.0",
+  "created_at": "2025-12-19T09:44:15.896098740+00:00",
+  "backend": "svg",
+  "assets_dir": "docs/guides/assets/version-license-guide",
+  "total_assets": 74,
+  "total_size_bytes": 34629,
+  "generator_version": "1.0.0",
+  "assets": [
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_b5903e6df93de08a.svg",
+      "sha256": "b5903e6df93de08a415ee3e740c28ea436b34b6dff1ba9539c8c8857a711ff36",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.896435285+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_e73d6eb731346322.svg",
+      "sha256": "e73d6eb73134632296f37c3be64cb601b872a0267cf2539f819003d9e0336953",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.896693381+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_c050bdbfa66fd35a.svg",
+      "sha256": "c050bdbfa66fd35a120a62243aa4d4a418032f1854ded5771019a54ca919bce5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.896939067+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_b5903e6df93de08a.svg",
+      "sha256": "b5903e6df93de08a415ee3e740c28ea436b34b6dff1ba9539c8c8857a711ff36",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.897016327+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_29f24d9cb5c465e6.svg",
+      "sha256": "29f24d9cb5c465e63b9f78a08f5702c916230834e33600439acc4cc2c8217719",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.897237332+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_cf1da21a9e2df1cc.svg",
+      "sha256": "cf1da21a9e2df1cc66a90afa1bed9877b278cce6d239e03d2bdbd69e7595b73a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.897496190+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_5d4b1bd6a66fbd84.svg",
+      "sha256": "5d4b1bd6a66fbd8461de096fafe119aaafe2b85c7c2dc5474e40c4ef786c827c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.897740032+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_9acccc5c652cccc7.svg",
+      "sha256": "9acccc5c652cccc74c5cb2068eec8a36988205ff19965865196e0aeed8b16d9b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 306,
+      "generated_at": "2025-12-19T09:44:15.897987754+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_cf68c743712ab6bc.svg",
+      "sha256": "cf68c743712ab6bc8fab7d4ec460dc9b6f051755c73221877beb2670f9c0f36b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 308,
+      "generated_at": "2025-12-19T09:44:15.898197813+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_05ff18b1f7e52759.svg",
+      "sha256": "05ff18b1f7e527596462c2a053b30287fcfb0f1e6536aa50130d112ecaa4c1e5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 306,
+      "generated_at": "2025-12-19T09:44:15.898439104+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_46eda57bd94ecbdb.svg",
+      "sha256": "46eda57bd94ecbdb95c364ad16a5bf923ee602733d93afb56fb1ea1cfde62431",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 309,
+      "generated_at": "2025-12-19T09:44:15.898655520+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_cfa17153a02f3d97.svg",
+      "sha256": "cfa17153a02f3d976e642763845cee515509806206bafbba09613138ed5e0b87",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F97316",
+        "style": "flat-square"
+      },
+      "size_bytes": 307,
+      "generated_at": "2025-12-19T09:44:15.898907385+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_7b1a809527fe1f13.svg",
+      "sha256": "7b1a809527fe1f135af32bd015a6fa9170e5d29f14a3793b67a9569b818cb516",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F97316",
+        "style": "flat-square"
+      },
+      "size_bytes": 309,
+      "generated_at": "2025-12-19T09:44:15.899121799+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_57142a90f2fcbbb3.svg",
+      "sha256": "57142a90f2fcbbb3adad6d298f8577304429197d84e71e0433d41c5658ed6b53",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 305,
+      "generated_at": "2025-12-19T09:44:15.899388671+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_9aac1c5b025104e0.svg",
+      "sha256": "9aac1c5b025104e090260b966767b0d783727dc03ec64209dee60356e1b87ba4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 310,
+      "generated_at": "2025-12-19T09:44:15.899637816+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_227e34b9124b0f22.svg",
+      "sha256": "227e34b9124b0f22d66d2a521aaf71dd7b7471d1e931f41974dcc4eb018d232c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 309,
+      "generated_at": "2025-12-19T09:44:15.899850293+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_cbedb484a8a8d855.svg",
+      "sha256": "cbedb484a8a8d855beffa3411a4acac4facc70837b591012a8945c14dcc479c4",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 312,
+      "generated_at": "2025-12-19T09:44:15.900048141+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_e6c77cb498fb19bd.svg",
+      "sha256": "e6c77cb498fb19bdaed884d0ac69f32c45ce10b41608ed0f49d9dda5510b340b",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 305,
+      "generated_at": "2025-12-19T09:44:15.900282225+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_b5903e6df93de08a.svg",
+      "sha256": "b5903e6df93de08a415ee3e740c28ea436b34b6dff1ba9539c8c8857a711ff36",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.900353256+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_41161b7cd5883f9a.svg",
+      "sha256": "41161b7cd5883f9a59127f9866e9b7e25154ae8784348ede795a9d2502d5d850",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.900622581+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_b893506546ea2c6e.svg",
+      "sha256": "b893506546ea2c6ef6960c4d4a31a53e10736de117c11a2b6f0579a6afb750b5",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F97316",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.900864266+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_492057cb996cb78e.svg",
+      "sha256": "492057cb996cb78e9832741c870382b52fa75a3ce85efed2a2b4572ff27f9ec7",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "8B5CF6",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.901073699+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_f929bac19030b184.svg",
+      "sha256": "f929bac19030b18470af6374c6677a8c2966e27fc1723eb9a6f3f100d9c59fc3",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.901272073+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_fd35f14f01731225.svg",
+      "sha256": "fd35f14f01731225433bf460e81aaf7a6eebaeea1ed73693cf7385ae757c3d79",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 300,
+      "generated_at": "2025-12-19T09:44:15.901496583+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_10cf270530d35e71.svg",
+      "sha256": "10cf270530d35e71e9923362d0f64f11e0ccd332252b10914abf16044749ad12",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 300,
+      "generated_at": "2025-12-19T09:44:15.901757896+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_3b18a92c6c73492c.svg",
+      "sha256": "3b18a92c6c73492c484519d24f55607ff4eb214948dbc169aeffd5a9eb5134b1",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "2B6CB0",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.901989786+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_817027d3d5769d55.svg",
+      "sha256": "817027d3d5769d55812fb0284ec6f0d29aa161be97ffee9725d5bf587da2c4ca",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6B46C1",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.902225540+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_3291a46b616028da.svg",
+      "sha256": "3291a46b616028daa6617ad387a802165fee3dcc8d108f2e3f73788f2457b48d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.902440795+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_a295dcc06519763d.svg",
+      "sha256": "a295dcc06519763dc8be9daf8ed073399acd6636f2d6f28ea014e0f9551a3b7a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.902722096+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_cc76a4c888a4babb.svg",
+      "sha256": "cc76a4c888a4babbfea0bda7255f395f9b5b75b190e451e0d69124809e828b14",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "plastic"
+      },
+      "size_bytes": 615,
+      "generated_at": "2025-12-19T09:44:15.902958448+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_d551cf1f41ecb2fd.svg",
+      "sha256": "d551cf1f41ecb2fd98073c3a3e687e99a1b1ff8e36e7dbcd4ed2d3d6c813e206",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "for-the-badge"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.903181279+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_786cabc60dc7e642.svg",
+      "sha256": "786cabc60dc7e642b83adc7771043bb8025e7b7b1655b740b9f332d5d0e46074",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.903400886+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_e952000834310ef7.svg",
+      "sha256": "e952000834310ef73c29f70205c2fb4c25141d6561874f23796a883a37964b2d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 305,
+      "generated_at": "2025-12-19T09:44:15.903638684+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_ee28fc71dbacec07.svg",
+      "sha256": "ee28fc71dbacec07678f14151415fd0c173d8b70c808ecca358453cb56ef1f05",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.903903191+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_786cabc60dc7e642.svg",
+      "sha256": "786cabc60dc7e642b83adc7771043bb8025e7b7b1655b740b9f332d5d0e46074",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.903976523+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_e952000834310ef7.svg",
+      "sha256": "e952000834310ef73c29f70205c2fb4c25141d6561874f23796a883a37964b2d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 305,
+      "generated_at": "2025-12-19T09:44:15.904053142+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_d0a378d8ea916e02.svg",
+      "sha256": "d0a378d8ea916e0286b0dce86c985a34e3d28e3eb46c2cf7b9dc0d071eb833c2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 307,
+      "generated_at": "2025-12-19T09:44:15.904256918+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_fff70b4f7b675b06.svg",
+      "sha256": "fff70b4f7b675b0689d70a8fbf251be7a86c631640bd4af6dcaf5509430e8017",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 307,
+      "generated_at": "2025-12-19T09:44:15.904464317+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_41b2c943f98b19aa.svg",
+      "sha256": "41b2c943f98b19aa66de72cf073788fc4b3ff34c47e999197add05e41cba1d93",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.904738197+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_01b1b9c2138a54b7.svg",
+      "sha256": "01b1b9c2138a54b7113d7cb94cc8b184656a5b8b8a5ef29026ba4e5872a83889",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 303,
+      "generated_at": "2025-12-19T09:44:15.904976965+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_871c20e9a2b63c99.svg",
+      "sha256": "871c20e9a2b63c99f45521ff5427bff309184cf5a41f2a4c35ec57119af96608",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 303,
+      "generated_at": "2025-12-19T09:44:15.905207035+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_a67fd56bd32027c7.svg",
+      "sha256": "a67fd56bd32027c78b99fb34cbd3a69ececb42386942cb5bad36b47fcb71e658",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.905403934+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_27e016de60e384bf.svg",
+      "sha256": "27e016de60e384bf03e336a3d380bf33546ceedf2016b3463def2e812c420378",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "3B82F6",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.905605882+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_ee28fc71dbacec07.svg",
+      "sha256": "ee28fc71dbacec07678f14151415fd0c173d8b70c808ecca358453cb56ef1f05",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.905673807+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_45ace2cc3a42af34.svg",
+      "sha256": "45ace2cc3a42af340ce54438379c2fc2887bf53508e914d3a630382a5c96dcf6",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.905942352+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_8f0eb3bc91a53810.svg",
+      "sha256": "8f0eb3bc91a53810b529dbfae35b8d3fee5fe3853a706b15af3fd886cef9d543",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 303,
+      "generated_at": "2025-12-19T09:44:15.906173663+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_79332b3955a66d15.svg",
+      "sha256": "79332b3955a66d15122bd21f1a9ae714b3803706480c091bb7b28e2ee93b230d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "06B6D4",
+        "style": "flat-square"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.906391791+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_9095adfff894e5ba.svg",
+      "sha256": "9095adfff894e5ba424b638c065d979bccc01e10775b40a4c1b6e39692787374",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "06B6D4",
+        "style": "flat-square"
+      },
+      "size_bytes": 304,
+      "generated_at": "2025-12-19T09:44:15.906593478+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_5758d3e0b9270255.svg",
+      "sha256": "5758d3e0b9270255f4dd56516329c5927dd65b0f297a0a43ab2a06cadb1f43a2",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6B7280",
+        "style": "flat-square"
+      },
+      "size_bytes": 306,
+      "generated_at": "2025-12-19T09:44:15.906822790+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_88b39d90e396f395.svg",
+      "sha256": "88b39d90e396f395a45d8513772e6351a3ec84d5045b656dfb2db94765c95a2e",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6B7280",
+        "style": "flat-square"
+      },
+      "size_bytes": 305,
+      "generated_at": "2025-12-19T09:44:15.907043439+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_742f30635622e632.svg",
+      "sha256": "742f30635622e63237ad816eadcb98dcaa93eb2e403dfbb41f7b801b9f325af6",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 306,
+      "generated_at": "2025-12-19T09:44:15.907276328+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_8b5ccf4c765de518.svg",
+      "sha256": "8b5ccf4c765de518d7593258d1302fac45393af73d803397eeed143804374fc3",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.907501175+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_1a1b7b375ed4f32a.svg",
+      "sha256": "1a1b7b375ed4f32a1780eced42675f3da48b49e083177dbf034d494c555a0f65",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 300,
+      "generated_at": "2025-12-19T09:44:15.907729823+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_e7e91268834a3ebe.svg",
+      "sha256": "e7e91268834a3ebede3f427cfe41a78e669815baedc9045a350290d802a2ab51",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "2B6CB0",
+        "style": "flat-square"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.907971150+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_af8fbd563deb78fe.svg",
+      "sha256": "af8fbd563deb78fe5ca26273f037e134f246dfbaa0fc75f6eaf5ede465b1b915",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "6B46C1",
+        "style": "flat-square"
+      },
+      "size_bytes": 305,
+      "generated_at": "2025-12-19T09:44:15.908217155+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_43f1a9a1995737b3.svg",
+      "sha256": "43f1a9a1995737b33f6136321f462278d832652763bf6bae86a36c4c13a4bebe",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "F41C80",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.908446806+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/tech_9b07f32e2323dccd.svg",
+      "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 2295,
+      "generated_at": "2025-12-19T09:44:15.908700467+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_b5903e6df93de08a.svg",
+      "sha256": "b5903e6df93de08a415ee3e740c28ea436b34b6dff1ba9539c8c8857a711ff36",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.908791309+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_786cabc60dc7e642.svg",
+      "sha256": "786cabc60dc7e642b83adc7771043bb8025e7b7b1655b740b9f332d5d0e46074",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.908873652+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/tech_b30721c0a0394c2e.svg",
+      "sha256": "b30721c0a0394c2e5e726b03ec8ee1b9ae1fb536aaf17e82858c2dbd2bb214e8",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "typescript",
+        "bg_color": "3178C6",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1654,
+      "generated_at": "2025-12-19T09:44:15.909113994+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/tech_fa93a6b13b34f67b.svg",
+      "sha256": "fa93a6b13b34f67b5585af60118a8929721782bd96dce4e6b1ee7162df749421",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "react",
+        "bg_color": "61DAFB",
+        "logo_color": "000000",
+        "style": "flat-square"
+      },
+      "size_bytes": 3303,
+      "generated_at": "2025-12-19T09:44:15.909366882+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_40b0441ea2d03487.svg",
+      "sha256": "40b0441ea2d03487886c973c8b1b4f67026e25052f916f58c1b79634431d6e09",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 306,
+      "generated_at": "2025-12-19T09:44:15.909583790+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_e952000834310ef7.svg",
+      "sha256": "e952000834310ef73c29f70205c2fb4c25141d6561874f23796a883a37964b2d",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat-square"
+      },
+      "size_bytes": 305,
+      "generated_at": "2025-12-19T09:44:15.909656046+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/tech_c5b0cf28158ee95f.svg",
+      "sha256": "c5b0cf28158ee95f1679a5f28cd6254a05d81dff4bbbc4160e9649e73b8a5f60",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "python",
+        "bg_color": "3776AB",
+        "logo_color": "FFFFFF",
+        "style": "flat-square"
+      },
+      "size_bytes": 1895,
+      "generated_at": "2025-12-19T09:44:15.909906043+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_55a14df18ee1628a.svg",
+      "sha256": "55a14df18ee1628a2ea9fc507adc4e6542839d3e3014d070f51716988e566012",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EF4444",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.910185593+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_ee28fc71dbacec07.svg",
+      "sha256": "ee28fc71dbacec07678f14151415fd0c173d8b70c808ecca358453cb56ef1f05",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "EAB308",
+        "style": "flat-square"
+      },
+      "size_bytes": 302,
+      "generated_at": "2025-12-19T09:44:15.910314941+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/tech_837edd35922729ee.svg",
+      "sha256": "837edd35922729ee42c4bec986eb5716606979afd3e69e62287ab095a053d599",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "flat"
+      },
+      "size_bytes": 2295,
+      "generated_at": "2025-12-19T09:44:15.910584914+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_a295dcc06519763d.svg",
+      "sha256": "a295dcc06519763dc8be9daf8ed073399acd6636f2d6f28ea014e0f9551a3b7a",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.910657856+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_49e5d538189e98d3.svg",
+      "sha256": "49e5d538189e98d3cb74e0535fbc1fdf3df1a7b7c3a9a393c228f2b09e98b033",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "flat"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.910905784+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/tech_cd9cdaecb20390d2.svg",
+      "sha256": "cd9cdaecb20390d241b9088e65090fb864e65d9909df787bbd13d86386876e57",
+      "type": "tech",
+      "primitive": {
+        "kind": "Tech",
+        "name": "rust",
+        "bg_color": "DEA584",
+        "logo_color": "000000",
+        "style": "for-the-badge"
+      },
+      "size_bytes": 2295,
+      "generated_at": "2025-12-19T09:44:15.911289485+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_d551cf1f41ecb2fd.svg",
+      "sha256": "d551cf1f41ecb2fd98073c3a3e687e99a1b1ff8e36e7dbcd4ed2d3d6c813e206",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "for-the-badge"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.911418915+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_92bc676149ce35ad.svg",
+      "sha256": "92bc676149ce35ad48fbc0c580a44dd69ebeeea4a78d751ef10a1cd0016fba11",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "22C55E",
+        "style": "for-the-badge"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.911708375+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_b75fc7e1e39c6a9c.svg",
+      "sha256": "b75fc7e1e39c6a9c898decaec68b6f4653e59359235e0ca00fe410d62ad59686",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1a2e",
+        "style": "flat-square"
+      },
+      "size_bytes": 301,
+      "generated_at": "2025-12-19T09:44:15.911993821+00:00",
+      "generator_version": "1.0.0"
+    },
+    {
+      "path": "docs/guides/assets/version-license-guide/swatch_2ced75446266bc56.svg",
+      "sha256": "2ced75446266bc562a6514e4ce25abc57dad110ddddfca23cf3156100af6032c",
+      "type": "swatch",
+      "primitive": {
+        "kind": "Swatch",
+        "color": "1a1a2e",
+        "style": "flat-square"
+      },
+      "size_bytes": 298,
+      "generated_at": "2025-12-19T09:44:15.912218091+00:00",
+      "generator_version": "1.0.0"
+    }
+  ]
+}

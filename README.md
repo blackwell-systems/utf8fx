@@ -252,6 +252,7 @@ mdfx build input.md --all-targets
 | [Frames](docs/guides/FRAMES-GUIDE.md) | 29 borders |
 | [Glyphs](docs/guides/GLYPHS-GUIDE.md) | 500+ symbols |
 | [Tech Badges](docs/guides/TECH-GUIDE.md) | Brand logos |
+| [Version & License](docs/guides/VERSION-LICENSE-GUIDE.md) | Semantic badges |
 | [CLI](docs/guides/CLI-GUIDE.md) | Commands |
 
 ---

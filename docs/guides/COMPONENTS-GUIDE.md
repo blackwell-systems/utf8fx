@@ -639,6 +639,8 @@ Volume: {{ui:progress:65:width=150:thumb=12/}}
 | `swatch` | native | yes | inline, block |
 | `tech` | native | yes | inline, block |
 | `tech-group` | native | no | block |
+| `version` | native | yes | inline, block |
+| `license` | native | yes | inline, block |
 | `progress` | native | yes | inline, block |
 | `donut` | native | yes | inline, block |
 | `gauge` | native | yes | inline, block |
