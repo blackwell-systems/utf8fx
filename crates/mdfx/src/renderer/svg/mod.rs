@@ -125,7 +125,7 @@ impl Renderer for SvgBackend {
                             .replace('+', "%2B")
                             .replace('&', "%26")
                     };
-                    let url = format!(
+                    let shields_url = format!(
                         "https://img.shields.io/badge/{}-{}-{}?style={}&logo={}&logoColor={}",
                         encode(label_text),
                         encode(label_text),
@@ -134,7 +134,12 @@ impl Renderer for SvgBackend {
                         encode(&cfg.name),
                         cfg.logo_color
                     );
-                    return Ok(RenderedAsset::InlineMarkdown(format!("![]({})", url)));
+                    let markdown = if let Some(link_url) = &cfg.url {
+                        format!("[![]({})]({})", shields_url, link_url)
+                    } else {
+                        format!("![]({})", shields_url)
+                    };
+                    return Ok(RenderedAsset::InlineMarkdown(markdown));
                 }
                 // Otherwise render as SVG
                 tech::render_with_options(
@@ -313,8 +318,16 @@ impl Renderer for SvgBackend {
             let out_dir = self.out_dir.trim_end_matches('/');
             let relative_path = format!("{}/{}", out_dir, filename);
 
-            // Generate markdown image reference
-            let markdown_ref = format!("![]({})", relative_path);
+            // Generate markdown image reference, optionally wrapped in a link
+            let markdown_ref = if let Primitive::Tech(cfg) = primitive {
+                if let Some(url) = &cfg.url {
+                    format!("[![]({})]({})", relative_path, url)
+                } else {
+                    format!("![]({})", relative_path)
+                }
+            } else {
+                format!("![]({})", relative_path)
+            };
             Ok(RenderedAsset::File {
                 relative_path,
                 bytes: svg.into_bytes(),

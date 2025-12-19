@@ -56,6 +56,8 @@ pub struct TechConfig {
     pub raised: Option<u32>,
     /// Logo/icon size in pixels (default: 14 for two-segment, 16 for icon-only).
     pub logo_size: Option<u32>,
+    /// URL to link the badge to (wraps markdown image in link syntax).
+    pub url: Option<String>,
 }
 
 impl Default for TechConfig {
@@ -80,6 +82,7 @@ impl Default for TechConfig {
             bg_right: None,
             raised: None,
             logo_size: None,
+            url: None,
         }
     }
 }

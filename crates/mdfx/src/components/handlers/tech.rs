@@ -137,6 +137,9 @@ pub fn handle(
     // Logo/icon size - supports presets (xs, sm, md, lg, xl, xxl) or custom px values
     let logo_size = parse_logo_size(params.get("logo_size").or_else(|| params.get("icon_size")));
 
+    // URL for clickable badge links
+    let url = params.get("url").cloned();
+
     Ok(ComponentOutput::Primitive(Primitive::Tech(TechConfig {
         name,
         bg_color,
@@ -157,5 +160,6 @@ pub fn handle(
         bg_right,
         raised,
         logo_size,
+        url,
     })))
 }

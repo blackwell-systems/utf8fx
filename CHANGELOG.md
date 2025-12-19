@@ -174,6 +174,30 @@ mdfx lsp install  # Install editor extension
 
 **Backward compatibility:** Editor configurations should update from `mdfx lsp` to `mdfx lsp run`.
 
+#### Clickable Badge Links (`url`)
+
+Tech badges can now be wrapped in markdown links using the `url` parameter:
+
+```markdown
+{{ui:tech:rust:url=https://rust-lang.org/}}
+{{ui:tech:docker:url=https://docker.com/}}
+```
+
+**Output:**
+```markdown
+[![](assets/tech_xxx.svg)](https://rust-lang.org/)
+[![](assets/tech_xxx.svg)](https://docker.com/)
+```
+
+This works with all rendering modes:
+- SVG file output: `[![](path/to/badge.svg)](url)`
+- Shields.io (`source=shields`): `[![](shields.io/url)](url)`
+
+Use cases:
+- Link to project homepages in README badges
+- Link to documentation or download pages
+- Create navigation badges in documentation
+
 #### Tech Badge IntelliSense (LSP)
 
 The LSP server now provides full IntelliSense support for tech badges with contextual completions:

@@ -17,6 +17,7 @@ Tech badges display technology logos with brand colors using Simple Icons. This 
 - [Custom Icons](#custom-icons)
 - [Logo Size](#logo-size)
 - [Badge Styles](#badge-styles)
+- [Badge Links](#badge-links)
 - [Tech Groups](#tech-groups)
 - [Complete Examples](#complete-examples)
 - [Backend Differences](#backend-differences)
@@ -70,6 +71,7 @@ Where `NAME` is a Simple Icons technology name (lowercase, no spaces).
 | `source` | enum | svg | Rendering source: `svg` (local file) or `shields` (shields.io URL) |
 | `icon` | string | none | Custom SVG path data for unsupported technologies |
 | `logo_size` | preset/number | md | Logo size: `xs` (10px), `sm` (12px), `md` (14px), `lg` (16px), `xl` (18px), or custom px |
+| `url` | string | none | URL to link badge to (wraps in markdown link syntax) |
 
 </details>
 
@@ -380,6 +382,56 @@ The `style` parameter changes the badge appearance:
 | `social` | `{{ui:tech:rust:style=social/}}` | ![](assets/tech-guide/tech_bda69193c17addc0.svg) |
 | `outline` | `{{ui:tech:rust:style=outline/}}` | ![](assets/tech-guide/tech_24f5e6e760ca333b.svg) |
 | `ghost` | Alias for `outline` | — |
+
+---
+
+## Badge Links
+
+Make badges clickable with the `url` parameter. The badge image is wrapped in a markdown link.
+
+| Syntax | Rendered |
+|--------|----------|
+| `{{ui:tech:rust:url=https://rust-lang.org/}}` | [![](assets/tech-guide/tech_4d3dc36ab190463c.svg)](https://rust-lang.org/) |
+| `{{ui:tech:docker:url=https://docker.com/}}` | [![](assets/tech-guide/tech_c10aebf597ab6c36.svg)](https://docker.com/) |
+| `{{ui:tech:python:url=https://python.org/}}` | [![](assets/tech-guide/tech_612cae4b1bd8fe91.svg)](https://python.org/) |
+
+### Use Cases
+
+**Project homepage links in README:**
+
+```markdown
+{{ui:tech:rust:url=https://github.com/your/rust-project/}}
+{{ui:tech:typescript:url=https://github.com/your/ts-project/}}
+```
+
+**Documentation links:**
+
+```markdown
+{{ui:tech:docker:url=https://docs.docker.com/}}
+{{ui:tech:kubernetes:url=https://kubernetes.io/docs/}}
+```
+
+**Download/install pages:**
+
+```markdown
+{{ui:tech:rust:label=Install:url=https://rustup.rs/}}
+{{ui:tech:nodejs:label=Download:url=https://nodejs.org/}}
+```
+
+### Output Format
+
+The `url` parameter wraps the badge in markdown link syntax:
+
+```markdown
+<!-- Input -->
+{{ui:tech:rust:url=https://rust-lang.org/}}
+
+<!-- SVG output -->
+[![](assets/tech_xxx.svg)](https://rust-lang.org/)
+
+<!-- shields.io output (source=shields) -->
+[![](https://img.shields.io/...)](https://rust-lang.org/)
+```
 
 ---
 
