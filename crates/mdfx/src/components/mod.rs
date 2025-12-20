@@ -312,8 +312,15 @@ impl ComponentsRenderer {
                     "pypi" => {
                         handlers::handle_pypi(&remaining_args, &params, &style, resolve, fetch_ctx)
                     }
+                    "codecov" => handlers::handle_codecov(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
                     _ => Err(Error::ParseError(format!(
-                        "Unknown live source '{}'. Available: github, npm, crates, pypi",
+                        "Unknown live source '{}'. Available: github, npm, crates, pypi, codecov",
                         source
                     ))),
                 }

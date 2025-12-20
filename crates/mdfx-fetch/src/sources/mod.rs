@@ -1,10 +1,12 @@
 //! Data sources for fetching metrics from external APIs
 
+mod codecov;
 mod crates;
 mod github;
 mod npm;
 mod pypi;
 
+pub use codecov::CodecovSource;
 pub use crates::CratesSource;
 pub use github::GitHubSource;
 pub use npm::NpmSource;
@@ -73,6 +75,7 @@ impl SourceRegistry {
                 Box::new(NpmSource::new()),
                 Box::new(CratesSource::new()),
                 Box::new(PyPISource::new()),
+                Box::new(CodecovSource::new()),
             ],
         }
     }
@@ -113,6 +116,7 @@ mod tests {
     #[case("npm")]
     #[case("crates")]
     #[case("pypi")]
+    #[case("codecov")]
     fn test_registry_has_source(#[case] source_id: &str) {
         let registry = SourceRegistry::new();
         assert!(
@@ -130,5 +134,6 @@ mod tests {
         assert!(sources.contains(&"npm"));
         assert!(sources.contains(&"crates"));
         assert!(sources.contains(&"pypi"));
+        assert!(sources.contains(&"codecov"));
     }
 }

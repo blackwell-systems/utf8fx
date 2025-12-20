@@ -49,6 +49,15 @@ impl DataValue {
             _ => None,
         }
     }
+
+    /// Get as float, returning None if not a float or number
+    pub fn as_float(&self) -> Option<f64> {
+        match self {
+            DataValue::Float(f) => Some(*f),
+            DataValue::Number(n) => Some(*n as f64),
+            _ => None,
+        }
+    }
 }
 
 impl fmt::Display for DataValue {

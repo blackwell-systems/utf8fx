@@ -11,7 +11,7 @@ All live data badges use the `live:` namespace:
 ```
 
 Where:
-- `source` - Data source: `github`, `npm`, `crates`, or `pypi`
+- `source` - Data source: `github`, `npm`, `crates`, `pypi`, or `codecov`
 - `query` - Source-specific query (repo, package name, etc.)
 - `metric` - Metric to fetch (optional, defaults vary by source)
 
@@ -128,6 +128,45 @@ Fetch package information from PyPI.
 {{ui:live:pypi:flask:license/}}      <!-- license -->
 ```
 
+### Codecov
+
+Fetch code coverage metrics from Codecov.
+
+**Syntax:**
+```markdown
+{{ui:live:codecov:owner/repo:metric/}}
+{{ui:live:codecov:service/owner/repo:metric/}}
+```
+
+**Query formats:**
+- `owner/repo` - Uses GitHub by default
+- `service/owner/repo` - Explicit service (github, gitlab, bitbucket)
+
+**Metrics:**
+| Metric | Description | Example |
+|--------|-------------|---------|
+| `coverage` | Coverage percentage (default) | `{{ui:live:codecov:rust-lang/rust:coverage/}}` |
+| `lines` | Total lines tracked | `{{ui:live:codecov:facebook/react:lines/}}` |
+| `hits` | Lines with coverage | `{{ui:live:codecov:microsoft/vscode:hits/}}` |
+| `misses` | Lines without coverage | `{{ui:live:codecov:torvalds/linux:misses/}}` |
+| `files` | Number of files tracked | `{{ui:live:codecov:rust-lang/rust:files/}}` |
+| `branches` | Branch coverage count | `{{ui:live:codecov:rust-lang/rust:branches/}}` |
+
+**Examples:**
+```markdown
+{{ui:live:codecov:rust-lang/rust/}}              <!-- coverage (default) -->
+{{ui:live:codecov:rust-lang/rust:lines/}}        <!-- total lines -->
+{{ui:live:codecov:gitlab/owner/repo:coverage/}}  <!-- GitLab repo -->
+```
+
+**Coverage colors:**
+Coverage badges automatically color-code based on percentage:
+- 90%+ → Green (excellent)
+- 80-89% → Lime (good)
+- 70-79% → Yellow (acceptable)
+- 50-69% → Orange (needs work)
+- <50% → Red (poor)
+
 ## Styling Options
 
 Live badges support the same styling options as other components:
@@ -201,8 +240,10 @@ Default cache directory is `.mdfx-cache` in the current working directory.
 │   └── typescript_license.json
 ├── crates/
 │   └── serde_version.json
-└── pypi/
-    └── requests_version.json
+├── pypi/
+│   └── requests_version.json
+└── codecov/
+    └── rust-lang_rust_coverage.json
 ```
 
 ## Error Handling
@@ -224,6 +265,7 @@ Be aware of API rate limits:
 | npm | No limit | Be respectful |
 | crates.io | No limit | Has user-agent requirement |
 | PyPI | No limit | Be respectful |
+| Codecov | No limit | Has user-agent requirement |
 
 ## Examples
 
@@ -235,6 +277,7 @@ Be aware of API rate limits:
 | Metric | Value |
 |--------|-------|
 | Stars | {{ui:live:github:myorg/myrepo:stars/}} |
+| Coverage | {{ui:live:codecov:myorg/myrepo:coverage/}} |
 | Version | {{ui:live:npm:my-package:version/}} |
 | Downloads | {{ui:live:crates:my-crate:downloads/}} |
 | License | {{ui:live:github:myorg/myrepo:license/}} |

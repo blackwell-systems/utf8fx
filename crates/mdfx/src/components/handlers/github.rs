@@ -278,6 +278,46 @@ pub fn handle_pypi(
     )
 }
 
+/// Handle codecov source for live component
+///
+/// Syntax: {{ui:live:codecov:owner/repo:metric/}}
+///
+/// Metrics:
+/// - coverage - Coverage percentage (default)
+/// - lines - Total lines covered
+/// - hits - Lines with coverage
+/// - misses - Lines without coverage
+/// - files - Number of files tracked
+/// - branches - Number of branches covered
+///
+/// Query format:
+/// - owner/repo - Uses GitHub by default
+/// - service/owner/repo - Explicit service (github, gitlab, bitbucket)
+///
+/// Examples:
+/// - {{ui:live:codecov:rust-lang/rust/}}
+/// - {{ui:live:codecov:rust-lang/rust:coverage/}}
+/// - {{ui:live:codecov:gitlab/owner/repo:coverage/}}
+#[cfg(feature = "fetch")]
+pub fn handle_codecov(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source(
+        "codecov",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "coverage",
+        "F01F7A", // Codecov pink
+    )
+}
+
 #[cfg(all(test, feature = "fetch"))]
 mod tests {
     use super::*;
@@ -305,6 +345,7 @@ mod tests {
     #[case("npm", "react")]
     #[case("crates", "serde")]
     #[case("pypi", "requests")]
+    #[case("codecov", "rust-lang/rust")]
     fn test_source_offline_no_cache(#[case] source: &str, #[case] query: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
@@ -315,6 +356,7 @@ mod tests {
             "npm" => handle_npm(&args, &params, "flat", |c| c.to_string(), &ctx),
             "crates" => handle_crates(&args, &params, "flat", |c| c.to_string(), &ctx),
             "pypi" => handle_pypi(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "codecov" => handle_codecov(&args, &params, "flat", |c| c.to_string(), &ctx),
             _ => panic!("Unknown source"),
         };
 
@@ -334,6 +376,7 @@ mod tests {
     #[case("npm")]
     #[case("crates")]
     #[case("pypi")]
+    #[case("codecov")]
     fn test_missing_query(#[case] source: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
@@ -343,6 +386,7 @@ mod tests {
             "npm" => handle_npm(&[], &params, "flat", |c| c.to_string(), &ctx),
             "crates" => handle_crates(&[], &params, "flat", |c| c.to_string(), &ctx),
             "pypi" => handle_pypi(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "codecov" => handle_codecov(&[], &params, "flat", |c| c.to_string(), &ctx),
             _ => panic!("Unknown source"),
         };
 

@@ -334,6 +334,39 @@ The LSP server now provides full IntelliSense support for tech badges with conte
 - `source`: shields
 - Color params (`bg`, `bg_left`, `bg_right`, `logo`, `text`, `border`): All palette colors
 
+#### Codecov Live Badge Source
+
+New `codecov` source for live badges - fetch code coverage metrics directly from Codecov:
+
+```markdown
+{{ui:live:codecov:owner/repo/}}                  <!-- coverage (default) -->
+{{ui:live:codecov:owner/repo:coverage/}}         <!-- explicit metric -->
+{{ui:live:codecov:gitlab/owner/repo:coverage/}}  <!-- GitLab/Bitbucket repos -->
+```
+
+**Metrics:**
+| Metric | Description |
+|--------|-------------|
+| `coverage` | Coverage percentage (default) |
+| `lines` | Total lines tracked |
+| `hits` | Lines with coverage |
+| `misses` | Lines without coverage |
+| `files` | Number of files tracked |
+| `branches` | Branch coverage count |
+
+**Coverage colors (automatic):**
+- 90%+ → Green (excellent)
+- 80-89% → Lime (good)
+- 70-79% → Yellow (acceptable)
+- 50-69% → Orange (needs work)
+- <50% → Red (poor)
+
+**Query formats:**
+- `owner/repo` - Uses GitHub by default
+- `service/owner/repo` - Explicit service (github, gitlab, bitbucket)
+
+Requires the `fetch` feature: `cargo build --features fetch`
+
 ### Changed
 
 #### Component Handler Parameter Helpers
