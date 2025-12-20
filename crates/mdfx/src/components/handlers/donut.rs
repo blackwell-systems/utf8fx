@@ -1,8 +1,6 @@
 //! Donut/ring chart component handler
 
-use super::{
-    parse_bool, parse_param, parse_param_opt, resolve_color_opt, resolve_color_with_default,
-};
+use super::{parse_bool, parse_param, parse_thumb_config, resolve_color_opt, resolve_color_with_default};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -38,11 +36,8 @@ pub fn handle(
     let show_label = parse_bool(params, "label", false);
     let label_color = resolve_color_opt(params, "label_color", &resolve_color);
 
-    // Thumb (slider mode)
-    let thumb_size: Option<u32> = parse_param_opt(params, "thumb");
-    let thumb_color = resolve_color_opt(params, "thumb_color", &resolve_color);
-    let thumb_border = resolve_color_opt(params, "thumb_border", &resolve_color);
-    let thumb_border_width: u32 = parse_param(params, "thumb_border_width", 0);
+    // Parse thumb configuration (enables slider mode)
+    let thumb = parse_thumb_config(params, &resolve_color);
 
     Ok(ComponentOutput::Primitive(Primitive::Donut {
         percent,
@@ -52,9 +47,6 @@ pub fn handle(
         fill_color,
         show_label,
         label_color,
-        thumb_size,
-        thumb_color,
-        thumb_border,
-        thumb_border_width,
+        thumb,
     }))
 }

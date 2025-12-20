@@ -1,5 +1,7 @@
 //! Gauge (semi-circular meter) SVG renderer
 
+use crate::primitive::ThumbConfig;
+
 /// Render a gauge (semi-circular meter) using SVG arc paths
 #[allow(clippy::too_many_arguments)]
 pub fn render(
@@ -10,10 +12,7 @@ pub fn render(
     fill_color: &str,
     show_label: bool,
     label_color: Option<&str>,
-    thumb_size: Option<u32>,
-    thumb_color: Option<&str>,
-    thumb_border: Option<&str>,
-    thumb_border_width: u32,
+    thumb: Option<&ThumbConfig>,
 ) -> String {
     // Gauge is a half-circle (180 degrees) arc
     // Size is the width, height is approximately size/2 + space for label
@@ -27,8 +26,8 @@ pub fn render(
     let arc_y = radius + (thickness as f32 / 2.0);
 
     // Calculate padding for thumb (thumb might extend beyond arc)
-    let thumb_padding = thumb_size
-        .map(|t| (t / 2).saturating_sub(thickness / 2))
+    let thumb_padding = thumb
+        .map(|t| (t.size / 2).saturating_sub(thickness / 2))
         .unwrap_or(0);
 
     // SVG height: half circle height + space for label if shown + thumb padding
@@ -66,21 +65,21 @@ pub fn render(
     };
 
     // Build thumb element if requested
-    let thumb_elem = if let Some(thumb_sz) = thumb_size {
-        let t_color = thumb_color.unwrap_or(fill_color);
+    let thumb_elem = if let Some(thumb_cfg) = thumb {
+        let t_color = thumb_cfg.color.as_deref().unwrap_or(fill_color);
         // Calculate thumb position on the semi-circle arc
         // Angle: starts at left (180°), progresses to right (0°)
         let angle_deg = 180.0 - (percent as f32 * 180.0 / 100.0);
         let angle_rad = angle_deg * std::f32::consts::PI / 180.0;
         let thumb_x = center_x + radius * angle_rad.cos();
         let thumb_y = arc_y - radius * angle_rad.sin();
-        let thumb_r = thumb_sz as f32 / 2.0;
+        let thumb_r = thumb_cfg.size as f32 / 2.0;
         // Build thumb border attributes if specified
-        let border_attr = if let Some(bc) = thumb_border {
-            if thumb_border_width > 0 {
+        let border_attr = if let Some(bc) = &thumb_cfg.border {
+            if thumb_cfg.border_width > 0 {
                 format!(
                     " stroke=\"#{}\" stroke-width=\"{}\"",
-                    bc, thumb_border_width
+                    bc, thumb_cfg.border_width
                 )
             } else {
                 String::new()

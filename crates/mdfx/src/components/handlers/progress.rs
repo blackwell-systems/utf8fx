@@ -1,8 +1,8 @@
 //! Progress bar component handler
 
 use super::{
-    get_string, parse_bool, parse_param, parse_param_opt, resolve_color_opt,
-    resolve_color_with_default, resolve_color_with_fallback,
+    parse_bool, parse_param, parse_thumb_config, resolve_color_opt, resolve_color_with_default,
+    resolve_color_with_fallback,
 };
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
@@ -48,13 +48,8 @@ pub fn handle(
         if border_color.is_some() { 1 } else { 0 },
     );
 
-    // Slider/thumb mode params
-    let thumb_size: Option<u32> = parse_param_opt(params, "thumb");
-    let thumb_width: Option<u32> = parse_param_opt(params, "thumb_width");
-    let thumb_color = resolve_color_opt(params, "thumb_color", &resolve_color);
-    let thumb_shape = get_string(params, "thumb_shape", "circle");
-    let thumb_border = resolve_color_opt(params, "thumb_border", &resolve_color);
-    let thumb_border_width: u32 = parse_param(params, "thumb_border_width", 0);
+    // Parse thumb configuration (enables slider mode)
+    let thumb = parse_thumb_config(params, &resolve_color);
 
     Ok(ComponentOutput::Primitive(Primitive::Progress {
         percent,
@@ -68,11 +63,6 @@ pub fn handle(
         label_color,
         border_color,
         border_width,
-        thumb_size,
-        thumb_width,
-        thumb_color,
-        thumb_shape,
-        thumb_border,
-        thumb_border_width,
+        thumb,
     }))
 }

@@ -1,5 +1,7 @@
 //! Donut/ring chart SVG renderer
 
+use crate::primitive::ThumbConfig;
+
 /// Render a donut/ring chart using stroke-dasharray trick
 #[allow(clippy::too_many_arguments)]
 pub fn render(
@@ -10,10 +12,7 @@ pub fn render(
     fill_color: &str,
     show_label: bool,
     label_color: Option<&str>,
-    thumb_size: Option<u32>,
-    thumb_color: Option<&str>,
-    thumb_border: Option<&str>,
-    thumb_border_width: u32,
+    thumb: Option<&ThumbConfig>,
 ) -> String {
     // Use radius ~15.9 so circumference ≈ 100 (makes percentage math easy)
     // Scale radius based on size: r = (size/2 - thickness/2)
@@ -26,8 +25,8 @@ pub fn render(
     let gap_length = circumference - fill_length;
 
     // Calculate viewbox padding for thumb (thumb might extend beyond circle)
-    let thumb_padding = thumb_size
-        .map(|t| (t / 2).saturating_sub(thickness / 2))
+    let thumb_padding = thumb
+        .map(|t| (t.size / 2).saturating_sub(thickness / 2))
         .unwrap_or(0);
     let svg_size = size + thumb_padding * 2;
     let adjusted_center = center + thumb_padding as f32;
@@ -46,21 +45,21 @@ pub fn render(
     };
 
     // Build thumb element if requested
-    let thumb_elem = if let Some(thumb_sz) = thumb_size {
-        let t_color = thumb_color.unwrap_or(fill_color);
+    let thumb_elem = if let Some(thumb_cfg) = thumb {
+        let t_color = thumb_cfg.color.as_deref().unwrap_or(fill_color);
         // Calculate thumb position on the circle
         // Angle: starts at top (-90°), progresses clockwise
         let angle_deg = -90.0 + (percent as f32 * 360.0 / 100.0);
         let angle_rad = angle_deg * std::f32::consts::PI / 180.0;
         let thumb_x = adjusted_center + radius * angle_rad.cos();
         let thumb_y = adjusted_center + radius * angle_rad.sin();
-        let thumb_r = thumb_sz as f32 / 2.0;
+        let thumb_r = thumb_cfg.size as f32 / 2.0;
         // Build thumb border attributes if specified
-        let border_attr = if let Some(bc) = thumb_border {
-            if thumb_border_width > 0 {
+        let border_attr = if let Some(bc) = &thumb_cfg.border {
+            if thumb_cfg.border_width > 0 {
                 format!(
                     " stroke=\"#{}\" stroke-width=\"{}\"",
-                    bc, thumb_border_width
+                    bc, thumb_cfg.border_width
                 )
             } else {
                 String::new()

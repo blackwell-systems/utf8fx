@@ -1,5 +1,7 @@
 //! Progress bar and slider SVG renderer
 
+use crate::primitive::ThumbConfig;
+
 /// Render a progress bar with track and fill
 #[allow(clippy::too_many_arguments)]
 pub fn render(
@@ -14,29 +16,19 @@ pub fn render(
     label_color: Option<&str>,
     border_color: Option<&str>,
     border_width: u32,
-    thumb_size: Option<u32>,
-    thumb_width: Option<u32>,
-    thumb_color: Option<&str>,
-    thumb_shape: &str,
-    thumb_border: Option<&str>,
-    thumb_border_width: u32,
+    thumb: Option<&ThumbConfig>,
 ) -> String {
     // Slider mode: track with thumb at position
-    if let Some(thumb_sz) = thumb_size {
+    if let Some(thumb_cfg) = thumb {
         return render_slider(
             percent,
             width,
             height,
             track_color,
             fill_color,
-            thumb_sz,
-            thumb_width,
-            thumb_color,
-            thumb_shape,
+            thumb_cfg,
             border_color,
             border_width,
-            thumb_border,
-            thumb_border_width,
         );
     }
 
@@ -109,24 +101,23 @@ pub fn render(
 }
 
 /// Render a slider with track and thumb at position
-#[allow(clippy::too_many_arguments)]
 fn render_slider(
     percent: u8,
     width: u32,
     height: u32,
     track_color: &str,
     fill_color: &str,
-    thumb_height: u32,
-    thumb_width: Option<u32>,
-    thumb_color: Option<&str>,
-    thumb_shape: &str,
+    thumb: &ThumbConfig,
     border_color: Option<&str>,
     border_width: u32,
-    thumb_border: Option<&str>,
-    thumb_border_width: u32,
 ) -> String {
-    // Thumb width defaults to thumb_height (square/circle) if not specified
-    let thumb_w = thumb_width.unwrap_or(thumb_height);
+    // Extract thumb config values
+    let thumb_height = thumb.size;
+    let thumb_w = thumb.width.unwrap_or(thumb_height);
+    let thumb_color = thumb.color.as_deref();
+    let thumb_shape = &thumb.shape;
+    let thumb_border = thumb.border.as_deref();
+    let thumb_border_width = thumb.border_width;
 
     // SVG height must accommodate the thumb
     let svg_height = height.max(thumb_height);
@@ -183,7 +174,7 @@ fn render_slider(
     };
 
     // Render thumb based on shape
-    let thumb_elem = match thumb_shape {
+    let thumb_elem = match thumb_shape.as_str() {
         "square" => {
             let half_h = thumb_height / 2;
             let half_w = thumb_w / 2;

@@ -880,10 +880,7 @@ mod tests {
             fill_color: "#FF5722".to_string(),
             show_label: true,
             label_color: Some("#000000".to_string()),
-            thumb_size: None,
-            thumb_color: None,
-            thumb_border: None,
-            thumb_border_width: 0,
+            thumb: None,
         };
         let info = PrimitiveInfo::from(&primitive);
         let PrimitiveInfo::Gauge {

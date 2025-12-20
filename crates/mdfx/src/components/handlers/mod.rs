@@ -126,6 +126,33 @@ pub fn get_string(params: &HashMap<String, String>, key: &str, default: &str) ->
         .unwrap_or_else(|| default.to_string())
 }
 
+use crate::primitive::ThumbConfig;
+
+/// Parse thumb configuration from parameters.
+///
+/// Returns Some(ThumbConfig) if thumb size is specified, None otherwise.
+///
+/// # Example
+/// ```ignore
+/// let thumb = parse_thumb_config(&params, &resolve_color);
+/// ```
+pub fn parse_thumb_config(
+    params: &HashMap<String, String>,
+    resolve: impl Fn(&str) -> String,
+) -> Option<ThumbConfig> {
+    // Thumb is only enabled if thumb size is specified
+    let size: u32 = parse_param_opt(params, "thumb")?;
+
+    Some(ThumbConfig {
+        size,
+        width: parse_param_opt(params, "thumb_width"),
+        color: resolve_color_opt(params, "thumb_color", &resolve),
+        shape: get_string(params, "thumb_shape", "circle"),
+        border: resolve_color_opt(params, "thumb_border", &resolve),
+        border_width: parse_param(params, "thumb_border_width", 0),
+    })
+}
+
 pub mod donut;
 pub mod gauge;
 #[cfg(feature = "fetch")]

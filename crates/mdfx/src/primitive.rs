@@ -16,6 +16,48 @@
 //! Text-based transformations (frames, styles, badges) remain as direct
 //! Unicode rendering and don't use this abstraction.
 
+/// Configuration for a thumb/slider indicator on progress-style components.
+///
+/// Used by Progress, Donut, and Gauge primitives when slider mode is enabled.
+#[derive(Debug, Clone, PartialEq)]
+pub struct ThumbConfig {
+    /// Thumb size (height) in pixels
+    pub size: u32,
+    /// Thumb width in pixels (defaults to size if not set). Progress-only.
+    pub width: Option<u32>,
+    /// Thumb color (hex). Defaults to fill_color of parent.
+    pub color: Option<String>,
+    /// Thumb shape: "circle", "square", "diamond". Progress-only.
+    pub shape: String,
+    /// Thumb border color (hex).
+    pub border: Option<String>,
+    /// Thumb border width in pixels.
+    pub border_width: u32,
+}
+
+impl Default for ThumbConfig {
+    fn default() -> Self {
+        Self {
+            size: 16,
+            width: None,
+            color: None,
+            shape: "circle".to_string(),
+            border: None,
+            border_width: 0,
+        }
+    }
+}
+
+impl ThumbConfig {
+    /// Create a new ThumbConfig with just the size.
+    pub fn new(size: u32) -> Self {
+        Self {
+            size,
+            ..Default::default()
+        }
+    }
+}
+
 /// Configuration for a technology badge.
 ///
 /// Using a struct with Default allows tests to use `..Default::default()`
@@ -182,18 +224,8 @@ pub enum Primitive {
         border_color: Option<String>,
         /// Border width in pixels (default: 0)
         border_width: u32,
-        /// Thumb/slider height in pixels (enables slider mode when set)
-        thumb_size: Option<u32>,
-        /// Thumb width in pixels (defaults to thumb_size if not set)
-        thumb_width: Option<u32>,
-        /// Thumb color (defaults to fill_color)
-        thumb_color: Option<String>,
-        /// Thumb shape: "circle", "square", "diamond"
-        thumb_shape: String,
-        /// Thumb border color (optional)
-        thumb_border: Option<String>,
-        /// Thumb border width in pixels (default: 0)
-        thumb_border_width: u32,
+        /// Thumb/slider configuration (enables slider mode when set)
+        thumb: Option<ThumbConfig>,
     },
 
     /// Donut/ring chart showing percentage
@@ -212,14 +244,8 @@ pub enum Primitive {
         show_label: bool,
         /// Label color
         label_color: Option<String>,
-        /// Thumb size in pixels (enables slider mode when set)
-        thumb_size: Option<u32>,
-        /// Thumb color (defaults to fill_color)
-        thumb_color: Option<String>,
-        /// Thumb border color (optional)
-        thumb_border: Option<String>,
-        /// Thumb border width in pixels (default: 0)
-        thumb_border_width: u32,
+        /// Thumb/slider configuration (enables slider mode when set)
+        thumb: Option<ThumbConfig>,
     },
 
     /// Gauge/half-donut showing percentage as semi-circular meter
@@ -238,14 +264,8 @@ pub enum Primitive {
         show_label: bool,
         /// Label color
         label_color: Option<String>,
-        /// Thumb size in pixels (enables slider mode when set)
-        thumb_size: Option<u32>,
-        /// Thumb color (defaults to fill_color)
-        thumb_color: Option<String>,
-        /// Thumb border color (optional)
-        thumb_border: Option<String>,
-        /// Thumb border width in pixels (default: 0)
-        thumb_border_width: u32,
+        /// Thumb/slider configuration (enables slider mode when set)
+        thumb: Option<ThumbConfig>,
     },
 
     /// Sparkline - mini inline chart for data visualization
@@ -366,12 +386,7 @@ impl Primitive {
             label_color: None,
             border_color: None,
             border_width: 0,
-            thumb_size: None,
-            thumb_width: None,
-            thumb_color: None,
-            thumb_shape: "circle".to_string(),
-            thumb_border: None,
-            thumb_border_width: 0,
+            thumb: None,
         }
     }
 
@@ -389,10 +404,7 @@ impl Primitive {
             fill_color: fill_color.into(),
             show_label: false,
             label_color: None,
-            thumb_size: None,
-            thumb_color: None,
-            thumb_border: None,
-            thumb_border_width: 0,
+            thumb: None,
         }
     }
 
@@ -410,10 +422,7 @@ impl Primitive {
             fill_color: fill_color.into(),
             show_label: false,
             label_color: None,
-            thumb_size: None,
-            thumb_color: None,
-            thumb_border: None,
-            thumb_border_width: 0,
+            thumb: None,
         }
     }
 
