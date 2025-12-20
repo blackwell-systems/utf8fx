@@ -303,6 +303,39 @@ Hover over any template element to see:
 - **Styles**: Name, description, aliases, supported characters
 - **Components**: Type, arguments, description
 
+### Document Symbols (Outline View)
+
+The LSP provides document symbols for the editor's outline view. Open your editor's outline panel (Cmd+Shift+O in VS Code) to see all mdfx templates in the current file:
+
+- **Tech badges**: Listed as `tech:rust`, `tech:typescript`, etc.
+- **Live badges**: Listed as `live:github`, `live:npm`, etc.
+- **Glyphs**: Listed as `glyph:star.filled`, `glyph:block.full`, etc.
+- **Swatches**: Listed as `swatch:cobalt`, `swatch:pink`, etc.
+- **Styles**: Listed by name (`mathbold`, `italic`, etc.)
+- **Components**: Listed by name (`row`, `progress`, etc.)
+
+### Diagnostics
+
+The LSP validates your templates and shows errors/warnings:
+
+**Tech Badge Validation:**
+```markdown
+{{ui:tech:unknown-tech/}}  ⚠️ Unknown tech badge 'unknown-tech'
+```
+
+**Glyph Validation:**
+```markdown
+{{glyph:invalid.name/}}  ⚠️ Unknown glyph 'invalid.name'
+```
+
+**Live Badge Validation:**
+```markdown
+{{ui:live:invalid:query:metric/}}  ❌ Unknown live source 'invalid'
+{{ui:live:github:owner/repo:bad/}}  ⚠️ Unknown metric 'bad' for source 'github'
+```
+
+Diagnostics appear inline in your editor and in the problems panel.
+
 ### Snippets
 
 Completions include smart snippets:
@@ -340,4 +373,10 @@ Completions include smart snippets:
 
 ### Performance
 
-The LSP server loads the full registry (~504 glyphs, 24 styles, 29 frames) at startup. Initial completion requests may have a small delay while building the completion list.
+The LSP server is optimized for fast responses:
+
+- **Cached completions**: All completion items (glyphs, styles, frames, tech names, etc.) are pre-built at server startup
+- **Shared parameter definitions**: Tech badge and live source parameters use a single source of truth shared with the renderer
+- **Lazy regex compilation**: Diagnostic patterns are compiled once and reused
+
+The registry load (~504 glyphs, 24 styles, 29 frames, 90+ tech badges) happens at startup with no impact on completion response times.

@@ -7,6 +7,7 @@
 //! verbose primitive calls like `{{shields:block:color=...}}`.
 
 mod handlers;
+pub mod params;
 
 #[cfg(feature = "fetch")]
 pub use handlers::FetchContext;

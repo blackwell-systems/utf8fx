@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Asset path prefix option**: New `--assets-prefix` flag for `process` and `watch` commands allows markdown references to use a different path than where files are written. Useful when assets are in a subdirectory but markdown needs relative paths (e.g., write to `examples/assets/` but reference as `assets/`)
 - **Custom icon support for tech badges**: New `icon` parameter accepts SVG path data for unsupported technologies (e.g., `{{ui:tech:custom:icon=M0 0 L24 24:label=My Tech/}}`)
 - **LSP syntax highlighting**: VS Code extension now includes TextMate grammar for mdfx template syntax highlighting in markdown files
+- **LSP document symbols**: `textDocument/documentSymbol` support provides outline view showing all mdfx templates (tech badges, glyphs, swatches, styles, components) in the current file
+- **LSP cached completions**: Completion items are now pre-built at server startup for faster response times
+- **LSP enhanced diagnostics**: Validates tech badge names, glyph names, live source names, and metrics with helpful error messages
+- **Shared parameter definitions**: New `mdfx::components::params` module provides a single source of truth for tech badge and live source parameters, used by both the renderer and LSP
 
 ### Fixed
 - **LSP document caching**: Fixed completions not working in unsaved buffers or remote files (WSL). The LSP now properly caches document content from `didOpen`/`didChange` events instead of reading from disk

@@ -5,6 +5,7 @@
 //!
 //! Enable with: `cargo install mdfx-cli --features lsp`
 
+use mdfx::components::params::{self, LIVE_SOURCES, TECH_PARAMS};
 use mdfx::Registry;
 use mdfx_icons::{brand_color, list_icons};
 use std::collections::HashMap;
@@ -13,51 +14,62 @@ use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer, LspService, Server};
 
+/// Cached completion items built at startup for performance
+#[allow(dead_code)]
+struct CachedCompletions {
+    /// All glyph completions
+    glyphs: Vec<CompletionItem>,
+    /// All style completions (includes aliases) - used via top_level
+    styles: Vec<CompletionItem>,
+    /// All frame completions (includes aliases)
+    frames: Vec<CompletionItem>,
+    /// All component completions - used via top_level
+    components: Vec<CompletionItem>,
+    /// All palette color completions
+    palette: Vec<CompletionItem>,
+    /// All shield style completions
+    shield_styles: Vec<CompletionItem>,
+    /// All tech name completions
+    tech_names: Vec<CompletionItem>,
+    /// All tech parameter completions
+    tech_params: Vec<CompletionItem>,
+    /// All live source completions
+    live_sources: Vec<CompletionItem>,
+    /// Top-level completions (glyph:, frame:, styles, components)
+    top_level: Vec<CompletionItem>,
+}
+
 /// The mdfx language server
 pub struct MdfxLanguageServer {
     client: Client,
     registry: Arc<Registry>,
     /// Cached document contents (URI -> text)
     documents: Arc<RwLock<HashMap<String, String>>>,
+    /// Pre-built completion items for fast responses
+    cached: Arc<CachedCompletions>,
 }
 
 impl MdfxLanguageServer {
     pub fn new(client: Client) -> Self {
         let registry = Registry::new().expect("Failed to load registry");
+
+        // Pre-build all completion items at startup for fast responses
+        let cached = Self::build_cached_completions(&registry);
+
         Self {
             client,
             registry: Arc::new(registry),
             documents: Arc::new(RwLock::new(HashMap::new())),
+            cached: Arc::new(cached),
         }
     }
 
-    /// Get document content from cache or try to read from disk
-    fn get_document_content(&self, uri: &Url) -> Option<String> {
-        // First check the cache
-        if let Ok(docs) = self.documents.read() {
-            if let Some(content) = docs.get(uri.as_str()) {
-                return Some(content.clone());
-            }
-        }
-
-        // Fallback: try to read from disk (handles file:// URIs)
-        if uri.scheme() == "file" {
-            if let Ok(path) = uri.to_file_path() {
-                if let Ok(content) = std::fs::read_to_string(&path) {
-                    return Some(content);
-                }
-            }
-        }
-
-        None
-    }
-
-    /// Build completion items for glyphs
-    fn glyph_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        self.registry
+    /// Build all completion items once at startup
+    fn build_cached_completions(registry: &Registry) -> CachedCompletions {
+        // Build glyph completions
+        let glyphs: Vec<CompletionItem> = registry
             .glyphs()
             .iter()
-            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
             .map(|(name, char)| CompletionItem {
                 label: name.clone(),
                 kind: Some(CompletionItemKind::TEXT),
@@ -71,15 +83,12 @@ impl MdfxLanguageServer {
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                 ..Default::default()
             })
-            .collect()
-    }
+            .collect();
 
-    /// Build completion items for styles
-    fn style_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        self.registry
+        // Build style completions (includes aliases)
+        let styles: Vec<CompletionItem> = registry
             .styles()
             .iter()
-            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
             .flat_map(|(name, style)| {
                 let mut items = vec![CompletionItem {
                     label: name.clone(),
@@ -90,31 +99,25 @@ impl MdfxLanguageServer {
                     insert_text_format: Some(InsertTextFormat::SNIPPET),
                     ..Default::default()
                 }];
-                // Add aliases
                 for alias in &style.aliases {
-                    if prefix.is_empty() || alias.starts_with(prefix) {
-                        items.push(CompletionItem {
-                            label: alias.clone(),
-                            kind: Some(CompletionItemKind::FUNCTION),
-                            detail: Some(format!("{} (alias for {})", style.name, name)),
-                            documentation: style.description.clone().map(Documentation::String),
-                            insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", alias, alias)),
-                            insert_text_format: Some(InsertTextFormat::SNIPPET),
-                            ..Default::default()
-                        });
-                    }
+                    items.push(CompletionItem {
+                        label: alias.clone(),
+                        kind: Some(CompletionItemKind::FUNCTION),
+                        detail: Some(format!("{} (alias for {})", style.name, name)),
+                        documentation: style.description.clone().map(Documentation::String),
+                        insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", alias, alias)),
+                        insert_text_format: Some(InsertTextFormat::SNIPPET),
+                        ..Default::default()
+                    });
                 }
                 items
             })
-            .collect()
-    }
+            .collect();
 
-    /// Build completion items for frames
-    fn frame_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        self.registry
+        // Build frame completions (includes aliases)
+        let frames: Vec<CompletionItem> = registry
             .frames()
             .iter()
-            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
             .flat_map(|(name, frame)| {
                 let mut items = vec![CompletionItem {
                     label: name.clone(),
@@ -129,42 +132,35 @@ impl MdfxLanguageServer {
                     insert_text_format: Some(InsertTextFormat::SNIPPET),
                     ..Default::default()
                 }];
-                // Add aliases
                 for alias in &frame.aliases {
-                    if prefix.is_empty() || alias.starts_with(prefix) {
-                        items.push(CompletionItem {
-                            label: alias.clone(),
-                            kind: Some(CompletionItemKind::STRUCT),
-                            detail: Some(format!(
-                                "{} ... {} (alias for {})",
-                                frame.prefix.trim(),
-                                frame.suffix.trim(),
-                                name
-                            )),
-                            documentation: frame.description.clone().map(Documentation::String),
-                            insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", alias, alias)),
-                            insert_text_format: Some(InsertTextFormat::SNIPPET),
-                            ..Default::default()
-                        });
-                    }
+                    items.push(CompletionItem {
+                        label: alias.clone(),
+                        kind: Some(CompletionItemKind::STRUCT),
+                        detail: Some(format!(
+                            "{} ... {} (alias for {})",
+                            frame.prefix.trim(),
+                            frame.suffix.trim(),
+                            name
+                        )),
+                        documentation: frame.description.clone().map(Documentation::String),
+                        insert_text: Some(format!("{}}}${{1:text}}{{{{/{}}}}}", alias, alias)),
+                        insert_text_format: Some(InsertTextFormat::SNIPPET),
+                        ..Default::default()
+                    });
                 }
                 items
             })
-            .collect()
-    }
+            .collect();
 
-    /// Build completion items for components
-    fn component_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        self.registry
+        // Build component completions
+        let components: Vec<CompletionItem> = registry
             .components()
             .iter()
-            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
             .map(|(name, component)| {
                 let insert_text = if component.self_closing {
                     if component.args.is_empty() {
                         format!("{}/}}}}", name)
                     } else {
-                        // Build snippet with placeholders for args
                         let args: String = component
                             .args
                             .iter()
@@ -197,15 +193,12 @@ impl MdfxLanguageServer {
                     ..Default::default()
                 }
             })
-            .collect()
-    }
+            .collect();
 
-    /// Build completion items for palette colors
-    fn palette_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        self.registry
+        // Build palette color completions
+        let palette: Vec<CompletionItem> = registry
             .palette()
             .iter()
-            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
             .map(|(name, hex)| CompletionItem {
                 label: name.clone(),
                 kind: Some(CompletionItemKind::COLOR),
@@ -215,15 +208,12 @@ impl MdfxLanguageServer {
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                 ..Default::default()
             })
-            .collect()
-    }
+            .collect();
 
-    /// Build completion items for shield styles (flat, flat-square, for-the-badge, etc.)
-    fn shield_style_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        self.registry
+        // Build shield style completions
+        let shield_styles: Vec<CompletionItem> = registry
             .shield_styles()
             .iter()
-            .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
             .flat_map(|(name, style)| {
                 let mut items = vec![CompletionItem {
                     label: name.clone(),
@@ -234,30 +224,24 @@ impl MdfxLanguageServer {
                     insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                     ..Default::default()
                 }];
-                // Add aliases
                 for alias in &style.aliases {
-                    if prefix.is_empty() || alias.starts_with(prefix) {
-                        items.push(CompletionItem {
-                            label: alias.clone(),
-                            kind: Some(CompletionItemKind::ENUM_MEMBER),
-                            detail: Some(format!("{} (alias for {})", style.name, name)),
-                            documentation: style.description.clone().map(Documentation::String),
-                            insert_text: Some(alias.clone()),
-                            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
-                            ..Default::default()
-                        });
-                    }
+                    items.push(CompletionItem {
+                        label: alias.clone(),
+                        kind: Some(CompletionItemKind::ENUM_MEMBER),
+                        detail: Some(format!("{} (alias for {})", style.name, name)),
+                        documentation: style.description.clone().map(Documentation::String),
+                        insert_text: Some(alias.clone()),
+                        insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                        ..Default::default()
+                    });
                 }
                 items
             })
-            .collect()
-    }
+            .collect();
 
-    /// Build completion items for tech badge names (rust, typescript, docker, etc.)
-    fn tech_name_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        list_icons()
+        // Build tech name completions
+        let tech_names: Vec<CompletionItem> = list_icons()
             .iter()
-            .filter(|name| prefix.is_empty() || name.starts_with(prefix))
             .map(|name| {
                 let color = brand_color(name).unwrap_or("unknown");
                 CompletionItem {
@@ -273,265 +257,144 @@ impl MdfxLanguageServer {
                     ..Default::default()
                 }
             })
-            .collect()
+            .collect();
+
+        // Build tech parameter completions
+        let tech_params = Self::build_tech_param_completions();
+
+        // Build live source completions
+        let live_sources = Self::build_live_source_completions();
+
+        // Build top-level completions
+        let mut top_level = Vec::new();
+
+        // Add "glyph:" prefix
+        top_level.push(CompletionItem {
+            label: "glyph:".to_string(),
+            kind: Some(CompletionItemKind::KEYWORD),
+            detail: Some("Insert a glyph character".to_string()),
+            documentation: Some(Documentation::String(
+                "Access 389 Unicode glyphs by name.\nExamples: {{glyph:dot/}}, {{glyph:block.full/}}, {{glyph:star.filled/}}".to_string()
+            )),
+            insert_text: Some("glyph:".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+            ..Default::default()
+        });
+
+        // Add "frame:" prefix
+        top_level.push(CompletionItem {
+            label: "frame:".to_string(),
+            kind: Some(CompletionItemKind::KEYWORD),
+            detail: Some("Wrap text with decorative frame".to_string()),
+            documentation: Some(Documentation::String(
+                "Apply decorative prefix/suffix to text.\nExample: {{frame:gradient}}text{{/frame:gradient}}".to_string()
+            )),
+            insert_text: Some("frame:".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+            ..Default::default()
+        });
+
+        // Add styles and components to top-level
+        top_level.extend(styles.clone());
+        top_level.extend(components.clone());
+
+        CachedCompletions {
+            glyphs,
+            styles,
+            frames,
+            components,
+            palette,
+            shield_styles,
+            tech_names,
+            tech_params,
+            live_sources,
+            top_level,
+        }
     }
 
-    /// Build completion items for tech badge parameters
-    fn tech_param_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        let params = vec![
-            // Basic
-            ("label", "Custom label text", "label=My Label"),
-            ("bg", "Background color (both segments)", "bg=1a1a1a"),
-            (
-                "bg_left",
-                "Left (icon) segment background",
-                "bg_left=DEA584",
-            ),
-            (
-                "bg_right",
-                "Right (label) segment background",
-                "bg_right=B8856E",
-            ),
-            ("logo", "Icon/logo color", "logo=FFFFFF"),
-            ("text", "Label text color", "text=000000"),
-            (
-                "text_color",
-                "Label text color (alias)",
-                "text_color=FFFFFF",
-            ),
-            ("color", "Label text color (alias)", "color=000000"),
-            ("font", "Custom font family", "font=Monaco,monospace"),
-            (
-                "font_family",
-                "Custom font family (alias)",
-                "font_family=Arial",
-            ),
-            // Sizing
-            (
-                "logo_size",
-                "Icon size (xs/sm/md/lg/xl/xxl or pixels)",
-                "logo_size=lg",
-            ),
-            (
-                "icon_size",
-                "Icon size (alias for logo_size)",
-                "icon_size=16",
-            ),
-            ("height", "Badge height in pixels", "height=24"),
-            ("raised", "Raised icon effect (pixels)", "raised=4"),
-            // Corners & Shape
-            ("rx", "Uniform corner radius", "rx=6"),
-            (
-                "corners",
-                "Corner preset (left/right/none/all)",
-                "corners=left",
-            ),
-            ("top_left", "Top-left corner radius", "top_left=8"),
-            ("top_right", "Top-right corner radius", "top_right=8"),
-            ("bottom_left", "Bottom-left corner radius", "bottom_left=8"),
-            (
-                "bottom_right",
-                "Bottom-right corner radius",
-                "bottom_right=8",
-            ),
-            ("chevron", "Arrow shape (left/right/both)", "chevron=right"),
-            // Borders
-            ("border", "Border color", "border=61DAFB"),
-            ("border_width", "Border thickness", "border_width=2"),
-            (
-                "border_full",
-                "Border around entire badge",
-                "border_full=true",
-            ),
-            ("divider", "Center divider line", "divider=true"),
-            // Style
-            ("style", "Badge style", "style=flat"),
-            // Advanced
-            ("icon", "Custom SVG path data", "icon=M12 2L2 7..."),
-            (
-                "source",
-                "Render source (shields for shields.io)",
-                "source=shields",
-            ),
-            (
-                "url",
-                "Make badge a clickable link",
-                "url=https://example.com",
-            ),
-        ];
-
-        params
-            .into_iter()
-            .filter(|(name, _, _)| prefix.is_empty() || name.starts_with(prefix))
-            .map(|(name, desc, example)| CompletionItem {
-                label: name.to_string(),
+    /// Build tech parameter completion items from shared definitions
+    fn build_tech_param_completions() -> Vec<CompletionItem> {
+        TECH_PARAMS
+            .iter()
+            .map(|param| CompletionItem {
+                label: param.name.to_string(),
                 kind: Some(CompletionItemKind::PROPERTY),
-                detail: Some(desc.to_string()),
+                detail: Some(param.description.to_string()),
                 documentation: Some(Documentation::String(format!(
                     "{}\n\nExample: {}",
-                    desc, example
+                    param.description, param.example
                 ))),
-                insert_text: Some(format!("{}=", name)),
+                insert_text: Some(format!("{}=", param.name)),
                 insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
                 ..Default::default()
             })
             .collect()
     }
 
-    /// Build completion items for live data sources
-    fn live_source_completions(&self, prefix: &str) -> Vec<CompletionItem> {
-        let sources = vec![
-            (
-                "github",
-                "GitHub repository metrics",
-                "stars, forks, issues, license, language",
-            ),
-            ("npm", "npm package metrics", "version, license, next, beta"),
-            (
-                "crates",
-                "crates.io package metrics",
-                "version, downloads, description",
-            ),
-            (
-                "pypi",
-                "PyPI package metrics",
-                "version, license, author, python, summary",
-            ),
-            (
-                "codecov",
-                "Codecov coverage metrics",
-                "coverage, lines, hits, misses, files, branches",
-            ),
-            (
-                "actions",
-                "GitHub Actions workflow status",
-                "status, conclusion, run_number, workflow",
-            ),
-            (
-                "docker",
-                "Docker Hub image metrics",
-                "pulls, stars, tag, description, official",
-            ),
-            (
-                "packagist",
-                "Packagist (PHP) package metrics",
-                "version, downloads, monthly, daily, stars, license, php",
-            ),
-            (
-                "rubygems",
-                "RubyGems package metrics",
-                "version, downloads, license, authors, ruby",
-            ),
-            (
-                "nuget",
-                "NuGet (.NET) package metrics",
-                "version, downloads, description, authors, license",
-            ),
-        ];
-
-        sources
-            .into_iter()
-            .filter(|(name, _, _)| prefix.is_empty() || name.starts_with(prefix))
-            .map(|(name, desc, metrics)| CompletionItem {
-                label: name.to_string(),
-                kind: Some(CompletionItemKind::MODULE),
-                detail: Some(desc.to_string()),
-                documentation: Some(Documentation::String(format!(
-                    "{}\n\nAvailable metrics: {}\n\nExample: {{{{ui:live:{}:query:metric/}}}}",
-                    desc, metrics, name
-                ))),
-                insert_text: Some(format!("{}:", name)),
-                insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
-                ..Default::default()
+    /// Build live source completion items from shared definitions
+    fn build_live_source_completions() -> Vec<CompletionItem> {
+        LIVE_SOURCES
+            .iter()
+            .map(|(name, desc, metrics)| {
+                let metrics_list: Vec<&str> = metrics.iter().map(|(m, _)| *m).collect();
+                CompletionItem {
+                    label: name.to_string(),
+                    kind: Some(CompletionItemKind::MODULE),
+                    detail: Some(desc.to_string()),
+                    documentation: Some(Documentation::String(format!(
+                        "{}\n\nAvailable metrics: {}\n\nExample: {{{{ui:live:{}:query:metric/}}}}",
+                        desc,
+                        metrics_list.join(", "),
+                        name
+                    ))),
+                    insert_text: Some(format!("{}:", name)),
+                    insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                    ..Default::default()
+                }
             })
             .collect()
     }
 
-    /// Build completion items for live source metrics
+    /// Get document content from cache or try to read from disk
+    fn get_document_content(&self, uri: &Url) -> Option<String> {
+        // First check the cache
+        if let Ok(docs) = self.documents.read() {
+            if let Some(content) = docs.get(uri.as_str()) {
+                return Some(content.clone());
+            }
+        }
+
+        // Fallback: try to read from disk (handles file:// URIs)
+        if uri.scheme() == "file" {
+            if let Ok(path) = uri.to_file_path() {
+                if let Ok(content) = std::fs::read_to_string(&path) {
+                    return Some(content);
+                }
+            }
+        }
+
+        None
+    }
+
+    /// Filter cached completions by prefix
+    fn filter_completions(items: &[CompletionItem], prefix: &str) -> Vec<CompletionItem> {
+        if prefix.is_empty() {
+            items.to_vec()
+        } else {
+            items
+                .iter()
+                .filter(|item| item.label.starts_with(prefix))
+                .cloned()
+                .collect()
+        }
+    }
+
+    /// Build completion items for live source metrics using shared definitions
     fn live_metric_completions(&self, source: &str, prefix: &str) -> Vec<CompletionItem> {
-        let metrics: Vec<(&str, &str)> = match source {
-            "github" => vec![
-                ("stars", "Repository star count"),
-                ("forks", "Fork count"),
-                ("issues", "Open issue count"),
-                ("watchers", "Watcher count"),
-                ("license", "SPDX license identifier"),
-                ("language", "Primary programming language"),
-            ],
-            "npm" => vec![
-                ("version", "Latest stable version"),
-                ("license", "Package license"),
-                ("next", "Latest @next tag version"),
-                ("beta", "Latest @beta tag version"),
-            ],
-            "crates" => vec![
-                ("version", "Latest version"),
-                ("downloads", "Total download count"),
-                ("description", "Crate description"),
-            ],
-            "pypi" => vec![
-                ("version", "Latest version"),
-                ("license", "Package license"),
-                ("author", "Package author"),
-                ("python", "Required Python version"),
-                ("summary", "Package summary"),
-            ],
-            "codecov" => vec![
-                ("coverage", "Coverage percentage"),
-                ("lines", "Total lines tracked"),
-                ("hits", "Lines with coverage"),
-                ("misses", "Lines without coverage"),
-                ("files", "Number of files tracked"),
-                ("branches", "Branch coverage count"),
-            ],
-            "actions" => vec![
-                (
-                    "status",
-                    "Workflow run status (completed, in_progress, queued)",
-                ),
-                (
-                    "conclusion",
-                    "Workflow conclusion (success, failure, cancelled)",
-                ),
-                ("run_number", "Workflow run number"),
-                ("workflow", "Workflow name"),
-            ],
-            "docker" => vec![
-                ("pulls", "Total pull count"),
-                ("stars", "Star count"),
-                ("tag", "Latest tag"),
-                ("description", "Image description"),
-                ("official", "Official or Community"),
-            ],
-            "packagist" => vec![
-                ("version", "Latest stable version"),
-                ("downloads", "Total download count"),
-                ("monthly", "Monthly downloads"),
-                ("daily", "Daily downloads"),
-                ("stars", "Star/faver count"),
-                ("license", "Package license"),
-                ("php", "Required PHP version"),
-            ],
-            "rubygems" => vec![
-                ("version", "Latest version"),
-                ("downloads", "Total download count"),
-                ("version_downloads", "Downloads for latest version"),
-                ("license", "Gem license"),
-                ("authors", "Gem authors"),
-                ("ruby", "Required Ruby version"),
-            ],
-            "nuget" => vec![
-                ("version", "Latest version"),
-                ("downloads", "Total download count"),
-                ("description", "Package description"),
-                ("authors", "Package authors"),
-                ("license", "Package license"),
-            ],
-            _ => vec![],
-        };
+        let metrics = params::metrics_for_source(source).unwrap_or(&[]);
 
         metrics
-            .into_iter()
+            .iter()
             .filter(|(name, _)| prefix.is_empty() || name.starts_with(prefix))
             .map(|(name, desc)| CompletionItem {
                 label: name.to_string(),
@@ -544,48 +407,25 @@ impl MdfxLanguageServer {
             .collect()
     }
 
-    /// Build completion items for tech badge parameter values
+    /// Build completion items for tech badge parameter values using shared definitions
     fn tech_param_value_completions(&self, param: &str, prefix: &str) -> Vec<CompletionItem> {
-        let values: Vec<(&str, &str)> = match param {
-            "logo_size" | "icon_size" => vec![
-                ("xs", "10px - Extra small"),
-                ("sm", "12px - Small"),
-                ("md", "14px - Medium (default)"),
-                ("lg", "16px - Large"),
-                ("xl", "18px - Extra large"),
-                ("xxl", "20px - Extra extra large"),
-            ],
-            "corners" => vec![
-                ("left", "Rounded left, square right"),
-                ("right", "Square left, rounded right"),
-                ("none", "All square corners"),
-                ("all", "All rounded corners"),
-            ],
-            "chevron" => vec![
-                ("left", "Left-pointing arrow ←"),
-                ("right", "Right-pointing arrow →"),
-                ("both", "Both arrows ← →"),
-            ],
-            "style" => vec![
-                ("flat", "Rounded corners (rx=3)"),
-                ("flat-square", "Sharp corners (default)"),
-                ("plastic", "Shiny gradient overlay"),
-                ("for-the-badge", "Tall blocks (height=28)"),
-                ("social", "Very rounded (rx=10)"),
-                ("outline", "Border-only with transparent fill"),
-                ("ghost", "Alias for outline"),
-            ],
-            "border_full" | "divider" => vec![("true", "Enable"), ("false", "Disable (default)")],
-            "source" => vec![("shields", "Use shields.io URL instead of SVG")],
-            // For color parameters, return palette completions
+        // Color parameters return palette completions from cache
+        match param {
             "bg" | "bg_left" | "bg_right" | "logo" | "text" | "text_color" | "color" | "border" => {
-                return self.palette_completions(prefix);
+                return Self::filter_completions(&self.cached.palette, prefix);
             }
-            _ => vec![],
-        };
+            _ => {}
+        }
+
+        // Look up values from shared TECH_PARAMS
+        let values = TECH_PARAMS
+            .iter()
+            .find(|p| p.name == param)
+            .and_then(|p| p.values)
+            .unwrap_or(&[]);
 
         values
-            .into_iter()
+            .iter()
             .filter(|(val, _)| prefix.is_empty() || val.starts_with(prefix))
             .map(|(val, desc)| CompletionItem {
                 label: val.to_string(),
@@ -598,90 +438,7 @@ impl MdfxLanguageServer {
             .collect()
     }
 
-    /// Valid live badge sources
-    const VALID_SOURCES: &'static [&'static str] = &[
-        "github",
-        "npm",
-        "crates",
-        "pypi",
-        "codecov",
-        "actions",
-        "docker",
-        "packagist",
-        "rubygems",
-        "nuget",
-    ];
-
-    /// Get valid metrics for a source
-    fn valid_metrics_for_source(source: &str) -> &'static [&'static str] {
-        match source {
-            "github" => &[
-                "stars",
-                "forks",
-                "issues",
-                "watchers",
-                "size",
-                "language",
-                "license",
-                "archived",
-                "branch",
-                "topics",
-                "description",
-            ],
-            "npm" => &["version", "next", "beta", "license", "description"],
-            "crates" => &["version", "downloads", "description"],
-            "pypi" => &["version", "license", "author", "python", "summary"],
-            "codecov" => &["coverage", "lines", "hits", "misses", "files", "branches"],
-            "actions" => &[
-                "status",
-                "conclusion",
-                "run_number",
-                "workflow",
-                "event",
-                "branch",
-            ],
-            "docker" => &[
-                "pulls",
-                "pulls_raw",
-                "stars",
-                "tag",
-                "description",
-                "official",
-            ],
-            "packagist" => &[
-                "version",
-                "downloads",
-                "downloads_raw",
-                "monthly",
-                "daily",
-                "stars",
-                "license",
-                "php",
-                "description",
-            ],
-            "rubygems" => &[
-                "version",
-                "downloads",
-                "downloads_raw",
-                "version_downloads",
-                "license",
-                "authors",
-                "info",
-                "ruby",
-            ],
-            "nuget" => &[
-                "version",
-                "downloads",
-                "downloads_raw",
-                "description",
-                "authors",
-                "license",
-            ],
-            _ => &[],
-        }
-    }
-
-    /// Generate diagnostics for live badge syntax errors
+    /// Generate diagnostics for template syntax errors
     fn generate_diagnostics(&self, text: &str) -> Vec<Diagnostic> {
         use once_cell::sync::Lazy;
 
@@ -692,10 +449,86 @@ impl MdfxLanguageServer {
         static INCOMPLETE_PATTERN: Lazy<regex::Regex> =
             Lazy::new(|| regex::Regex::new(r"\{\{ui:live:([^:}]*)\}\}").unwrap());
 
+        static TECH_BADGE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
+            regex::Regex::new(r"\{\{ui:tech:([^:/}]+)").unwrap()
+        });
+
+        static GLYPH_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
+            regex::Regex::new(r"\{\{glyph:([^/}]+)/\}\}").unwrap()
+        });
+
         let mut diagnostics = Vec::new();
         let lines: Vec<&str> = text.lines().collect();
 
+        // Collect valid tech names for diagnostics
+        let icon_list = list_icons();
+        let valid_tech_names: std::collections::HashSet<&str> =
+            icon_list.iter().map(|s| s.as_ref()).collect();
+
         for (line_num, line) in lines.iter().enumerate() {
+            // Check tech badge names
+            for caps in TECH_BADGE_PATTERN.captures_iter(line) {
+                let full_match = caps.get(0).unwrap();
+                let tech_name = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+
+                if !valid_tech_names.contains(tech_name) {
+                    let start_col = full_match.start() as u32;
+                    let end_col = full_match.end() as u32;
+
+                    diagnostics.push(Diagnostic {
+                        range: Range {
+                            start: Position {
+                                line: line_num as u32,
+                                character: start_col,
+                            },
+                            end: Position {
+                                line: line_num as u32,
+                                character: end_col,
+                            },
+                        },
+                        severity: Some(DiagnosticSeverity::WARNING),
+                        source: Some("mdfx".to_string()),
+                        message: format!(
+                            "Unknown tech badge '{}'. Use autocomplete to see available badges.",
+                            tech_name
+                        ),
+                        ..Default::default()
+                    });
+                }
+            }
+
+            // Check glyph names
+            for caps in GLYPH_PATTERN.captures_iter(line) {
+                let full_match = caps.get(0).unwrap();
+                let glyph_name = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+
+                if self.registry.glyph(glyph_name).is_none() {
+                    let start_col = full_match.start() as u32;
+                    let end_col = full_match.end() as u32;
+
+                    diagnostics.push(Diagnostic {
+                        range: Range {
+                            start: Position {
+                                line: line_num as u32,
+                                character: start_col,
+                            },
+                            end: Position {
+                                line: line_num as u32,
+                                character: end_col,
+                            },
+                        },
+                        severity: Some(DiagnosticSeverity::WARNING),
+                        source: Some("mdfx".to_string()),
+                        message: format!(
+                            "Unknown glyph '{}'. Use autocomplete to see available glyphs.",
+                            glyph_name
+                        ),
+                        ..Default::default()
+                    });
+                }
+            }
+
+            // Check live badge patterns
             for caps in LIVE_BADGE_PATTERN.captures_iter(line) {
                 let full_match = caps.get(0).unwrap();
                 let source = caps.get(1).map(|m| m.as_str()).unwrap_or("");
@@ -705,8 +538,9 @@ impl MdfxLanguageServer {
                 let start_col = full_match.start() as u32;
                 let end_col = full_match.end() as u32;
 
-                // Check if source is valid
-                if !Self::VALID_SOURCES.contains(&source) {
+                // Check if source is valid using shared params
+                let valid_sources: Vec<&str> = params::valid_live_sources().collect();
+                if !valid_sources.contains(&source) {
                     diagnostics.push(Diagnostic {
                         range: Range {
                             start: Position {
@@ -723,17 +557,19 @@ impl MdfxLanguageServer {
                         message: format!(
                             "Unknown live source '{}'. Valid sources: {}",
                             source,
-                            Self::VALID_SOURCES.join(", ")
+                            valid_sources.join(", ")
                         ),
                         ..Default::default()
                     });
                     continue;
                 }
 
-                // Check if metric is valid for the source
+                // Check if metric is valid for the source using shared params
                 if let Some(metric_name) = metric {
-                    let valid_metrics = Self::valid_metrics_for_source(source);
-                    if !valid_metrics.contains(&metric_name) {
+                    if !params::is_valid_metric(source, metric_name) {
+                        let valid_metrics: Vec<&str> = params::metrics_for_source(source)
+                            .map(|m| m.iter().map(|(name, _)| *name).collect())
+                            .unwrap_or_default();
                         diagnostics.push(Diagnostic {
                             range: Range {
                                 start: Position {
@@ -974,6 +810,7 @@ impl LanguageServer for MdfxLanguageServer {
                     ..Default::default()
                 }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
+                document_symbol_provider: Some(OneOf::Left(true)),
                 ..Default::default()
             },
             server_info: Some(ServerInfo {
@@ -1042,59 +879,36 @@ impl LanguageServer for MdfxLanguageServer {
 
         let context = self.get_completion_context(&text, position);
 
+        // Use cached completions with filtering for fast responses
         let items = match context {
             CompletionContext::None => return Ok(None),
             CompletionContext::TopLevel(prefix) => {
-                let mut items = Vec::new();
-
-                // Add "glyph:" as a prefix option
-                if "glyph".starts_with(&prefix) || prefix.is_empty() {
-                    items.push(CompletionItem {
-                        label: "glyph:".to_string(),
-                        kind: Some(CompletionItemKind::KEYWORD),
-                        detail: Some("Insert a glyph character".to_string()),
-                        documentation: Some(Documentation::String(
-                            "Access 389 Unicode glyphs by name.\nExamples: {{glyph:dot/}}, {{glyph:block.full/}}, {{glyph:star.filled/}}".to_string()
-                        )),
-                        insert_text: Some("glyph:".to_string()),
-                        insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
-                        ..Default::default()
-                    });
-                }
-
-                // Add "frame:" as a prefix option
-                if "frame".starts_with(&prefix) || prefix.is_empty() {
-                    items.push(CompletionItem {
-                        label: "frame:".to_string(),
-                        kind: Some(CompletionItemKind::KEYWORD),
-                        detail: Some("Wrap text with decorative frame".to_string()),
-                        documentation: Some(Documentation::String(
-                            "Apply decorative prefix/suffix to text.\nExample: {{frame:gradient}}text{{/frame:gradient}}".to_string()
-                        )),
-                        insert_text: Some("frame:".to_string()),
-                        insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
-                        ..Default::default()
-                    });
-                }
-
-                // Add styles (directly usable like {{mathbold}}text{{/mathbold}})
-                items.extend(self.style_completions(&prefix));
-
-                // Add components
-                items.extend(self.component_completions(&prefix));
-
-                items
+                Self::filter_completions(&self.cached.top_level, &prefix)
             }
-            CompletionContext::Glyph(prefix) => self.glyph_completions(&prefix),
-            CompletionContext::Frame(prefix) => self.frame_completions(&prefix),
-            CompletionContext::Palette(prefix) => self.palette_completions(&prefix),
-            CompletionContext::ShieldStyle(prefix) => self.shield_style_completions(&prefix),
-            CompletionContext::TechName(prefix) => self.tech_name_completions(&prefix),
-            CompletionContext::TechParam(prefix) => self.tech_param_completions(&prefix),
+            CompletionContext::Glyph(prefix) => {
+                Self::filter_completions(&self.cached.glyphs, &prefix)
+            }
+            CompletionContext::Frame(prefix) => {
+                Self::filter_completions(&self.cached.frames, &prefix)
+            }
+            CompletionContext::Palette(prefix) => {
+                Self::filter_completions(&self.cached.palette, &prefix)
+            }
+            CompletionContext::ShieldStyle(prefix) => {
+                Self::filter_completions(&self.cached.shield_styles, &prefix)
+            }
+            CompletionContext::TechName(prefix) => {
+                Self::filter_completions(&self.cached.tech_names, &prefix)
+            }
+            CompletionContext::TechParam(prefix) => {
+                Self::filter_completions(&self.cached.tech_params, &prefix)
+            }
             CompletionContext::TechParamValue(param, prefix) => {
                 self.tech_param_value_completions(&param, &prefix)
             }
-            CompletionContext::LiveSource(prefix) => self.live_source_completions(&prefix),
+            CompletionContext::LiveSource(prefix) => {
+                Self::filter_completions(&self.cached.live_sources, &prefix)
+            }
             CompletionContext::LiveMetric(source, prefix) => {
                 self.live_metric_completions(&source, &prefix)
             }
@@ -1205,6 +1019,106 @@ impl LanguageServer for MdfxLanguageServer {
         }
 
         Ok(None)
+    }
+
+    async fn document_symbol(
+        &self,
+        params: DocumentSymbolParams,
+    ) -> Result<Option<DocumentSymbolResponse>> {
+        let uri = params.text_document.uri;
+        let text = match self.get_document_content(&uri) {
+            Some(content) => content,
+            None => return Ok(None),
+        };
+
+        let mut symbols = Vec::new();
+        let lines: Vec<&str> = text.lines().collect();
+
+        // Regex patterns for different template types
+        use once_cell::sync::Lazy;
+        static TEMPLATE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
+            regex::Regex::new(r"\{\{([^/}]+)(?:/\}\}|\}\})").unwrap()
+        });
+
+        for (line_num, line) in lines.iter().enumerate() {
+            for caps in TEMPLATE_PATTERN.captures_iter(line) {
+                let full_match = caps.get(0).unwrap();
+                let template_content = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+
+                let start_col = full_match.start() as u32;
+                let end_col = full_match.end() as u32;
+
+                // Determine symbol type and name
+                let (symbol_kind, name, detail) = if template_content.starts_with("ui:tech:") {
+                    let tech_name = template_content
+                        .strip_prefix("ui:tech:")
+                        .unwrap_or("")
+                        .split(':')
+                        .next()
+                        .unwrap_or("unknown");
+                    (SymbolKind::CONSTANT, format!("tech:{}", tech_name), Some("Tech Badge".to_string()))
+                } else if template_content.starts_with("ui:live:") {
+                    let parts: Vec<&str> = template_content
+                        .strip_prefix("ui:live:")
+                        .unwrap_or("")
+                        .split(':')
+                        .collect();
+                    let source = parts.first().unwrap_or(&"unknown");
+                    (SymbolKind::VARIABLE, format!("live:{}", source), Some("Live Badge".to_string()))
+                } else if template_content.starts_with("glyph:") {
+                    let glyph_name = template_content
+                        .strip_prefix("glyph:")
+                        .unwrap_or("unknown");
+                    (SymbolKind::STRING, format!("glyph:{}", glyph_name), Some("Glyph".to_string()))
+                } else if template_content.starts_with("swatch:") {
+                    let color = template_content
+                        .strip_prefix("swatch:")
+                        .unwrap_or("")
+                        .split(':')
+                        .next()
+                        .unwrap_or("unknown");
+                    (SymbolKind::CONSTANT, format!("swatch:{}", color), Some("Color Swatch".to_string()))
+                } else {
+                    // Check if it's a style
+                    let name = template_content.split([':', '}']).next().unwrap_or(template_content);
+                    if self.registry.style(name).is_some() {
+                        (SymbolKind::FUNCTION, name.to_string(), Some("Style".to_string()))
+                    } else if self.registry.component(name).is_some() {
+                        (SymbolKind::MODULE, name.to_string(), Some("Component".to_string()))
+                    } else {
+                        continue; // Skip unknown templates
+                    }
+                };
+
+                #[allow(deprecated)]
+                symbols.push(SymbolInformation {
+                    name,
+                    kind: symbol_kind,
+                    tags: None,
+                    deprecated: None,
+                    location: Location {
+                        uri: uri.clone(),
+                        range: Range {
+                            start: Position {
+                                line: line_num as u32,
+                                character: start_col,
+                            },
+                            end: Position {
+                                line: line_num as u32,
+                                character: end_col,
+                            },
+                        },
+                    },
+                    container_name: detail,
+                });
+            }
+        }
+
+        if symbols.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(DocumentSymbolResponse::Flat(symbols)))
+        }
     }
 }
 
