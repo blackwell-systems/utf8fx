@@ -372,6 +372,71 @@ impl MdfxLanguageServer {
             ..Default::default()
         });
 
+        // Add "ui:sparkline:" data visualization component
+        top_level.push(CompletionItem {
+            label: "ui:sparkline:".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Mini inline chart".to_string()),
+            documentation: Some(Documentation::String(
+                "Mini inline chart for data visualization.\n\n\
+                Parameters:\n\
+                - type: line, bar, or area (default: line)\n\
+                - width: Chart width in pixels (default: 100)\n\
+                - height: Chart height in pixels (default: 20)\n\
+                - fill: Line/bar color (default: pink)\n\
+                - stroke: Line stroke color\n\
+                - dots: Show dots at data points\n\n\
+                Example: {{ui:sparkline:1,3,2,5,4/}}\n\
+                Example: {{ui:sparkline:1,2,3:type=bar:fill=accent/}}".to_string()
+            )),
+            insert_text: Some("ui:sparkline:${1:values}/}}".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
+        // Add "ui:rating:" star/heart rating component
+        top_level.push(CompletionItem {
+            label: "ui:rating:".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Star/heart rating display".to_string()),
+            documentation: Some(Documentation::String(
+                "Star/heart/circle rating display with partial fill support.\n\n\
+                Parameters:\n\
+                - max: Maximum rating value (default: 5)\n\
+                - icon: star, heart, or circle (default: star)\n\
+                - size: Icon size in pixels (default: 20)\n\
+                - fill: Filled icon color (default: warning/yellow)\n\
+                - empty: Empty icon color (default: gray)\n\n\
+                Example: {{ui:rating:4.5/}}\n\
+                Example: {{ui:rating:3:max=5:icon=heart:fill=error/}}".to_string()
+            )),
+            insert_text: Some("ui:rating:${1:value}/}}".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
+        // Add "ui:waveform:" audio visualization component
+        top_level.push(CompletionItem {
+            label: "ui:waveform:".to_string(),
+            kind: Some(CompletionItemKind::MODULE),
+            detail: Some("Audio-style waveform visualization".to_string()),
+            documentation: Some(Documentation::String(
+                "Audio-style waveform with bars above/below center.\n\n\
+                Parameters:\n\
+                - width: Total width in pixels (default: 100)\n\
+                - height: Total height in pixels (default: 40)\n\
+                - positive/up: Color for bars above zero (default: success)\n\
+                - negative/down: Color for bars below zero (default: error)\n\
+                - bar_width/bar: Width of each bar (default: 3)\n\
+                - center: Show center line (default: false)\n\n\
+                Example: {{ui:waveform:0.5,-0.3,0.8,-0.6/}}\n\
+                Example: {{ui:waveform:1,-1,0.5:positive=accent:negative=pink/}}".to_string()
+            )),
+            insert_text: Some("ui:waveform:${1:values}/}}".to_string()),
+            insert_text_format: Some(InsertTextFormat::SNIPPET),
+            ..Default::default()
+        });
+
         // Add styles and components to top-level
         top_level.extend(styles.clone());
         top_level.extend(components.clone());
@@ -772,6 +837,24 @@ impl MdfxLanguageServer {
                 offset += 1;
                 self.tokenize_ui_component_args(params, offset, &mut tokens);
             }
+        }
+        // Handle ui:sparkline: prefix
+        else if let Some(rest) = content.strip_prefix("ui:sparkline:") {
+            tokens.push((offset, 12, TOKEN_NAMESPACE, 0)); // "ui:sparkline"
+            offset += 13;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
+        }
+        // Handle ui:rating: prefix
+        else if let Some(rest) = content.strip_prefix("ui:rating:") {
+            tokens.push((offset, 9, TOKEN_NAMESPACE, 0)); // "ui:rating"
+            offset += 10;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
+        }
+        // Handle ui:waveform: prefix
+        else if let Some(rest) = content.strip_prefix("ui:waveform:") {
+            tokens.push((offset, 11, TOKEN_NAMESPACE, 0)); // "ui:waveform"
+            offset += 12;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
         }
         // Handle glyph: prefix
         else if let Some(glyph_name) = content.strip_prefix("glyph:") {

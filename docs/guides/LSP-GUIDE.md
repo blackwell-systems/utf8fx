@@ -292,6 +292,9 @@ The LSP provides completions for:
 | `{{ui:row` | Horizontal badge row layout |
 | `{{ui:tech-group` | Grouped badges with auto corner handling |
 | `{{ui:live:` | Live data sources (github, npm, crates, pypi) |
+| `{{ui:sparkline:` | Mini inline charts (line, bar, area) |
+| `{{ui:rating:` | Star/heart/circle ratings |
+| `{{ui:waveform:` | Audio-style waveform visualization |
 | `{{swatch:` | Palette colors |
 | `bg=` / `fg=` | Palette colors |
 | `style=` | Shield styles (flat, flat-square, for-the-badge, plastic, social) |
