@@ -294,6 +294,46 @@ impl MdfxLanguageServer {
             ..Default::default()
         });
 
+        // Add "ui:version:" prefix
+        top_level.push(CompletionItem {
+            label: "ui:version:".to_string(),
+            kind: Some(CompletionItemKind::KEYWORD),
+            detail: Some("Semantic version badge".to_string()),
+            documentation: Some(Documentation::String(
+                "Render version badges with auto-detected status coloring.\n\n\
+                Status detection:\n\
+                - Stable (green): 1.0.0, 2.5.3\n\
+                - Beta (yellow): 0.x.x, -beta, -rc, -preview\n\
+                - Alpha (orange): -alpha\n\
+                - Dev (purple): -dev, -snapshot, -nightly\n\
+                - Deprecated (red): -deprecated, -eol\n\n\
+                Example: {{ui:version:1.0.0/}}, {{ui:version:2.0.0-beta.1/}}".to_string()
+            )),
+            insert_text: Some("ui:version:".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+            ..Default::default()
+        });
+
+        // Add "ui:license:" prefix
+        top_level.push(CompletionItem {
+            label: "ui:license:".to_string(),
+            kind: Some(CompletionItemKind::KEYWORD),
+            detail: Some("License badge".to_string()),
+            documentation: Some(Documentation::String(
+                "Render license badges with category-aware coloring.\n\n\
+                Categories:\n\
+                - Permissive (green): MIT, Apache-2.0, BSD, ISC\n\
+                - Weak Copyleft (blue): LGPL, MPL, EPL\n\
+                - Copyleft (yellow): GPL, AGPL\n\
+                - Public Domain (cyan): CC0, Unlicense\n\
+                - Proprietary (gray): Proprietary, Commercial\n\n\
+                Example: {{ui:license:MIT/}}, {{ui:license:Apache-2.0/}}".to_string()
+            )),
+            insert_text: Some("ui:license:".to_string()),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+            ..Default::default()
+        });
+
         // Add styles and components to top-level
         top_level.extend(styles.clone());
         top_level.extend(components.clone());
@@ -1041,7 +1081,7 @@ impl MdfxLanguageServer {
     /// Check if a template is inherently self-closing (never needs a closing tag)
     /// These templates render inline content and don't wrap text
     fn is_inherently_self_closing(content: &str) -> bool {
-        // ui: components (tech badges, progress, donut, gauge, live, swatch)
+        // ui: components (tech, version, license, progress, donut, gauge, live, swatch)
         content.starts_with("ui:")
             // Glyphs
             || content.starts_with("glyph:")
@@ -1259,6 +1299,7 @@ impl LanguageServer for MdfxLanguageServer {
                         ..Default::default()
                     }),
                 ),
+                color_provider: Some(ColorProviderCapability::Simple(true)),
                 ..Default::default()
             },
             server_info: Some(ServerInfo {
@@ -1584,6 +1625,129 @@ impl LanguageServer for MdfxLanguageServer {
                 data: tokens,
             })))
         }
+    }
+
+    async fn document_color(&self, params: DocumentColorParams) -> Result<Vec<ColorInformation>> {
+        let uri = &params.text_document.uri;
+        let text = match self.get_document_content(uri) {
+            Some(content) => content,
+            None => return Ok(vec![]),
+        };
+
+        let mut colors = Vec::new();
+
+        for (line_num, line) in text.lines().enumerate() {
+            // Find hex color patterns: bg=RRGGBB, text=RRGGBB, border=RRGGBB, etc.
+            // Also standalone hex colors in color contexts
+            let mut pos = 0;
+            while pos < line.len() {
+                // Look for =RRGGBB or =RGB patterns (6 or 3 hex chars)
+                if let Some(eq_pos) = line[pos..].find('=') {
+                    let start = pos + eq_pos + 1;
+                    if start < line.len() {
+                        // Try to parse as hex color (6 chars)
+                        if start + 6 <= line.len() {
+                            let hex = &line[start..start + 6];
+                            if hex.chars().all(|c| c.is_ascii_hexdigit()) {
+                                // Check it's followed by : or / or } or end
+                                let after = line.chars().nth(start + 6);
+                                if after.is_none() || matches!(after, Some(':') | Some('/') | Some('}')) {
+                                    if let Some(color) = Self::parse_hex_color(hex) {
+                                        colors.push(ColorInformation {
+                                            range: Range {
+                                                start: Position {
+                                                    line: line_num as u32,
+                                                    character: start as u32,
+                                                },
+                                                end: Position {
+                                                    line: line_num as u32,
+                                                    character: (start + 6) as u32,
+                                                },
+                                            },
+                                            color,
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                        // Try 3-char hex (RGB shorthand)
+                        else if start + 3 <= line.len() {
+                            let hex = &line[start..start + 3];
+                            if hex.chars().all(|c| c.is_ascii_hexdigit()) {
+                                let after = line.chars().nth(start + 3);
+                                if after.is_none() || matches!(after, Some(':') | Some('/') | Some('}')) {
+                                    // Expand 3-char to 6-char: RGB -> RRGGBB
+                                    let expanded: String = hex.chars().flat_map(|c| [c, c]).collect();
+                                    if let Some(color) = Self::parse_hex_color(&expanded) {
+                                        colors.push(ColorInformation {
+                                            range: Range {
+                                                start: Position {
+                                                    line: line_num as u32,
+                                                    character: start as u32,
+                                                },
+                                                end: Position {
+                                                    line: line_num as u32,
+                                                    character: (start + 3) as u32,
+                                                },
+                                            },
+                                            color,
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    pos = pos + eq_pos + 1;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        Ok(colors)
+    }
+
+    async fn color_presentation(
+        &self,
+        params: ColorPresentationParams,
+    ) -> Result<Vec<ColorPresentation>> {
+        let color = params.color;
+
+        // Convert color to hex
+        let r = (color.red * 255.0_f32) as u8;
+        let g = (color.green * 255.0_f32) as u8;
+        let b = (color.blue * 255.0_f32) as u8;
+
+        let hex = format!("{:02X}{:02X}{:02X}", r, g, b);
+
+        Ok(vec![ColorPresentation {
+            label: hex.clone(),
+            text_edit: Some(TextEdit {
+                range: params.range,
+                new_text: hex,
+            }),
+            additional_text_edits: None,
+        }])
+    }
+}
+
+impl MdfxLanguageServer {
+    /// Parse a 6-character hex string to a Color
+    fn parse_hex_color(hex: &str) -> Option<Color> {
+        if hex.len() != 6 {
+            return None;
+        }
+
+        let r = u8::from_str_radix(&hex[0..2], 16).ok()?;
+        let g = u8::from_str_radix(&hex[2..4], 16).ok()?;
+        let b = u8::from_str_radix(&hex[4..6], 16).ok()?;
+
+        Some(Color {
+            red: r as f32 / 255.0,
+            green: g as f32 / 255.0,
+            blue: b as f32 / 255.0,
+            alpha: 1.0,
+        })
     }
 }
 
