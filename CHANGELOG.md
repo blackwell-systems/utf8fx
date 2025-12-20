@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Thumb borders for slider components**: Progress, Donut, and Gauge now support `thumb_border` and `thumb_border_width` parameters for adding stroke borders to thumb indicators
+
 ### Changed
+- **Internal**: Refactored thumb parameters into `ThumbConfig` struct, reducing code complexity and centralizing thumb configuration
 - Test code cleanup: Replaced `panic!()` with `unreachable!()` for semantically correct match arm handling
 
 ### Added (CI)

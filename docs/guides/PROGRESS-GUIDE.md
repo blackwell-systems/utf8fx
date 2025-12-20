@@ -15,6 +15,7 @@ The progress bar component is a versatile horizontal bar for displaying percenta
 - [Slider Mode](#slider-mode)
 - [Thumb Shapes](#thumb-shapes)
 - [Thumb Width (Oval/Pill)](#thumb-width-ovalpill)
+- [Thumb Borders](#thumb-borders)
 - [Complete Examples](#complete-examples)
 - [Tips & Tricks](#tips--tricks)
 
@@ -57,6 +58,8 @@ Where `PERCENT` is a number from 0 to 100.
 | `thumb_width` | number | thumb | Thumb width (for oval/pill shapes) |
 | `thumb_color` | color | fill | Thumb color |
 | `thumb_shape` | string | circle | Thumb shape: circle, square, diamond |
+| `thumb_border` | color | none | Thumb border/stroke color |
+| `thumb_border_width` | number | 0 | Thumb border width in pixels |
 
 ---
 
@@ -289,6 +292,25 @@ Use `thumb_width` to create oval or pill-shaped thumbs:
 ```
 
 ![](assets/progress-guide/progress_a578588a54e89115.svg)
+
+---
+
+## Thumb Borders
+
+Add a stroke border around thumbs with `thumb_border` and `thumb_border_width`:
+
+| Syntax | Result |
+|--------|--------|
+| `{{ui:progress:50:width=180:thumb=16:thumb_border=white:thumb_border_width=2/}}` | Thumb with white border |
+| `{{ui:progress:50:width=180:thumb=16:thumb_border=000000:thumb_border_width=1/}}` | Thumb with thin black border |
+
+### Bordered Diamond
+
+```markdown
+{{ui:progress:65:width=200:thumb=16:thumb_shape=diamond:thumb_border=FFFFFF:thumb_border_width=2/}}
+```
+
+Borders help thumbs stand out on tracks with similar colors.
 
 ---
 

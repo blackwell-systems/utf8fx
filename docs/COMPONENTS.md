@@ -236,7 +236,9 @@ Components are defined in `registry.json` under `renderables.components`:
     "border_width": { "type": "number", "default": "1" },
     "thumb": { "type": "number", "default": "none" },
     "thumb_color": { "type": "color", "default": "same as fill" },
-    "thumb_shape": { "type": "string", "default": "circle" }
+    "thumb_shape": { "type": "string", "default": "circle" },
+    "thumb_border": { "type": "color", "default": "none" },
+    "thumb_border_width": { "type": "number", "default": "0" }
   }
 }
 ```
@@ -267,6 +269,8 @@ Components are defined in `registry.json` under `renderables.components`:
 - `thumb_width`: independent width for oval/pill shapes (defaults to thumb)
 - `thumb_shape`: circle (default), square, or diamond
 - `thumb_color`: defaults to fill color
+- `thumb_border`: stroke color around thumb
+- `thumb_border_width`: stroke width in pixels
 
 **Backends:**
 - **SVG:** Full rendering with all features
@@ -289,7 +293,9 @@ Components are defined in `registry.json` under `renderables.components`:
     "label": { "type": "boolean", "default": "false" },
     "label_color": { "type": "color", "default": "white" },
     "thumb": { "type": "number", "default": "none" },
-    "thumb_color": { "type": "color", "default": "same as fill" }
+    "thumb_color": { "type": "color", "default": "same as fill" },
+    "thumb_border": { "type": "color", "default": "none" },
+    "thumb_border_width": { "type": "number", "default": "0" }
   }
 }
 ```
@@ -301,6 +307,8 @@ Components are defined in `registry.json` under `renderables.components`:
 **With label:** `{{ui:donut:85:label=true/}}`
 
 **Slider mode:** `{{ui:donut:75:thumb=12:thumb_color=accent/}}`
+
+**Slider with border:** `{{ui:donut:60:thumb=14:thumb_border=white:thumb_border_width=2/}}`
 
 **How it works:**
 1. Generates SVG with circular arc using stroke-dasharray
@@ -323,7 +331,9 @@ Components are defined in `registry.json` under `renderables.components`:
     "label": { "type": "boolean", "default": "false" },
     "label_color": { "type": "color", "default": "white" },
     "thumb": { "type": "number", "default": "none" },
-    "thumb_color": { "type": "color", "default": "same as fill" }
+    "thumb_color": { "type": "color", "default": "same as fill" },
+    "thumb_border": { "type": "color", "default": "none" },
+    "thumb_border_width": { "type": "number", "default": "0" }
   }
 }
 ```
@@ -335,6 +345,8 @@ Components are defined in `registry.json` under `renderables.components`:
 **With label:** `{{ui:gauge:85:label=true/}}`
 
 **Slider mode:** `{{ui:gauge:50:thumb=16:thumb_color=warning/}}`
+
+**Slider with border:** `{{ui:gauge:60:thumb=18:thumb_border=000000:thumb_border_width=2/}}`
 
 **How it works:**
 1. Generates SVG with semi-circular arc (180° span)
@@ -856,4 +868,4 @@ echo "{{ui:swatch:accent/}}" | mdfx process -
 
 ---
 
-**Document Status:** Reflects v1.0.0 shipped implementation with unified registry, enhanced swatches, custom palette support, target system, donut/gauge components, slider thumb support, thumb_width for progress bars, and sparkline charts
+**Document Status:** Reflects v1.0.0 shipped implementation with unified registry, enhanced swatches, custom palette support, target system, donut/gauge components, slider thumb support, thumb_width for progress bars, thumb_border support, and sparkline charts

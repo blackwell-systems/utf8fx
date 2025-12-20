@@ -60,6 +60,8 @@ Where `PERCENT` is a number from 0 to 100.
 | `label_color` | color | white | Label text color |
 | `thumb` | number | none | Thumb size (enables slider mode) |
 | `thumb_color` | color | fill | Thumb color |
+| `thumb_border` | color | none | Thumb border/stroke color |
+| `thumb_border_width` | number | 0 | Thumb border width in pixels |
 
 ---
 
@@ -214,6 +216,8 @@ Where `PERCENT` is a number from 0 to 100.
 | `label_color` | color | white | Label text color |
 | `thumb` | number | none | Thumb size (enables slider mode) |
 | `thumb_color` | color | fill | Thumb color |
+| `thumb_border` | color | none | Thumb border/stroke color |
+| `thumb_border_width` | number | 0 | Thumb border width in pixels |
 
 ---
 
@@ -317,7 +321,7 @@ Add a `thumb` parameter for interactive-style indicator:
 
 # Thumb Customization
 
-Both donut and gauge support custom thumb colors:
+Both donut and gauge support custom thumb colors and borders:
 
 ### Donut Thumb Colors
 
@@ -345,6 +349,17 @@ Both donut and gauge support custom thumb colors:
 ```
 
 ![](assets/donut-gauge-guide/donut_823f45e337ec2d67.svg) ![](assets/donut-gauge-guide/gauge_d58590afd958787b.svg)
+
+### Thumb Borders
+
+Add a stroke border to thumbs with `thumb_border` and `thumb_border_width`:
+
+```markdown
+{{ui:donut:60:size=70:thumb=16:thumb_border=white:thumb_border_width=2/}}
+{{ui:gauge:60:size=100:thumb=18:thumb_border=000000:thumb_border_width=2/}}
+```
+
+Borders help thumbs stand out against similar-colored backgrounds.
 
 ---
 
