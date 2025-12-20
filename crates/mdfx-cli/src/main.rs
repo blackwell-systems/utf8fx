@@ -139,6 +139,12 @@ enum Commands {
         #[arg(long, default_value = "assets/mdfx")]
         assets_dir: String,
 
+        /// Prefix for asset paths in markdown output (defaults to assets_dir)
+        /// Use when assets_dir differs from the path in markdown references.
+        /// Example: --assets-dir examples/assets --assets-prefix assets
+        #[arg(long)]
+        assets_prefix: Option<String>,
+
         /// Custom palette JSON file for color definitions
         /// Format: {"colorName": "HEXVALUE", ...}
         #[arg(long)]
@@ -279,6 +285,12 @@ enum Commands {
         #[arg(long, default_value = "assets/mdfx")]
         assets_dir: String,
 
+        /// Prefix for asset paths in markdown output (defaults to assets_dir)
+        /// Use when assets_dir differs from the path in markdown references.
+        /// Example: --assets-dir examples/assets --assets-prefix assets
+        #[arg(long)]
+        assets_prefix: Option<String>,
+
         /// Custom palette JSON file for color definitions
         #[arg(long)]
         palette: Option<PathBuf>,
@@ -379,6 +391,7 @@ fn run(cli: Cli) -> Result<(), Error> {
             target,
             backend,
             assets_dir,
+            assets_prefix,
             palette,
             config,
             #[cfg(feature = "fetch")]
@@ -405,6 +418,7 @@ fn run(cli: Cli) -> Result<(), Error> {
                 &target,
                 backend.as_deref(),
                 &assets_dir,
+                assets_prefix.as_deref(),
                 palette.as_deref(),
                 config.as_deref(),
                 fetch_config,
@@ -450,6 +464,7 @@ fn run(cli: Cli) -> Result<(), Error> {
             target,
             backend,
             assets_dir,
+            assets_prefix,
             palette,
             debounce,
             config,
@@ -460,6 +475,7 @@ fn run(cli: Cli) -> Result<(), Error> {
                 &target,
                 backend.as_deref(),
                 &assets_dir,
+                assets_prefix.as_deref(),
                 palette.as_deref(),
                 debounce,
                 config.as_deref(),
@@ -755,6 +771,7 @@ fn process_file(
     target_name: &str,
     backend_override: Option<&str>,
     assets_dir: &str,
+    assets_prefix: Option<&str>,
     palette_path: Option<&std::path::Path>,
     config_path: Option<&std::path::Path>,
     #[cfg(feature = "fetch")] fetch_config: Option<mdfx_fetch::FetchConfig>,
@@ -806,7 +823,14 @@ fn process_file(
 
     // Create the appropriate backend
     let mut parser = match backend_type {
-        BackendType::Svg => TemplateParser::with_backend(Box::new(SvgBackend::new(assets_dir)))?,
+        BackendType::Svg => {
+            let backend = if let Some(prefix) = assets_prefix {
+                SvgBackend::with_prefix(assets_dir, prefix)
+            } else {
+                SvgBackend::new(assets_dir)
+            };
+            TemplateParser::with_backend(Box::new(backend))?
+        }
         BackendType::Shields => TemplateParser::with_backend(Box::new(ShieldsBackend::new()?))?,
         BackendType::PlainText => TemplateParser::with_backend(Box::new(PlainTextBackend::new()))?,
     };
@@ -1503,6 +1527,7 @@ fn watch_file(
     target_name: &str,
     backend_override: Option<&str>,
     assets_dir: &str,
+    assets_prefix: Option<&str>,
     palette_path: Option<&std::path::Path>,
     debounce_ms: u64,
     config_path: Option<&std::path::Path>,
@@ -1535,6 +1560,7 @@ fn watch_file(
         target_name,
         backend_override,
         assets_dir,
+        assets_prefix,
         palette_path,
         config_path,
         None, // watch mode doesn't support fetch currently
@@ -1577,6 +1603,7 @@ fn watch_file(
                         target_name,
                         backend_override,
                         assets_dir,
+                        assets_prefix,
                         palette_path,
                         config_path,
                         None, // watch mode doesn't support fetch currently

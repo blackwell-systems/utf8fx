@@ -25,6 +25,9 @@ use crate::renderer::{RenderedAsset, Renderer};
 pub struct SvgBackend {
     /// Output directory for generated SVG files (e.g., "assets/mdfx")
     out_dir: String,
+    /// Prefix for asset paths in markdown references (e.g., "assets/" instead of "examples/assets/")
+    /// When None, uses out_dir as the prefix
+    assets_prefix: Option<String>,
     /// When true, embed SVGs as data URIs instead of writing files
     inline: bool,
 }
@@ -34,6 +37,19 @@ impl SvgBackend {
     pub fn new(out_dir: impl Into<String>) -> Self {
         Self {
             out_dir: out_dir.into(),
+            assets_prefix: None,
+            inline: false,
+        }
+    }
+
+    /// Create a new SVG backend with separate output dir and markdown prefix
+    ///
+    /// Use this when you write files to one location (e.g., `examples/assets/`)
+    /// but need markdown to reference a different path (e.g., `assets/`).
+    pub fn with_prefix(out_dir: impl Into<String>, assets_prefix: impl Into<String>) -> Self {
+        Self {
+            out_dir: out_dir.into(),
+            assets_prefix: Some(assets_prefix.into()),
             inline: false,
         }
     }
@@ -42,6 +58,7 @@ impl SvgBackend {
     pub fn new_inline() -> Self {
         Self {
             out_dir: String::new(),
+            assets_prefix: None,
             inline: true,
         }
     }
@@ -306,18 +323,27 @@ impl Renderer for SvgBackend {
             let type_prefix = Self::type_prefix(primitive);
             let filename = content_addressed_filename(svg_bytes, type_prefix);
 
+            // File path uses out_dir (where files are written)
             let out_dir = self.out_dir.trim_end_matches('/');
             let relative_path = format!("{}/{}", out_dir, filename);
+
+            // Markdown reference uses assets_prefix if set, otherwise out_dir
+            let md_prefix = self
+                .assets_prefix
+                .as_ref()
+                .map(|p| p.trim_end_matches('/'))
+                .unwrap_or(out_dir);
+            let md_path = format!("{}/{}", md_prefix, filename);
 
             // Generate markdown image reference, optionally wrapped in a link
             let markdown_ref = if let Primitive::Tech(cfg) = primitive {
                 if let Some(url) = &cfg.url {
-                    format!("[![]({})]({})", relative_path, url)
+                    format!("[![]({})]({})", md_path, url)
                 } else {
-                    format!("![]({})", relative_path)
+                    format!("![]({})", md_path)
                 }
             } else {
-                format!("![]({})", relative_path)
+                format!("![]({})", md_path)
             };
             Ok(RenderedAsset::File {
                 relative_path,
