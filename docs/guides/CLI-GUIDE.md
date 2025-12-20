@@ -61,6 +61,7 @@ mdfx process <INPUT> [OPTIONS]
 | `--target <TARGET>` | Target platform | `github` |
 | `--backend <BACKEND>` | Rendering backend | auto |
 | `--assets-dir <DIR>` | Directory for SVG assets | `assets/mdfx` |
+| `--assets-prefix <PREFIX>` | Prefix for asset paths in markdown (defaults to assets-dir) | — |
 | `--palette <FILE>` | Custom palette JSON | none |
 | `--config <FILE>` | Config file (partials, palette) | auto-discover `.mdfx.json` |
 
@@ -86,6 +87,10 @@ mdfx process README.template.md --target pypi -o PKG-INFO.md
 
 # Override backend (use SVG even for GitHub)
 mdfx process README.template.md --target github --backend svg -o README.md
+
+# Write assets to examples/assets/ but markdown references assets/
+mdfx process examples/demo.template.md -o examples/demo.md \
+  --backend svg --assets-dir examples/assets --assets-prefix assets
 ```
 
 ---
@@ -153,6 +158,7 @@ mdfx watch <INPUT> [OPTIONS]
 | `--target <TARGET>` | Target platform | `github` |
 | `--backend <BACKEND>` | Rendering backend | auto |
 | `--assets-dir <DIR>` | Directory for SVG assets | `assets/mdfx` |
+| `--assets-prefix <PREFIX>` | Prefix for asset paths in markdown (defaults to assets-dir) | — |
 | `--palette <FILE>` | Custom palette JSON | none |
 | `--config <FILE>` | Config file | auto-discover `.mdfx.json` |
 | `--debounce <MS>` | Rebuild delay | `100` |
@@ -165,6 +171,10 @@ mdfx watch README.template.md -o README.md
 
 # Watch with custom target
 mdfx watch docs/source.md -o docs/output.md --target local --backend svg
+
+# Watch with separate asset directory and markdown prefix
+mdfx watch examples/demo.template.md -o examples/demo.md \
+  --assets-dir examples/assets --assets-prefix assets
 ```
 
 ---
