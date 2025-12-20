@@ -389,6 +389,211 @@ impl MdfxLanguageServer {
         }
     }
 
+    /// Tokenize document for semantic highlighting
+    /// Returns delta-encoded semantic token data
+    fn tokenize_document(&self, text: &str) -> Vec<SemanticToken> {
+        use once_cell::sync::Lazy;
+
+        // Pattern to match all mdfx templates: {{...}} or {{.../}}
+        static TEMPLATE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
+            regex::Regex::new(r"\{\{([^}]+?)(?:/\}\}|\}\})").unwrap()
+        });
+
+        let icon_list = list_icons();
+        let valid_tech_names: std::collections::HashSet<&str> =
+            icon_list.iter().map(|s| s.as_ref()).collect();
+
+        let mut tokens = Vec::new();
+        let mut prev_line = 0u32;
+        let mut prev_char = 0u32;
+
+        for (line_num, line) in text.lines().enumerate() {
+            let line_num = line_num as u32;
+
+            for caps in TEMPLATE_PATTERN.captures_iter(line) {
+                let full_match = caps.get(0).unwrap();
+                let content = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+                let template_start = full_match.start() + 2; // Skip {{
+
+                // Parse the template content and generate tokens
+                let new_tokens =
+                    self.tokenize_template(content, template_start, &valid_tech_names);
+
+                // Convert to delta-encoded format
+                for (offset, length, token_type, token_modifiers) in new_tokens {
+                    let char_pos = offset as u32;
+
+                    let delta_line = line_num - prev_line;
+                    let delta_start = if delta_line == 0 {
+                        char_pos - prev_char
+                    } else {
+                        char_pos
+                    };
+
+                    tokens.push(SemanticToken {
+                        delta_line,
+                        delta_start,
+                        length: length as u32,
+                        token_type,
+                        token_modifiers_bitset: token_modifiers,
+                    });
+
+                    prev_line = line_num;
+                    prev_char = char_pos;
+                }
+            }
+        }
+
+        tokens
+    }
+
+    /// Tokenize a single template's content
+    /// Returns: Vec<(offset, length, token_type, token_modifiers)>
+    fn tokenize_template(
+        &self,
+        content: &str,
+        base_offset: usize,
+        valid_tech_names: &std::collections::HashSet<&str>,
+    ) -> Vec<(usize, usize, u32, u32)> {
+        // Token type indices (must match the legend in initialize)
+        const TOKEN_NAMESPACE: u32 = 0; // component prefix
+        const TOKEN_TYPE: u32 = 1; // tech name
+        const TOKEN_PARAMETER: u32 = 2; // parameter name
+        const TOKEN_STRING: u32 = 3; // parameter value
+        const TOKEN_VARIABLE: u32 = 4; // palette color name
+        const TOKEN_KEYWORD: u32 = 5; // style name
+        const TOKEN_FUNCTION: u32 = 6; // frame name
+        const TOKEN_INVALID: u32 = 7; // invalid items
+
+        let mut tokens = Vec::new();
+        let mut offset = base_offset;
+
+        // Handle ui:tech: prefix
+        if let Some(rest) = content.strip_prefix("ui:tech:") {
+            // "ui:tech" as namespace
+            tokens.push((offset, 7, TOKEN_NAMESPACE, 0));
+            offset += 8; // "ui:tech:"
+
+            // Parse tech name and parameters
+            let parts: Vec<&str> = rest.split(':').collect();
+            if !parts.is_empty() {
+                let tech_name = parts[0];
+                let token_type = if valid_tech_names.contains(tech_name) {
+                    TOKEN_TYPE
+                } else {
+                    TOKEN_INVALID
+                };
+                tokens.push((offset, tech_name.len(), token_type, 0));
+                offset += tech_name.len() + 1; // +1 for ':'
+
+                // Parse parameters
+                for part in &parts[1..] {
+                    if let Some(eq_pos) = part.find('=') {
+                        let param_name = &part[..eq_pos];
+                        let param_value = &part[eq_pos + 1..];
+
+                        // Parameter name
+                        let param_type = if params::is_valid_tech_param(param_name) {
+                            TOKEN_PARAMETER
+                        } else {
+                            TOKEN_INVALID
+                        };
+                        tokens.push((offset, param_name.len(), param_type, 0));
+                        offset += eq_pos + 1; // param_name + '='
+
+                        // Parameter value
+                        let value_type = if self.is_color_param(param_name)
+                            && self.registry.palette().contains_key(param_value)
+                        {
+                            TOKEN_VARIABLE
+                        } else {
+                            TOKEN_STRING
+                        };
+                        tokens.push((offset, param_value.len(), value_type, 0));
+                        offset += param_value.len() + 1;
+                    } else {
+                        // Part without = (could be trailing part)
+                        offset += part.len() + 1;
+                    }
+                }
+            }
+        }
+        // Handle ui:live: prefix
+        else if let Some(rest) = content.strip_prefix("ui:live:") {
+            tokens.push((offset, 7, TOKEN_NAMESPACE, 0)); // "ui:live"
+            offset += 8;
+
+            let parts: Vec<&str> = rest.split(':').collect();
+            if !parts.is_empty() {
+                let source = parts[0];
+                let valid_sources: Vec<&str> = params::valid_live_sources().collect();
+                let token_type = if valid_sources.contains(&source) {
+                    TOKEN_TYPE
+                } else {
+                    TOKEN_INVALID
+                };
+                tokens.push((offset, source.len(), token_type, 0));
+            }
+        }
+        // Handle glyph: prefix
+        else if let Some(glyph_name) = content.strip_prefix("glyph:") {
+            tokens.push((offset, 5, TOKEN_NAMESPACE, 0)); // "glyph"
+            offset += 6;
+
+            let token_type = if self.registry.glyph(glyph_name).is_some() {
+                TOKEN_STRING
+            } else {
+                TOKEN_INVALID
+            };
+            tokens.push((offset, glyph_name.len(), token_type, 0));
+        }
+        // Handle frame: prefix
+        else if let Some(frame_name) = content.strip_prefix("frame:") {
+            tokens.push((offset, 5, TOKEN_NAMESPACE, 0)); // "frame"
+            offset += 6;
+
+            let name = frame_name.split(':').next().unwrap_or(frame_name);
+            let token_type = if self.registry.frame(name).is_some() {
+                TOKEN_FUNCTION
+            } else {
+                TOKEN_INVALID
+            };
+            tokens.push((offset, name.len(), token_type, 0));
+        }
+        // Handle swatch: prefix
+        else if let Some(rest) = content.strip_prefix("swatch:") {
+            tokens.push((offset, 6, TOKEN_NAMESPACE, 0)); // "swatch"
+            offset += 7;
+
+            let color = rest.split(':').next().unwrap_or(rest);
+            let token_type = if self.registry.palette().contains_key(color) {
+                TOKEN_VARIABLE
+            } else {
+                TOKEN_INVALID
+            };
+            tokens.push((offset, color.len(), token_type, 0));
+        }
+        // Handle style names
+        else {
+            let name = content.split([':', '/']).next().unwrap_or(content);
+            if self.registry.style(name).is_some() {
+                tokens.push((offset, name.len(), TOKEN_KEYWORD, 0));
+            } else if self.registry.component(name).is_some() {
+                tokens.push((offset, name.len(), TOKEN_NAMESPACE, 0));
+            }
+        }
+
+        tokens
+    }
+
+    /// Check if a parameter expects a color value
+    fn is_color_param(&self, param: &str) -> bool {
+        matches!(
+            param,
+            "bg" | "bg_left" | "bg_right" | "logo" | "text" | "text_color" | "color" | "border"
+        )
+    }
+
     /// Build completion items for live source metrics using shared definitions
     fn live_metric_completions(&self, source: &str, prefix: &str) -> Vec<CompletionItem> {
         let metrics = params::metrics_for_source(source).unwrap_or(&[]);
@@ -811,6 +1016,30 @@ impl LanguageServer for MdfxLanguageServer {
                 }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
                 document_symbol_provider: Some(OneOf::Left(true)),
+                semantic_tokens_provider: Some(
+                    SemanticTokensServerCapabilities::SemanticTokensOptions(SemanticTokensOptions {
+                        legend: SemanticTokensLegend {
+                            token_types: vec![
+                                SemanticTokenType::NAMESPACE,  // 0: component prefix (ui:tech, glyph)
+                                SemanticTokenType::TYPE,       // 1: tech name (rust, typescript)
+                                SemanticTokenType::PARAMETER,  // 2: parameter name
+                                SemanticTokenType::STRING,     // 3: parameter value
+                                SemanticTokenType::VARIABLE,   // 4: palette color name
+                                SemanticTokenType::KEYWORD,    // 5: style name
+                                SemanticTokenType::FUNCTION,   // 6: frame name
+                                SemanticTokenType::new("invalid"), // 7: invalid/unknown items
+                            ],
+                            token_modifiers: vec![
+                                SemanticTokenModifier::DEFINITION,
+                                SemanticTokenModifier::new("valid"),
+                                SemanticTokenModifier::new("invalid"),
+                            ],
+                        },
+                        full: Some(SemanticTokensFullOptions::Bool(true)),
+                        range: Some(false),
+                        ..Default::default()
+                    }),
+                ),
                 ..Default::default()
             },
             server_info: Some(ServerInfo {
@@ -1118,6 +1347,28 @@ impl LanguageServer for MdfxLanguageServer {
             Ok(None)
         } else {
             Ok(Some(DocumentSymbolResponse::Flat(symbols)))
+        }
+    }
+
+    async fn semantic_tokens_full(
+        &self,
+        params: SemanticTokensParams,
+    ) -> Result<Option<SemanticTokensResult>> {
+        let uri = params.text_document.uri;
+        let text = match self.get_document_content(&uri) {
+            Some(content) => content,
+            None => return Ok(None),
+        };
+
+        let tokens = self.tokenize_document(&text);
+
+        if tokens.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(SemanticTokensResult::Tokens(SemanticTokens {
+                result_id: None,
+                data: tokens,
+            })))
         }
     }
 }

@@ -1,4 +1,7 @@
 //! Tech badge component handler
+//!
+//! Parameter definitions are centralized in [`crate::components::params::TECH_PARAMS`]
+//! which is the single source of truth for both the renderer and LSP.
 
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};

@@ -236,6 +236,28 @@ Syntax highlighting is automatically injected into markdown files. The grammar r
 {{glyph:star.filled/}}                         <!-- Glyph reference -->
 ```
 
+### Semantic Tokens
+
+Beyond TextMate grammar, the LSP provides semantic tokens for context-aware highlighting. This enables richer highlighting based on semantic understanding of your templates:
+
+| Token Type | Description | Example |
+|------------|-------------|---------|
+| `namespace` | Component prefixes | `ui:tech`, `glyph`, `frame`, `swatch` |
+| `type` | Tech/source names | `rust`, `typescript`, `github` |
+| `parameter` | Parameter names | `border`, `logo_size`, `corners` |
+| `string` | Parameter values | `lg`, `true`, `left` |
+| `variable` | Palette color names | `accent`, `cobalt`, `pink` |
+| `keyword` | Style names | `mathbold`, `italic`, `fraktur` |
+| `function` | Frame names | `gradient`, `box`, `parentheses` |
+| `invalid` | Unknown/invalid items | Unknown tech names, invalid params |
+
+**Benefits over TextMate:**
+- **Validation highlighting**: Invalid tech names, glyph names, and parameters are highlighted differently
+- **Context awareness**: Color names are highlighted as variables when used in color parameters
+- **Semantic accuracy**: Token types reflect actual meaning, not just syntax patterns
+
+Editors that support LSP semantic tokens will use these for highlighting when available.
+
 ### Completions
 
 The LSP provides completions for:

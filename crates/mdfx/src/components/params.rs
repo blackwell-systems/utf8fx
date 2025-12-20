@@ -378,3 +378,19 @@ pub fn is_valid_metric(source: &str, metric: &str) -> bool {
         .map(|metrics| metrics.iter().any(|(name, _)| *name == metric))
         .unwrap_or(false)
 }
+
+/// Get all valid tech badge parameter names
+pub fn valid_tech_param_names() -> impl Iterator<Item = &'static str> {
+    TECH_PARAMS.iter().map(|p| p.name)
+}
+
+/// Check if a tech badge parameter name is valid
+pub fn is_valid_tech_param(name: &str) -> bool {
+    TECH_PARAMS.iter().any(|p| p.name == name)
+}
+
+/// Get unknown tech badge parameters from a list
+/// Returns parameter names that are not recognized
+pub fn unknown_tech_params<'a>(params: impl Iterator<Item = &'a str>) -> Vec<&'a str> {
+    params.filter(|name| !is_valid_tech_param(name)).collect()
+}
