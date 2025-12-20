@@ -2318,11 +2318,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         let input = "{{frame:invalid}}Text{{/frame}}";
         let result = parser.process(input);
         assert!(result.is_err());
-        if let Err(Error::UnknownFrame(name)) = result {
-            assert_eq!(name, "invalid");
-        } else {
-            panic!("Expected UnknownFrame error");
-        }
+        let Err(Error::UnknownFrame(name)) = result else {
+            unreachable!("Expected UnknownFrame error, got {:?}", result);
+        };
+        assert_eq!(name, "invalid");
     }
 
     // ========================================================================
@@ -2346,11 +2345,10 @@ And `{{mathbold}}inline code{{/mathbold}}` is also preserved."#
         let input = "{{frame:glyph:unknown}}Text{{/frame}}";
         let result = parser.process(input);
         assert!(result.is_err());
-        if let Err(Error::UnknownGlyph(name)) = result {
-            assert_eq!(name, "unknown");
-        } else {
-            panic!("Expected UnknownGlyph error");
-        }
+        let Err(Error::UnknownGlyph(name)) = result else {
+            unreachable!("Expected UnknownGlyph error, got {:?}", result);
+        };
+        assert_eq!(name, "unknown");
     }
 
     #[test]

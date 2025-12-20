@@ -235,10 +235,10 @@ mod tests {
         let converter = Converter::new().unwrap();
         let result = converter.convert("TEST", "fakestyle");
         assert!(result.is_err());
-        match result {
-            Err(Error::UnknownStyle(name)) => assert_eq!(name, "fakestyle"),
-            _ => panic!("Expected UnknownStyle error"),
-        }
+        let Err(Error::UnknownStyle(name)) = result else {
+            unreachable!("Expected UnknownStyle error, got {:?}", result);
+        };
+        assert_eq!(name, "fakestyle");
     }
 
     // ========================================================================

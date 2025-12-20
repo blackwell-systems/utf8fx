@@ -584,10 +584,10 @@ mod tests {
         });
 
         let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Tech { name, .. } => assert_eq!(name, "rust"),
-            _ => panic!("Wrong variant"),
-        }
+        let PrimitiveInfo::Tech { name, .. } = info else {
+            unreachable!("Expected Tech variant, got {:?}", info);
+        };
+        assert_eq!(name, "rust");
     }
 
     #[test]
@@ -721,10 +721,10 @@ mod tests {
         // Verify
         let results = manifest.verify(temp_dir.path());
         assert_eq!(results.len(), 1);
-        match &results[0] {
-            VerificationResult::Valid { path } => assert_eq!(path, "test.svg"),
-            _ => panic!("Expected Valid result"),
-        }
+        let VerificationResult::Valid { path } = &results[0] else {
+            unreachable!("Expected Valid result, got {:?}", results[0]);
+        };
+        assert_eq!(path, "test.svg");
     }
 
     #[test]
@@ -742,10 +742,10 @@ mod tests {
 
         let results = manifest.verify(temp_dir.path());
         assert_eq!(results.len(), 1);
-        match &results[0] {
-            VerificationResult::Missing { path } => assert_eq!(path, "missing.svg"),
-            _ => panic!("Expected Missing result"),
-        }
+        let VerificationResult::Missing { path } = &results[0] else {
+            unreachable!("Expected Missing result, got {:?}", results[0]);
+        };
+        assert_eq!(path, "missing.svg");
     }
 
     #[test]
@@ -769,10 +769,10 @@ mod tests {
 
         let results = manifest.verify(temp_dir.path());
         assert_eq!(results.len(), 1);
-        match &results[0] {
-            VerificationResult::HashMismatch { path, .. } => assert_eq!(path, "test.svg"),
-            _ => panic!("Expected HashMismatch result"),
-        }
+        let VerificationResult::HashMismatch { path, .. } = &results[0] else {
+            unreachable!("Expected HashMismatch result, got {:?}", results[0]);
+        };
+        assert_eq!(path, "test.svg");
     }
 
     // ========================================================================
@@ -840,36 +840,34 @@ mod tests {
     fn test_primitive_info_from_progress() {
         let primitive = Primitive::simple_progress(75, "#E0E0E0", "#4CAF50");
         let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Progress {
-                percent,
-                width,
-                height,
-            } => {
-                assert_eq!(percent, 75);
-                assert_eq!(width, 100); // default
-                assert_eq!(height, 10); // default
-            }
-            _ => panic!("Expected Progress variant"),
-        }
+        let PrimitiveInfo::Progress {
+            percent,
+            width,
+            height,
+        } = info
+        else {
+            unreachable!("Expected Progress variant, got {:?}", info);
+        };
+        assert_eq!(percent, 75);
+        assert_eq!(width, 100); // default
+        assert_eq!(height, 10); // default
     }
 
     #[test]
     fn test_primitive_info_from_donut() {
         let primitive = Primitive::simple_donut(50, "#E0E0E0", "#2196F3");
         let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Donut {
-                percent,
-                size,
-                thickness,
-            } => {
-                assert_eq!(percent, 50);
-                assert_eq!(size, 40); // default
-                assert_eq!(thickness, 4); // default
-            }
-            _ => panic!("Expected Donut variant"),
-        }
+        let PrimitiveInfo::Donut {
+            percent,
+            size,
+            thickness,
+        } = info
+        else {
+            unreachable!("Expected Donut variant, got {:?}", info);
+        };
+        assert_eq!(percent, 50);
+        assert_eq!(size, 40); // default
+        assert_eq!(thickness, 4); // default
     }
 
     #[test]
@@ -886,18 +884,17 @@ mod tests {
             thumb_color: None,
         };
         let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Gauge {
-                percent,
-                size,
-                thickness,
-            } => {
-                assert_eq!(percent, 80);
-                assert_eq!(size, 100);
-                assert_eq!(thickness, 10);
-            }
-            _ => panic!("Expected Gauge variant"),
-        }
+        let PrimitiveInfo::Gauge {
+            percent,
+            size,
+            thickness,
+        } = info
+        else {
+            unreachable!("Expected Gauge variant, got {:?}", info);
+        };
+        assert_eq!(percent, 80);
+        assert_eq!(size, 100);
+        assert_eq!(thickness, 10);
     }
 
     #[test]
@@ -915,20 +912,19 @@ mod tests {
             dot_radius: 3,
         };
         let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Sparkline {
-                point_count,
-                width,
-                height,
-                chart_type,
-            } => {
-                assert_eq!(point_count, 5);
-                assert_eq!(width, 120);
-                assert_eq!(height, 30);
-                assert_eq!(chart_type, "line");
-            }
-            _ => panic!("Expected Sparkline variant"),
-        }
+        let PrimitiveInfo::Sparkline {
+            point_count,
+            width,
+            height,
+            chart_type,
+        } = info
+        else {
+            unreachable!("Expected Sparkline variant, got {:?}", info);
+        };
+        assert_eq!(point_count, 5);
+        assert_eq!(width, 120);
+        assert_eq!(height, 30);
+        assert_eq!(chart_type, "line");
     }
 
     #[test]
@@ -943,14 +939,12 @@ mod tests {
             spacing: 2,
         };
         let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Rating { value, max, icon } => {
-                assert!((value - 4.0).abs() < f32::EPSILON);
-                assert_eq!(max, 5);
-                assert_eq!(icon, "star");
-            }
-            _ => panic!("Expected Rating variant"),
-        }
+        let PrimitiveInfo::Rating { value, max, icon } = info else {
+            unreachable!("Expected Rating variant, got {:?}", info);
+        };
+        assert!((value - 4.0).abs() < f32::EPSILON);
+        assert_eq!(max, 5);
+        assert_eq!(icon, "star");
     }
 
     #[test]
@@ -968,17 +962,16 @@ mod tests {
             center_line_color: None,
         };
         let info = PrimitiveInfo::from(&primitive);
-        match info {
-            PrimitiveInfo::Waveform {
-                point_count,
-                width,
-                height,
-            } => {
-                assert_eq!(point_count, 5);
-                assert_eq!(width, 100);
-                assert_eq!(height, 40);
-            }
-            _ => panic!("Expected Waveform variant"),
-        }
+        let PrimitiveInfo::Waveform {
+            point_count,
+            width,
+            height,
+        } = info
+        else {
+            unreachable!("Expected Waveform variant, got {:?}", info);
+        };
+        assert_eq!(point_count, 5);
+        assert_eq!(width, 100);
+        assert_eq!(height, 40);
     }
 }

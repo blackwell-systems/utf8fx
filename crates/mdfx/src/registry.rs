@@ -768,15 +768,16 @@ mod tests {
     fn test_unified_resolution() {
         let registry = Registry::new().unwrap();
 
-        match registry.resolve("swatch", EvalContext::Block) {
-            ResolvedRenderable::Component(c) => assert_eq!(c.component_type, "native"),
-            _ => panic!("Expected component"),
-        }
+        let ResolvedRenderable::Component(c) = registry.resolve("swatch", EvalContext::Block)
+        else {
+            unreachable!("Expected component");
+        };
+        assert_eq!(c.component_type, "native");
 
-        match registry.resolve("→", EvalContext::Inline) {
-            ResolvedRenderable::Literal(s) => assert_eq!(s, "→"),
-            _ => panic!("Expected literal"),
-        }
+        let ResolvedRenderable::Literal(s) = registry.resolve("→", EvalContext::Inline) else {
+            unreachable!("Expected literal");
+        };
+        assert_eq!(s, "→");
     }
 
     // ========================================================================

@@ -325,7 +325,7 @@ mod tests {
             "logo_color" => BadgeBuilder::new("test").logo_color(value).build(),
             "bg_left" => BadgeBuilder::new("test").bg_left(value).build(),
             "bg_right" => BadgeBuilder::new("test").bg_right(value).build(),
-            _ => panic!("Unknown field"),
+            _ => unreachable!("Unknown field"),
         };
         let actual = match field {
             "custom_icon" => badge.custom_icon,

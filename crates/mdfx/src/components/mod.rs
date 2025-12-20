@@ -570,12 +570,10 @@ mod tests {
             .expand("swatch", &[input.to_string()], None)
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
-                assert_eq!(color, expected);
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch { color, .. }) = result else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(color, expected);
     }
 
     #[test]
@@ -589,13 +587,11 @@ mod tests {
             )
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch { color, opacity, .. }) => {
-                assert_eq!(color, "F41C80");
-                assert_eq!(opacity, Some(0.5));
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch { color, opacity, .. }) = result else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(color, "F41C80");
+        assert_eq!(opacity, Some(0.5));
     }
 
     #[test]
@@ -613,19 +609,18 @@ mod tests {
             )
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch {
-                color,
-                width,
-                height,
-                ..
-            }) => {
-                assert_eq!(color, "2B6CB0"); // cobalt resolved
-                assert_eq!(width, Some(40));
-                assert_eq!(height, Some(30));
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch {
+            color,
+            width,
+            height,
+            ..
+        }) = result
+        else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(color, "2B6CB0"); // cobalt resolved
+        assert_eq!(width, Some(40));
+        assert_eq!(height, Some(30));
     }
 
     #[test]
@@ -643,17 +638,16 @@ mod tests {
             )
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch {
-                border_color,
-                border_width,
-                ..
-            }) => {
-                assert_eq!(border_color, Some("FFFFFF".to_string()));
-                assert_eq!(border_width, Some(2));
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch {
+            border_color,
+            border_width,
+            ..
+        }) = result
+        else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(border_color, Some("FFFFFF".to_string()));
+        assert_eq!(border_width, Some(2));
     }
 
     #[test]
@@ -667,12 +661,10 @@ mod tests {
             )
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch { label, .. }) => {
-                assert_eq!(label, Some("v1".to_string()));
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch { label, .. }) = result else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(label, Some("v1".to_string()));
     }
 
     #[test]
@@ -687,12 +679,10 @@ mod tests {
             )
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch { opacity, .. }) => {
-                assert_eq!(opacity, Some(1.0)); // clamped to 1.0
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch { opacity, .. }) = result else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(opacity, Some(1.0)); // clamped to 1.0
     }
 
     #[test]
@@ -709,12 +699,10 @@ mod tests {
             .expand("swatch", &["brand".to_string()], None)
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
-                assert_eq!(color, "FF5500");
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch { color, .. }) = result else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(color, "FF5500");
     }
 
     #[test]
@@ -730,12 +718,10 @@ mod tests {
             .expand("swatch", &["pink".to_string()], None)
             .unwrap();
 
-        match result {
-            ComponentOutput::Primitive(Primitive::Swatch { color, .. }) => {
-                assert_eq!(color, "00FF00"); // overridden, not F41C80
-            }
-            _ => panic!("Expected Primitive::Swatch"),
-        }
+        let ComponentOutput::Primitive(Primitive::Swatch { color, .. }) = result else {
+            unreachable!("Expected Primitive::Swatch");
+        };
+        assert_eq!(color, "00FF00"); // overridden, not F41C80
     }
 
     #[test]
@@ -746,13 +732,11 @@ mod tests {
             .unwrap();
 
         // Tech should return a Primitive::Tech with brand color
-        match result {
-            ComponentOutput::Primitive(Primitive::Tech(cfg)) => {
-                assert_eq!(cfg.name, "rust");
-                assert_eq!(cfg.bg_color, "DEA584"); // Rust brand color
-            }
-            _ => panic!("Expected Primitive::Tech"),
-        }
+        let ComponentOutput::Primitive(Primitive::Tech(cfg)) = result else {
+            unreachable!("Expected Primitive::Tech");
+        };
+        assert_eq!(cfg.name, "rust");
+        assert_eq!(cfg.bg_color, "DEA584"); // Rust brand color
     }
 
     #[test]

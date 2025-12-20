@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Test code cleanup: Replaced `panic!()` with `unreachable!()` for semantically correct match arm handling
+
+### Added (CI)
+- Added `cargo-audit` security scanning to CI workflow
+
+---
+
+## [1.0.0-beta.1] - 2025-12-20
+
 ### Added
 
 #### Enhanced Asset Management System

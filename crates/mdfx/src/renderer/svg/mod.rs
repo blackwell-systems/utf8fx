@@ -375,7 +375,7 @@ mod tests {
                 assert!(!bytes.is_empty());
                 assert!(markdown_ref.contains(&relative_path));
             }
-            _ => panic!("Expected File asset"),
+            _ => unreachable!("Expected File asset"),
         }
     }
 
@@ -411,12 +411,10 @@ mod tests {
         let primitive = Primitive::simple_swatch("F41C80", "flat-square");
         let result = backend.render(&primitive).unwrap();
 
-        match result {
-            RenderedAsset::InlineMarkdown(svg) => {
-                assert!(svg.starts_with("<svg"));
-            }
-            _ => panic!("Expected InlineMarkdown asset"),
-        }
+        let RenderedAsset::InlineMarkdown(svg) = result else {
+            unreachable!("Expected InlineMarkdown asset");
+        };
+        assert!(svg.starts_with("<svg"));
     }
 
     // ========================================================================
@@ -442,10 +440,10 @@ mod tests {
     /// Helper to extract SVG content from inline render
     fn render_inline_svg(primitive: &Primitive) -> String {
         let backend = SvgBackend::new_inline();
-        match backend.render(primitive).unwrap() {
-            RenderedAsset::InlineMarkdown(svg) => svg,
-            _ => panic!("Expected InlineMarkdown"),
-        }
+        let RenderedAsset::InlineMarkdown(svg) = backend.render(primitive).unwrap() else {
+            unreachable!("Expected InlineMarkdown");
+        };
+        svg
     }
 
     #[test]

@@ -557,7 +557,7 @@ mod tests {
             "packagist" => handle_packagist(&args, &params, "flat", |c| c.to_string(), &ctx),
             "rubygems" => handle_rubygems(&args, &params, "flat", |c| c.to_string(), &ctx),
             "nuget" => handle_nuget(&args, &params, "flat", |c| c.to_string(), &ctx),
-            _ => panic!("Unknown source"),
+            _ => unreachable!("Unknown source"),
         };
 
         assert!(
@@ -597,7 +597,7 @@ mod tests {
             "packagist" => handle_packagist(&[], &params, "flat", |c| c.to_string(), &ctx),
             "rubygems" => handle_rubygems(&[], &params, "flat", |c| c.to_string(), &ctx),
             "nuget" => handle_nuget(&[], &params, "flat", |c| c.to_string(), &ctx),
-            _ => panic!("Unknown source"),
+            _ => unreachable!("Unknown source"),
         };
 
         assert!(

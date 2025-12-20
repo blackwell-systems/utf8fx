@@ -172,21 +172,20 @@ mod tests {
         let params = HashMap::new();
         let result = handle(&params, Some(content)).unwrap();
 
-        if let ComponentOutput::Template(template) = result {
-            if !exact_match.is_empty() {
-                assert_eq!(template, exact_match);
-            } else {
-                for corner in expected_corners {
-                    assert!(
-                        template.contains(corner),
-                        "Expected {} in {}",
-                        corner,
-                        template
-                    );
-                }
-            }
+        let ComponentOutput::Template(template) = result else {
+            unreachable!("Expected Template output");
+        };
+        if !exact_match.is_empty() {
+            assert_eq!(template, exact_match);
         } else {
-            panic!("Expected Template output");
+            for corner in expected_corners {
+                assert!(
+                    template.contains(corner),
+                    "Expected {} in {}",
+                    corner,
+                    template
+                );
+            }
         }
     }
 
@@ -197,13 +196,12 @@ mod tests {
 
         let result = handle(&params, Some(content)).unwrap();
 
-        if let ComponentOutput::Template(template) = result {
-            // First badge already has corners, should not be modified
-            assert!(template.contains("corners=all"));
-            assert!(template.contains("corners=right"));
-        } else {
-            panic!("Expected Template output");
-        }
+        let ComponentOutput::Template(template) = result else {
+            unreachable!("Expected Template output");
+        };
+        // First badge already has corners, should not be modified
+        assert!(template.contains("corners=all"));
+        assert!(template.contains("corners=right"));
     }
 
     // ========================================================================
@@ -246,31 +244,30 @@ mod tests {
 
         let result = handle(&params, Some(content)).unwrap();
 
-        if let ComponentOutput::Template(template) = result {
-            for expected in expected_contains {
-                assert!(
-                    template.contains(expected),
-                    "Expected {} in {}",
-                    expected,
-                    template
-                );
-            }
-            if bg_count > 0 {
-                assert_eq!(template.matches("bg=1a1a2e").count(), bg_count);
-            }
-            if border_count > 0 {
-                let border_key = if params_input.iter().any(|(k, _)| *k == "border") {
-                    params_input.iter().find(|(k, _)| *k == "border").unwrap().1
-                } else {
-                    "00ff00"
-                };
-                assert_eq!(
-                    template.matches(&format!("border={}", border_key)).count(),
-                    border_count
-                );
-            }
-        } else {
-            panic!("Expected Template output");
+        let ComponentOutput::Template(template) = result else {
+            unreachable!("Expected Template output");
+        };
+        for expected in expected_contains {
+            assert!(
+                template.contains(expected),
+                "Expected {} in {}",
+                expected,
+                template
+            );
+        }
+        if bg_count > 0 {
+            assert_eq!(template.matches("bg=1a1a2e").count(), bg_count);
+        }
+        if border_count > 0 {
+            let border_key = if params_input.iter().any(|(k, _)| *k == "border") {
+                params_input.iter().find(|(k, _)| *k == "border").unwrap().1
+            } else {
+                "00ff00"
+            };
+            assert_eq!(
+                template.matches(&format!("border={}", border_key)).count(),
+                border_count
+            );
         }
     }
 
@@ -291,12 +288,11 @@ mod tests {
         let params = HashMap::new();
         let result = handle(&params, Some(content)).unwrap();
 
-        if let ComponentOutput::Template(template) = result {
-            for exp in expected {
-                assert!(template.contains(exp), "Expected {} in {}", exp, template);
-            }
-        } else {
-            panic!("Expected Template output");
+        let ComponentOutput::Template(template) = result else {
+            unreachable!("Expected Template output");
+        };
+        for exp in expected {
+            assert!(template.contains(exp), "Expected {} in {}", exp, template);
         }
     }
 
@@ -308,15 +304,14 @@ mod tests {
 
         let result = handle(&params, Some(content)).unwrap();
 
-        if let ComponentOutput::Template(template) = result {
-            // Both should inherit bg
-            assert_eq!(template.matches("bg=1a1a2e").count(), 2);
-            // Corner assignments
-            assert!(template.contains("corners=left"));
-            assert!(template.contains("corners=right"));
-        } else {
-            panic!("Expected Template output");
-        }
+        let ComponentOutput::Template(template) = result else {
+            unreachable!("Expected Template output");
+        };
+        // Both should inherit bg
+        assert_eq!(template.matches("bg=1a1a2e").count(), 2);
+        // Corner assignments
+        assert!(template.contains("corners=left"));
+        assert!(template.contains("corners=right"));
     }
 
     #[test]
@@ -326,13 +321,12 @@ mod tests {
 
         let result = handle(&params, Some(content)).unwrap();
 
-        if let ComponentOutput::Template(template) = result {
-            // Only tech badge should be found (single badge = no corners)
-            assert!(!template.contains("corners="));
-            // Swatch should be unchanged
-            assert!(template.contains("{{ui:swatch:ff0000/}}"));
-        } else {
-            panic!("Expected Template output");
-        }
+        let ComponentOutput::Template(template) = result else {
+            unreachable!("Expected Template output");
+        };
+        // Only tech badge should be found (single badge = no corners)
+        assert!(!template.contains("corners="));
+        // Swatch should be unchanged
+        assert!(template.contains("{{ui:swatch:ff0000/}}"));
     }
 }

@@ -464,15 +464,14 @@ mod tests {
     #[case("22C55E", "for-the-badge")]
     fn test_primitive_swatch(#[case] color: &str, #[case] style: &str) {
         let swatch = Primitive::simple_swatch(color, style);
-        if let Primitive::Swatch {
+        let Primitive::Swatch {
             color: c, style: s, ..
         } = swatch
-        {
-            assert_eq!(c, color);
-            assert_eq!(s, style);
-        } else {
-            panic!("Expected Swatch primitive");
-        }
+        else {
+            unreachable!("Expected Swatch primitive");
+        };
+        assert_eq!(c, color);
+        assert_eq!(s, style);
     }
 
     #[test]
@@ -500,7 +499,7 @@ mod tests {
             border_bottom: Some("0000FF/3".to_string()),
             border_left: None,
         };
-        if let Primitive::Swatch {
+        let Primitive::Swatch {
             opacity,
             width,
             label,
@@ -511,18 +510,17 @@ mod tests {
             logo_size,
             ..
         } = swatch
-        {
-            assert_eq!(opacity, Some(0.5));
-            assert_eq!(width, Some(40));
-            assert_eq!(label, Some("v1".to_string()));
-            assert_eq!(rx, Some(5));
-            assert_eq!(shadow, Some("000000:4:2:2".to_string()));
-            assert_eq!(gradient, Some("horizontal:FF0000:0000FF".to_string()));
-            assert_eq!(stroke_dash, Some("4:2".to_string()));
-            assert_eq!(logo_size, Some("auto".to_string()));
-        } else {
-            panic!("Expected Swatch primitive");
-        }
+        else {
+            unreachable!("Expected Swatch primitive");
+        };
+        assert_eq!(opacity, Some(0.5));
+        assert_eq!(width, Some(40));
+        assert_eq!(label, Some("v1".to_string()));
+        assert_eq!(rx, Some(5));
+        assert_eq!(shadow, Some("000000:4:2:2".to_string()));
+        assert_eq!(gradient, Some("horizontal:FF0000:0000FF".to_string()));
+        assert_eq!(stroke_dash, Some("4:2".to_string()));
+        assert_eq!(logo_size, Some("auto".to_string()));
     }
 
     // ========================================================================
@@ -549,15 +547,14 @@ mod tests {
             ..Default::default()
         });
 
-        if let Primitive::Tech(cfg) = tech {
-            assert_eq!(cfg.name, name);
-            assert_eq!(cfg.label, label.map(|s| s.to_string()));
-            assert_eq!(cfg.border_color, border_color.map(|s| s.to_string()));
-            assert_eq!(cfg.border_width, border_width);
-            assert_eq!(cfg.rx, rx);
-        } else {
-            panic!("Expected Tech primitive");
-        }
+        let Primitive::Tech(cfg) = tech else {
+            unreachable!("Expected Tech primitive");
+        };
+        assert_eq!(cfg.name, name);
+        assert_eq!(cfg.label, label.map(|s| s.to_string()));
+        assert_eq!(cfg.border_color, border_color.map(|s| s.to_string()));
+        assert_eq!(cfg.border_width, border_width);
+        assert_eq!(cfg.rx, rx);
     }
 
     // ========================================================================
@@ -573,29 +570,27 @@ mod tests {
     fn test_primitive_progress(#[case] input: u8, #[case] expected: u8) {
         let progress = Primitive::simple_progress(input, "gray", "pink");
 
-        if let Primitive::Progress { percent, .. } = progress {
-            assert_eq!(percent, expected);
-        } else {
-            panic!("Expected Progress primitive");
-        }
+        let Primitive::Progress { percent, .. } = progress else {
+            unreachable!("Expected Progress primitive");
+        };
+        assert_eq!(percent, expected);
     }
 
     #[test]
     fn test_progress_defaults() {
         let progress = Primitive::simple_progress(75, "gray", "pink");
 
-        if let Primitive::Progress {
+        let Primitive::Progress {
             width,
             height,
             fill_height,
             ..
         } = progress
-        {
-            assert_eq!(width, 100);
-            assert_eq!(height, 10);
-            assert_eq!(fill_height, 10);
-        } else {
-            panic!("Expected Progress primitive");
-        }
+        else {
+            unreachable!("Expected Progress primitive");
+        };
+        assert_eq!(width, 100);
+        assert_eq!(height, 10);
+        assert_eq!(fill_height, 10);
     }
 }
