@@ -18,6 +18,8 @@ pub fn render(
     thumb_width: Option<u32>,
     thumb_color: Option<&str>,
     thumb_shape: &str,
+    thumb_border: Option<&str>,
+    thumb_border_width: u32,
 ) -> String {
     // Slider mode: track with thumb at position
     if let Some(thumb_sz) = thumb_size {
@@ -33,6 +35,8 @@ pub fn render(
             thumb_shape,
             border_color,
             border_width,
+            thumb_border,
+            thumb_border_width,
         );
     }
 
@@ -118,6 +122,8 @@ fn render_slider(
     thumb_shape: &str,
     border_color: Option<&str>,
     border_width: u32,
+    thumb_border: Option<&str>,
+    thumb_border_width: u32,
 ) -> String {
     // Thumb width defaults to thumb_height (square/circle) if not specified
     let thumb_w = thumb_width.unwrap_or(thumb_height);
@@ -162,6 +168,20 @@ fn render_slider(
     // Thumb color defaults to fill color
     let t_color = thumb_color.unwrap_or(fill_color);
 
+    // Build thumb border attributes if specified
+    let thumb_border_attr = if let Some(bc) = thumb_border {
+        if thumb_border_width > 0 {
+            format!(
+                " stroke=\"#{}\" stroke-width=\"{}\"",
+                bc, thumb_border_width
+            )
+        } else {
+            String::new()
+        }
+    } else {
+        String::new()
+    };
+
     // Render thumb based on shape
     let thumb_elem = match thumb_shape {
         "square" => {
@@ -170,7 +190,7 @@ fn render_slider(
             // Use smaller dimension for rx to create pill shape when width != height
             let rx = half_h.min(half_w).min(4);
             format!(
-                "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"/>",
+                "<rect x=\"{}\" y=\"{}\" width=\"{}\" height=\"{}\" fill=\"#{}\" rx=\"{}\"{thumb_border_attr}/>",
                 thumb_x - half_w,
                 center_y - half_h,
                 thumb_w,
@@ -183,7 +203,7 @@ fn render_slider(
             let half_h = thumb_height / 2;
             let half_w = thumb_w / 2;
             format!(
-                "<polygon points=\"{},{} {},{} {},{} {},{}\" fill=\"#{}\"/>",
+                "<polygon points=\"{},{} {},{} {},{} {},{}\" fill=\"#{}\"{thumb_border_attr}/>",
                 thumb_x,
                 center_y - half_h, // top
                 thumb_x + half_w,
@@ -200,7 +220,7 @@ fn render_slider(
             let rx = thumb_w as f32 / 2.0;
             let ry = thumb_height as f32 / 2.0;
             format!(
-                "<ellipse cx=\"{}\" cy=\"{}\" rx=\"{:.1}\" ry=\"{:.1}\" fill=\"#{}\"/>",
+                "<ellipse cx=\"{}\" cy=\"{}\" rx=\"{:.1}\" ry=\"{:.1}\" fill=\"#{}\"{thumb_border_attr}/>",
                 thumb_x, center_y, rx, ry, t_color
             )
         }

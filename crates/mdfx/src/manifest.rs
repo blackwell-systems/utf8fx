@@ -882,6 +882,8 @@ mod tests {
             label_color: Some("#000000".to_string()),
             thumb_size: None,
             thumb_color: None,
+            thumb_border: None,
+            thumb_border_width: 0,
         };
         let info = PrimitiveInfo::from(&primitive);
         let PrimitiveInfo::Gauge {

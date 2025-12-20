@@ -190,6 +190,10 @@ pub enum Primitive {
         thumb_color: Option<String>,
         /// Thumb shape: "circle", "square", "diamond"
         thumb_shape: String,
+        /// Thumb border color (optional)
+        thumb_border: Option<String>,
+        /// Thumb border width in pixels (default: 0)
+        thumb_border_width: u32,
     },
 
     /// Donut/ring chart showing percentage
@@ -212,6 +216,10 @@ pub enum Primitive {
         thumb_size: Option<u32>,
         /// Thumb color (defaults to fill_color)
         thumb_color: Option<String>,
+        /// Thumb border color (optional)
+        thumb_border: Option<String>,
+        /// Thumb border width in pixels (default: 0)
+        thumb_border_width: u32,
     },
 
     /// Gauge/half-donut showing percentage as semi-circular meter
@@ -234,6 +242,10 @@ pub enum Primitive {
         thumb_size: Option<u32>,
         /// Thumb color (defaults to fill_color)
         thumb_color: Option<String>,
+        /// Thumb border color (optional)
+        thumb_border: Option<String>,
+        /// Thumb border width in pixels (default: 0)
+        thumb_border_width: u32,
     },
 
     /// Sparkline - mini inline chart for data visualization
@@ -358,6 +370,8 @@ impl Primitive {
             thumb_width: None,
             thumb_color: None,
             thumb_shape: "circle".to_string(),
+            thumb_border: None,
+            thumb_border_width: 0,
         }
     }
 
@@ -377,6 +391,8 @@ impl Primitive {
             label_color: None,
             thumb_size: None,
             thumb_color: None,
+            thumb_border: None,
+            thumb_border_width: 0,
         }
     }
 
@@ -396,6 +412,8 @@ impl Primitive {
             label_color: None,
             thumb_size: None,
             thumb_color: None,
+            thumb_border: None,
+            thumb_border_width: 0,
         }
     }
 

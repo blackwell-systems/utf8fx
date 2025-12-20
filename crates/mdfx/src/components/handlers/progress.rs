@@ -53,6 +53,8 @@ pub fn handle(
     let thumb_width: Option<u32> = parse_param_opt(params, "thumb_width");
     let thumb_color = resolve_color_opt(params, "thumb_color", &resolve_color);
     let thumb_shape = get_string(params, "thumb_shape", "circle");
+    let thumb_border = resolve_color_opt(params, "thumb_border", &resolve_color);
+    let thumb_border_width: u32 = parse_param(params, "thumb_border_width", 0);
 
     Ok(ComponentOutput::Primitive(Primitive::Progress {
         percent,
@@ -70,5 +72,7 @@ pub fn handle(
         thumb_width,
         thumb_color,
         thumb_shape,
+        thumb_border,
+        thumb_border_width,
     }))
 }

@@ -41,6 +41,8 @@ pub fn handle(
     // Thumb (slider mode)
     let thumb_size: Option<u32> = parse_param_opt(params, "thumb");
     let thumb_color = resolve_color_opt(params, "thumb_color", &resolve_color);
+    let thumb_border = resolve_color_opt(params, "thumb_border", &resolve_color);
+    let thumb_border_width: u32 = parse_param(params, "thumb_border_width", 0);
 
     Ok(ComponentOutput::Primitive(Primitive::Gauge {
         percent,
@@ -52,5 +54,7 @@ pub fn handle(
         label_color,
         thumb_size,
         thumb_color,
+        thumb_border,
+        thumb_border_width,
     }))
 }

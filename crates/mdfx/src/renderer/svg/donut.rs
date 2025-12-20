@@ -12,6 +12,8 @@ pub fn render(
     label_color: Option<&str>,
     thumb_size: Option<u32>,
     thumb_color: Option<&str>,
+    thumb_border: Option<&str>,
+    thumb_border_width: u32,
 ) -> String {
     // Use radius ~15.9 so circumference ≈ 100 (makes percentage math easy)
     // Scale radius based on size: r = (size/2 - thickness/2)
@@ -53,8 +55,21 @@ pub fn render(
         let thumb_x = adjusted_center + radius * angle_rad.cos();
         let thumb_y = adjusted_center + radius * angle_rad.sin();
         let thumb_r = thumb_sz as f32 / 2.0;
+        // Build thumb border attributes if specified
+        let border_attr = if let Some(bc) = thumb_border {
+            if thumb_border_width > 0 {
+                format!(
+                    " stroke=\"#{}\" stroke-width=\"{}\"",
+                    bc, thumb_border_width
+                )
+            } else {
+                String::new()
+            }
+        } else {
+            String::new()
+        };
         format!(
-            "\n  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"#{}\"/>",
+            "\n  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"#{}\"{border_attr}/>",
             thumb_x, thumb_y, thumb_r, t_color
         )
     } else {

@@ -180,6 +180,8 @@ impl Renderer for SvgBackend {
                 thumb_width,
                 thumb_color,
                 thumb_shape,
+                thumb_border,
+                thumb_border_width,
             } => progress::render(
                 *percent,
                 *width,
@@ -196,6 +198,8 @@ impl Renderer for SvgBackend {
                 *thumb_width,
                 thumb_color.as_deref(),
                 thumb_shape,
+                thumb_border.as_deref(),
+                *thumb_border_width,
             ),
 
             Primitive::Donut {
@@ -208,6 +212,8 @@ impl Renderer for SvgBackend {
                 label_color,
                 thumb_size,
                 thumb_color,
+                thumb_border,
+                thumb_border_width,
             } => donut::render(
                 *percent,
                 *size,
@@ -218,6 +224,8 @@ impl Renderer for SvgBackend {
                 label_color.as_deref(),
                 *thumb_size,
                 thumb_color.as_deref(),
+                thumb_border.as_deref(),
+                *thumb_border_width,
             ),
 
             Primitive::Gauge {
@@ -230,6 +238,8 @@ impl Renderer for SvgBackend {
                 label_color,
                 thumb_size,
                 thumb_color,
+                thumb_border,
+                thumb_border_width,
             } => gauge::render(
                 *percent,
                 *size,
@@ -240,6 +250,8 @@ impl Renderer for SvgBackend {
                 label_color.as_deref(),
                 *thumb_size,
                 thumb_color.as_deref(),
+                thumb_border.as_deref(),
+                *thumb_border_width,
             ),
 
             Primitive::Sparkline {
