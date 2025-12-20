@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **LSP hover previews**: Real-time SVG previews in hover popups for badges and visualizations. Hover over `{{ui:tech:rust/}}` to see the actual badge rendered inline - no disk I/O required. Supports tech badges, swatches, progress bars, donut charts, gauges, and ratings
 - **Parameter guardrails for visualization components**: All visualization handlers (progress, donut, gauge, rating, sparkline, waveform) now clamp parameters to reasonable bounds, preventing excessive values that could cause rendering issues. Bounds include: width (1-2000px), height (1-500px), size (10-500px), thickness (1-50px), stroke_width (1-20px), and others
 - **Thumb borders for slider components**: Progress, Donut, and Gauge now support `thumb_border` and `thumb_border_width` parameters for adding stroke borders to thumb indicators
 - **Asset path prefix option**: New `--assets-prefix` flag for `process` and `watch` commands allows markdown references to use a different path than where files are written. Useful when assets are in a subdirectory but markdown needs relative paths (e.g., write to `examples/assets/` but reference as `assets/`)
