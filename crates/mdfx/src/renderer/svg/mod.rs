@@ -13,6 +13,7 @@ mod rating;
 mod sparkline;
 pub mod swatch;
 pub mod tech;
+mod utils;
 mod waveform;
 
 use crate::error::Result;

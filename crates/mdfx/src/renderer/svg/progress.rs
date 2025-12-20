@@ -1,5 +1,6 @@
 //! Progress bar and slider SVG renderer
 
+use super::utils::build_stroke_attr;
 use crate::primitive::ThumbConfig;
 
 /// Render a progress bar with track and fill
@@ -67,15 +68,7 @@ pub fn render(
     };
 
     // Build border attribute if specified
-    let border_attr = if let Some(bc) = border_color {
-        if border_width > 0 {
-            format!(" stroke=\"#{}\" stroke-width=\"{}\"", bc, border_width)
-        } else {
-            String::new()
-        }
-    } else {
-        String::new()
-    };
+    let border_attr = build_stroke_attr(border_color, border_width);
 
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{}\" height=\"{}\" viewBox=\"0 0 {} {}\">\n\
@@ -129,15 +122,7 @@ fn render_slider(
     let track_rx = (track_height / 2).min(3);
 
     // Build border attribute for track if specified
-    let border_attr = if let Some(bc) = border_color {
-        if border_width > 0 {
-            format!(" stroke=\"#{}\" stroke-width=\"{}\"", bc, border_width)
-        } else {
-            String::new()
-        }
-    } else {
-        String::new()
-    };
+    let border_attr = build_stroke_attr(border_color, border_width);
 
     // Thumb position based on percentage
     // Ensure thumb stays within bounds (half thumb width from edges)
@@ -160,18 +145,7 @@ fn render_slider(
     let t_color = thumb_color.unwrap_or(fill_color);
 
     // Build thumb border attributes if specified
-    let thumb_border_attr = if let Some(bc) = thumb_border {
-        if thumb_border_width > 0 {
-            format!(
-                " stroke=\"#{}\" stroke-width=\"{}\"",
-                bc, thumb_border_width
-            )
-        } else {
-            String::new()
-        }
-    } else {
-        String::new()
-    };
+    let thumb_border_attr = build_stroke_attr(thumb_border, thumb_border_width);
 
     // Render thumb based on shape
     let thumb_elem = match thumb_shape.as_str() {

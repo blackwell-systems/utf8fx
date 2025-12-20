@@ -1,5 +1,6 @@
 //! Gauge (semi-circular meter) SVG renderer
 
+use super::utils::{arc_dash_lengths, build_stroke_attr, thumb_padding};
 use crate::primitive::ThumbConfig;
 
 /// Render a gauge (semi-circular meter) using SVG arc paths
@@ -26,23 +27,20 @@ pub fn render(
     let arc_y = radius + (thickness as f32 / 2.0);
 
     // Calculate padding for thumb (thumb might extend beyond arc)
-    let thumb_padding = thumb
-        .map(|t| (t.size / 2).saturating_sub(thickness / 2))
-        .unwrap_or(0);
+    let padding = thumb_padding(thumb, thickness);
 
     // SVG height: half circle height + space for label if shown + thumb padding
     let svg_height = if show_label {
-        (size / 2) + thickness + 20 + thumb_padding
+        (size / 2) + thickness + 20 + padding
     } else {
-        (size / 2) + thickness + thumb_padding
+        (size / 2) + thickness + padding
     };
 
     // Semi-circle circumference = π × radius
     let semi_circumference = std::f32::consts::PI * radius;
 
-    // Fill length based on percentage
-    let fill_length = semi_circumference * (percent as f32 / 100.0);
-    let gap_length = semi_circumference - fill_length;
+    // Fill and gap lengths based on percentage
+    let (fill_length, gap_length) = arc_dash_lengths(semi_circumference, percent);
 
     // Build track arc path (full semi-circle from left to right)
     // M = move to start, A = arc (rx ry x-rotation large-arc-flag sweep-flag x y)
@@ -75,18 +73,7 @@ pub fn render(
         let thumb_y = arc_y - radius * angle_rad.sin();
         let thumb_r = thumb_cfg.size as f32 / 2.0;
         // Build thumb border attributes if specified
-        let border_attr = if let Some(bc) = &thumb_cfg.border {
-            if thumb_cfg.border_width > 0 {
-                format!(
-                    " stroke=\"#{}\" stroke-width=\"{}\"",
-                    bc, thumb_cfg.border_width
-                )
-            } else {
-                String::new()
-            }
-        } else {
-            String::new()
-        };
+        let border_attr = build_stroke_attr(thumb_cfg.border.as_deref(), thumb_cfg.border_width);
         format!(
             "\n  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"#{}\"{border_attr}/>",
             thumb_x, thumb_y, thumb_r, t_color

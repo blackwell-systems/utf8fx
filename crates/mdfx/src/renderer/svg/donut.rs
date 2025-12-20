@@ -1,5 +1,6 @@
 //! Donut/ring chart SVG renderer
 
+use super::utils::{arc_dash_lengths, build_stroke_attr, point_on_circle, thumb_padding};
 use crate::primitive::ThumbConfig;
 
 /// Render a donut/ring chart using stroke-dasharray trick
@@ -21,15 +22,12 @@ pub fn render(
     let circumference = 2.0 * std::f32::consts::PI * radius;
 
     // Calculate dash lengths for percentage
-    let fill_length = circumference * (percent as f32 / 100.0);
-    let gap_length = circumference - fill_length;
+    let (fill_length, gap_length) = arc_dash_lengths(circumference, percent);
 
     // Calculate viewbox padding for thumb (thumb might extend beyond circle)
-    let thumb_padding = thumb
-        .map(|t| (t.size / 2).saturating_sub(thickness / 2))
-        .unwrap_or(0);
-    let svg_size = size + thumb_padding * 2;
-    let adjusted_center = center + thumb_padding as f32;
+    let padding = thumb_padding(thumb, thickness);
+    let svg_size = size + padding * 2;
+    let adjusted_center = center + padding as f32;
 
     // Build label element if requested (and size is large enough)
     let label_elem = if show_label && size >= 30 {
@@ -50,23 +48,10 @@ pub fn render(
         // Calculate thumb position on the circle
         // Angle: starts at top (-90°), progresses clockwise
         let angle_deg = -90.0 + (percent as f32 * 360.0 / 100.0);
-        let angle_rad = angle_deg * std::f32::consts::PI / 180.0;
-        let thumb_x = adjusted_center + radius * angle_rad.cos();
-        let thumb_y = adjusted_center + radius * angle_rad.sin();
+        let (thumb_x, thumb_y) = point_on_circle(adjusted_center, adjusted_center, radius, angle_deg);
         let thumb_r = thumb_cfg.size as f32 / 2.0;
         // Build thumb border attributes if specified
-        let border_attr = if let Some(bc) = &thumb_cfg.border {
-            if thumb_cfg.border_width > 0 {
-                format!(
-                    " stroke=\"#{}\" stroke-width=\"{}\"",
-                    bc, thumb_cfg.border_width
-                )
-            } else {
-                String::new()
-            }
-        } else {
-            String::new()
-        };
+        let border_attr = build_stroke_attr(thumb_cfg.border.as_deref(), thumb_cfg.border_width);
         format!(
             "\n  <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"{:.1}\" fill=\"#{}\"{border_attr}/>",
             thumb_x, thumb_y, thumb_r, t_color
