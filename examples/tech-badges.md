@@ -26,7 +26,7 @@ Scale your tech logos from tiny to prominent:
 Use any SVG path data for unsupported technologies:
 
 <p align="center">
-<img alt="" src="assets/tech_69ef78656550f848.svg"> <img alt="" src="assets/tech_f6e7ce28fe0d1976.svg"> <img alt="" src="assets/tech_1374638b76eb883a.svg">
+<img alt="" src="assets/tech_c67b71d9a9acab0b.svg"> <img alt="" src="assets/tech_887c1daa2f780fd6.svg"> <img alt="" src="assets/tech_00797903ddd139d3.svg">
 </p>
 
 ---
