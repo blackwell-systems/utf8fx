@@ -1955,12 +1955,13 @@ impl MdfxLanguageServer {
     /// Find tech badge names similar to the given name using edit distance
     fn find_similar_tech_names(&self, name: &str) -> Vec<String> {
         let icons = list_icons();
+        // Use bounded search with max_distance for early termination
+        let max_distance = 3.max(name.len() / 2);
         let mut scored: Vec<(String, usize)> = icons
             .iter()
             .filter_map(|icon| {
-                let dist = Self::levenshtein(name, icon);
-                // Only suggest if reasonably similar (distance <= 3 or < half the length)
-                if dist <= 3 || dist < name.len() / 2 {
+                let dist = Self::levenshtein_bounded(name, icon, max_distance);
+                if dist != usize::MAX {
                     Some((icon.to_string(), dist))
                 } else {
                     None
@@ -1975,11 +1976,13 @@ impl MdfxLanguageServer {
     /// Find glyph names similar to the given name using edit distance
     fn find_similar_glyph_names(&self, name: &str) -> Vec<String> {
         let glyphs = self.registry.glyphs();
+        // Use bounded search with max_distance for early termination
+        let max_distance = 3.max(name.len() / 2);
         let mut scored: Vec<(String, usize)> = glyphs
             .keys()
             .filter_map(|glyph| {
-                let dist = Self::levenshtein(name, glyph);
-                if dist <= 3 || dist < name.len() / 2 {
+                let dist = Self::levenshtein_bounded(name, glyph, max_distance);
+                if dist != usize::MAX {
                     Some((glyph.clone(), dist))
                 } else {
                     None
@@ -1991,8 +1994,9 @@ impl MdfxLanguageServer {
         scored.into_iter().map(|(name, _)| name).collect()
     }
 
-    /// Simple Levenshtein distance implementation
-    fn levenshtein(a: &str, b: &str) -> usize {
+    /// Optimized Levenshtein distance with early termination and O(n) space
+    /// Returns usize::MAX if distance exceeds max_distance (for early termination)
+    fn levenshtein_bounded(a: &str, b: &str, max_distance: usize) -> usize {
         let a_lower = a.to_lowercase();
         let b_lower = b.to_lowercase();
         let a_chars: Vec<char> = a_lower.chars().collect();
@@ -2001,24 +2005,48 @@ impl MdfxLanguageServer {
         let m = a_chars.len();
         let n = b_chars.len();
 
-        if m == 0 { return n; }
-        if n == 0 { return m; }
-
-        let mut matrix = vec![vec![0; n + 1]; m + 1];
-
-        for i in 0..=m { matrix[i][0] = i; }
-        for j in 0..=n { matrix[0][j] = j; }
-
-        for i in 1..=m {
-            for j in 1..=n {
-                let cost = if a_chars[i - 1] == b_chars[j - 1] { 0 } else { 1 };
-                matrix[i][j] = (matrix[i - 1][j] + 1)
-                    .min(matrix[i][j - 1] + 1)
-                    .min(matrix[i - 1][j - 1] + cost);
-            }
+        // Early termination: if length difference exceeds max_distance, no point computing
+        if m.abs_diff(n) > max_distance {
+            return usize::MAX;
         }
 
-        matrix[m][n]
+        if m == 0 {
+            return n;
+        }
+        if n == 0 {
+            return m;
+        }
+
+        // Use two-row optimization: O(n) space instead of O(m*n)
+        let mut prev_row: Vec<usize> = (0..=n).collect();
+        let mut curr_row = vec![0; n + 1];
+
+        for i in 1..=m {
+            curr_row[0] = i;
+            let mut row_min = i; // Track minimum in current row for early termination
+
+            for j in 1..=n {
+                let cost = if a_chars[i - 1] == b_chars[j - 1] {
+                    0
+                } else {
+                    1
+                };
+                curr_row[j] = (prev_row[j] + 1)
+                    .min(curr_row[j - 1] + 1)
+                    .min(prev_row[j - 1] + cost);
+
+                row_min = row_min.min(curr_row[j]);
+            }
+
+            // Early termination: if entire row exceeds max_distance, abort
+            if row_min > max_distance {
+                return usize::MAX;
+            }
+
+            std::mem::swap(&mut prev_row, &mut curr_row);
+        }
+
+        prev_row[n]
     }
 
     /// Find the range of a tech name within a line
