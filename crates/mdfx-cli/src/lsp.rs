@@ -353,7 +353,7 @@ impl MdfxLanguageServer {
             .collect()
     }
 
-    /// Build completion items for live data sources (github, npm, crates, pypi)
+    /// Build completion items for live data sources (github, npm, crates, pypi, codecov, actions)
     fn live_source_completions(&self, prefix: &str) -> Vec<CompletionItem> {
         let sources = vec![
             (
@@ -371,6 +371,16 @@ impl MdfxLanguageServer {
                 "pypi",
                 "PyPI package metrics",
                 "version, license, author, python, summary",
+            ),
+            (
+                "codecov",
+                "Codecov coverage metrics",
+                "coverage, lines, hits, misses, files, branches",
+            ),
+            (
+                "actions",
+                "GitHub Actions workflow status",
+                "status, conclusion, run_number, workflow",
             ),
         ];
 
@@ -420,6 +430,20 @@ impl MdfxLanguageServer {
                 ("author", "Package author"),
                 ("python", "Required Python version"),
                 ("summary", "Package summary"),
+            ],
+            "codecov" => vec![
+                ("coverage", "Coverage percentage"),
+                ("lines", "Total lines tracked"),
+                ("hits", "Lines with coverage"),
+                ("misses", "Lines without coverage"),
+                ("files", "Number of files tracked"),
+                ("branches", "Branch coverage count"),
+            ],
+            "actions" => vec![
+                ("status", "Workflow run status (completed, in_progress, queued)"),
+                ("conclusion", "Workflow conclusion (success, failure, cancelled)"),
+                ("run_number", "Workflow run number"),
+                ("workflow", "Workflow name"),
             ],
             _ => vec![],
         };

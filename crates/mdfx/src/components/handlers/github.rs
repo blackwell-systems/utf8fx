@@ -318,6 +318,48 @@ pub fn handle_codecov(
     )
 }
 
+/// Handle actions source for live component
+///
+/// Syntax: {{ui:live:actions:owner/repo:metric/}}
+///
+/// Metrics:
+/// - status - Workflow run status (queued, in_progress, completed)
+/// - conclusion - Workflow conclusion (success, failure, cancelled, pending)
+/// - run_number - Workflow run number
+/// - workflow - Workflow name
+/// - event - Trigger event (push, pull_request, etc.)
+/// - branch - Head branch for the run
+///
+/// Query format:
+/// - owner/repo - Latest workflow run for repository
+/// - owner/repo/workflow - Filter by workflow name
+/// - owner/repo@branch - Filter by branch
+/// - owner/repo/workflow@branch - Filter by workflow and branch
+///
+/// Examples:
+/// - {{ui:live:actions:rust-lang/rust/}}
+/// - {{ui:live:actions:rust-lang/rust:conclusion/}}
+/// - {{ui:live:actions:rust-lang/rust/ci@main:status/}}
+#[cfg(feature = "fetch")]
+pub fn handle_actions(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source(
+        "actions",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "conclusion",
+        "2088FF", // GitHub Actions blue
+    )
+}
+
 #[cfg(all(test, feature = "fetch"))]
 mod tests {
     use super::*;
@@ -346,6 +388,7 @@ mod tests {
     #[case("crates", "serde")]
     #[case("pypi", "requests")]
     #[case("codecov", "rust-lang/rust")]
+    #[case("actions", "rust-lang/rust")]
     fn test_source_offline_no_cache(#[case] source: &str, #[case] query: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
@@ -357,6 +400,7 @@ mod tests {
             "crates" => handle_crates(&args, &params, "flat", |c| c.to_string(), &ctx),
             "pypi" => handle_pypi(&args, &params, "flat", |c| c.to_string(), &ctx),
             "codecov" => handle_codecov(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "actions" => handle_actions(&args, &params, "flat", |c| c.to_string(), &ctx),
             _ => panic!("Unknown source"),
         };
 
@@ -377,6 +421,7 @@ mod tests {
     #[case("crates")]
     #[case("pypi")]
     #[case("codecov")]
+    #[case("actions")]
     fn test_missing_query(#[case] source: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
@@ -387,6 +432,7 @@ mod tests {
             "crates" => handle_crates(&[], &params, "flat", |c| c.to_string(), &ctx),
             "pypi" => handle_pypi(&[], &params, "flat", |c| c.to_string(), &ctx),
             "codecov" => handle_codecov(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "actions" => handle_actions(&[], &params, "flat", |c| c.to_string(), &ctx),
             _ => panic!("Unknown source"),
         };
 

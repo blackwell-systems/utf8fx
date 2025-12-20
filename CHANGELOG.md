@@ -367,6 +367,53 @@ New `codecov` source for live badges - fetch code coverage metrics directly from
 
 Requires the `fetch` feature: `cargo build --features fetch`
 
+#### GitHub Actions Live Badge Source
+
+New `actions` source for live badges - fetch workflow run status from GitHub Actions:
+
+```markdown
+{{ui:live:actions:owner/repo/}}                  <!-- conclusion (default) -->
+{{ui:live:actions:owner/repo:status/}}           <!-- run status -->
+{{ui:live:actions:owner/repo/ci@main:conclusion/}} <!-- specific workflow + branch -->
+```
+
+**Metrics:**
+| Metric | Description |
+|--------|-------------|
+| `conclusion` | Build result (default): success, failure, cancelled, pending |
+| `status` | Run status: queued, in_progress, completed |
+| `run_number` | Workflow run number |
+| `workflow` | Workflow name |
+| `event` | Trigger event (push, pull_request, etc.) |
+| `branch` | Head branch for the run |
+
+**Query formats:**
+- `owner/repo` - Latest workflow run for repository
+- `owner/repo/workflow` - Filter by workflow name
+- `owner/repo@branch` - Filter by branch
+- `owner/repo/workflow@branch` - Filter by both workflow and branch
+
+**Status colors (automatic):**
+- Conclusion: success→green, failure→red, cancelled→gray, pending→blue
+- Status: completed→green, in_progress→blue, queued→yellow
+
+Requires the `fetch` feature: `cargo build --features fetch`
+
+#### LSP Live Badge Completions
+
+The LSP server now provides IntelliSense for live badges:
+
+**Source completions** - After `{{ui:live:` shows all available sources:
+```markdown
+{{ui:live:|}}  <!-- github, npm, crates, pypi, codecov, actions -->
+```
+
+**Metric completions** - After selecting a source, shows available metrics:
+```markdown
+{{ui:live:actions:|}}   <!-- status, conclusion, run_number, workflow, event, branch -->
+{{ui:live:codecov:|}}   <!-- coverage, lines, hits, misses, files, branches -->
+```
+
 #### Live Badge CI/CD Workflow
 
 New GitHub Actions workflow (`.github/workflows/update-badges.yml`) for automatic live badge updates:

@@ -11,7 +11,7 @@ All live data badges use the `live:` namespace:
 ```
 
 Where:
-- `source` - Data source: `github`, `npm`, `crates`, `pypi`, or `codecov`
+- `source` - Data source: `github`, `npm`, `crates`, `pypi`, `codecov`, or `actions`
 - `query` - Source-specific query (repo, package name, etc.)
 - `metric` - Metric to fetch (optional, defaults vary by source)
 
@@ -167,6 +167,54 @@ Coverage badges automatically color-code based on percentage:
 - 50-69% → Orange (needs work)
 - <50% → Red (poor)
 
+### GitHub Actions
+
+Fetch workflow run status from GitHub Actions.
+
+**Syntax:**
+```markdown
+{{ui:live:actions:owner/repo:metric/}}
+{{ui:live:actions:owner/repo/workflow:metric/}}
+{{ui:live:actions:owner/repo@branch:metric/}}
+{{ui:live:actions:owner/repo/workflow@branch:metric/}}
+```
+
+**Query formats:**
+- `owner/repo` - Latest workflow run for the repository
+- `owner/repo/workflow` - Filter by workflow name
+- `owner/repo@branch` - Filter by branch
+- `owner/repo/workflow@branch` - Filter by both workflow and branch
+
+**Metrics:**
+| Metric | Description | Example |
+|--------|-------------|---------|
+| `conclusion` | Build result (default) | `{{ui:live:actions:rust-lang/rust:conclusion/}}` |
+| `status` | Run status | `{{ui:live:actions:facebook/react:status/}}` |
+| `run_number` | Workflow run number | `{{ui:live:actions:microsoft/vscode:run_number/}}` |
+| `workflow` | Workflow name | `{{ui:live:actions:rust-lang/rust:workflow/}}` |
+| `event` | Trigger event | `{{ui:live:actions:rust-lang/rust:event/}}` |
+| `branch` | Head branch | `{{ui:live:actions:rust-lang/rust:branch/}}` |
+
+**Examples:**
+```markdown
+{{ui:live:actions:rust-lang/rust/}}              <!-- conclusion (default) -->
+{{ui:live:actions:rust-lang/rust:status/}}       <!-- run status -->
+{{ui:live:actions:rust-lang/rust/ci@main/}}      <!-- specific workflow on main -->
+```
+
+**Conclusion colors:**
+- `success` → Green
+- `failure` → Red
+- `cancelled` / `skipped` → Gray
+- `timed_out` → Orange
+- `action_required` → Yellow
+- `pending` / `neutral` → Blue
+
+**Status colors:**
+- `completed` → Green
+- `in_progress` → Blue
+- `queued` / `waiting` → Yellow
+
 ## Styling Options
 
 Live badges support the same styling options as other components:
@@ -242,8 +290,10 @@ Default cache directory is `.mdfx-cache` in the current working directory.
 │   └── serde_version.json
 ├── pypi/
 │   └── requests_version.json
-└── codecov/
-    └── rust-lang_rust_coverage.json
+├── codecov/
+│   └── rust-lang_rust_coverage.json
+└── actions/
+    └── rust-lang_rust_conclusion.json
 ```
 
 ## Error Handling
@@ -266,6 +316,7 @@ Be aware of API rate limits:
 | crates.io | No limit | Has user-agent requirement |
 | PyPI | No limit | Be respectful |
 | Codecov | No limit | Has user-agent requirement |
+| Actions | 60 req/hour | Uses GitHub API (unauthenticated) |
 
 ## Examples
 

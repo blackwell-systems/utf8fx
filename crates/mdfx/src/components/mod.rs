@@ -319,8 +319,15 @@ impl ComponentsRenderer {
                         resolve,
                         fetch_ctx,
                     ),
+                    "actions" => handlers::handle_actions(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
                     _ => Err(Error::ParseError(format!(
-                        "Unknown live source '{}'. Available: github, npm, crates, pypi, codecov",
+                        "Unknown live source '{}'. Available: github, npm, crates, pypi, codecov, actions",
                         source
                     ))),
                 }
