@@ -48,7 +48,8 @@ pub fn render(
         // Calculate thumb position on the circle
         // Angle: starts at top (-90°), progresses clockwise
         let angle_deg = -90.0 + (percent as f32 * 360.0 / 100.0);
-        let (thumb_x, thumb_y) = point_on_circle(adjusted_center, adjusted_center, radius, angle_deg);
+        let (thumb_x, thumb_y) =
+            point_on_circle(adjusted_center, adjusted_center, radius, angle_deg);
         let thumb_r = thumb_cfg.size as f32 / 2.0;
         // Build thumb border attributes if specified
         let border_attr = build_stroke_attr(thumb_cfg.border.as_deref(), thumb_cfg.border_width);

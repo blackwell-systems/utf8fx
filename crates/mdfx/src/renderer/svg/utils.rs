@@ -88,8 +88,8 @@ mod tests {
     }
 
     #[rstest]
-    #[case(50.0, 50.0, 25.0, 0.0, 75.0, 50.0)]   // 0° = right
-    #[case(50.0, 50.0, 25.0, 90.0, 50.0, 75.0)]  // 90° = down
+    #[case(50.0, 50.0, 25.0, 0.0, 75.0, 50.0)] // 0° = right
+    #[case(50.0, 50.0, 25.0, 90.0, 50.0, 75.0)] // 90° = down
     #[case(50.0, 50.0, 25.0, 180.0, 25.0, 50.0)] // 180° = left
     #[case(50.0, 50.0, 25.0, 270.0, 50.0, 25.0)] // 270° = up
     fn test_point_on_circle(
@@ -106,10 +106,10 @@ mod tests {
     }
 
     #[rstest]
-    #[case(None, 10, 0)]          // No thumb -> 0 padding
-    #[case(Some(20), 10, 5)]      // Thumb larger than track
-    #[case(Some(8), 20, 0)]       // Thumb smaller than track (saturating)
-    #[case(Some(16), 16, 0)]      // Thumb equals track
+    #[case(None, 10, 0)] // No thumb -> 0 padding
+    #[case(Some(20), 10, 5)] // Thumb larger than track
+    #[case(Some(8), 20, 0)] // Thumb smaller than track (saturating)
+    #[case(Some(16), 16, 0)] // Thumb equals track
     fn test_thumb_padding(
         #[case] thumb_size: Option<u32>,
         #[case] thickness: u32,

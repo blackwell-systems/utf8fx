@@ -1,6 +1,8 @@
 //! Donut/ring chart component handler
 
-use super::{parse_bool, parse_param, parse_thumb_config, resolve_color_opt, resolve_color_with_default};
+use super::{
+    parse_bool, parse_param, parse_thumb_config, resolve_color_opt, resolve_color_with_default,
+};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
