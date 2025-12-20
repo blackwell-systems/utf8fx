@@ -888,9 +888,24 @@ impl MdfxLanguageServer {
                 }
 
                 // Handle opening tags (non-self-closing)
+                // Skip inherently self-closing templates (ui:, glyph:, swatch:)
                 if !is_self_closing {
-                    let tag_name = Self::extract_tag_name(content);
-                    tag_stack.push((tag_name, line_num, start_col, end_col));
+                    if Self::is_inherently_self_closing(content) {
+                        // Warn that this template should use /}} syntax
+                        diagnostics.push(Diagnostic {
+                            range: Range {
+                                start: Position { line: line_num, character: end_col - 2 },
+                                end: Position { line: line_num, character: end_col },
+                            },
+                            severity: Some(DiagnosticSeverity::WARNING),
+                            source: Some("mdfx".to_string()),
+                            message: "This template should be self-closing. Use '/}}' instead of '}}'".to_string(),
+                            ..Default::default()
+                        });
+                    } else {
+                        let tag_name = Self::extract_tag_name(content);
+                        tag_stack.push((tag_name, line_num, start_col, end_col));
+                    }
                 }
 
                 // Content validation for opening/self-closing tags
@@ -1021,6 +1036,17 @@ impl MdfxLanguageServer {
         }
         // For styles/components, just the name before any args
         content.split(':').next().unwrap_or(content).to_string()
+    }
+
+    /// Check if a template is inherently self-closing (never needs a closing tag)
+    /// These templates render inline content and don't wrap text
+    fn is_inherently_self_closing(content: &str) -> bool {
+        // ui: components (tech badges, progress, donut, gauge, live, swatch)
+        content.starts_with("ui:")
+            // Glyphs
+            || content.starts_with("glyph:")
+            // Standalone swatch (shorthand)
+            || content.starts_with("swatch:")
     }
 
     /// Analyze the text around the cursor to determine completion context
@@ -1626,5 +1652,22 @@ mod tests {
         // Regular closing (not self-closing)
         let result = MdfxLanguageServer::find_templates("{{/bold}}");
         assert_eq!(result, vec![(0, true, false, "bold", 9)]);
+    }
+
+    #[rstest]
+    #[case("ui:tech:rust", true)]
+    #[case("ui:progress:50", true)]
+    #[case("ui:donut:75", true)]
+    #[case("ui:gauge:80", true)]
+    #[case("ui:live:github:stars", true)]
+    #[case("ui:swatch:red", true)]
+    #[case("glyph:star", true)]
+    #[case("swatch:blue", true)]
+    #[case("bold", false)]
+    #[case("italic", false)]
+    #[case("frame:gradient", false)]
+    #[case("sup", false)]
+    fn test_is_inherently_self_closing(#[case] content: &str, #[case] expected: bool) {
+        assert_eq!(MdfxLanguageServer::is_inherently_self_closing(content), expected);
     }
 }
