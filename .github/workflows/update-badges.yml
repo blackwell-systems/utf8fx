@@ -1,0 +1,72 @@
+name: Update Live Badges
+
+on:
+  schedule:
+    # Run daily at 6:00 AM UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  update-badges:
+    name: Update Live Badges
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build mdfx with fetch feature
+        run: cargo build --release --features fetch
+
+      - name: Restore badge cache
+        uses: actions/cache@v4
+        with:
+          path: .mdfx-cache
+          key: mdfx-badge-cache-${{ github.run_id }}
+          restore-keys: |
+            mdfx-badge-cache-
+
+      - name: Render README with live data
+        run: |
+          # Process template files that use live badges
+          # Adjust paths as needed for your project
+          if [ -f "README.template.md" ]; then
+            ./target/release/mdfx process \
+              README.template.md -o README.md \
+              --backend svg --assets-dir assets/mdfx \
+              --refresh
+          fi
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet HEAD -- README.md assets/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No badge changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Badge changes detected:"
+            git diff --stat HEAD -- README.md assets/
+          fi
+
+      - name: Commit and push if changed
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md assets/
+          git commit -m "chore: update live badges [skip ci]"
+          git push
