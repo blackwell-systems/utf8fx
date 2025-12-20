@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LSP --stdio flag**: Added `--stdio` flag to `mdfx lsp run` for VS Code extension compatibility (stdio is the default and only mode)
 - **LSP unclosed tag message**: Improved unclosed tag diagnostic to suggest both specific closer (`{{/tag}}`) and universal closer (`{{//}}`)
 - **LSP UI namespace completions**: Fixed completions after `{{ui:` showing all UI component options (tech, version, license, row, tech-group, progress, donut, gauge, sparkline, rating, waveform, live)
+- **LSP auto-pair compatibility**: Fixed completions inserting duplicate `}}` when editor has auto-pair enabled. Completions now omit closing brackets since most editors auto-insert them
 
 ### Changed
 - **Internal**: Refactored thumb parameters into `ThumbConfig` struct, reducing code complexity and centralizing thumb configuration
