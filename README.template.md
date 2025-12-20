@@ -4,9 +4,18 @@
 {{ui:tech:rust/}} {{ui:swatch:accent/}} {{ui:swatch:success/}} {{ui:swatch:info/}} {{ui:swatch:warning/}}
 {{/ui}}
 
-**Design for markdown.** Transform templates into styled output with Unicode typography, SVG components, and decorative frames.
+**Progress bars, gauges, and charts for GitHub READMEs.** Visual components that shields.io can't do—rendered as local SVGs with zero external dependencies.
 
-**Zero runtime dependencies.** Generate self-contained SVG assets that render anywhere—no shields.io, no CDNs, no external requests. Your documentation works offline, forever.
+---
+
+## {{frame:lenticular}}Why mdfx?{{/frame}}
+
+|  | shields.io | mdfx |
+|--|------------|------|
+| **Components** | Badges only | Progress bars, gauges, donuts, sparklines, ratings, waveforms |
+| **Reliability** | External service | Local SVGs—works offline, never breaks |
+| **Customization** | Limited | Full control: colors, borders, thumbs, labels |
+| **Tech badges** | ✓ | ✓ + chevrons, connected groups, custom styling |
 
 ---
 
@@ -32,10 +41,7 @@ Get this:
 >
 > {{frame:star}}FEATURED{{/frame}}
 
----
-
-## {{mathbold}}Install{{/mathbold}}
-
+**Install:**
 ```bash
 cargo install mdfx-cli
 ```
