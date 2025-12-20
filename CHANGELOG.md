@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LSP document symbols**: `textDocument/documentSymbol` support provides outline view showing all mdfx templates (tech badges, glyphs, swatches, styles, components) in the current file
 - **LSP cached completions**: Completion items are now pre-built at server startup for faster response times
 - **LSP enhanced diagnostics**: Validates tech badge names, glyph names, live source names, and metrics with helpful error messages
-- **LSP semantic tokens**: Context-aware semantic highlighting beyond TextMate grammar, providing token types for namespaces, tech names, parameters, values, colors, and invalid items
+- **LSP semantic tokens**: Context-aware semantic highlighting beyond TextMate grammar, with full coverage for all template types including tech badges, live badges (source/query/metric), UI components (progress/donut/gauge), glyphs, frames, swatches, styles, components, closing tags, and the universal closer (`{{//}}`)
 - **Shared parameter definitions**: New `mdfx::components::params` module provides a single source of truth for tech badge and live source parameters, used by both the renderer and LSP
 
 ### Fixed

@@ -394,9 +394,12 @@ impl MdfxLanguageServer {
     fn tokenize_document(&self, text: &str) -> Vec<SemanticToken> {
         use once_cell::sync::Lazy;
 
-        // Pattern to match all mdfx templates: {{...}} or {{.../}}
+        // Pattern to match all mdfx templates:
+        // - Opening: {{content}} or {{content/}}
+        // - Closing: {{/content}}
+        // - Universal closer: {{//}}
         static TEMPLATE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
-            regex::Regex::new(r"\{\{([^}]+?)(?:/\}\}|\}\})").unwrap()
+            regex::Regex::new(r"\{\{(/?)([^}]*?)(?:/\}\}|\}\})").unwrap()
         });
 
         let icon_list = list_icons();
@@ -412,12 +415,14 @@ impl MdfxLanguageServer {
 
             for caps in TEMPLATE_PATTERN.captures_iter(line) {
                 let full_match = caps.get(0).unwrap();
-                let content = caps.get(1).map(|m| m.as_str()).unwrap_or("");
-                let template_start = full_match.start() + 2; // Skip {{
+                let is_closing = caps.get(1).map(|m| !m.as_str().is_empty()).unwrap_or(false);
+                let content = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+                // Skip {{ and optional /
+                let template_start = full_match.start() + 2 + if is_closing { 1 } else { 0 };
 
                 // Parse the template content and generate tokens
                 let new_tokens =
-                    self.tokenize_template(content, template_start, &valid_tech_names);
+                    self.tokenize_template(content, template_start, &valid_tech_names, is_closing);
 
                 // Convert to delta-encoded format
                 for (offset, length, token_type, token_modifiers) in new_tokens {
@@ -454,6 +459,7 @@ impl MdfxLanguageServer {
         content: &str,
         base_offset: usize,
         valid_tech_names: &std::collections::HashSet<&str>,
+        is_closing: bool,
     ) -> Vec<(usize, usize, u32, u32)> {
         // Token type indices (must match the legend in initialize)
         const TOKEN_NAMESPACE: u32 = 0; // component prefix
@@ -466,7 +472,16 @@ impl MdfxLanguageServer {
         const TOKEN_INVALID: u32 = 7; // invalid items
 
         let mut tokens = Vec::new();
-        let mut offset = base_offset;
+        let offset = base_offset;
+
+        // Handle universal closer {{//}}
+        if content.is_empty() && is_closing {
+            // Universal closer - just highlight as keyword
+            tokens.push((offset - 1, 1, TOKEN_KEYWORD, 0)); // The "/" in {{//}}
+            return tokens;
+        }
+
+        let mut offset = offset;
 
         // Handle ui:tech: prefix
         if let Some(rest) = content.strip_prefix("ui:tech:") {
@@ -525,6 +540,7 @@ impl MdfxLanguageServer {
 
             let parts: Vec<&str> = rest.split(':').collect();
             if !parts.is_empty() {
+                // Source name
                 let source = parts[0];
                 let valid_sources: Vec<&str> = params::valid_live_sources().collect();
                 let token_type = if valid_sources.contains(&source) {
@@ -533,7 +549,40 @@ impl MdfxLanguageServer {
                     TOKEN_INVALID
                 };
                 tokens.push((offset, source.len(), token_type, 0));
+                offset += source.len() + 1;
+
+                // Query (second part)
+                if parts.len() > 1 {
+                    let query = parts[1];
+                    tokens.push((offset, query.len(), TOKEN_STRING, 0));
+                    offset += query.len() + 1;
+                }
+
+                // Metric (third part)
+                if parts.len() > 2 {
+                    let metric = parts[2];
+                    let metric_type = if params::is_valid_metric(source, metric) {
+                        TOKEN_PARAMETER
+                    } else {
+                        TOKEN_INVALID
+                    };
+                    tokens.push((offset, metric.len(), metric_type, 0));
+                }
             }
+        }
+        // Handle ui:progress:, ui:donut:, ui:gauge: prefixes
+        else if let Some(rest) = content.strip_prefix("ui:progress:") {
+            tokens.push((offset, 11, TOKEN_NAMESPACE, 0)); // "ui:progress"
+            offset += 12;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
+        } else if let Some(rest) = content.strip_prefix("ui:donut:") {
+            tokens.push((offset, 8, TOKEN_NAMESPACE, 0)); // "ui:donut"
+            offset += 9;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
+        } else if let Some(rest) = content.strip_prefix("ui:gauge:") {
+            tokens.push((offset, 8, TOKEN_NAMESPACE, 0)); // "ui:gauge"
+            offset += 9;
+            self.tokenize_ui_component_args(rest, offset, &mut tokens);
         }
         // Handle glyph: prefix
         else if let Some(glyph_name) = content.strip_prefix("glyph:") {
@@ -547,7 +596,7 @@ impl MdfxLanguageServer {
             };
             tokens.push((offset, glyph_name.len(), token_type, 0));
         }
-        // Handle frame: prefix
+        // Handle frame: prefix (opening and closing)
         else if let Some(frame_name) = content.strip_prefix("frame:") {
             tokens.push((offset, 5, TOKEN_NAMESPACE, 0)); // "frame"
             offset += 6;
@@ -573,17 +622,92 @@ impl MdfxLanguageServer {
             };
             tokens.push((offset, color.len(), token_type, 0));
         }
-        // Handle style names
+        // Handle style/component names (both opening and closing tags)
         else {
             let name = content.split([':', '/']).next().unwrap_or(content);
             if self.registry.style(name).is_some() {
                 tokens.push((offset, name.len(), TOKEN_KEYWORD, 0));
             } else if self.registry.component(name).is_some() {
                 tokens.push((offset, name.len(), TOKEN_NAMESPACE, 0));
+                // Tokenize component arguments if not a closing tag
+                if !is_closing && content.len() > name.len() && content.chars().nth(name.len()) == Some(':') {
+                    let args_str = &content[name.len() + 1..];
+                    self.tokenize_component_args(args_str, offset + name.len() + 1, &mut tokens);
+                }
             }
         }
 
         tokens
+    }
+
+    /// Tokenize UI component arguments (progress, donut, gauge)
+    fn tokenize_ui_component_args(
+        &self,
+        args: &str,
+        mut offset: usize,
+        tokens: &mut Vec<(usize, usize, u32, u32)>,
+    ) {
+        const TOKEN_PARAMETER: u32 = 2;
+        const TOKEN_STRING: u32 = 3;
+        const TOKEN_VARIABLE: u32 = 4;
+
+        for part in args.split(':') {
+            if part.is_empty() {
+                offset += 1;
+                continue;
+            }
+
+            if let Some(eq_pos) = part.find('=') {
+                let param_name = &part[..eq_pos];
+                let param_value = &part[eq_pos + 1..];
+
+                // Parameter name
+                tokens.push((offset, param_name.len(), TOKEN_PARAMETER, 0));
+                offset += eq_pos + 1;
+
+                // Parameter value - check if it's a color
+                let value_type = if self.is_color_param(param_name)
+                    && self.registry.palette().contains_key(param_value)
+                {
+                    TOKEN_VARIABLE
+                } else {
+                    TOKEN_STRING
+                };
+                tokens.push((offset, param_value.len(), value_type, 0));
+                offset += param_value.len() + 1;
+            } else {
+                // Positional argument (number or string)
+                tokens.push((offset, part.len(), TOKEN_STRING, 0));
+                offset += part.len() + 1;
+            }
+        }
+    }
+
+    /// Tokenize component arguments (like progress:50:100)
+    fn tokenize_component_args(
+        &self,
+        args: &str,
+        mut offset: usize,
+        tokens: &mut Vec<(usize, usize, u32, u32)>,
+    ) {
+        const TOKEN_STRING: u32 = 3;
+        const TOKEN_VARIABLE: u32 = 4;
+
+        for part in args.split(':') {
+            if part.is_empty() {
+                offset += 1;
+                continue;
+            }
+
+            // Check if it's a palette color
+            let token_type = if self.registry.palette().contains_key(part) {
+                TOKEN_VARIABLE
+            } else {
+                TOKEN_STRING
+            };
+            tokens.push((offset, part.len(), token_type, 0));
+            offset += part.len() + 1;
+        }
     }
 
     /// Check if a parameter expects a color value

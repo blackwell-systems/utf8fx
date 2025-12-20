@@ -242,19 +242,36 @@ Beyond TextMate grammar, the LSP provides semantic tokens for context-aware high
 
 | Token Type | Description | Example |
 |------------|-------------|---------|
-| `namespace` | Component prefixes | `ui:tech`, `glyph`, `frame`, `swatch` |
-| `type` | Tech/source names | `rust`, `typescript`, `github` |
-| `parameter` | Parameter names | `border`, `logo_size`, `corners` |
-| `string` | Parameter values | `lg`, `true`, `left` |
+| `namespace` | Component prefixes | `ui:tech`, `ui:live`, `ui:progress`, `glyph`, `frame`, `swatch` |
+| `type` | Tech/source names | `rust`, `typescript`, `github`, `npm` |
+| `parameter` | Parameter names, metrics | `border`, `logo_size`, `stars`, `downloads` |
+| `string` | Parameter values, queries, args | `lg`, `true`, `50`, `owner/repo` |
 | `variable` | Palette color names | `accent`, `cobalt`, `pink` |
-| `keyword` | Style names | `mathbold`, `italic`, `fraktur` |
+| `keyword` | Style names, universal closer | `mathbold`, `italic`, `{{//}}` |
 | `function` | Frame names | `gradient`, `box`, `parentheses` |
-| `invalid` | Unknown/invalid items | Unknown tech names, invalid params |
+| `invalid` | Unknown/invalid items | Unknown tech names, invalid params/metrics |
+
+**Full Template Coverage:**
+
+| Template Type | Tokenized Elements |
+|--------------|-------------------|
+| `{{ui:tech:rust:border=accent/}}` | namespace, tech name, param names, param values |
+| `{{ui:live:github:owner/repo:stars/}}` | namespace, source, query, metric |
+| `{{ui:progress:50:100:fg=accent/}}` | namespace, positional args, named params |
+| `{{ui:donut:75:bg=cobalt/}}` | namespace, value, color params |
+| `{{ui:gauge:80:min=0:max=100/}}` | namespace, value, range params |
+| `{{glyph:star.filled/}}` | namespace, glyph name |
+| `{{frame:gradient}}...{{/frame:gradient}}` | namespace, frame name (both tags) |
+| `{{swatch:cobalt/}}` | namespace, color name |
+| `{{mathbold}}...{{/mathbold}}` | style name (both opening and closing) |
+| `{{progress:50:100/}}` | component name, arguments |
+| `{{//}}` | universal closer |
 
 **Benefits over TextMate:**
-- **Validation highlighting**: Invalid tech names, glyph names, and parameters are highlighted differently
+- **Validation highlighting**: Invalid tech names, glyph names, metrics, and parameters are highlighted differently
 - **Context awareness**: Color names are highlighted as variables when used in color parameters
 - **Semantic accuracy**: Token types reflect actual meaning, not just syntax patterns
+- **Complete coverage**: All template types including closing tags and universal closer
 
 Editors that support LSP semantic tokens will use these for highlighting when available.
 
