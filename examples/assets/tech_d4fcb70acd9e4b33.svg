@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="146" height="20" viewBox="0 0 146 20">
+<path d="M0 10L10 0H46V20H10L0 10Z" fill="#0080FF"/>  
+<path d="M46 0H146V20H46Z" fill="#006DD9"/>  
+<g transform="translate(21, 3) scale(0.5833333)">
+<path fill="#FFFFFF" d="M12.042 23.648v-4.796c4.545.02 7.817-4.391 5.817-8.77-1.023-2.232-3.171-3.86-5.586-4.11-4.913-.51-8.804 3.76-7.826 8.627.484 2.378 2.3 4.4 4.592 5.127v1.922H4.243v-1.922c-4.11-1.167-6.849-5.392-5.62-9.778C-.15 6.09 2.883 2.75 6.862 1.802c5.99-1.42 11.382 3.1 11.382 8.9 0 4.25-3.207 7.992-7.453 8.54v4.406z"/>
+</g>
+<text x="96" y="13" text-anchor="middle" fill="#FFFFFF" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">digitalocean</text>
+</svg>

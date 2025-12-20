@@ -60,6 +60,16 @@ Ghost-style badges with transparent backgrounds:
 
 ## {{mathbold}}BORDERS{{/mathbold}} & {{script}}Corners{{/script}}
 
+### Border Hierarchy
+
+| Mode | Perimeter | Divider | Description |
+|------|-----------|---------|-------------|
+| `border=COLOR` | Left only | No | Default - borders icon area |
+| `border=COLOR:border_full=true` | Full | No | Clean outline around badge |
+| `border=COLOR:divider=true` | Left only | Yes | Separator between segments |
+| `border=COLOR:border_full=true:divider=true` | Full | Yes | Full outline + separator |
+| `style=outline` | Full | Yes | Outline style (auto border + divider) |
+
 ### Accent Borders
 
 {{ui:row:align=center}}

@@ -565,7 +565,6 @@ Simulate gradients with colored borders on matching dark backgrounds:
 | `{{ui:tech:rust:bg=1a0a0a:logo=DEA584:border=DEA584:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_b98d8fd6327e60cc.svg) |
 | `{{ui:tech:python:bg=0a0a1a:logo=3776AB:border=3776AB:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_454e55bd5f6b01b6.svg) |
 | `{{ui:tech:go:bg=0a1a1a:logo=00ADD8:border=00ADD8:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_ff06050996c4906c.svg) |
-| `{{ui:tech:ruby:bg=1a0a0a:logo=CC342D:border=CC342D:border_width=2:rx=6/}}` | ![](assets/tech-guide/tech_408300884aadd55e.svg) |
 
 ---
 
