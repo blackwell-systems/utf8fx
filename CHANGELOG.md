@@ -17,12 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **LSP enhanced diagnostics**: Validates tech badge names, glyph names, live source names, and metrics with helpful error messages
 - **LSP semantic tokens**: Context-aware semantic highlighting beyond TextMate grammar, with full coverage for all template types including tech badges, live badges (source/query/metric), UI components (progress/donut/gauge), glyphs, frames, swatches, styles, components, closing tags, and the universal closer (`{{//}}`)
 - **LSP tag pair validation**: Diagnostics now validate matching open/close tag pairs, reporting errors for mismatched tags (`{{bold}}...{{/italic}}`), unclosed tags, extra closing tags, and invalid universal closer usage
+- **LSP version/license completions**: Added `ui:version:` and `ui:license:` to completions with documentation for status detection (stable/beta/alpha) and license categories (permissive/copyleft)
+- **LSP color picker**: Inline color swatches and picker UI for hex colors in templates (e.g., `bg=FF5733`). Supports both 6-char and 3-char hex formats
+- **LSP self-closing warnings**: Warns when inherently self-closing templates (`ui:`, `glyph:`, `swatch:`) are missing the `/}}` syntax
 - **Shared parameter definitions**: New `mdfx::components::params` module provides a single source of truth for tech badge and live source parameters, used by both the renderer and LSP
 
 ### Fixed
 - **LSP document caching**: Fixed completions not working in unsaved buffers or remote files (WSL). The LSP now properly caches document content from `didOpen`/`didChange` events instead of reading from disk
 - **LSP diagnostic related_information**: Fixed diagnostic related information using actual document URI instead of placeholder, enabling proper "jump to opening tag" in editors
 - **LSP --stdio flag**: Added `--stdio` flag to `mdfx lsp run` for VS Code extension compatibility (stdio is the default and only mode)
+- **LSP unclosed tag message**: Improved unclosed tag diagnostic to suggest both specific closer (`{{/tag}}`) and universal closer (`{{//}}`)
 
 ### Changed
 - **Internal**: Refactored thumb parameters into `ThumbConfig` struct, reducing code complexity and centralizing thumb configuration
