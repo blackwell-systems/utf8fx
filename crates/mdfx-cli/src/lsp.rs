@@ -1002,7 +1002,7 @@ impl MdfxLanguageServer {
                 },
                 severity: Some(DiagnosticSeverity::ERROR),
                 source: Some("mdfx".to_string()),
-                message: format!("Unclosed tag '{{{{{}}}}}' - missing '{{{{/{}}}}}'", tag_name, tag_name),
+                message: format!("Unclosed tag '{{{{{}}}}}' - missing '{{{{/{}}}}}' or '{{{{//}}}}'", tag_name, tag_name),
                 ..Default::default()
             });
         }
