@@ -326,8 +326,36 @@ impl ComponentsRenderer {
                         resolve,
                         fetch_ctx,
                     ),
+                    "docker" => handlers::handle_docker(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
+                    "packagist" => handlers::handle_packagist(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
+                    "rubygems" => handlers::handle_rubygems(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
+                    "nuget" => handlers::handle_nuget(
+                        &remaining_args,
+                        &params,
+                        &style,
+                        resolve,
+                        fetch_ctx,
+                    ),
                     _ => Err(Error::ParseError(format!(
-                        "Unknown live source '{}'. Available: github, npm, crates, pypi, codecov, actions",
+                        "Unknown live source '{}'. Available: github, npm, crates, pypi, codecov, actions, docker, packagist, rubygems, nuget",
                         source
                     ))),
                 }

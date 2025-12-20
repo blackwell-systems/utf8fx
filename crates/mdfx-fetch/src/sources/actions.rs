@@ -28,6 +28,7 @@ struct WorkflowRun {
 /// GitHub Actions data source
 pub struct ActionsSource {
     api_base: String,
+    token: Option<String>,
 }
 
 impl Default for ActionsSource {
@@ -38,9 +39,23 @@ impl Default for ActionsSource {
 
 impl ActionsSource {
     /// Create a new GitHub Actions source
+    ///
+    /// Reads GITHUB_TOKEN from environment for authentication.
+    /// With a token: 5,000 requests/hour
+    /// Without a token: 60 requests/hour
     pub fn new() -> Self {
+        let token = std::env::var("GITHUB_TOKEN").ok();
         ActionsSource {
             api_base: "https://api.github.com".to_string(),
+            token,
+        }
+    }
+
+    /// Create an Actions source with a specific token
+    pub fn with_token(token: String) -> Self {
+        ActionsSource {
+            api_base: "https://api.github.com".to_string(),
+            token: Some(token),
         }
     }
 
@@ -66,11 +81,17 @@ impl ActionsSource {
             url = format!("{}?{}", url, params.join("&"));
         }
 
-        let response = ureq::get(&url)
+        let mut request = ureq::get(&url)
             .set("Accept", "application/vnd.github+json")
             .set("User-Agent", "mdfx-fetch/1.0")
-            .set("X-GitHub-Api-Version", "2022-11-28")
-            .call();
+            .set("X-GitHub-Api-Version", "2022-11-28");
+
+        // Add authorization header if token is available
+        if let Some(ref token) = self.token {
+            request = request.set("Authorization", &format!("Bearer {}", token));
+        }
+
+        let response = request.call();
 
         match response {
             Ok(resp) => {

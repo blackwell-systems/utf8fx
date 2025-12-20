@@ -13,7 +13,7 @@ homepage.workspace = true
 
 [features]
 default = ["fetch"]
-lsp = ["tower-lsp", "tokio"]
+lsp = ["tower-lsp", "tokio", "once_cell"]
 fetch = ["mdfx/fetch", "mdfx-fetch"]
 
 [dependencies]
@@ -32,6 +32,7 @@ chrono = "0.4"
 # LSP dependencies (optional)
 tower-lsp = { version = "0.20", optional = true }
 tokio = { version = "1", features = ["full"], optional = true }
+once_cell = { version = "1.19", optional = true }
 
 [dev-dependencies]
 assert_cmd = "2.0"

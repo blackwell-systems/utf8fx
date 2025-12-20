@@ -3,16 +3,24 @@
 mod actions;
 mod codecov;
 mod crates;
+mod docker;
 mod github;
 mod npm;
+mod nuget;
+mod packagist;
 mod pypi;
+mod rubygems;
 
 pub use actions::ActionsSource;
 pub use codecov::CodecovSource;
 pub use crates::CratesSource;
+pub use docker::DockerSource;
 pub use github::GitHubSource;
 pub use npm::NpmSource;
+pub use nuget::NuGetSource;
+pub use packagist::PackagistSource;
 pub use pypi::PyPISource;
+pub use rubygems::RubyGemsSource;
 
 use crate::error::Result;
 use crate::value::DataValue;
@@ -79,6 +87,10 @@ impl SourceRegistry {
                 Box::new(PyPISource::new()),
                 Box::new(CodecovSource::new()),
                 Box::new(ActionsSource::new()),
+                Box::new(DockerSource::new()),
+                Box::new(PackagistSource::new()),
+                Box::new(RubyGemsSource::new()),
+                Box::new(NuGetSource::new()),
             ],
         }
     }
@@ -121,6 +133,10 @@ mod tests {
     #[case("pypi")]
     #[case("codecov")]
     #[case("actions")]
+    #[case("docker")]
+    #[case("packagist")]
+    #[case("rubygems")]
+    #[case("nuget")]
     fn test_registry_has_source(#[case] source_id: &str) {
         let registry = SourceRegistry::new();
         assert!(
@@ -140,5 +156,9 @@ mod tests {
         assert!(sources.contains(&"pypi"));
         assert!(sources.contains(&"codecov"));
         assert!(sources.contains(&"actions"));
+        assert!(sources.contains(&"docker"));
+        assert!(sources.contains(&"packagist"));
+        assert!(sources.contains(&"rubygems"));
+        assert!(sources.contains(&"nuget"));
     }
 }

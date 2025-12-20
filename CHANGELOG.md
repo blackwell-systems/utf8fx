@@ -399,19 +399,81 @@ New `actions` source for live badges - fetch workflow run status from GitHub Act
 
 Requires the `fetch` feature: `cargo build --features fetch`
 
+#### Additional Live Badge Sources
+
+Four new package registry sources for live badges:
+
+**Docker Hub** (`docker`):
+```markdown
+{{ui:live:docker:nginx/}}                  <!-- pulls (default) -->
+{{ui:live:docker:nginx:stars/}}            <!-- star count -->
+{{ui:live:docker:library/redis:tag/}}      <!-- latest tag -->
+```
+Metrics: `pulls`, `stars`, `tag`, `description`, `official`
+
+**Packagist/PHP** (`packagist`):
+```markdown
+{{ui:live:packagist:laravel/laravel/}}     <!-- version (default) -->
+{{ui:live:packagist:symfony/symfony:downloads/}}
+```
+Metrics: `version`, `downloads`, `monthly`, `daily`, `stars`, `license`, `php`
+
+**RubyGems** (`rubygems`):
+```markdown
+{{ui:live:rubygems:rails/}}                <!-- version (default) -->
+{{ui:live:rubygems:bundler:downloads/}}
+```
+Metrics: `version`, `downloads`, `version_downloads`, `license`, `authors`, `ruby`
+
+**NuGet/.NET** (`nuget`):
+```markdown
+{{ui:live:nuget:Newtonsoft.Json/}}         <!-- version (default) -->
+{{ui:live:nuget:Serilog:downloads/}}
+```
+Metrics: `version`, `downloads`, `description`, `authors`, `license`
+
+Requires the `fetch` feature: `cargo build --features fetch`
+
+#### GitHub Token Authentication
+
+Live badges now support GitHub token authentication for higher rate limits:
+
+```bash
+# Without token: 60 requests/hour
+# With token: 5,000 requests/hour
+export GITHUB_TOKEN="ghp_..."
+mdfx process -b svg README.template.md
+```
+
+Applies to `github` and `actions` sources automatically.
+
+#### LSP Live Badge Diagnostics
+
+The LSP server now provides real-time diagnostics for live badge syntax:
+
+**Error diagnostics:**
+- Unknown source names → `Unknown live source 'xyz'. Valid sources: github, npm, ...`
+- Incomplete syntax → `Incomplete live badge syntax. Expected: {{ui:live:source:query:metric/}}`
+
+**Warning diagnostics:**
+- Unknown metrics → `Unknown metric 'xyz' for source 'github'. Valid metrics: stars, forks, ...`
+
+Diagnostics appear in your editor as you type.
+
 #### LSP Live Badge Completions
 
 The LSP server now provides IntelliSense for live badges:
 
 **Source completions** - After `{{ui:live:` shows all available sources:
 ```markdown
-{{ui:live:|}}  <!-- github, npm, crates, pypi, codecov, actions -->
+{{ui:live:|}}  <!-- github, npm, crates, pypi, codecov, actions, docker, packagist, rubygems, nuget -->
 ```
 
 **Metric completions** - After selecting a source, shows available metrics:
 ```markdown
 {{ui:live:actions:|}}   <!-- status, conclusion, run_number, workflow, event, branch -->
 {{ui:live:codecov:|}}   <!-- coverage, lines, hits, misses, files, branches -->
+{{ui:live:docker:|}}    <!-- pulls, stars, tag, description, official -->
 ```
 
 #### Live Badge CI/CD Workflow

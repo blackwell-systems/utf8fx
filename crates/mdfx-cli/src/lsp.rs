@@ -353,7 +353,7 @@ impl MdfxLanguageServer {
             .collect()
     }
 
-    /// Build completion items for live data sources (github, npm, crates, pypi, codecov, actions)
+    /// Build completion items for live data sources
     fn live_source_completions(&self, prefix: &str) -> Vec<CompletionItem> {
         let sources = vec![
             (
@@ -381,6 +381,26 @@ impl MdfxLanguageServer {
                 "actions",
                 "GitHub Actions workflow status",
                 "status, conclusion, run_number, workflow",
+            ),
+            (
+                "docker",
+                "Docker Hub image metrics",
+                "pulls, stars, tag, description, official",
+            ),
+            (
+                "packagist",
+                "Packagist (PHP) package metrics",
+                "version, downloads, monthly, daily, stars, license, php",
+            ),
+            (
+                "rubygems",
+                "RubyGems package metrics",
+                "version, downloads, license, authors, ruby",
+            ),
+            (
+                "nuget",
+                "NuGet (.NET) package metrics",
+                "version, downloads, description, authors, license",
             ),
         ];
 
@@ -451,6 +471,37 @@ impl MdfxLanguageServer {
                 ("run_number", "Workflow run number"),
                 ("workflow", "Workflow name"),
             ],
+            "docker" => vec![
+                ("pulls", "Total pull count"),
+                ("stars", "Star count"),
+                ("tag", "Latest tag"),
+                ("description", "Image description"),
+                ("official", "Official or Community"),
+            ],
+            "packagist" => vec![
+                ("version", "Latest stable version"),
+                ("downloads", "Total download count"),
+                ("monthly", "Monthly downloads"),
+                ("daily", "Daily downloads"),
+                ("stars", "Star/faver count"),
+                ("license", "Package license"),
+                ("php", "Required PHP version"),
+            ],
+            "rubygems" => vec![
+                ("version", "Latest version"),
+                ("downloads", "Total download count"),
+                ("version_downloads", "Downloads for latest version"),
+                ("license", "Gem license"),
+                ("authors", "Gem authors"),
+                ("ruby", "Required Ruby version"),
+            ],
+            "nuget" => vec![
+                ("version", "Latest version"),
+                ("downloads", "Total download count"),
+                ("description", "Package description"),
+                ("authors", "Package authors"),
+                ("license", "Package license"),
+            ],
             _ => vec![],
         };
 
@@ -520,6 +571,197 @@ impl MdfxLanguageServer {
                 ..Default::default()
             })
             .collect()
+    }
+
+    /// Valid live badge sources
+    const VALID_SOURCES: &'static [&'static str] = &[
+        "github",
+        "npm",
+        "crates",
+        "pypi",
+        "codecov",
+        "actions",
+        "docker",
+        "packagist",
+        "rubygems",
+        "nuget",
+    ];
+
+    /// Get valid metrics for a source
+    fn valid_metrics_for_source(source: &str) -> &'static [&'static str] {
+        match source {
+            "github" => &[
+                "stars",
+                "forks",
+                "issues",
+                "watchers",
+                "size",
+                "language",
+                "license",
+                "archived",
+                "branch",
+                "topics",
+                "description",
+            ],
+            "npm" => &["version", "next", "beta", "license", "description"],
+            "crates" => &["version", "downloads", "description"],
+            "pypi" => &["version", "license", "author", "python", "summary"],
+            "codecov" => &["coverage", "lines", "hits", "misses", "files", "branches"],
+            "actions" => &[
+                "status",
+                "conclusion",
+                "run_number",
+                "workflow",
+                "event",
+                "branch",
+            ],
+            "docker" => &[
+                "pulls",
+                "pulls_raw",
+                "stars",
+                "tag",
+                "description",
+                "official",
+            ],
+            "packagist" => &[
+                "version",
+                "downloads",
+                "downloads_raw",
+                "monthly",
+                "daily",
+                "stars",
+                "license",
+                "php",
+                "description",
+            ],
+            "rubygems" => &[
+                "version",
+                "downloads",
+                "downloads_raw",
+                "version_downloads",
+                "license",
+                "authors",
+                "info",
+                "ruby",
+            ],
+            "nuget" => &[
+                "version",
+                "downloads",
+                "downloads_raw",
+                "description",
+                "authors",
+                "license",
+            ],
+            _ => &[],
+        }
+    }
+
+    /// Generate diagnostics for live badge syntax errors
+    fn generate_diagnostics(&self, text: &str) -> Vec<Diagnostic> {
+        use once_cell::sync::Lazy;
+
+        static LIVE_BADGE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
+            regex::Regex::new(r"\{\{ui:live:([^:}]+):([^:}]+)(?::([^/}]+))?/\}\}").unwrap()
+        });
+
+        static INCOMPLETE_PATTERN: Lazy<regex::Regex> =
+            Lazy::new(|| regex::Regex::new(r"\{\{ui:live:([^:}]*)\}\}").unwrap());
+
+        let mut diagnostics = Vec::new();
+        let lines: Vec<&str> = text.lines().collect();
+
+        for (line_num, line) in lines.iter().enumerate() {
+            for caps in LIVE_BADGE_PATTERN.captures_iter(line) {
+                let full_match = caps.get(0).unwrap();
+                let source = caps.get(1).map(|m| m.as_str()).unwrap_or("");
+                let _query = caps.get(2).map(|m| m.as_str()).unwrap_or("");
+                let metric = caps.get(3).map(|m| m.as_str());
+
+                let start_col = full_match.start() as u32;
+                let end_col = full_match.end() as u32;
+
+                // Check if source is valid
+                if !Self::VALID_SOURCES.contains(&source) {
+                    diagnostics.push(Diagnostic {
+                        range: Range {
+                            start: Position {
+                                line: line_num as u32,
+                                character: start_col,
+                            },
+                            end: Position {
+                                line: line_num as u32,
+                                character: end_col,
+                            },
+                        },
+                        severity: Some(DiagnosticSeverity::ERROR),
+                        source: Some("mdfx".to_string()),
+                        message: format!(
+                            "Unknown live source '{}'. Valid sources: {}",
+                            source,
+                            Self::VALID_SOURCES.join(", ")
+                        ),
+                        ..Default::default()
+                    });
+                    continue;
+                }
+
+                // Check if metric is valid for the source
+                if let Some(metric_name) = metric {
+                    let valid_metrics = Self::valid_metrics_for_source(source);
+                    if !valid_metrics.contains(&metric_name) {
+                        diagnostics.push(Diagnostic {
+                            range: Range {
+                                start: Position {
+                                    line: line_num as u32,
+                                    character: start_col,
+                                },
+                                end: Position {
+                                    line: line_num as u32,
+                                    character: end_col,
+                                },
+                            },
+                            severity: Some(DiagnosticSeverity::WARNING),
+                            source: Some("mdfx".to_string()),
+                            message: format!(
+                                "Unknown metric '{}' for source '{}'. Valid metrics: {}",
+                                metric_name,
+                                source,
+                                valid_metrics.join(", ")
+                            ),
+                            ..Default::default()
+                        });
+                    }
+                }
+            }
+
+            // Check for incomplete live badge syntax
+            for caps in INCOMPLETE_PATTERN.captures_iter(line) {
+                let full_match = caps.get(0).unwrap();
+                let start_col = full_match.start() as u32;
+                let end_col = full_match.end() as u32;
+
+                diagnostics.push(Diagnostic {
+                    range: Range {
+                        start: Position {
+                            line: line_num as u32,
+                            character: start_col,
+                        },
+                        end: Position {
+                            line: line_num as u32,
+                            character: end_col,
+                        },
+                    },
+                    severity: Some(DiagnosticSeverity::ERROR),
+                    source: Some("mdfx".to_string()),
+                    message:
+                        "Incomplete live badge syntax. Expected: {{ui:live:source:query:metric/}}"
+                            .to_string(),
+                    ..Default::default()
+                });
+            }
+        }
+
+        diagnostics
     }
 
     /// Analyze the text around the cursor to determine completion context
@@ -720,6 +962,25 @@ impl LanguageServer for MdfxLanguageServer {
         self.client
             .log_message(MessageType::INFO, "mdfx LSP server initialized")
             .await;
+    }
+
+    async fn did_open(&self, params: DidOpenTextDocumentParams) {
+        let uri = params.text_document.uri;
+        let text = params.text_document.text;
+        let diagnostics = self.generate_diagnostics(&text);
+        self.client
+            .publish_diagnostics(uri, diagnostics, None)
+            .await;
+    }
+
+    async fn did_change(&self, params: DidChangeTextDocumentParams) {
+        let uri = params.text_document.uri;
+        if let Some(change) = params.content_changes.into_iter().last() {
+            let diagnostics = self.generate_diagnostics(&change.text);
+            self.client
+                .publish_diagnostics(uri, diagnostics, None)
+                .await;
+        }
     }
 
     async fn shutdown(&self) -> Result<()> {

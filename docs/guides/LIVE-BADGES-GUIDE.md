@@ -11,7 +11,7 @@ All live data badges use the `live:` namespace:
 ```
 
 Where:
-- `source` - Data source: `github`, `npm`, `crates`, `pypi`, `codecov`, or `actions`
+- `source` - Data source: `github`, `npm`, `crates`, `pypi`, `codecov`, `actions`, `docker`, `packagist`, `rubygems`, or `nuget`
 - `query` - Source-specific query (repo, package name, etc.)
 - `metric` - Metric to fetch (optional, defaults vary by source)
 
@@ -215,6 +215,102 @@ Fetch workflow run status from GitHub Actions.
 - `in_progress` → Blue
 - `queued` / `waiting` → Yellow
 
+### Docker Hub
+
+Fetch image metrics from Docker Hub.
+
+**Syntax:**
+```markdown
+{{ui:live:docker:image:metric/}}
+{{ui:live:docker:namespace/image:metric/}}
+```
+
+**Query formats:**
+- `nginx` - Official images (library namespace)
+- `library/nginx` - Explicit official namespace
+- `myuser/myapp` - User/organization images
+
+**Metrics:**
+| Metric | Description | Example |
+|--------|-------------|---------|
+| `pulls` | Total pull count (default) | `{{ui:live:docker:nginx:pulls/}}` |
+| `stars` | Star count | `{{ui:live:docker:nginx:stars/}}` |
+| `tag` | Latest tag | `{{ui:live:docker:redis:tag/}}` |
+| `description` | Image description | `{{ui:live:docker:nginx:description/}}` |
+| `official` | Official or Community | `{{ui:live:docker:nginx:official/}}` |
+
+### Packagist (PHP/Composer)
+
+Fetch package metrics from Packagist.
+
+**Syntax:**
+```markdown
+{{ui:live:packagist:vendor/package:metric/}}
+```
+
+**Metrics:**
+| Metric | Description | Example |
+|--------|-------------|---------|
+| `version` | Latest stable version (default) | `{{ui:live:packagist:laravel/laravel:version/}}` |
+| `downloads` | Total download count | `{{ui:live:packagist:symfony/symfony:downloads/}}` |
+| `monthly` | Monthly downloads | `{{ui:live:packagist:laravel/laravel:monthly/}}` |
+| `daily` | Daily downloads | `{{ui:live:packagist:laravel/laravel:daily/}}` |
+| `stars` | Star/faver count | `{{ui:live:packagist:laravel/laravel:stars/}}` |
+| `license` | Package license | `{{ui:live:packagist:phpunit/phpunit:license/}}` |
+| `php` | Required PHP version | `{{ui:live:packagist:laravel/laravel:php/}}` |
+
+### RubyGems
+
+Fetch gem metrics from RubyGems.
+
+**Syntax:**
+```markdown
+{{ui:live:rubygems:gem-name:metric/}}
+```
+
+**Metrics:**
+| Metric | Description | Example |
+|--------|-------------|---------|
+| `version` | Latest version (default) | `{{ui:live:rubygems:rails:version/}}` |
+| `downloads` | Total download count | `{{ui:live:rubygems:bundler:downloads/}}` |
+| `version_downloads` | Downloads for latest version | `{{ui:live:rubygems:rails:version_downloads/}}` |
+| `license` | Gem license | `{{ui:live:rubygems:rspec:license/}}` |
+| `authors` | Gem authors | `{{ui:live:rubygems:rails:authors/}}` |
+| `ruby` | Required Ruby version | `{{ui:live:rubygems:rails:ruby/}}` |
+
+### NuGet (.NET)
+
+Fetch package metrics from NuGet.
+
+**Syntax:**
+```markdown
+{{ui:live:nuget:package-name:metric/}}
+```
+
+**Metrics:**
+| Metric | Description | Example |
+|--------|-------------|---------|
+| `version` | Latest version (default) | `{{ui:live:nuget:Newtonsoft.Json:version/}}` |
+| `downloads` | Total download count | `{{ui:live:nuget:EntityFramework:downloads/}}` |
+| `description` | Package description | `{{ui:live:nuget:Serilog:description/}}` |
+| `authors` | Package authors | `{{ui:live:nuget:Newtonsoft.Json:authors/}}` |
+| `license` | Package license | `{{ui:live:nuget:Newtonsoft.Json:license/}}` |
+
+## Authentication
+
+### GitHub Token
+
+For higher rate limits on GitHub-based sources (`github`, `actions`), set the `GITHUB_TOKEN` environment variable:
+
+```bash
+# Without token: 60 requests/hour
+# With token: 5,000 requests/hour
+export GITHUB_TOKEN="ghp_..."
+mdfx process -b svg README.template.md
+```
+
+The token is read automatically and used for all GitHub API requests.
+
 ## Styling Options
 
 Live badges support the same styling options as other components:
@@ -292,8 +388,16 @@ Default cache directory is `.mdfx-cache` in the current working directory.
 │   └── requests_version.json
 ├── codecov/
 │   └── rust-lang_rust_coverage.json
-└── actions/
-    └── rust-lang_rust_conclusion.json
+├── actions/
+│   └── rust-lang_rust_conclusion.json
+├── docker/
+│   └── nginx_pulls.json
+├── packagist/
+│   └── laravel_laravel_version.json
+├── rubygems/
+│   └── rails_version.json
+└── nuget/
+    └── Newtonsoft.Json_version.json
 ```
 
 ## Error Handling
@@ -311,12 +415,16 @@ Be aware of API rate limits:
 
 | Source | Rate Limit | Notes |
 |--------|------------|-------|
-| GitHub | 60 req/hour | Unauthenticated |
+| GitHub | 60/5000 req/hour | 60 unauthenticated, 5000 with GITHUB_TOKEN |
 | npm | No limit | Be respectful |
 | crates.io | No limit | Has user-agent requirement |
 | PyPI | No limit | Be respectful |
 | Codecov | No limit | Has user-agent requirement |
-| Actions | 60 req/hour | Uses GitHub API (unauthenticated) |
+| Actions | 60/5000 req/hour | Uses GitHub API, same limits |
+| Docker Hub | No limit | Be respectful |
+| Packagist | No limit | Has user-agent requirement |
+| RubyGems | No limit | Has user-agent requirement |
+| NuGet | No limit | Be respectful |
 
 ## Examples
 

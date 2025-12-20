@@ -143,6 +143,6 @@ pub mod waveform;
 
 #[cfg(feature = "fetch")]
 pub use github::{
-    handle_actions, handle_codecov, handle_crates, handle_github, handle_npm, handle_pypi,
-    FetchContext,
+    handle_actions, handle_codecov, handle_crates, handle_docker, handle_github, handle_npm,
+    handle_nuget, handle_packagist, handle_pypi, handle_rubygems, FetchContext,
 };

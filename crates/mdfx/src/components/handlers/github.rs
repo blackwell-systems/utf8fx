@@ -360,6 +360,154 @@ pub fn handle_actions(
     )
 }
 
+/// Handle docker source for live component
+///
+/// Syntax: {{ui:live:docker:image:metric/}}
+///
+/// Metrics:
+/// - pulls - Total pull count (formatted with K/M/B)
+/// - stars - Star count
+/// - tag - Latest tag
+/// - description - Image description
+/// - official - Official or Community
+///
+/// Query format:
+/// - nginx - Official images (library namespace)
+/// - library/nginx - Explicit official
+/// - user/repo - User images
+///
+/// Examples:
+/// - {{ui:live:docker:nginx/}}
+/// - {{ui:live:docker:nginx:pulls/}}
+/// - {{ui:live:docker:myuser/myapp:tag/}}
+#[cfg(feature = "fetch")]
+pub fn handle_docker(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source(
+        "docker",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "pulls",
+        "2496ED", // Docker blue
+    )
+}
+
+/// Handle packagist source for live component
+///
+/// Syntax: {{ui:live:packagist:vendor/package:metric/}}
+///
+/// Metrics:
+/// - version - Latest stable version
+/// - downloads - Total download count
+/// - monthly - Monthly downloads
+/// - daily - Daily downloads
+/// - stars - Star/faver count
+/// - license - Package license
+/// - php - Required PHP version
+///
+/// Examples:
+/// - {{ui:live:packagist:laravel/laravel/}}
+/// - {{ui:live:packagist:symfony/symfony:downloads/}}
+/// - {{ui:live:packagist:phpunit/phpunit:version/}}
+#[cfg(feature = "fetch")]
+pub fn handle_packagist(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source(
+        "packagist",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "version",
+        "F28D1A", // Packagist orange
+    )
+}
+
+/// Handle rubygems source for live component
+///
+/// Syntax: {{ui:live:rubygems:gem-name:metric/}}
+///
+/// Metrics:
+/// - version - Latest version
+/// - downloads - Total download count
+/// - version_downloads - Downloads for latest version
+/// - license - Gem license
+/// - authors - Gem authors
+/// - ruby - Required Ruby version
+///
+/// Examples:
+/// - {{ui:live:rubygems:rails/}}
+/// - {{ui:live:rubygems:bundler:downloads/}}
+/// - {{ui:live:rubygems:rspec:version/}}
+#[cfg(feature = "fetch")]
+pub fn handle_rubygems(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source(
+        "rubygems",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "version",
+        "CC342D", // Ruby red
+    )
+}
+
+/// Handle nuget source for live component
+///
+/// Syntax: {{ui:live:nuget:package-name:metric/}}
+///
+/// Metrics:
+/// - version - Latest version
+/// - downloads - Total download count
+/// - description - Package description
+/// - authors - Package authors
+/// - license - Package license
+///
+/// Examples:
+/// - {{ui:live:nuget:Newtonsoft.Json/}}
+/// - {{ui:live:nuget:EntityFramework:downloads/}}
+/// - {{ui:live:nuget:Serilog:version/}}
+#[cfg(feature = "fetch")]
+pub fn handle_nuget(
+    args: &[String],
+    params: &HashMap<String, String>,
+    style: &str,
+    resolve_color: impl Fn(&str) -> String,
+    fetch_ctx: &FetchContext,
+) -> Result<ComponentOutput> {
+    handle_source(
+        "nuget",
+        args,
+        params,
+        style,
+        resolve_color,
+        fetch_ctx,
+        "version",
+        "004880", // NuGet blue
+    )
+}
+
 #[cfg(all(test, feature = "fetch"))]
 mod tests {
     use super::*;
@@ -389,6 +537,10 @@ mod tests {
     #[case("pypi", "requests")]
     #[case("codecov", "rust-lang/rust")]
     #[case("actions", "rust-lang/rust")]
+    #[case("docker", "nginx")]
+    #[case("packagist", "laravel/laravel")]
+    #[case("rubygems", "rails")]
+    #[case("nuget", "Newtonsoft.Json")]
     fn test_source_offline_no_cache(#[case] source: &str, #[case] query: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
@@ -401,6 +553,10 @@ mod tests {
             "pypi" => handle_pypi(&args, &params, "flat", |c| c.to_string(), &ctx),
             "codecov" => handle_codecov(&args, &params, "flat", |c| c.to_string(), &ctx),
             "actions" => handle_actions(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "docker" => handle_docker(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "packagist" => handle_packagist(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "rubygems" => handle_rubygems(&args, &params, "flat", |c| c.to_string(), &ctx),
+            "nuget" => handle_nuget(&args, &params, "flat", |c| c.to_string(), &ctx),
             _ => panic!("Unknown source"),
         };
 
@@ -422,6 +578,10 @@ mod tests {
     #[case("pypi")]
     #[case("codecov")]
     #[case("actions")]
+    #[case("docker")]
+    #[case("packagist")]
+    #[case("rubygems")]
+    #[case("nuget")]
     fn test_missing_query(#[case] source: &str) {
         let (ctx, _dir) = temp_fetch_ctx(true);
         let params = HashMap::new();
@@ -433,6 +593,10 @@ mod tests {
             "pypi" => handle_pypi(&[], &params, "flat", |c| c.to_string(), &ctx),
             "codecov" => handle_codecov(&[], &params, "flat", |c| c.to_string(), &ctx),
             "actions" => handle_actions(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "docker" => handle_docker(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "packagist" => handle_packagist(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "rubygems" => handle_rubygems(&[], &params, "flat", |c| c.to_string(), &ctx),
+            "nuget" => handle_nuget(&[], &params, "flat", |c| c.to_string(), &ctx),
             _ => panic!("Unknown source"),
         };
 

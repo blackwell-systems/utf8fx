@@ -33,6 +33,7 @@ struct LicenseInfo {
 /// GitHub data source
 pub struct GitHubSource {
     api_base: String,
+    token: Option<String>,
 }
 
 impl Default for GitHubSource {
@@ -43,9 +44,23 @@ impl Default for GitHubSource {
 
 impl GitHubSource {
     /// Create a new GitHub source
+    ///
+    /// Reads GITHUB_TOKEN from environment for authentication.
+    /// With a token: 5,000 requests/hour
+    /// Without a token: 60 requests/hour
     pub fn new() -> Self {
+        let token = std::env::var("GITHUB_TOKEN").ok();
         GitHubSource {
             api_base: "https://api.github.com".to_string(),
+            token,
+        }
+    }
+
+    /// Create a GitHub source with a specific token
+    pub fn with_token(token: String) -> Self {
+        GitHubSource {
+            api_base: "https://api.github.com".to_string(),
+            token: Some(token),
         }
     }
 
@@ -53,11 +68,17 @@ impl GitHubSource {
     fn fetch_repo(&self, owner: &str, repo: &str) -> Result<RepoResponse> {
         let url = format!("{}/repos/{}/{}", self.api_base, owner, repo);
 
-        let response = ureq::get(&url)
+        let mut request = ureq::get(&url)
             .set("Accept", "application/vnd.github+json")
             .set("User-Agent", "mdfx-fetch/1.0")
-            .set("X-GitHub-Api-Version", "2022-11-28")
-            .call();
+            .set("X-GitHub-Api-Version", "2022-11-28");
+
+        // Add authorization header if token is available
+        if let Some(ref token) = self.token {
+            request = request.set("Authorization", &format!("Bearer {}", token));
+        }
+
+        let response = request.call();
 
         match response {
             Ok(resp) => {
