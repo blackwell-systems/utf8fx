@@ -88,6 +88,14 @@ pub enum PrimitiveInfo {
         logo_color: String,
         style: String,
     },
+    Version {
+        version: String,
+        style: String,
+    },
+    License {
+        license: String,
+        style: String,
+    },
     Progress {
         percent: u8,
         width: u32,
@@ -132,6 +140,14 @@ impl From<&Primitive> for PrimitiveInfo {
                 name: cfg.name.clone(),
                 bg_color: cfg.bg_color.clone(),
                 logo_color: cfg.logo_color.clone(),
+                style: cfg.style.clone(),
+            },
+            Primitive::Version(cfg) => PrimitiveInfo::Version {
+                version: cfg.version.clone(),
+                style: cfg.style.clone(),
+            },
+            Primitive::License(cfg) => PrimitiveInfo::License {
+                license: cfg.license.clone(),
                 style: cfg.style.clone(),
             },
             Primitive::Progress {

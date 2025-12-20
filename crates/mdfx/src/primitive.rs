@@ -5,7 +5,9 @@
 //!
 //! Each primitive corresponds to a high-level UI concept:
 //! - Swatch: Single colored block
-//! - Tech: Technology logo badge
+//! - Tech: Technology logo badge (via badgefx)
+//! - Version: Semantic version badge (via badgefx)
+//! - License: SPDX license badge (via badgefx)
 //! - Progress: Progress bar with customizable track and fill
 //! - Donut: Circular progress/ring chart
 //! - Gauge: Semi-circular meter (half-donut)
@@ -152,6 +154,101 @@ impl TechConfig {
     }
 }
 
+/// Configuration for a version badge (rendered via badgefx).
+#[derive(Debug, Clone, PartialEq)]
+pub struct VersionConfig {
+    /// Version string (e.g., "1.0.0", "2.0.0-beta")
+    pub version: String,
+    /// Badge style
+    pub style: String,
+    /// Status override (stable, beta, alpha, dev, deprecated)
+    pub status: Option<String>,
+    /// Custom background color (hex)
+    pub bg_color: Option<String>,
+    /// Custom text color (hex)
+    pub text_color: Option<String>,
+    /// Version prefix ("v" by default)
+    pub prefix: Option<String>,
+    /// Border color (hex)
+    pub border_color: Option<String>,
+    /// Border width in pixels
+    pub border_width: Option<u32>,
+    /// Corner radius
+    pub rx: Option<u32>,
+}
+
+impl Default for VersionConfig {
+    fn default() -> Self {
+        Self {
+            version: String::new(),
+            style: "flat-square".to_string(),
+            status: None,
+            bg_color: None,
+            text_color: None,
+            prefix: None,
+            border_color: None,
+            border_width: None,
+            rx: None,
+        }
+    }
+}
+
+impl VersionConfig {
+    /// Create a new VersionConfig with the given version string.
+    pub fn new(version: &str) -> Self {
+        Self {
+            version: version.to_string(),
+            ..Default::default()
+        }
+    }
+}
+
+/// Configuration for a license badge (rendered via badgefx).
+#[derive(Debug, Clone, PartialEq)]
+pub struct LicenseConfig {
+    /// License identifier (e.g., "MIT", "GPL-3.0")
+    pub license: String,
+    /// Badge style
+    pub style: String,
+    /// Custom label (overrides formatted name)
+    pub label: Option<String>,
+    /// Custom background color (hex)
+    pub bg_color: Option<String>,
+    /// Custom text color (hex)
+    pub text_color: Option<String>,
+    /// Border color (hex)
+    pub border_color: Option<String>,
+    /// Border width in pixels
+    pub border_width: Option<u32>,
+    /// Corner radius
+    pub rx: Option<u32>,
+}
+
+impl Default for LicenseConfig {
+    fn default() -> Self {
+        Self {
+            license: String::new(),
+            style: "flat-square".to_string(),
+            label: None,
+            bg_color: None,
+            text_color: None,
+            border_color: None,
+            border_width: None,
+            rx: None,
+        }
+    }
+}
+
+impl LicenseConfig {
+    /// Create a new LicenseConfig with the given license identifier.
+    pub fn new(license: &str) -> Self {
+        Self {
+            license: license.to_string(),
+            ..Default::default()
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq)]
 #[allow(clippy::large_enum_variant)]
 pub enum Primitive {
@@ -202,6 +299,12 @@ pub enum Primitive {
     /// Technology badge with logo (uses Simple Icons).
     /// Wraps TechConfig to enable `..Default::default()` in tests.
     Tech(TechConfig),
+
+    /// Version badge with status-aware coloring (rendered via badgefx).
+    Version(VersionConfig),
+
+    /// License badge with category-aware coloring (rendered via badgefx).
+    License(LicenseConfig),
 
     /// Progress bar with customizable track and fill
     Progress {

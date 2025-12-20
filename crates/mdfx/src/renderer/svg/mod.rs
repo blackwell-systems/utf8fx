@@ -73,6 +73,8 @@ impl SvgBackend {
         match primitive {
             Primitive::Swatch { .. } => "swatch",
             Primitive::Tech(_) => "tech",
+            Primitive::Version(_) => "version",
+            Primitive::License(_) => "license",
             Primitive::Progress { .. } => "progress",
             Primitive::Donut { .. } => "donut",
             Primitive::Gauge { .. } => "gauge",
@@ -181,6 +183,71 @@ impl Renderer for SvgBackend {
                     cfg.logo_size,
                     cfg.icon.as_deref(),
                 )
+            }
+
+            Primitive::Version(cfg) => {
+                // Use badgefx to render version badge
+                let mut builder = badgefx::version(&cfg.version);
+
+                // Apply status override if specified
+                if let Some(status_str) = &cfg.status {
+                    if let Some(status) = badgefx::version::parse_status(status_str) {
+                        builder = builder.status(status);
+                    }
+                }
+
+                // Apply style
+                builder = builder.style(badgefx::BadgeStyle::parse(&cfg.style));
+
+                // Apply optional overrides
+                if let Some(bg) = &cfg.bg_color {
+                    builder = builder.bg_color(bg);
+                }
+                if let Some(text) = &cfg.text_color {
+                    builder = builder.text_color(text);
+                }
+                if let Some(prefix) = &cfg.prefix {
+                    if prefix.is_empty() {
+                        builder = builder.no_prefix();
+                    } else {
+                        builder = builder.prefix(prefix);
+                    }
+                }
+                if let (Some(bc), Some(bw)) = (&cfg.border_color, cfg.border_width) {
+                    builder = builder.border(bc, bw);
+                }
+                if let Some(rx) = cfg.rx {
+                    builder = builder.rx(rx);
+                }
+
+                builder.render()
+            }
+
+            Primitive::License(cfg) => {
+                // Use badgefx to render license badge
+                let mut builder = badgefx::license(&cfg.license);
+
+                // Apply style
+                builder = builder.style(badgefx::BadgeStyle::parse(&cfg.style));
+
+                // Apply optional overrides
+                if let Some(label) = &cfg.label {
+                    builder = builder.label(label);
+                }
+                if let Some(bg) = &cfg.bg_color {
+                    builder = builder.bg_color(bg);
+                }
+                if let Some(text) = &cfg.text_color {
+                    builder = builder.text_color(text);
+                }
+                if let (Some(bc), Some(bw)) = (&cfg.border_color, cfg.border_width) {
+                    builder = builder.border(bc, bw);
+                }
+                if let Some(rx) = cfg.rx {
+                    builder = builder.rx(rx);
+                }
+
+                builder.render()
             }
 
             Primitive::Progress {

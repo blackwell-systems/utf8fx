@@ -67,6 +67,50 @@ impl Renderer for ShieldsBackend {
                     .render_icon(&cfg.name, &cfg.bg_color, &cfg.logo_color, &cfg.style)?
             }
 
+            // Version badges - render as simple version label
+            // Uses badgefx status detection for color if not overridden
+            Primitive::Version(cfg) => {
+                let status = badgefx::version::detect_status(&cfg.version);
+                let bg_color = cfg.bg_color.as_deref().unwrap_or_else(|| status.bg_color());
+                let prefix = cfg.prefix.as_deref().unwrap_or("v");
+                let label = if cfg.version.starts_with('v')
+                    || cfg.version.starts_with('V')
+                    || prefix.is_empty()
+                {
+                    cfg.version.clone()
+                } else {
+                    format!("{}{}", prefix, cfg.version)
+                };
+                format!(
+                    "![](https://img.shields.io/badge/{}-{}-{}?style={})",
+                    label.replace('-', "--"),
+                    label.replace('-', "--"),
+                    bg_color,
+                    cfg.style
+                )
+            }
+
+            // License badges - render as license label
+            // Uses badgefx category detection for color if not overridden
+            Primitive::License(cfg) => {
+                let category = badgefx::license::categorize(&cfg.license);
+                let bg_color = cfg
+                    .bg_color
+                    .as_deref()
+                    .unwrap_or_else(|| category.bg_color());
+                let label = cfg
+                    .label
+                    .clone()
+                    .unwrap_or_else(|| badgefx::license::format_name(&cfg.license));
+                format!(
+                    "![](https://img.shields.io/badge/{}-{}-{}?style={})",
+                    label.replace('-', "--").replace(' ', "%20"),
+                    label.replace('-', "--").replace(' ', "%20"),
+                    bg_color,
+                    cfg.style
+                )
+            }
+
             // Progress bars use a simple percentage badge as shields.io fallback
             // Full progress bar rendering requires SVG backend
             Primitive::Progress {

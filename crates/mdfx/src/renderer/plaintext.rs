@@ -47,6 +47,26 @@ impl Renderer for PlainTextBackend {
                 }
             }
 
+            Primitive::Version(cfg) => {
+                // Render as [v1.0.0] or [1.0.0]
+                let prefix = cfg.prefix.as_deref().unwrap_or("v");
+                if cfg.version.starts_with('v') || cfg.version.starts_with('V') || prefix.is_empty()
+                {
+                    format!("[{}]", cfg.version)
+                } else {
+                    format!("[{}{}]", prefix, cfg.version)
+                }
+            }
+
+            Primitive::License(cfg) => {
+                // Render as [MIT] or [Custom Label]
+                if let Some(lbl) = &cfg.label {
+                    format!("[{}]", lbl)
+                } else {
+                    format!("[{}]", cfg.license)
+                }
+            }
+
             Primitive::Progress { percent, .. } => {
                 // Render as ASCII progress bar: [=====>    ] 50%
                 let width = 10;

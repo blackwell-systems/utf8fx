@@ -49,6 +49,10 @@ impl HybridBackend {
             }
             // Tech badges use shields.io
             Primitive::Tech(_) => false,
+            // Version badges use local SVG (via badgefx)
+            Primitive::Version(_) => true,
+            // License badges use local SVG (via badgefx)
+            Primitive::License(_) => true,
             // Progress bars always use SVG for proper rendering
             Primitive::Progress { .. } => true,
             // Donut charts always use SVG for proper rendering

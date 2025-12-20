@@ -59,7 +59,7 @@ mdfx/
 │   ├── mdfx-cli/                # CLI application
 │   │   └── src/main.rs          # Binary: mdfx
 │   ├── badgefx/                 # Badge rendering library
-│   │   └── src/                 # Tech badge SVG generation
+│   │   └── src/                 # Tech, version, and license badge SVG generation
 │   ├── mdfx-icons/              # Icon library
 │   │   └── src/                 # 90+ tech icons with brand colors
 │   └── mdfx-colors/             # Color utilities
@@ -465,10 +465,15 @@ pub enum Primitive {
     },
 
     /// Technology badge with logo
-    Tech { name: String, bg_color: String, logo_color: String, style: String },
+    Tech(TechConfig),
 
-    /// Status indicator
-    Status { level: String, style: String },
+    /// Version badge with status-aware coloring
+    Version(VersionConfig),
+
+    /// License badge with category-aware coloring
+    License(LicenseConfig),
+
+    // ... Progress, Donut, Gauge, Sparkline, Rating, Waveform
 }
 ```
 
@@ -563,8 +568,9 @@ mdfx process --backend svg --assets-dir ./docs/ui input.md
 - Filename format: `{type}_{hash}.svg` (e.g., `swatch_a3f8e2b1.svg`)
 - Hash computed from primitive parameters (color, style, etc.)
 - Assets collected via `process_with_assets()` API
-- Supports: Swatch, Tech, Status (solid colors)
+- Supports: Swatch, Tech, Version, License, Progress, Donut, Gauge, Sparkline, Rating, Waveform
 - Tech badges use embedded Simple Icons SVG logos
+- Version/License badges rendered via badgefx with status/category detection
 
 #### PlainTextBackend
 
@@ -584,6 +590,8 @@ let rendered = backend.render(&primitive)?;
 |-----------|--------|
 | `Swatch` | `[#RRGGBB]` |
 | `Tech` | `[name]` |
+| `Version` | `[v1.2.3]` |
+| `License` | `[MIT]` |
 | `Status` | `[OK]`, `[WARN]`, `[ERR]`, or `[INFO]` |
 | `Divider` | ` ` (space) |
 

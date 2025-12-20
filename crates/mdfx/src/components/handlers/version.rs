@@ -1,88 +1,12 @@
 //! Version badge component handler
 //!
 //! Renders semantic version badges with status-aware coloring.
-//! Automatically detects prerelease versions from the version string.
+//! Status detection and rendering is delegated to badgefx.
 
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
-use crate::primitive::Primitive;
+use crate::primitive::{Primitive, VersionConfig};
 use std::collections::HashMap;
-
-/// Status categories for version coloring
-#[derive(Debug, Clone, Copy, PartialEq)]
-enum VersionStatus {
-    Stable,     // Green - production ready
-    Beta,       // Yellow - testing/preview
-    Alpha,      // Orange - early development
-    Deprecated, // Red - no longer supported
-    Dev,        // Purple - development only
-}
-
-impl VersionStatus {
-    /// Get the background color for this status
-    fn bg_color(&self) -> &'static str {
-        match self {
-            VersionStatus::Stable => "22C55E",     // success green
-            VersionStatus::Beta => "EAB308",       // warning yellow
-            VersionStatus::Alpha => "F97316",      // orange
-            VersionStatus::Deprecated => "EF4444", // error red
-            VersionStatus::Dev => "8B5CF6",        // purple
-        }
-    }
-
-    /// Get the text color for this status (for contrast)
-    fn text_color(&self) -> &'static str {
-        match self {
-            VersionStatus::Stable => "FFFFFF",
-            VersionStatus::Beta => "000000",
-            VersionStatus::Alpha => "FFFFFF",
-            VersionStatus::Deprecated => "FFFFFF",
-            VersionStatus::Dev => "FFFFFF",
-        }
-    }
-}
-
-/// Parse version string to detect status
-fn detect_status(version: &str) -> VersionStatus {
-    let lower = version.to_lowercase();
-
-    // Check for explicit prerelease suffixes
-    if lower.contains("-deprecated") || lower.contains("-eol") {
-        return VersionStatus::Deprecated;
-    }
-    if lower.contains("-alpha") || lower.contains("-a.") {
-        return VersionStatus::Alpha;
-    }
-    if lower.contains("-beta")
-        || lower.contains("-b.")
-        || lower.contains("-rc")
-        || lower.contains("-preview")
-    {
-        return VersionStatus::Beta;
-    }
-    if lower.contains("-dev") || lower.contains("-snapshot") || lower.contains("-nightly") {
-        return VersionStatus::Dev;
-    }
-
-    // Check for 0.x.x versions (typically considered unstable)
-    if version.starts_with("0.") {
-        return VersionStatus::Beta;
-    }
-
-    VersionStatus::Stable
-}
-
-/// Parse status override from string
-fn parse_status(status: &str) -> Option<VersionStatus> {
-    match status.to_lowercase().as_str() {
-        "stable" | "release" | "production" => Some(VersionStatus::Stable),
-        "beta" | "rc" | "preview" | "testing" => Some(VersionStatus::Beta),
-        "alpha" | "early" | "experimental" => Some(VersionStatus::Alpha),
-        "deprecated" | "eol" | "legacy" | "unsupported" => Some(VersionStatus::Deprecated),
-        "dev" | "development" | "snapshot" | "nightly" => Some(VersionStatus::Dev),
-        _ => None,
-    }
-}
 
 /// Handle version component expansion
 ///
@@ -107,121 +31,84 @@ pub fn handle(
 
     let version = &args[0];
 
-    // Determine status: explicit override or auto-detect
-    let status = params
-        .get("status")
-        .and_then(|s| parse_status(s))
-        .unwrap_or_else(|| detect_status(version));
-
-    // Allow color overrides
-    let bg_color = params
-        .get("bg")
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| status.bg_color().to_string());
-
-    let text_color = params
-        .get("text")
-        .or_else(|| params.get("text_color"))
-        .or_else(|| params.get("color"))
-        .map(|c| resolve_color(c))
-        .unwrap_or_else(|| status.text_color().to_string());
-
-    // Build label: "v" prefix unless already present or disabled
-    let prefix = params.get("prefix").map(|s| s.as_str()).unwrap_or("v");
-    let label = if version.starts_with('v') || version.starts_with('V') || prefix.is_empty() {
-        version.clone()
-    } else {
-        format!("{}{}", prefix, version)
+    // Build VersionConfig - badgefx handles status detection
+    let config = VersionConfig {
+        version: version.clone(),
+        style: style.to_string(),
+        status: params.get("status").cloned(),
+        bg_color: params.get("bg").map(|c| resolve_color(c)),
+        text_color: params
+            .get("text")
+            .or_else(|| params.get("text_color"))
+            .or_else(|| params.get("color"))
+            .map(|c| resolve_color(c)),
+        prefix: params.get("prefix").cloned(),
+        border_color: params.get("border").map(|c| resolve_color(c)),
+        border_width: params.get("border_width").and_then(|v| v.parse().ok()),
+        rx: params.get("rx").and_then(|v| v.parse().ok()),
     };
 
-    // Optional icon (e.g., "tag", "package")
-    let icon = params.get("icon").cloned();
-
-    // Border parameters
-    let border_color = params.get("border").map(|c| resolve_color(c));
-    let border_width = params.get("border_width").and_then(|v| v.parse().ok());
-
-    // Corner radius - only if explicitly set
-    let rx = params.get("rx").and_then(|v| v.parse().ok());
-
-    // URL for clickable links
-    let _url = params.get("url").cloned();
-
-    // Calculate width based on label text (approx 7px per char + 16px padding)
-    let estimated_width = params
-        .get("width")
-        .and_then(|w| w.parse().ok())
-        .unwrap_or_else(|| (label.len() as u32 * 7 + 16).max(40));
-
-    // Optional subtle shadow for depth
-    let shadow = params.get("shadow").map(|s| s.as_str());
-
-    Ok(ComponentOutput::Primitive(Primitive::Swatch {
-        color: bg_color,
-        style: style.to_string(),
-        opacity: None,
-        width: Some(estimated_width),
-        height: None,
-        border_color,
-        border_width,
-        label: Some(label),
-        label_color: Some(text_color),
-        icon,
-        icon_color: None,
-        rx,
-        ry: None,
-        shadow: shadow.map(|s| s.to_string()),
-        gradient: None,
-        stroke_dash: None,
-        logo_size: None,
-        border_top: None,
-        border_right: None,
-        border_bottom: None,
-        border_left: None,
-    }))
+    Ok(ComponentOutput::Primitive(Primitive::Version(config)))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use rstest::rstest;
 
-    // ========================================================================
-    // Version Status Detection (Parameterized)
-    // ========================================================================
-
-    #[rstest]
-    #[case("1.0.0", VersionStatus::Stable)]
-    #[case("2.5.3", VersionStatus::Stable)]
-    #[case("10.0.0", VersionStatus::Stable)]
-    #[case("1.0.0-beta", VersionStatus::Beta)]
-    #[case("2.0.0-beta.1", VersionStatus::Beta)]
-    #[case("1.0.0-rc.1", VersionStatus::Beta)]
-    #[case("1.0.0-preview", VersionStatus::Beta)]
-    #[case("0.5.0", VersionStatus::Beta)] // 0.x versions
-    #[case("1.0.0-alpha", VersionStatus::Alpha)]
-    #[case("1.0.0-alpha.2", VersionStatus::Alpha)]
-    #[case("1.0.0-deprecated", VersionStatus::Deprecated)]
-    #[case("1.0.0-eol", VersionStatus::Deprecated)]
-    #[case("1.0.0-dev", VersionStatus::Dev)]
-    #[case("1.0.0-snapshot", VersionStatus::Dev)]
-    #[case("1.0.0-nightly", VersionStatus::Dev)]
-    fn test_detect_status(#[case] version: &str, #[case] expected: VersionStatus) {
-        assert_eq!(detect_status(version), expected);
+    fn identity_color(c: &str) -> String {
+        c.to_string()
     }
 
-    // ========================================================================
-    // Status String Parsing (Parameterized)
-    // ========================================================================
+    #[test]
+    fn test_handle_basic() {
+        let result = handle(
+            &["1.0.0".to_string()],
+            &HashMap::new(),
+            "flat",
+            identity_color,
+        );
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Version(config))) = result {
+            assert_eq!(config.version, "1.0.0");
+            assert_eq!(config.style, "flat");
+        } else {
+            panic!("Expected Version primitive");
+        }
+    }
 
-    #[rstest]
-    #[case("stable", Some(VersionStatus::Stable))]
-    #[case("beta", Some(VersionStatus::Beta))]
-    #[case("alpha", Some(VersionStatus::Alpha))]
-    #[case("deprecated", Some(VersionStatus::Deprecated))]
-    #[case("dev", Some(VersionStatus::Dev))]
-    #[case("unknown", None)]
-    fn test_parse_status(#[case] status: &str, #[case] expected: Option<VersionStatus>) {
-        assert_eq!(parse_status(status), expected);
+    #[test]
+    fn test_handle_with_status_override() {
+        let mut params = HashMap::new();
+        params.insert("status".to_string(), "deprecated".to_string());
+
+        let result = handle(&["1.0.0".to_string()], &params, "flat", identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Version(config))) = result {
+            assert_eq!(config.status, Some("deprecated".to_string()));
+        } else {
+            panic!("Expected Version primitive");
+        }
+    }
+
+    #[test]
+    fn test_handle_with_colors() {
+        let mut params = HashMap::new();
+        params.insert("bg".to_string(), "FF0000".to_string());
+        params.insert("text".to_string(), "FFFFFF".to_string());
+
+        let result = handle(&["1.0.0".to_string()], &params, "flat", identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Version(config))) = result {
+            assert_eq!(config.bg_color, Some("FF0000".to_string()));
+            assert_eq!(config.text_color, Some("FFFFFF".to_string()));
+        } else {
+            panic!("Expected Version primitive");
+        }
+    }
+
+    #[test]
+    fn test_handle_missing_version() {
+        let result = handle(&[], &HashMap::new(), "flat", identity_color);
+        assert!(result.is_err());
     }
 }

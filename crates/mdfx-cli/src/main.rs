@@ -972,6 +972,8 @@ fn process_file(
                             let asset_type = match primitive.as_ref() {
                                 mdfx::Primitive::Swatch { .. } => "swatch",
                                 mdfx::Primitive::Tech(_) => "tech",
+                                mdfx::Primitive::Version(_) => "version",
+                                mdfx::Primitive::License(_) => "license",
                                 mdfx::Primitive::Progress { .. } => "progress",
                                 mdfx::Primitive::Donut { .. } => "donut",
                                 mdfx::Primitive::Gauge { .. } => "gauge",
