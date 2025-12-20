@@ -168,18 +168,6 @@ Directional arrow shapes:
 
 ---
 
-## {{mathbold:separator=diamond.filled}}CREATIVE LAYOUTS{{/mathbold}}
-
-### Glowing Tech Row
-
-{{ui:swatch:f41c80:width=8:height=36:rx=4:shadow=f41c80/15/0/0/}}
-{{ui:tech:rust:logo_size=xl:border=f41c80:border_width=1/}}
-{{ui:tech:typescript:logo_size=xl:border=f41c80:border_width=1/}}
-{{ui:tech:go:logo_size=xl:border=f41c80:border_width=1/}}
-{{ui:swatch:f41c80:width=8:height=36:rx=4:shadow=f41c80/15/0/0/}}
-
----
-
 ## {{frame:gradient}}{{mathbold}}RAISED{{/mathbold}}{{/frame}} Icon Badges
 
 Icons that extend above and below the label section:

@@ -153,18 +153,6 @@ Directional arrow shapes:
 
 ---
 
-## 𝐂◆𝐑◆𝐄◆𝐀◆𝐓◆𝐈◆𝐕◆𝐄◆ ◆𝐋◆𝐀◆𝐘◆𝐎◆𝐔◆𝐓◆𝐒
-
-### Glowing Tech Row
-
-![](assets/swatch_a1edcf795a965ec9.svg)
-![](assets/tech_dc244438479257c.svg)
-![](assets/tech_5a5b6ded71368e36.svg)
-![](assets/tech_9ef9bb8a128a0f74.svg)
-![](assets/swatch_a1edcf795a965ec9.svg)
-
----
-
 ## ▓︎▒︎░︎ 𝐑𝐀𝐈𝐒𝐄𝐃 ░︎▒︎▓︎ Icon Badges
 
 Icons that extend above and below the label section:
