@@ -26,7 +26,7 @@ Scale your tech logos from tiny to prominent:
 Use any SVG path data for unsupported technologies:
 
 {{ui:row:align=center}}
-{{ui:tech:custom:label=Quantum:icon=M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5:bg=7C3AED:logo=white/}}
+{{ui:tech:custom:label=Quantum:icon=M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5:bg=7C3AED:logo=white:divider=true/}}
 {{ui:tech:custom:label=Neural:icon=M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm0-14a6 6 0 1 0 6 6 6 6 0 0 0-6-6z:bg=EC4899:logo=white/}}
 {{ui:tech:custom:label=Fusion:icon=M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.5L17 8v8l-5 3-5-3V8l5-3.5z:bg=F59E0B:logo=white/}}
 {{/ui}}

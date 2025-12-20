@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="101" height="20" viewBox="0 0 101 20">
+<rect width="101" height="20" fill="#7C3AED" rx="0"/>
+<rect x="36" width="65" height="20" fill="#6931C9" rx="0"/>
+<rect x="101" width="0" height="20" fill="#6931C9" rx="0"/>
+<g transform="translate(11, 3) scale(0.5833333)">
+<path fill="#FFFFFF" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+</g>
+<text x="68" y="13" text-anchor="middle" fill="#FFFFFF" font-family="Verdana,Arial,sans-serif" font-size="10" font-weight="600">Quantum</text>
+  <line x1="36" y1="0" x2="36" y2="20" stroke="#555" stroke-width="1"/>
+</svg>
