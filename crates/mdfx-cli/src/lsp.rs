@@ -392,16 +392,6 @@ impl MdfxLanguageServer {
     /// Tokenize document for semantic highlighting
     /// Returns delta-encoded semantic token data
     fn tokenize_document(&self, text: &str) -> Vec<SemanticToken> {
-        use once_cell::sync::Lazy;
-
-        // Pattern to match all mdfx templates:
-        // - Opening: {{content}} or {{content/}}
-        // - Closing: {{/content}}
-        // - Universal closer: {{//}}
-        static TEMPLATE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
-            regex::Regex::new(r"\{\{(/?)([^}]*?)(?:/\}\}|\}\})").unwrap()
-        });
-
         let icon_list = list_icons();
         let valid_tech_names: std::collections::HashSet<&str> =
             icon_list.iter().map(|s| s.as_ref()).collect();
@@ -413,14 +403,10 @@ impl MdfxLanguageServer {
         for (line_num, line) in text.lines().enumerate() {
             let line_num = line_num as u32;
 
-            for caps in TEMPLATE_PATTERN.captures_iter(line) {
-                let full_match = caps.get(0).unwrap();
-                let is_closing = caps.get(1).map(|m| !m.as_str().is_empty()).unwrap_or(false);
-                let content = caps.get(2).map(|m| m.as_str()).unwrap_or("");
-                // Skip {{ and optional /
-                let template_start = full_match.start() + 2 + if is_closing { 1 } else { 0 };
+            // Find all templates in this line using simple string scanning
+            for (start, is_closing, content, _end) in Self::find_templates(line) {
+                let template_start = start + 2 + if is_closing { 1 } else { 0 };
 
-                // Parse the template content and generate tokens
                 let new_tokens =
                     self.tokenize_template(content, template_start, &valid_tech_names, is_closing);
 
@@ -450,6 +436,53 @@ impl MdfxLanguageServer {
         }
 
         tokens
+    }
+
+    /// Find all mdfx templates in a line without regex
+    /// Returns: Vec<(start_pos, is_closing, content, end_pos)>
+    fn find_templates(line: &str) -> Vec<(usize, bool, &str, usize)> {
+        let mut results = Vec::new();
+        let mut pos = 0;
+        let bytes = line.as_bytes();
+        let len = bytes.len();
+
+        while pos + 3 < len {
+            // Look for {{
+            if bytes[pos] == b'{' && bytes[pos + 1] == b'{' {
+                let start = pos;
+                pos += 2;
+
+                // Check for closing tag marker /
+                let is_closing = pos < len && bytes[pos] == b'/';
+                if is_closing {
+                    pos += 1;
+                }
+
+                let content_start = pos;
+
+                // Find the end: either /}} or }}
+                while pos < len {
+                    if bytes[pos] == b'}' && pos + 1 < len && bytes[pos + 1] == b'}' {
+                        // Found }}
+                        let content = &line[content_start..pos];
+                        results.push((start, is_closing, content, pos + 2));
+                        pos += 2;
+                        break;
+                    } else if bytes[pos] == b'/' && pos + 2 < len && bytes[pos + 1] == b'}' && bytes[pos + 2] == b'}' {
+                        // Found /}}
+                        let content = &line[content_start..pos];
+                        results.push((start, is_closing, content, pos + 3));
+                        pos += 3;
+                        break;
+                    }
+                    pos += 1;
+                }
+            } else {
+                pos += 1;
+            }
+        }
+
+        results
     }
 
     /// Tokenize a single template's content
@@ -769,185 +802,122 @@ impl MdfxLanguageServer {
 
     /// Generate diagnostics for template syntax errors
     fn generate_diagnostics(&self, text: &str) -> Vec<Diagnostic> {
-        use once_cell::sync::Lazy;
-
-        static LIVE_BADGE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
-            regex::Regex::new(r"\{\{ui:live:([^:}]+):([^:}]+)(?::([^/}]+))?/\}\}").unwrap()
-        });
-
-        static INCOMPLETE_PATTERN: Lazy<regex::Regex> =
-            Lazy::new(|| regex::Regex::new(r"\{\{ui:live:([^:}]*)\}\}").unwrap());
-
-        static TECH_BADGE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
-            regex::Regex::new(r"\{\{ui:tech:([^:/}]+)").unwrap()
-        });
-
-        static GLYPH_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
-            regex::Regex::new(r"\{\{glyph:([^/}]+)/\}\}").unwrap()
-        });
-
         let mut diagnostics = Vec::new();
-        let lines: Vec<&str> = text.lines().collect();
 
         // Collect valid tech names for diagnostics
         let icon_list = list_icons();
         let valid_tech_names: std::collections::HashSet<&str> =
             icon_list.iter().map(|s| s.as_ref()).collect();
 
-        for (line_num, line) in lines.iter().enumerate() {
-            // Check tech badge names
-            for caps in TECH_BADGE_PATTERN.captures_iter(line) {
-                let full_match = caps.get(0).unwrap();
-                let tech_name = caps.get(1).map(|m| m.as_str()).unwrap_or("");
-
-                if !valid_tech_names.contains(tech_name) {
-                    let start_col = full_match.start() as u32;
-                    let end_col = full_match.end() as u32;
-
-                    diagnostics.push(Diagnostic {
-                        range: Range {
-                            start: Position {
-                                line: line_num as u32,
-                                character: start_col,
-                            },
-                            end: Position {
-                                line: line_num as u32,
-                                character: end_col,
-                            },
-                        },
-                        severity: Some(DiagnosticSeverity::WARNING),
-                        source: Some("mdfx".to_string()),
-                        message: format!(
-                            "Unknown tech badge '{}'. Use autocomplete to see available badges.",
-                            tech_name
-                        ),
-                        ..Default::default()
-                    });
-                }
-            }
-
-            // Check glyph names
-            for caps in GLYPH_PATTERN.captures_iter(line) {
-                let full_match = caps.get(0).unwrap();
-                let glyph_name = caps.get(1).map(|m| m.as_str()).unwrap_or("");
-
-                if self.registry.glyph(glyph_name).is_none() {
-                    let start_col = full_match.start() as u32;
-                    let end_col = full_match.end() as u32;
-
-                    diagnostics.push(Diagnostic {
-                        range: Range {
-                            start: Position {
-                                line: line_num as u32,
-                                character: start_col,
-                            },
-                            end: Position {
-                                line: line_num as u32,
-                                character: end_col,
-                            },
-                        },
-                        severity: Some(DiagnosticSeverity::WARNING),
-                        source: Some("mdfx".to_string()),
-                        message: format!(
-                            "Unknown glyph '{}'. Use autocomplete to see available glyphs.",
-                            glyph_name
-                        ),
-                        ..Default::default()
-                    });
-                }
-            }
-
-            // Check live badge patterns
-            for caps in LIVE_BADGE_PATTERN.captures_iter(line) {
-                let full_match = caps.get(0).unwrap();
-                let source = caps.get(1).map(|m| m.as_str()).unwrap_or("");
-                let _query = caps.get(2).map(|m| m.as_str()).unwrap_or("");
-                let metric = caps.get(3).map(|m| m.as_str());
-
-                let start_col = full_match.start() as u32;
-                let end_col = full_match.end() as u32;
-
-                // Check if source is valid using shared params
-                let valid_sources: Vec<&str> = params::valid_live_sources().collect();
-                if !valid_sources.contains(&source) {
-                    diagnostics.push(Diagnostic {
-                        range: Range {
-                            start: Position {
-                                line: line_num as u32,
-                                character: start_col,
-                            },
-                            end: Position {
-                                line: line_num as u32,
-                                character: end_col,
-                            },
-                        },
-                        severity: Some(DiagnosticSeverity::ERROR),
-                        source: Some("mdfx".to_string()),
-                        message: format!(
-                            "Unknown live source '{}'. Valid sources: {}",
-                            source,
-                            valid_sources.join(", ")
-                        ),
-                        ..Default::default()
-                    });
+        for (line_num, line) in text.lines().enumerate() {
+            for (start, is_closing, content, end) in Self::find_templates(line) {
+                // Skip closing tags for validation
+                if is_closing {
                     continue;
                 }
 
-                // Check if metric is valid for the source using shared params
-                if let Some(metric_name) = metric {
-                    if !params::is_valid_metric(source, metric_name) {
-                        let valid_metrics: Vec<&str> = params::metrics_for_source(source)
-                            .map(|m| m.iter().map(|(name, _)| *name).collect())
-                            .unwrap_or_default();
+                let start_col = start as u32;
+                let end_col = end as u32;
+
+                // Check tech badges: {{ui:tech:NAME...}}
+                if let Some(rest) = content.strip_prefix("ui:tech:") {
+                    let tech_name = rest.split(':').next().unwrap_or("");
+                    if !tech_name.is_empty() && !valid_tech_names.contains(tech_name) {
                         diagnostics.push(Diagnostic {
                             range: Range {
-                                start: Position {
-                                    line: line_num as u32,
-                                    character: start_col,
-                                },
-                                end: Position {
-                                    line: line_num as u32,
-                                    character: end_col,
-                                },
+                                start: Position { line: line_num as u32, character: start_col },
+                                end: Position { line: line_num as u32, character: end_col },
                             },
                             severity: Some(DiagnosticSeverity::WARNING),
                             source: Some("mdfx".to_string()),
                             message: format!(
-                                "Unknown metric '{}' for source '{}'. Valid metrics: {}",
-                                metric_name,
-                                source,
-                                valid_metrics.join(", ")
+                                "Unknown tech badge '{}'. Use autocomplete to see available badges.",
+                                tech_name
                             ),
                             ..Default::default()
                         });
                     }
                 }
-            }
+                // Check glyphs: {{glyph:NAME/}}
+                else if let Some(glyph_name) = content.strip_prefix("glyph:") {
+                    if !glyph_name.is_empty() && self.registry.glyph(glyph_name).is_none() {
+                        diagnostics.push(Diagnostic {
+                            range: Range {
+                                start: Position { line: line_num as u32, character: start_col },
+                                end: Position { line: line_num as u32, character: end_col },
+                            },
+                            severity: Some(DiagnosticSeverity::WARNING),
+                            source: Some("mdfx".to_string()),
+                            message: format!(
+                                "Unknown glyph '{}'. Use autocomplete to see available glyphs.",
+                                glyph_name
+                            ),
+                            ..Default::default()
+                        });
+                    }
+                }
+                // Check live badges: {{ui:live:SOURCE:QUERY:METRIC/}}
+                else if let Some(rest) = content.strip_prefix("ui:live:") {
+                    let parts: Vec<&str> = rest.split(':').collect();
+                    let valid_sources: Vec<&str> = params::valid_live_sources().collect();
 
-            // Check for incomplete live badge syntax
-            for caps in INCOMPLETE_PATTERN.captures_iter(line) {
-                let full_match = caps.get(0).unwrap();
-                let start_col = full_match.start() as u32;
-                let end_col = full_match.end() as u32;
+                    if parts.is_empty() || parts[0].is_empty() {
+                        // Incomplete - no source
+                        diagnostics.push(Diagnostic {
+                            range: Range {
+                                start: Position { line: line_num as u32, character: start_col },
+                                end: Position { line: line_num as u32, character: end_col },
+                            },
+                            severity: Some(DiagnosticSeverity::ERROR),
+                            source: Some("mdfx".to_string()),
+                            message: "Incomplete live badge syntax. Expected: {{ui:live:source:query:metric/}}".to_string(),
+                            ..Default::default()
+                        });
+                    } else {
+                        let source = parts[0];
 
-                diagnostics.push(Diagnostic {
-                    range: Range {
-                        start: Position {
-                            line: line_num as u32,
-                            character: start_col,
-                        },
-                        end: Position {
-                            line: line_num as u32,
-                            character: end_col,
-                        },
-                    },
-                    severity: Some(DiagnosticSeverity::ERROR),
-                    source: Some("mdfx".to_string()),
-                    message:
-                        "Incomplete live badge syntax. Expected: {{ui:live:source:query:metric/}}"
-                            .to_string(),
-                    ..Default::default()
-                });
+                        // Check if source is valid
+                        if !valid_sources.contains(&source) {
+                            diagnostics.push(Diagnostic {
+                                range: Range {
+                                    start: Position { line: line_num as u32, character: start_col },
+                                    end: Position { line: line_num as u32, character: end_col },
+                                },
+                                severity: Some(DiagnosticSeverity::ERROR),
+                                source: Some("mdfx".to_string()),
+                                message: format!(
+                                    "Unknown live source '{}'. Valid sources: {}",
+                                    source,
+                                    valid_sources.join(", ")
+                                ),
+                                ..Default::default()
+                            });
+                        } else if parts.len() > 2 {
+                            // Check metric validity
+                            let metric = parts[2];
+                            if !params::is_valid_metric(source, metric) {
+                                let valid_metrics: Vec<&str> = params::metrics_for_source(source)
+                                    .map(|m| m.iter().map(|(name, _)| *name).collect())
+                                    .unwrap_or_default();
+                                diagnostics.push(Diagnostic {
+                                    range: Range {
+                                        start: Position { line: line_num as u32, character: start_col },
+                                        end: Position { line: line_num as u32, character: end_col },
+                                    },
+                                    severity: Some(DiagnosticSeverity::WARNING),
+                                    source: Some("mdfx".to_string()),
+                                    message: format!(
+                                        "Unknown metric '{}' for source '{}'. Valid metrics: {}",
+                                        metric,
+                                        source,
+                                        valid_metrics.join(", ")
+                                    ),
+                                    ..Default::default()
+                                });
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -1385,21 +1355,16 @@ impl LanguageServer for MdfxLanguageServer {
         };
 
         let mut symbols = Vec::new();
-        let lines: Vec<&str> = text.lines().collect();
 
-        // Regex patterns for different template types
-        use once_cell::sync::Lazy;
-        static TEMPLATE_PATTERN: Lazy<regex::Regex> = Lazy::new(|| {
-            regex::Regex::new(r"\{\{([^/}]+)(?:/\}\}|\}\})").unwrap()
-        });
+        for (line_num, line) in text.lines().enumerate() {
+            for (start, is_closing, template_content, end) in Self::find_templates(line) {
+                // Skip closing tags for symbols
+                if is_closing {
+                    continue;
+                }
 
-        for (line_num, line) in lines.iter().enumerate() {
-            for caps in TEMPLATE_PATTERN.captures_iter(line) {
-                let full_match = caps.get(0).unwrap();
-                let template_content = caps.get(1).map(|m| m.as_str()).unwrap_or("");
-
-                let start_col = full_match.start() as u32;
-                let end_col = full_match.end() as u32;
+                let start_col = start as u32;
+                let end_col = end as u32;
 
                 // Determine symbol type and name
                 let (symbol_kind, name, detail) = if template_content.starts_with("ui:tech:") {
