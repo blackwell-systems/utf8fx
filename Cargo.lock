@@ -1047,6 +1047,8 @@ name = "mdfx-cli"
 version = "1.0.0"
 dependencies = [
  "assert_cmd",
+ "badgefx",
+ "base64",
  "chrono",
  "clap",
  "clap_complete",

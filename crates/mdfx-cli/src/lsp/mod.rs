@@ -13,6 +13,7 @@
 //! - `diagnostics` - Validation and error reporting
 //! - `code_actions` - Quick fixes and suggestions
 //! - `color` - Color picker support
+//! - `preview` - Hover preview generation with SVG data URIs
 //! - `handlers` - LSP protocol handlers
 
 mod code_actions;
@@ -21,6 +22,7 @@ mod completions;
 mod diagnostics;
 mod handlers;
 mod parser;
+mod preview;
 mod semantic_tokens;
 
 use completions::CachedCompletions;

@@ -243,6 +243,111 @@ impl LanguageServer for MdfxLanguageServer {
                 }
             }
 
+            // Check for UI components with preview
+            if let Some(rest) = template_start.strip_prefix("ui:") {
+                // Get full template content (before + after until / or }})
+                let after_part = after.split(['/','}']).next().unwrap_or("");
+                let full_rest = format!("{}{}", rest, after_part);
+
+                // Parse the template
+                use super::preview::*;
+                let (component_and_args, params) = parse_template_params(&full_rest);
+                let parts: Vec<&str> = component_and_args.split(':').collect();
+
+                if let Some(component_type) = parts.first() {
+                    let preview = match *component_type {
+                        "tech" => {
+                            // ui:tech:NAME:params
+                            if let Some(tech_name) = parts.get(1) {
+                                // Collect remaining parts as potential params
+                                let mut all_params = params.clone();
+                                for part in parts.iter().skip(2) {
+                                    if let Some((k, v)) = part.split_once('=') {
+                                        all_params.push((k.to_string(), v.to_string()));
+                                    }
+                                }
+                                Some(tech_badge_preview(tech_name, &all_params))
+                            } else {
+                                None
+                            }
+                        }
+                        "swatch" => {
+                            // ui:swatch:COLOR:params
+                            if let Some(color) = parts.get(1) {
+                                let color = color.trim_end_matches('/');
+                                let size = get_param_u32(&params, "size", 40);
+                                Some(swatch_preview(color, size))
+                            } else {
+                                None
+                            }
+                        }
+                        "progress" => {
+                            // ui:progress:PERCENT:params
+                            if let Some(pct) = parts.get(1) {
+                                let percent: u8 = pct.parse().unwrap_or(50);
+                                let width = get_param_u32(&params, "width", 100);
+                                let height = get_param_u32(&params, "height", 10);
+                                let fill = get_param(&params, "fill", "F472B6");
+                                let track = get_param(&params, "track", "4B5563");
+                                Some(progress_preview(percent, width, height, fill, track))
+                            } else {
+                                None
+                            }
+                        }
+                        "donut" => {
+                            // ui:donut:PERCENT:params
+                            if let Some(pct) = parts.get(1) {
+                                let percent: u8 = pct.parse().unwrap_or(50);
+                                let size = get_param_u32(&params, "size", 40);
+                                let thickness = get_param_u32(&params, "thickness", 4);
+                                let fill = get_param(&params, "fill", "F472B6");
+                                let track = get_param(&params, "track", "4B5563");
+                                Some(donut_preview(percent, size, thickness, fill, track))
+                            } else {
+                                None
+                            }
+                        }
+                        "gauge" => {
+                            // ui:gauge:PERCENT:params
+                            if let Some(pct) = parts.get(1) {
+                                let percent: u8 = pct.parse().unwrap_or(50);
+                                let size = get_param_u32(&params, "size", 80);
+                                let thickness = get_param_u32(&params, "thickness", 8);
+                                let fill = get_param(&params, "fill", "F472B6");
+                                let track = get_param(&params, "track", "4B5563");
+                                Some(gauge_preview(percent, size, thickness, fill, track))
+                            } else {
+                                None
+                            }
+                        }
+                        "rating" => {
+                            // ui:rating:VALUE:params
+                            if let Some(val) = parts.get(1) {
+                                let value: f32 = val.parse().unwrap_or(3.5);
+                                let max = get_param_u32(&params, "max", 5);
+                                let size = get_param_u32(&params, "size", 20);
+                                let fill = get_param(&params, "fill", "EAB308");
+                                let empty = get_param(&params, "empty", "4B5563");
+                                Some(rating_preview(value, max, size, fill, empty))
+                            } else {
+                                None
+                            }
+                        }
+                        _ => None,
+                    };
+
+                    if let Some(preview_content) = preview {
+                        return Ok(Some(Hover {
+                            contents: HoverContents::Markup(MarkupContent {
+                                kind: MarkupKind::Markdown,
+                                value: preview_content,
+                            }),
+                            range: None,
+                        }));
+                    }
+                }
+            }
+
             // Check for style
             let style_name = template_start.split([':', '}']).next().unwrap_or("");
             if let Some(style) = self.registry.style(style_name) {
