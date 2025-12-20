@@ -1,7 +1,8 @@
 //! Gauge (semi-circular meter) component handler
 
 use super::{
-    parse_bool, parse_param, parse_thumb_config, resolve_color_opt, resolve_color_with_default,
+    parse_bool, parse_param_clamped, parse_thumb_config, resolve_color_opt,
+    resolve_color_with_default,
 };
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
@@ -29,8 +30,9 @@ pub fn handle(
     })?;
     let percent = percent.min(100);
 
-    let size: u32 = parse_param(params, "size", 80);
-    let thickness: u32 = parse_param(params, "thickness", 8);
+    // Size: 10-500px, Thickness: 1-50px
+    let size: u32 = parse_param_clamped(params, "size", 80, 10, 500);
+    let thickness: u32 = parse_param_clamped(params, "thickness", 8, 1, 50);
 
     let track_color = resolve_color_with_default(params, "track", "gray", &resolve_color);
     let fill_color = resolve_color_with_default(params, "fill", "pink", &resolve_color);
@@ -207,6 +209,35 @@ mod tests {
             assert_eq!(thickness, 8); // default
             assert!(!show_label); // default false
             assert!(thumb.is_none());
+        } else {
+            panic!("Expected Gauge primitive");
+        }
+    }
+
+    // ========================================================================
+    // Parameter Clamping Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("size", "5", 10)] // below min -> clamped to 10
+    #[case("size", "600", 500)] // above max -> clamped to 500
+    #[case("thickness", "0", 1)] // below min -> clamped to 1
+    #[case("thickness", "60", 50)] // above max -> clamped to 50
+    fn test_handle_param_clamping(#[case] key: &str, #[case] value: &str, #[case] expected: u32) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+
+        let result = handle(&["50".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Gauge {
+            size, thickness, ..
+        })) = result
+        {
+            match key {
+                "size" => assert_eq!(size, expected),
+                "thickness" => assert_eq!(thickness, expected),
+                _ => panic!("Unknown key"),
+            }
         } else {
             panic!("Expected Gauge primitive");
         }

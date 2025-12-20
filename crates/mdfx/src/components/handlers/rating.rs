@@ -1,6 +1,6 @@
 //! Rating component handler (stars, hearts, etc.)
 
-use super::{get_string, parse_param, resolve_color_with_default};
+use super::{get_string, parse_param_clamped, resolve_color_with_default};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -26,9 +26,10 @@ pub fn handle(
         ))
     })?;
 
-    let max: u32 = parse_param(params, "max", 5);
-    let size: u32 = parse_param(params, "size", 20);
-    let spacing: u32 = parse_param(params, "spacing", 2);
+    // Max: 1-20, Size: 1-100px, Spacing: 0-50px
+    let max: u32 = parse_param_clamped(params, "max", 5, 1, 20);
+    let size: u32 = parse_param_clamped(params, "size", 20, 1, 100);
+    let spacing: u32 = parse_param_clamped(params, "spacing", 2, 0, 50);
 
     let fill_color = resolve_color_with_default(params, "fill", "warning", &resolve_color);
     let empty_color = resolve_color_with_default(params, "empty", "gray", &resolve_color);
@@ -183,6 +184,37 @@ mod tests {
             assert_eq!(size, 20);
             assert_eq!(spacing, 2);
             assert_eq!(icon, "star");
+        } else {
+            panic!("Expected Rating primitive");
+        }
+    }
+
+    // ========================================================================
+    // Parameter Clamping Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("max", "0", 1)] // below min -> clamped to 1
+    #[case("max", "30", 20)] // above max -> clamped to 20
+    #[case("size", "0", 1)] // below min -> clamped to 1
+    #[case("size", "150", 100)] // above max -> clamped to 100
+    #[case("spacing", "60", 50)] // above max -> clamped to 50
+    fn test_handle_param_clamping(#[case] key: &str, #[case] value: &str, #[case] expected: u32) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+
+        let result = handle(&["4".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Rating {
+            max, size, spacing, ..
+        })) = result
+        {
+            match key {
+                "max" => assert_eq!(max, expected),
+                "size" => assert_eq!(size, expected),
+                "spacing" => assert_eq!(spacing, expected),
+                _ => panic!("Unknown key"),
+            }
         } else {
             panic!("Expected Rating primitive");
         }

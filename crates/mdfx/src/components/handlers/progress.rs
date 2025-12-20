@@ -1,8 +1,8 @@
 //! Progress bar component handler
 
 use super::{
-    parse_bool, parse_param, parse_thumb_config, resolve_color_opt, resolve_color_with_default,
-    resolve_color_with_fallback,
+    parse_bool, parse_param_clamped, parse_thumb_config, resolve_color_opt,
+    resolve_color_with_default, resolve_color_with_fallback,
 };
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
@@ -30,10 +30,11 @@ pub fn handle(
     })?;
     let percent = percent.min(100);
 
-    let width: u32 = parse_param(params, "width", 100);
-    let height: u32 = parse_param(params, "height", 10);
-    let fill_height: u32 = parse_param(params, "fill_height", height);
-    let rx: u32 = parse_param(params, "rx", 3);
+    // Width: 1-2000px, Height: 1-500px, rx: 0-100px
+    let width: u32 = parse_param_clamped(params, "width", 100, 1, 2000);
+    let height: u32 = parse_param_clamped(params, "height", 10, 1, 500);
+    let fill_height: u32 = parse_param_clamped(params, "fill_height", height, 1, 500);
+    let rx: u32 = parse_param_clamped(params, "rx", 3, 0, 100);
 
     let track_color =
         resolve_color_with_fallback(params, &["track", "color"], "gray", &resolve_color);
@@ -42,10 +43,13 @@ pub fn handle(
     let show_label = parse_bool(params, "label", false);
     let label_color = resolve_color_opt(params, "label_color", &resolve_color);
     let border_color = resolve_color_opt(params, "border", &resolve_color);
-    let border_width: u32 = parse_param(
+    // Border width: 0-20px (default 1 if border color set, otherwise 0)
+    let border_width: u32 = parse_param_clamped(
         params,
         "border_width",
         if border_color.is_some() { 1 } else { 0 },
+        0,
+        20,
     );
 
     // Parse thumb configuration (enables slider mode)
@@ -315,6 +319,47 @@ mod tests {
             assert!(!show_label);
             assert_eq!(border_width, 0);
             assert!(thumb.is_none());
+        } else {
+            panic!("Expected Progress primitive");
+        }
+    }
+
+    // ========================================================================
+    // Parameter Clamping Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("width", "0", 1)] // below min -> clamped to 1
+    #[case("width", "3000", 2000)] // above max -> clamped to 2000
+    #[case("height", "0", 1)] // below min -> clamped to 1
+    #[case("height", "600", 500)] // above max -> clamped to 500
+    #[case("rx", "150", 100)] // above max -> clamped to 100
+    #[case("border_width", "30", 20)] // above max -> clamped to 20
+    fn test_handle_param_clamping(#[case] key: &str, #[case] value: &str, #[case] expected: u32) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+        // Add border color if testing border_width to ensure it's enabled
+        if key == "border_width" {
+            params.insert("border".to_string(), "000000".to_string());
+        }
+
+        let result = handle(&["50".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Progress {
+            width,
+            height,
+            rx,
+            border_width,
+            ..
+        })) = result
+        {
+            match key {
+                "width" => assert_eq!(width, expected),
+                "height" => assert_eq!(height, expected),
+                "rx" => assert_eq!(rx, expected),
+                "border_width" => assert_eq!(border_width, expected),
+                _ => panic!("Unknown key"),
+            }
         } else {
             panic!("Expected Progress primitive");
         }

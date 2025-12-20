@@ -1,6 +1,8 @@
 //! Sparkline chart component handler
 
-use super::{get_string, parse_bool, parse_param, resolve_color_opt, resolve_color_with_default};
+use super::{
+    get_string, parse_bool, parse_param_clamped, resolve_color_opt, resolve_color_with_default,
+};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -30,10 +32,11 @@ pub fn handle(
         ));
     }
 
-    let width: u32 = parse_param(params, "width", 100);
-    let height: u32 = parse_param(params, "height", 20);
-    let stroke_width: u32 = parse_param(params, "stroke_width", 2);
-    let dot_radius: u32 = parse_param(params, "dot_radius", 2);
+    // Width: 1-2000px, Height: 1-500px, Stroke: 1-20px, Dot radius: 1-20px
+    let width: u32 = parse_param_clamped(params, "width", 100, 1, 2000);
+    let height: u32 = parse_param_clamped(params, "height", 20, 1, 500);
+    let stroke_width: u32 = parse_param_clamped(params, "stroke_width", 2, 1, 20);
+    let dot_radius: u32 = parse_param_clamped(params, "dot_radius", 2, 1, 20);
 
     let chart_type = get_string(params, "type", "line");
     let fill_color = resolve_color_with_default(params, "fill", "pink", &resolve_color);
@@ -248,6 +251,45 @@ mod tests {
             assert_eq!(dot_radius, 2);
             assert!(stroke_color.is_none());
             assert!(track_color.is_none());
+        } else {
+            panic!("Expected Sparkline primitive");
+        }
+    }
+
+    // ========================================================================
+    // Parameter Clamping Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("width", "0", 1)] // below min -> clamped to 1
+    #[case("width", "3000", 2000)] // above max -> clamped to 2000
+    #[case("height", "0", 1)] // below min -> clamped to 1
+    #[case("height", "600", 500)] // above max -> clamped to 500
+    #[case("stroke_width", "0", 1)] // below min -> clamped to 1
+    #[case("stroke_width", "30", 20)] // above max -> clamped to 20
+    #[case("dot_radius", "0", 1)] // below min -> clamped to 1
+    #[case("dot_radius", "30", 20)] // above max -> clamped to 20
+    fn test_handle_param_clamping(#[case] key: &str, #[case] value: &str, #[case] expected: u32) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+
+        let result = handle(&["1,2,3".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Sparkline {
+            width,
+            height,
+            stroke_width,
+            dot_radius,
+            ..
+        })) = result
+        {
+            match key {
+                "width" => assert_eq!(width, expected),
+                "height" => assert_eq!(height, expected),
+                "stroke_width" => assert_eq!(stroke_width, expected),
+                "dot_radius" => assert_eq!(dot_radius, expected),
+                _ => panic!("Unknown key"),
+            }
         } else {
             panic!("Expected Sparkline primitive");
         }

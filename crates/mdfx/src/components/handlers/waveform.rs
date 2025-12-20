@@ -1,6 +1,6 @@
 //! Waveform visualization component handler
 
-use super::{parse_bool, parse_param, resolve_color_opt, resolve_color_with_fallback};
+use super::{parse_bool, parse_param_clamped, resolve_color_opt, resolve_color_with_fallback};
 use crate::components::ComponentOutput;
 use crate::error::{Error, Result};
 use crate::primitive::Primitive;
@@ -30,16 +30,18 @@ pub fn handle(
         ));
     }
 
-    let width: u32 = parse_param(params, "width", 100);
-    let height: u32 = parse_param(params, "height", 40);
-    let spacing: u32 = parse_param(params, "spacing", 1);
+    // Width: 1-2000px, Height: 1-500px, Spacing: 0-50px, Bar: 1-50px
+    let width: u32 = parse_param_clamped(params, "width", 100, 1, 2000);
+    let height: u32 = parse_param_clamped(params, "height", 40, 1, 500);
+    let spacing: u32 = parse_param_clamped(params, "spacing", 1, 0, 50);
 
-    // bar_width with "bar" alias
+    // bar_width with "bar" alias, clamped to 1-50px
     let bar_width: u32 = params
         .get("bar_width")
         .or_else(|| params.get("bar"))
         .and_then(|v| v.parse().ok())
-        .unwrap_or(3);
+        .unwrap_or(3)
+        .clamp(1, 50);
 
     let positive_color =
         resolve_color_with_fallback(params, &["positive", "up"], "success", &resolve_color);
@@ -278,6 +280,44 @@ mod tests {
             assert!(!show_center_line);
             assert!(track_color.is_none());
             assert!(center_line_color.is_none());
+        } else {
+            panic!("Expected Waveform primitive");
+        }
+    }
+
+    // ========================================================================
+    // Parameter Clamping Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("width", "0", 1)] // below min -> clamped to 1
+    #[case("width", "3000", 2000)] // above max -> clamped to 2000
+    #[case("height", "0", 1)] // below min -> clamped to 1
+    #[case("height", "600", 500)] // above max -> clamped to 500
+    #[case("spacing", "60", 50)] // above max -> clamped to 50
+    #[case("bar_width", "0", 1)] // below min -> clamped to 1
+    #[case("bar_width", "60", 50)] // above max -> clamped to 50
+    fn test_handle_param_clamping(#[case] key: &str, #[case] value: &str, #[case] expected: u32) {
+        let mut params = HashMap::new();
+        params.insert(key.to_string(), value.to_string());
+
+        let result = handle(&["1,-1,2".to_string()], &params, identity_color);
+        assert!(result.is_ok());
+        if let Ok(ComponentOutput::Primitive(Primitive::Waveform {
+            width,
+            height,
+            bar_width,
+            spacing,
+            ..
+        })) = result
+        {
+            match key {
+                "width" => assert_eq!(width, expected),
+                "height" => assert_eq!(height, expected),
+                "bar_width" => assert_eq!(bar_width, expected),
+                "spacing" => assert_eq!(spacing, expected),
+                _ => panic!("Unknown key"),
+            }
         } else {
             panic!("Expected Waveform primitive");
         }

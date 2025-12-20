@@ -231,7 +231,11 @@ pub static TECH_PARAMS: &[ParamInfo] = &[
 ];
 
 /// Type alias for live source definitions: (source_name, description, metrics)
-pub type LiveSourceDef = (&'static str, &'static str, &'static [(&'static str, &'static str)]);
+pub type LiveSourceDef = (
+    &'static str,
+    &'static str,
+    &'static [(&'static str, &'static str)],
+);
 
 /// Live badge sources and their metrics
 pub static LIVE_SOURCES: &[LiveSourceDef] = &[

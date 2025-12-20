@@ -31,6 +31,44 @@ pub fn parse_param_opt<T: FromStr>(params: &HashMap<String, String>, key: &str) 
     params.get(key).and_then(|v| v.parse().ok())
 }
 
+/// Parse a parameter with clamping to min/max bounds.
+///
+/// Returns value clamped to [min, max] range.
+///
+/// # Example
+/// ```ignore
+/// let width: u32 = parse_param_clamped(&params, "width", 100, 1, 2000);
+/// ```
+#[inline]
+pub fn parse_param_clamped<T: FromStr + Ord + Copy>(
+    params: &HashMap<String, String>,
+    key: &str,
+    default: T,
+    min: T,
+    max: T,
+) -> T {
+    let value = parse_param(params, key, default);
+    value.clamp(min, max)
+}
+
+/// Parse an optional parameter with clamping to min/max bounds.
+///
+/// Returns Some(value) clamped to [min, max] range, or None if not present.
+///
+/// # Example
+/// ```ignore
+/// let thumb_size: Option<u32> = parse_param_opt_clamped(&params, "thumb", 1, 100);
+/// ```
+#[inline]
+pub fn parse_param_opt_clamped<T: FromStr + Ord + Copy>(
+    params: &HashMap<String, String>,
+    key: &str,
+    min: T,
+    max: T,
+) -> Option<T> {
+    parse_param_opt(params, key).map(|v: T| v.clamp(min, max))
+}
+
 /// Parse a boolean parameter (accepts "true" or "1").
 ///
 /// # Example
@@ -141,15 +179,18 @@ pub fn parse_thumb_config(
     resolve: impl Fn(&str) -> String,
 ) -> Option<ThumbConfig> {
     // Thumb is only enabled if thumb size is specified
-    let size: u32 = parse_param_opt(params, "thumb")?;
+    // Thumb size: 1-100px
+    let size: u32 = parse_param_opt_clamped(params, "thumb", 1, 100)?;
 
     Some(ThumbConfig {
         size,
-        width: parse_param_opt(params, "thumb_width"),
+        // Thumb width: 1-100px (optional)
+        width: parse_param_opt_clamped(params, "thumb_width", 1, 100),
         color: resolve_color_opt(params, "thumb_color", &resolve),
         shape: get_string(params, "thumb_shape", "circle"),
         border: resolve_color_opt(params, "thumb_border", &resolve),
-        border_width: parse_param(params, "thumb_border_width", 0),
+        // Thumb border width: 0-10px
+        border_width: parse_param_clamped(params, "thumb_border_width", 0, 0, 10),
     })
 }
 
@@ -421,5 +462,100 @@ mod tests {
         assert_eq!(thumb.shape, "square");
         assert_eq!(thumb.border, Some("000000".to_string()));
         assert_eq!(thumb.border_width, 2);
+    }
+
+    // ========================================================================
+    // parse_param_clamped Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("100", 100, 1, 200, 100)] // within bounds
+    #[case("0", 50, 1, 200, 1)] // below min -> clamped to min
+    #[case("300", 50, 1, 200, 200)] // above max -> clamped to max
+    #[case("1", 50, 1, 200, 1)] // at min
+    #[case("200", 50, 1, 200, 200)] // at max
+    fn test_parse_param_clamped(
+        #[case] value: &str,
+        #[case] default: u32,
+        #[case] min: u32,
+        #[case] max: u32,
+        #[case] expected: u32,
+    ) {
+        let mut params = HashMap::new();
+        params.insert("width".to_string(), value.to_string());
+
+        let result = parse_param_clamped(&params, "width", default, min, max);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_parse_param_clamped_missing_uses_default() {
+        let params = HashMap::new();
+        // default of 50 is within bounds [1, 200]
+        let result: u32 = parse_param_clamped(&params, "width", 50, 1, 200);
+        assert_eq!(result, 50);
+    }
+
+    #[test]
+    fn test_parse_param_clamped_default_clamped() {
+        let params = HashMap::new();
+        // default of 300 is above max of 200, should be clamped
+        let result: u32 = parse_param_clamped(&params, "width", 300, 1, 200);
+        assert_eq!(result, 200);
+    }
+
+    // ========================================================================
+    // parse_param_opt_clamped Tests
+    // ========================================================================
+
+    #[rstest]
+    #[case("50", 1, 100, Some(50))] // within bounds
+    #[case("0", 1, 100, Some(1))] // below min -> clamped
+    #[case("200", 1, 100, Some(100))] // above max -> clamped
+    fn test_parse_param_opt_clamped(
+        #[case] value: &str,
+        #[case] min: u32,
+        #[case] max: u32,
+        #[case] expected: Option<u32>,
+    ) {
+        let mut params = HashMap::new();
+        params.insert("thumb".to_string(), value.to_string());
+
+        let result: Option<u32> = parse_param_opt_clamped(&params, "thumb", min, max);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_parse_param_opt_clamped_missing() {
+        let params = HashMap::new();
+        let result: Option<u32> = parse_param_opt_clamped(&params, "thumb", 1, 100);
+        assert!(result.is_none());
+    }
+
+    // ========================================================================
+    // parse_thumb_config Clamping Tests
+    // ========================================================================
+
+    #[test]
+    fn test_parse_thumb_config_clamped_size() {
+        let mut params = HashMap::new();
+        params.insert("thumb".to_string(), "200".to_string()); // above max of 100
+
+        let result = parse_thumb_config(&params, identity_color);
+        assert!(result.is_some());
+        let thumb = result.unwrap();
+        assert_eq!(thumb.size, 100); // clamped to max
+    }
+
+    #[test]
+    fn test_parse_thumb_config_clamped_border_width() {
+        let mut params = HashMap::new();
+        params.insert("thumb".to_string(), "10".to_string());
+        params.insert("thumb_border_width".to_string(), "50".to_string()); // above max of 10
+
+        let result = parse_thumb_config(&params, identity_color);
+        assert!(result.is_some());
+        let thumb = result.unwrap();
+        assert_eq!(thumb.border_width, 10); // clamped to max
     }
 }
