@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Internal**: Refactored thumb parameters into `ThumbConfig` struct, reducing code complexity and centralizing thumb configuration
 - **Internal**: LSP template parser now uses manual byte-level parsing instead of regex for better performance
 - **Internal**: Optimized fuzzy matching with bounded Levenshtein distance using two-row O(n) space algorithm and early termination when distance exceeds threshold
+- **Internal**: Refactored LSP from single 2,350-line file into modular structure with separate modules for parser, completions, semantic tokens, diagnostics, code actions, and color picker
 - Test code cleanup: Replaced `panic!()` with `unreachable!()` for semantically correct match arm handling
 - Added unit tests for LSP `find_templates` and `extract_tag_name` parser functions
 
