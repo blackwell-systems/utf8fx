@@ -1,12 +1,14 @@
 {
-  "version": "1.0.0",
-  "created_at": "2025-12-19T02:51:20.826569634+00:00",
+  "version": "1.1.0",
+  "created_at": "2025-12-20T04:37:37.464088258+00:00",
   "backend": "svg",
-  "assets_dir": "assets",
-  "total_assets": 77,
+  "assets_dir": "examples/assets",
+  "total_assets": 72,
+  "total_size_bytes": 142186,
+  "generator_version": "1.0.0",
   "assets": [
     {
-      "path": "assets/swatch_ca256ce7e3587cdb.svg",
+      "path": "examples/assets/swatch_9f2497920f5cd547.svg",
       "sha256": "9f2497920f5cd5470704a9ab628ae20b3877144f48375bb6c4564a46b4b6a3a7",
       "type": "swatch",
       "primitive": {
@@ -14,10 +16,12 @@
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 398
+      "size_bytes": 398,
+      "generated_at": "2025-12-20T04:37:37.464828979+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_a6dea7b9e22bd9ef.svg",
+      "path": "examples/assets/tech_dd38a7cf6ce88e85.svg",
       "sha256": "dd38a7cf6ce88e855299087b2717bf8c655300a51d66c49fddd437c1bae68899",
       "type": "tech",
       "primitive": {
@@ -27,10 +31,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2296
+      "size_bytes": 2296,
+      "generated_at": "2025-12-20T04:37:37.465331708+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_559f6e1d5f9063ef.svg",
+      "path": "examples/assets/tech_619f22e346b8a219.svg",
       "sha256": "619f22e346b8a2190d12c3dc785530fd31a9a9e37e02af1ff0e3d9ad503e196c",
       "type": "tech",
       "primitive": {
@@ -40,10 +46,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2289
+      "size_bytes": 2289,
+      "generated_at": "2025-12-20T04:37:37.465634152+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_2cd2b404c5fdc9a6.svg",
+      "path": "examples/assets/tech_9b07f32e2323dccd.svg",
       "sha256": "9b07f32e2323dccd2c92734ba2c88df56c3f5ab40461f3f6b320a46f7674a333",
       "type": "tech",
       "primitive": {
@@ -53,10 +61,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2295
+      "size_bytes": 2295,
+      "generated_at": "2025-12-20T04:37:37.465865031+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_bc1d19c7323981de.svg",
+      "path": "examples/assets/tech_20b6ded00b9fbce1.svg",
       "sha256": "20b6ded00b9fbce14a477d1853438de347eb544714b79f2a5bf3d0422b6df529",
       "type": "tech",
       "primitive": {
@@ -66,10 +76,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2295
+      "size_bytes": 2295,
+      "generated_at": "2025-12-20T04:37:37.466196050+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_b4e69040a819f346.svg",
+      "path": "examples/assets/tech_1a5c76d9d4e1611d.svg",
       "sha256": "1a5c76d9d4e1611d7a59351036f1deb1eae8788dae273567deaa130253414593",
       "type": "tech",
       "primitive": {
@@ -79,10 +91,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2289
+      "size_bytes": 2289,
+      "generated_at": "2025-12-20T04:37:37.466490257+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_3b53bb1ab7701071.svg",
+      "path": "examples/assets/tech_5dc98871f98ef4d8.svg",
       "sha256": "5dc98871f98ef4d8b3c879323d39efc27ff67f66945238b0f737e9bf5af8aa4a",
       "type": "tech",
       "primitive": {
@@ -92,10 +106,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2294
+      "size_bytes": 2294,
+      "generated_at": "2025-12-20T04:37:37.466771066+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_95bdf6f816eae76a.svg",
+      "path": "examples/assets/tech_69ef78656550f848.svg",
       "sha256": "69ef78656550f848daac8a265136f64847f8c1a2ff4e8ad0ec2fd8da4216ebf2",
       "type": "tech",
       "primitive": {
@@ -105,10 +121,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 277
+      "size_bytes": 277,
+      "generated_at": "2025-12-20T04:37:37.467098232+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_8268e987ae904e6c.svg",
+      "path": "examples/assets/tech_f6e7ce28fe0d1976.svg",
       "sha256": "f6e7ce28fe0d19764be58fc1ba5241bf6e790ee1f18bc8a3b3e1f77cddcfd333",
       "type": "tech",
       "primitive": {
@@ -118,10 +136,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 276
+      "size_bytes": 276,
+      "generated_at": "2025-12-20T04:37:37.467438286+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_5e4d819d70dbac7f.svg",
+      "path": "examples/assets/tech_1374638b76eb883a.svg",
       "sha256": "1374638b76eb883a773b76afddcfe79bcdea4cd7ab61ee9b88b0492d81601909",
       "type": "tech",
       "primitive": {
@@ -131,10 +151,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 276
+      "size_bytes": 276,
+      "generated_at": "2025-12-20T04:37:37.467777519+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_eb1a549b0c7e5aa6.svg",
+      "path": "examples/assets/tech_5e18d7b67efa3155.svg",
       "sha256": "5e18d7b67efa315528532be39425e436cae8300c4b399b8f5b8095b49ba4ca54",
       "type": "tech",
       "primitive": {
@@ -144,10 +166,12 @@
         "logo_color": "000000",
         "style": "flat"
       },
-      "size_bytes": 3303
+      "size_bytes": 3303,
+      "generated_at": "2025-12-20T04:37:37.468081653+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_d7925efe20597a59.svg",
+      "path": "examples/assets/tech_fa93a6b13b34f67b.svg",
       "sha256": "fa93a6b13b34f67b5585af60118a8929721782bd96dce4e6b1ee7162df749421",
       "type": "tech",
       "primitive": {
@@ -157,10 +181,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 3303
+      "size_bytes": 3303,
+      "generated_at": "2025-12-20T04:37:37.468282528+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_655ff7e1cbd0c2fc.svg",
+      "path": "examples/assets/tech_5e18d7b67efa3155.svg",
       "sha256": "5e18d7b67efa315528532be39425e436cae8300c4b399b8f5b8095b49ba4ca54",
       "type": "tech",
       "primitive": {
@@ -170,10 +196,12 @@
         "logo_color": "000000",
         "style": "plastic"
       },
-      "size_bytes": 3303
+      "size_bytes": 3303,
+      "generated_at": "2025-12-20T04:37:37.468342655+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_f89d39d6349a5c7d.svg",
+      "path": "examples/assets/tech_44c35625d7ff3b6c.svg",
       "sha256": "44c35625d7ff3b6c6b44487ec88d93178af96dddafe1f494858775c9e53692ae",
       "type": "tech",
       "primitive": {
@@ -183,10 +211,12 @@
         "logo_color": "000000",
         "style": "for-the-badge"
       },
-      "size_bytes": 3303
+      "size_bytes": 3303,
+      "generated_at": "2025-12-20T04:37:37.468656574+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_24f5e6e760ca333b.svg",
+      "path": "examples/assets/tech_b948476f154e3f19.svg",
       "sha256": "b948476f154e3f19e1843712d27c45df228de114c51ea57461e7ba1534e0cf25",
       "type": "tech",
       "primitive": {
@@ -196,10 +226,12 @@
         "logo_color": "000000",
         "style": "outline"
       },
-      "size_bytes": 2280
+      "size_bytes": 2280,
+      "generated_at": "2025-12-20T04:37:37.468889147+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_14e6697439dde7ef.svg",
+      "path": "examples/assets/tech_1e919b84f6699d03.svg",
       "sha256": "1e919b84f6699d039ec3d979c29ff4e284aab13ee9f12ef0b18e8bd0b63a19e0",
       "type": "tech",
       "primitive": {
@@ -209,10 +241,12 @@
         "logo_color": "FFFFFF",
         "style": "outline"
       },
-      "size_bytes": 1880
+      "size_bytes": 1880,
+      "generated_at": "2025-12-20T04:37:37.469170388+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_647fa59850b2ae79.svg",
+      "path": "examples/assets/tech_cff2a47631459c11.svg",
       "sha256": "cff2a47631459c11728250e85572ccc10c11ea9b3f28a592f6e8c4fd754297eb",
       "type": "tech",
       "primitive": {
@@ -222,10 +256,12 @@
         "logo_color": "000000",
         "style": "outline"
       },
-      "size_bytes": 1999
+      "size_bytes": 1999,
+      "generated_at": "2025-12-20T04:37:37.469410449+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_a9004ad74dd1ce01.svg",
+      "path": "examples/assets/tech_666065784734ef11.svg",
       "sha256": "666065784734ef1166f49ee59b31aa57f4386a6cef056055d237785cd6ac9991",
       "type": "tech",
       "primitive": {
@@ -235,10 +271,12 @@
         "logo_color": "FFFFFF",
         "style": "outline"
       },
-      "size_bytes": 1638
+      "size_bytes": 1638,
+      "generated_at": "2025-12-20T04:37:37.469692836+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_128fb2e26ed7bd57.svg",
+      "path": "examples/assets/tech_14c027b2c779c4eb.svg",
       "sha256": "14c027b2c779c4eb9fd79309a82e261ebaa0c236116c4643012f4c163ba89ee2",
       "type": "tech",
       "primitive": {
@@ -248,10 +286,12 @@
         "logo_color": "000000",
         "style": "outline"
       },
-      "size_bytes": 2133
+      "size_bytes": 2133,
+      "generated_at": "2025-12-20T04:37:37.469963523+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_f34a6428bc497066.svg",
+      "path": "examples/assets/tech_2908c62f279dde79.svg",
       "sha256": "2908c62f279dde790b4537f2df06fce8560eedac9b701aff5f8b91823d3b47a9",
       "type": "tech",
       "primitive": {
@@ -261,10 +301,12 @@
         "logo_color": "FFFFFF",
         "style": "outline"
       },
-      "size_bytes": 1675
+      "size_bytes": 1675,
+      "generated_at": "2025-12-20T04:37:37.470272439+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_2b87f72a637fc8a5.svg",
+      "path": "examples/assets/tech_05623c37fd297f0c.svg",
       "sha256": "05623c37fd297f0cf07a423a80682681e32b8f1bbf41bae09091d5b41e52173b",
       "type": "tech",
       "primitive": {
@@ -274,10 +316,12 @@
         "logo_color": "FFFFFF",
         "style": "outline"
       },
-      "size_bytes": 714
+      "size_bytes": 714,
+      "generated_at": "2025-12-20T04:37:37.470553319+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_f887ec55d801cbd4.svg",
+      "path": "examples/assets/tech_f889fc40b909cdd0.svg",
       "sha256": "f889fc40b909cdd097d650423bc2502bbf0033b6b018deb52592bc92547bb974",
       "type": "tech",
       "primitive": {
@@ -287,10 +331,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2329
+      "size_bytes": 2329,
+      "generated_at": "2025-12-20T04:37:37.470791297+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_4fcf3ee3d7e0636c.svg",
+      "path": "examples/assets/tech_b659a9ccad57863b.svg",
       "sha256": "b659a9ccad57863b4346a1cf606d3aaae9e48c4cd99e4b5a6654b181a629965f",
       "type": "tech",
       "primitive": {
@@ -300,10 +346,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1929
+      "size_bytes": 1929,
+      "generated_at": "2025-12-20T04:37:37.471011996+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_5a3a5f69608fc2b5.svg",
+      "path": "examples/assets/tech_949536fd5e1bdeb8.svg",
       "sha256": "949536fd5e1bdeb83df87464a55134e9a9582cf37945ab6aeaea3354fccee07d",
       "type": "tech",
       "primitive": {
@@ -313,11 +361,13 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2048
+      "size_bytes": 2048,
+      "generated_at": "2025-12-20T04:37:37.471285137+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_97050f73c91ccb56.svg",
-      "sha256": "5c67018f9cd8cc5bd2f24c37a05f7b2671a8b1c859aa78d39777d7f55a0e001f",
+      "path": "examples/assets/tech_4862f9ae23721167.svg",
+      "sha256": "4862f9ae23721167baffb065f856d0c0fe055c1fdc9e06e80fcfc4cc065b0690",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -326,11 +376,13 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 3281
+      "size_bytes": 3372,
+      "generated_at": "2025-12-20T04:37:37.471572589+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_98116a6f1afb5b3a.svg",
-      "sha256": "69f4cbcf59502d3d8eb79f77a4a8d50fe883c72073cbd28f9a80ed638ba0257f",
+      "path": "examples/assets/tech_638a42be5e9a3b0a.svg",
+      "sha256": "638a42be5e9a3b0a916996452fb49879e36ebaf5b7c59e80b2314484b24668d2",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -339,11 +391,13 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 3281
+      "size_bytes": 3372,
+      "generated_at": "2025-12-20T04:37:37.471898504+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_970cf8be1faadb52.svg",
-      "sha256": "7ac70b7db56e7d3aeaea6e450f95d9ecd1df6e80b318d2268265a39f5e668b03",
+      "path": "examples/assets/tech_c6d3bdc62c3ba6c4.svg",
+      "sha256": "c6d3bdc62c3ba6c49ce1e1576d2b0306e0bac62e99fbfefd0d8abb8544e33cbe",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -352,11 +406,13 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 3286
+      "size_bytes": 3378,
+      "generated_at": "2025-12-20T04:37:37.472163919+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_a54d6f7d412361cc.svg",
-      "sha256": "7ac70b7db56e7d3aeaea6e450f95d9ecd1df6e80b318d2268265a39f5e668b03",
+      "path": "examples/assets/tech_2e2708c5b422470f.svg",
+      "sha256": "2e2708c5b422470f109a4839d7d5d5aa365f3d0af399f9168d700993d864c388",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -365,11 +421,13 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 3286
+      "size_bytes": 3378,
+      "generated_at": "2025-12-20T04:37:37.472452812+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_196f1f6fadb16137.svg",
-      "sha256": "4e85e8ff5d5a4b91746528e5015b9b50bca8b9e30f9b306299e873db0ea54ea3",
+      "path": "examples/assets/tech_4541fe8de4807518.svg",
+      "sha256": "4541fe8de4807518bcf688e0fb9bd6743cb5905c0c568f7673692e7a7649f9a7",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -378,11 +436,13 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1661
+      "size_bytes": 1754,
+      "generated_at": "2025-12-20T04:37:37.472727186+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_76ff64d8676f7136.svg",
-      "sha256": "fab33450a1974ccb23e5d2fba63ae42acc029282079cdaa8cbc83c24a55be190",
+      "path": "examples/assets/tech_e35da13343372c46.svg",
+      "sha256": "e35da13343372c46803a2db9f9c797efa71b8ff492998bf0c0f74920a20451d8",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -391,11 +451,13 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 1737
+      "size_bytes": 1836,
+      "generated_at": "2025-12-20T04:37:37.472961362+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_acc5c7149fdfc424.svg",
-      "sha256": "8c1623040999778aff5e22ed9f59aed26727a6fde7fee11dde7e0e11d74495f2",
+      "path": "examples/assets/tech_d0d083b06facaf48.svg",
+      "sha256": "d0d083b06facaf4842170f2bb787318354381f2b65da653d960b48d97f3199b1",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -404,23 +466,27 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2313
+      "size_bytes": 2406,
+      "generated_at": "2025-12-20T04:37:37.473250821+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_91d2b0afdd969eb7.svg",
-      "sha256": "9acb404643a9042b458a8d8495aabd0d3434e09042660cede8252054349c4faf",
+      "path": "examples/assets/tech_41f88d69174a7fec.svg",
+      "sha256": "41f88d69174a7fecd1950ebe4c6c7236048374b9c46ca70db8890ee23142a96c",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "git",
-        "bg_color": "292A2D",
+        "bg_color": "F05032",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 273
+      "size_bytes": 1004,
+      "generated_at": "2025-12-20T04:37:37.473554997+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_ff8cdeb08d496498.svg",
+      "path": "examples/assets/tech_c126b5f52f8e10df.svg",
       "sha256": "c126b5f52f8e10df54eadf935ba1b1f3d0565849e26267aa4a13da4537df5d7a",
       "type": "tech",
       "primitive": {
@@ -430,10 +496,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1127
+      "size_bytes": 1127,
+      "generated_at": "2025-12-20T04:37:37.473783779+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_4414ef12947d7db6.svg",
+      "path": "examples/assets/tech_fe170dc2f0be0551.svg",
       "sha256": "fe170dc2f0be055107fecd143b5d169575333ccc18045c7673c596971dbab07f",
       "type": "tech",
       "primitive": {
@@ -443,23 +511,27 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 694
+      "size_bytes": 694,
+      "generated_at": "2025-12-20T04:37:37.474117831+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_caaa10afe1fb48be.svg",
-      "sha256": "84b6ba846f5a35b2dd16171a054bf088997c5351d550789c2bbc8737e4ea5fa9",
+      "path": "examples/assets/tech_1280c16e14f3b246.svg",
+      "sha256": "1280c16e14f3b24676eb8e3a74dff7b563fc2a33b3822f506c6eb72455585ffd",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "bitbucket",
-        "bg_color": "292A2D",
+        "bg_color": "0052CC",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 279
+      "size_bytes": 669,
+      "generated_at": "2025-12-20T04:37:37.474420650+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_1a821edcf4fa8c37.svg",
+      "path": "examples/assets/tech_a175074607139c2a.svg",
       "sha256": "a175074607139c2a6a4d86c631e2339989c3ce7f4d8c2490810091513af01262",
       "type": "tech",
       "primitive": {
@@ -469,23 +541,27 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 3506
+      "size_bytes": 3506,
+      "generated_at": "2025-12-20T04:37:37.474671290+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_6db657beb41bbda7.svg",
-      "sha256": "47f767fea98f523e102b4372355b5162d264e7bb2e707ecaeac68ec2397fc3f8",
+      "path": "examples/assets/tech_44df96a2cc23ba5c.svg",
+      "sha256": "44df96a2cc23ba5ca380025bb49bbb16970a9041cd6840b5e4148a3860b2e3c6",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "googlecloud",
-        "bg_color": "292A2D",
+        "bg_color": "4285F4",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 281
+      "size_bytes": 712,
+      "generated_at": "2025-12-20T04:37:37.474939533+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_da713cb3b11c4d3f.svg",
+      "path": "examples/assets/tech_c38eae1b1eac3fe0.svg",
       "sha256": "c38eae1b1eac3fe0ec1fe9e9364e8c2a7ba908d64fda6e4f5c047808d094253e",
       "type": "tech",
       "primitive": {
@@ -495,49 +571,57 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 287
+      "size_bytes": 287,
+      "generated_at": "2025-12-20T04:37:37.475190543+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_85b8ccc68dcebe36.svg",
-      "sha256": "1fefdf1c0e72ab0bd5de989e196c97a359e656ec07a9f23794f437134f8b24c1",
+      "path": "examples/assets/tech_d4fcb70acd9e4b33.svg",
+      "sha256": "d4fcb70acd9e4b3302c74b164a2d1407b43757bbf8b4193fce0de932395929d9",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "digitalocean",
-        "bg_color": "292A2D",
+        "bg_color": "0080FF",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 285
+      "size_bytes": 730,
+      "generated_at": "2025-12-20T04:37:37.475429441+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_60ad12d164f7f777.svg",
-      "sha256": "cabefccee0f6aa87c293776a75d2ea5a4bd3e6cf1d841c5967138110afd3a56d",
+      "path": "examples/assets/tech_75eb663dc6fb7809.svg",
+      "sha256": "75eb663dc6fb7809b49da309395fb758f97f64f7fe7c87590e61636fa647536f",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "git",
-        "bg_color": "292A2D",
+        "bg_color": "F05032",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 274
+      "size_bytes": 1005,
+      "generated_at": "2025-12-20T04:37:37.475662904+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_d4411c6999608e6c.svg",
-      "sha256": "a9afc3e76ec0b0d40de7e74b752996c460dcc61425e9db38ad720ce1fc621a53",
+      "path": "examples/assets/tech_2c16a09a86d902fb.svg",
+      "sha256": "2c16a09a86d902fb25522deb615d1bf4d39ab1d54d2968edd375ded3fe8d5132",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "githubactions",
-        "bg_color": "292A2D",
+        "bg_color": "2088FF",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 272
+      "size_bytes": 879,
+      "generated_at": "2025-12-20T04:37:37.475928130+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_598c925f526beb67.svg",
+      "path": "examples/assets/tech_0708473a2c912756.svg",
       "sha256": "0708473a2c91275604c8a686481f162799f26f8740319982ec58ebf236b69836",
       "type": "tech",
       "primitive": {
@@ -547,10 +631,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2066
+      "size_bytes": 2066,
+      "generated_at": "2025-12-20T04:37:37.476231326+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_2a15e236d67e96cd.svg",
+      "path": "examples/assets/tech_0fb8daebdd87172a.svg",
       "sha256": "0fb8daebdd87172a8ef38dc30761613ee33755ea53c39f53b8e4bef6fab1a14d",
       "type": "tech",
       "primitive": {
@@ -560,10 +646,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1693
+      "size_bytes": 1693,
+      "generated_at": "2025-12-20T04:37:37.476515603+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_372d7f4d5f513d59.svg",
+      "path": "examples/assets/tech_db34a53a3b38f74a.svg",
       "sha256": "db34a53a3b38f74a92ae9c2eb4a0c864574e84a107da06dd1e5c51e6468680ec",
       "type": "tech",
       "primitive": {
@@ -573,10 +661,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2302
+      "size_bytes": 2302,
+      "generated_at": "2025-12-20T04:37:37.476784647+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_f52f04f7bb9d7ca2.svg",
+      "path": "examples/assets/tech_ceb4a325e3532604.svg",
       "sha256": "ceb4a325e35326044e0ab0e51594af44ba8e5e0016d3d331545ec3d404e60a54",
       "type": "tech",
       "primitive": {
@@ -586,10 +676,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1652
+      "size_bytes": 1652,
+      "generated_at": "2025-12-20T04:37:37.477006370+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_7fd0c6906f6f480e.svg",
+      "path": "examples/assets/tech_d2c572ce081c67d6.svg",
       "sha256": "d2c572ce081c67d6406eed735c43dcd36bd97f38ba2b03440dd9a5d4e2265887",
       "type": "tech",
       "primitive": {
@@ -599,10 +691,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 3910
+      "size_bytes": 3910,
+      "generated_at": "2025-12-20T04:37:37.477272432+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_9a0457baad2c854c.svg",
+      "path": "examples/assets/tech_f673245872faad70.svg",
       "sha256": "f673245872faad7023d17e34080c9f98bacdbb2451734f4b9adc787feddf5648",
       "type": "tech",
       "primitive": {
@@ -612,10 +706,12 @@
         "logo_color": "61DAFB",
         "style": "flat-square"
       },
-      "size_bytes": 3300
+      "size_bytes": 3300,
+      "generated_at": "2025-12-20T04:37:37.477508268+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_a483b206adb6eb7b.svg",
+      "path": "examples/assets/tech_163adb2af347d4d6.svg",
       "sha256": "163adb2af347d4d60204f1103792da57f8a14173701ddfb9de9136837f8f3f42",
       "type": "tech",
       "primitive": {
@@ -625,10 +721,12 @@
         "logo_color": "4FC08D",
         "style": "flat-square"
       },
-      "size_bytes": 586
+      "size_bytes": 586,
+      "generated_at": "2025-12-20T04:37:37.477807262+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_83c1c3af90799b1f.svg",
+      "path": "examples/assets/tech_5e451c72a6d5931f.svg",
       "sha256": "5e451c72a6d5931fdb8c0d3250b025acb29eff95992b3f08f01a6eebdd34d57f",
       "type": "tech",
       "primitive": {
@@ -638,10 +736,12 @@
         "logo_color": "FF3E00",
         "style": "flat-square"
       },
-      "size_bytes": 1852
+      "size_bytes": 1852,
+      "generated_at": "2025-12-20T04:37:37.478082114+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_bc1d19c7323981de.svg",
+      "path": "examples/assets/tech_20b6ded00b9fbce1.svg",
       "sha256": "20b6ded00b9fbce14a477d1853438de347eb544714b79f2a5bf3d0422b6df529",
       "type": "tech",
       "primitive": {
@@ -651,10 +751,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2295
+      "size_bytes": 2295,
+      "generated_at": "2025-12-20T04:37:37.478141134+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_bc7cec3fca8663bc.svg",
+      "path": "examples/assets/tech_593ac2e4635c7a1e.svg",
       "sha256": "593ac2e4635c7a1e3407730f40a42f9cfeb215d69ab38173b3156fbf518864bd",
       "type": "tech",
       "primitive": {
@@ -664,10 +766,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1654
+      "size_bytes": 1654,
+      "generated_at": "2025-12-20T04:37:37.478457216+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_e0bbc9f270ec27e5.svg",
+      "path": "examples/assets/tech_2b885073d30a78a0.svg",
       "sha256": "2b885073d30a78a0268bf87ea32e405c3ac06b5f0d709d16433a0f44893de1fc",
       "type": "tech",
       "primitive": {
@@ -677,10 +781,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 3303
+      "size_bytes": 3303,
+      "generated_at": "2025-12-20T04:37:37.478755877+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_c92fa89823c2e84a.svg",
+      "path": "examples/assets/tech_87e783ec45ed99e6.svg",
       "sha256": "87e783ec45ed99e6a7c24df86139157fa1b12cca756802600b319dcaf2e0c4e9",
       "type": "tech",
       "primitive": {
@@ -690,11 +796,13 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 3912
+      "size_bytes": 3912,
+      "generated_at": "2025-12-20T04:37:37.478987915+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_7b06f1377047e891.svg",
-      "sha256": "243553c639080634295d2d1173000ca1c24daf63acf1778d984fbcd34e52d613",
+      "path": "examples/assets/tech_9a6fee3d30c52e31.svg",
+      "sha256": "9a6fee3d30c52e31663345210e38a443d7914f59ae60296173cf3f286e6dc794",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -703,11 +811,13 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2306
+      "size_bytes": 2397,
+      "generated_at": "2025-12-20T04:37:37.479309214+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_476776ef230dbe6f.svg",
-      "sha256": "2dee93374f508ec645b7c4d23a9f8983fb531ed6781b8c1d2fc75cfa370ad2e9",
+      "path": "examples/assets/tech_03bef9eab8795266.svg",
+      "sha256": "03bef9eab8795266d5c7e8cc2c897275c320f4438b224d636568e863763793bb",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -716,10 +826,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1160
+      "size_bytes": 1251,
+      "generated_at": "2025-12-20T04:37:37.479594287+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_32ee48a537dc6779.svg",
+      "path": "examples/assets/tech_b52e8d4b0cbba6b3.svg",
       "sha256": "b52e8d4b0cbba6b3b196272431a092837cbfb900a691a5db9048c816b0f9a8e3",
       "type": "tech",
       "primitive": {
@@ -729,10 +841,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 345
+      "size_bytes": 345,
+      "generated_at": "2025-12-20T04:37:37.479830556+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_3277c08911e12942.svg",
+      "path": "examples/assets/tech_bb9e091fe28461b6.svg",
       "sha256": "bb9e091fe28461b62e88caad2f749a005e453e51eccb1510e0c8acdf69f71582",
       "type": "tech",
       "primitive": {
@@ -742,36 +856,42 @@
         "logo_color": "000000",
         "style": "outline"
       },
-      "size_bytes": 3288
+      "size_bytes": 3288,
+      "generated_at": "2025-12-20T04:37:37.480101557+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_6575d5b6f4b6f1a2.svg",
-      "sha256": "51a976803e48fa795c2c8493d053e0f87ece5de77696fec45ac701f81f62ae46",
+      "path": "examples/assets/tech_3cb2e3d88517172d.svg",
+      "sha256": "3cb2e3d88517172d5565e4fd96a5287040a99dec6b464d79a709bdaf337b491a",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "tailwindcss",
-        "bg_color": "292A2D",
-        "logo_color": "FFFFFF",
+        "bg_color": "06B6D4",
+        "logo_color": "000000",
         "style": "outline"
       },
-      "size_bytes": 321
+      "size_bytes": 966,
+      "generated_at": "2025-12-20T04:37:37.480412227+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_d2f7cb0707aef92d.svg",
-      "sha256": "699667dfa0daf348f137d71d0616bf49a7a8b36b731768eeb21bf7a809a37fcf",
+      "path": "examples/assets/tech_64abc505cafccf09.svg",
+      "sha256": "64abc505cafccf09072b60c4d33910dbebca4f0084a71cc0264969bb2c540b62",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "vite",
-        "bg_color": "292A2D",
+        "bg_color": "646CFF",
         "logo_color": "FFFFFF",
         "style": "outline"
       },
-      "size_bytes": 314
+      "size_bytes": 1271,
+      "generated_at": "2025-12-20T04:37:37.480726614+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_37b88a190c7fdf95.svg",
+      "path": "examples/assets/tech_6b6f4f8e8d86c456.svg",
       "sha256": "6b6f4f8e8d86c45604cf5642fdb049a9ce0d27dd66a76c9260d31c3080c935e2",
       "type": "tech",
       "primitive": {
@@ -781,10 +901,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 2296
+      "size_bytes": 2296,
+      "generated_at": "2025-12-20T04:37:37.481020341+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_465478e722acdec.svg",
+      "path": "examples/assets/tech_206c9d777fafed27.svg",
       "sha256": "206c9d777fafed27e65b4eb257ee347e66980ac631acb904d814c9fe5d17678a",
       "type": "tech",
       "primitive": {
@@ -794,10 +916,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 3901
+      "size_bytes": 3901,
+      "generated_at": "2025-12-20T04:37:37.481345793+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_b3fd2e7be05d48af.svg",
+      "path": "examples/assets/tech_65d17550b5314c96.svg",
       "sha256": "65d17550b5314c9604245296cc1d9701db55ba12207a44e9822a2896fdf2c2a8",
       "type": "tech",
       "primitive": {
@@ -807,97 +931,42 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1147
+      "size_bytes": 1147,
+      "generated_at": "2025-12-20T04:37:37.481644217+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_adf3e1b85f498926.svg",
-      "sha256": "9619f67db1abae2021e26ccd1f43a2d2ca11a188bb576be434e16581a2c2cf74",
+      "path": "examples/assets/tech_d91f67d33197770b.svg",
+      "sha256": "d91f67d33197770bcc50559eb08f25135704e9ad51b37aa93d05896f4d0538b0",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "deno",
-        "bg_color": "292A2D",
-        "logo_color": "FFFFFF",
+        "bg_color": "70FFAF",
+        "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 357
+      "size_bytes": 1546,
+      "generated_at": "2025-12-20T04:37:37.481866714+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_5aeb93d1cd0f4a6e.svg",
-      "sha256": "b30dc3d8dc54a8b04758e5aad364befc54dff735814dcab9a0dd722541e84d20",
+      "path": "examples/assets/tech_71cc97d6856f977f.svg",
+      "sha256": "71cc97d6856f977fc0b70fdc71adfe502a9146581083f9ed8b938e266a274ff6",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
         "name": "bun",
-        "bg_color": "292A2D",
+        "bg_color": "000000",
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 347
+      "size_bytes": 2202,
+      "generated_at": "2025-12-20T04:37:37.482103067+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/swatch_a1edcf795a965ec9.svg",
-      "sha256": "b98deff5475f46e57474b40b428509ee7898e54343ad3e7fc1f0ac8f2d8aba4c",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "f41c80",
-        "style": "flat-square"
-      },
-      "size_bytes": 377
-    },
-    {
-      "path": "assets/tech_dc244438479257c.svg",
-      "sha256": "5156f9f0bf3ab2b5283265cbca526c8aeba9f74a9385d86030bb51c64b088656",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "rust",
-        "bg_color": "DEA584",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 2323
-    },
-    {
-      "path": "assets/tech_5a5b6ded71368e36.svg",
-      "sha256": "7cadf057fc9fad469be18f7f40b15036b6b3c473440a0f59041e12964cb11b49",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "typescript",
-        "bg_color": "3178C6",
-        "logo_color": "FFFFFF",
-        "style": "flat-square"
-      },
-      "size_bytes": 1682
-    },
-    {
-      "path": "assets/tech_9ef9bb8a128a0f74.svg",
-      "sha256": "175bb67f752eab0dd6b82abd3d6d018e420fb9c512dd09badbd648a375baef20",
-      "type": "tech",
-      "primitive": {
-        "kind": "Tech",
-        "name": "go",
-        "bg_color": "00ADD8",
-        "logo_color": "000000",
-        "style": "flat-square"
-      },
-      "size_bytes": 2042
-    },
-    {
-      "path": "assets/swatch_a1edcf795a965ec9.svg",
-      "sha256": "b98deff5475f46e57474b40b428509ee7898e54343ad3e7fc1f0ac8f2d8aba4c",
-      "type": "swatch",
-      "primitive": {
-        "kind": "Swatch",
-        "color": "f41c80",
-        "style": "flat-square"
-      },
-      "size_bytes": 377
-    },
-    {
-      "path": "assets/tech_f895c7a30580a635.svg",
+      "path": "examples/assets/tech_208e2e33113f85d6.svg",
       "sha256": "208e2e33113f85d65e4096da1e6b6f442a7a41d067b9065e66e9f745005566f3",
       "type": "tech",
       "primitive": {
@@ -907,10 +976,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2247
+      "size_bytes": 2247,
+      "generated_at": "2025-12-20T04:37:37.482430113+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_6b492c4ef6ede3b6.svg",
+      "path": "examples/assets/tech_aa924dfbe5d752ed.svg",
       "sha256": "aa924dfbe5d752edfa6ca559dfc1fb824b272b8f2dc26f5ac410ce826aea2582",
       "type": "tech",
       "primitive": {
@@ -920,10 +991,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1604
+      "size_bytes": 1604,
+      "generated_at": "2025-12-20T04:37:37.482727222+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_185d2116419bd8f.svg",
+      "path": "examples/assets/tech_8c3b28d6427e516a.svg",
       "sha256": "8c3b28d6427e516a3508fa2b9dad45836f2b5c0961b092cc836db498330db504",
       "type": "tech",
       "primitive": {
@@ -933,10 +1006,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1847
+      "size_bytes": 1847,
+      "generated_at": "2025-12-20T04:37:37.482955429+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_aae7e4dabc7f5f93.svg",
+      "path": "examples/assets/tech_bf4c0d211c7eb979.svg",
       "sha256": "bf4c0d211c7eb979f9e8aacbeda358f53e04bdfb687ac6fe6f911c0445269bff",
       "type": "tech",
       "primitive": {
@@ -946,10 +1021,12 @@
         "logo_color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 2099
+      "size_bytes": 2099,
+      "generated_at": "2025-12-20T04:37:37.483212207+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_4b824a1a38551f09.svg",
+      "path": "examples/assets/tech_fac4e2c601df57fe.svg",
       "sha256": "fac4e2c601df57fec2e6cc0cdba05f109da0378ffbf0ca723717cc5c1ceb8d07",
       "type": "tech",
       "primitive": {
@@ -959,10 +1036,12 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 1642
+      "size_bytes": 1642,
+      "generated_at": "2025-12-20T04:37:37.483406622+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_86f970e3e2393ffe.svg",
+      "path": "examples/assets/tech_bea9402e865ecdf3.svg",
       "sha256": "bea9402e865ecdf343ff92438c0e9803d59bc8566877507f3d73aff6e8e86ea1",
       "type": "tech",
       "primitive": {
@@ -972,11 +1051,13 @@
         "logo_color": "FFFFFF",
         "style": "flat-square"
       },
-      "size_bytes": 3852
+      "size_bytes": 3852,
+      "generated_at": "2025-12-20T04:37:37.483646077+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/tech_ea5f55b8eaf95ddd.svg",
-      "sha256": "7d0db53a3f18b18e78ec206ba332c472fbc816c725515d9d45e7f5df0dc3a90e",
+      "path": "examples/assets/tech_51932b47c0350117.svg",
+      "sha256": "51932b47c0350117841ab915fa9cbd9d2378739d55b935772a3aa09f478a3ac6",
       "type": "tech",
       "primitive": {
         "kind": "Tech",
@@ -985,10 +1066,12 @@
         "logo_color": "CE412B",
         "style": "flat-square"
       },
-      "size_bytes": 2325
+      "size_bytes": 2431,
+      "generated_at": "2025-12-20T04:37:37.483915227+00:00",
+      "generator_version": "1.0.0"
     },
     {
-      "path": "assets/swatch_5f9f620e8b40294a.svg",
+      "path": "examples/assets/swatch_3135bf63444fe377.svg",
       "sha256": "3135bf63444fe3776e11743dff6a5499cf78954c7ef87232f332d872f40e1abe",
       "type": "swatch",
       "primitive": {
@@ -996,7 +1079,9 @@
         "color": "000000",
         "style": "flat-square"
       },
-      "size_bytes": 398
+      "size_bytes": 398,
+      "generated_at": "2025-12-20T04:37:37.484166467+00:00",
+      "generator_version": "1.0.0"
     }
   ]
 }
