@@ -350,6 +350,38 @@ Hover over any template element to see:
 - **Styles**: Name, description, aliases, supported characters
 - **Components**: Type, arguments, description
 
+### Hover Previews
+
+The LSP generates **live SVG previews** for UI components directly in hover popups. See exactly how your badges and visualizations will render without processing the file:
+
+| Component | Preview Shows |
+|-----------|---------------|
+| `{{ui:tech:rust/}}` | Rendered badge with brand colors, style, and all parameters applied |
+| `{{swatch:cobalt/}}` | Color swatch square with hex value |
+| `{{ui:progress:75/}}` | Progress bar at specified percentage |
+| `{{ui:donut:80/}}` | Donut chart with fill and track colors |
+| `{{ui:gauge:65/}}` | Semi-circular gauge meter |
+| `{{ui:rating:4.5/}}` | Star rating with partial fill |
+
+**Example hover on `{{ui:tech:rust:style=flat:bg=FF5733/}}`:**
+
+```
+Tech Badge: rust
+
+[Live SVG preview of the badge]
+
+Brand color: #DEA584
+```
+
+Previews are embedded as base64 data URIs, so they work instantly without file I/O. All parameters you specify (style, colors, size) are reflected in the preview.
+
+**Supported parameters in previews:**
+
+- **Tech badges**: `style`, `bg`, `text`, `label`
+- **Progress/Gauge/Donut**: `fill`, `track`, `width`, `height`, `size`, `thickness`
+- **Swatches**: `size`
+- **Ratings**: `max`, `size`, `fill`, `empty`
+
 ### Color Picker
 
 The LSP provides color picker support for hex colors in templates. When editing color parameters, you'll see:
