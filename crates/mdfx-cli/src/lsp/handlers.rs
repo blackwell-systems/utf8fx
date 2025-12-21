@@ -255,6 +255,7 @@ impl LanguageServer for MdfxLanguageServer {
                 let parts: Vec<&str> = component_and_args.split(':').collect();
 
                 if let Some(component_type) = parts.first() {
+                    let palette = self.registry.palette();
                     let preview = match *component_type {
                         "tech" => {
                             // ui:tech:NAME:params
@@ -266,7 +267,7 @@ impl LanguageServer for MdfxLanguageServer {
                                         all_params.push((k.to_string(), v.to_string()));
                                     }
                                 }
-                                Some(tech_badge_preview(tech_name, &all_params))
+                                Some(tech_badge_preview(tech_name, &all_params, palette))
                             } else {
                                 None
                             }
@@ -275,8 +276,9 @@ impl LanguageServer for MdfxLanguageServer {
                             // ui:swatch:COLOR:params
                             if let Some(color) = parts.get(1) {
                                 let color = color.trim_end_matches('/');
+                                let resolved = resolve_color_hex(color, palette);
                                 let size = get_param_u32(&params, "size", 40);
-                                Some(swatch_preview(color, size))
+                                Some(swatch_preview(&resolved, size))
                             } else {
                                 None
                             }
@@ -287,9 +289,9 @@ impl LanguageServer for MdfxLanguageServer {
                                 let percent: u8 = pct.parse().unwrap_or(50);
                                 let width = get_param_u32(&params, "width", 100);
                                 let height = get_param_u32(&params, "height", 10);
-                                let fill = get_param(&params, "fill", "F472B6");
-                                let track = get_param(&params, "track", "4B5563");
-                                Some(progress_preview(percent, width, height, fill, track))
+                                let fill = resolve_color_hex(get_param(&params, "fill", "F472B6"), palette);
+                                let track = resolve_color_hex(get_param(&params, "track", "4B5563"), palette);
+                                Some(progress_preview(percent, width, height, &fill, &track))
                             } else {
                                 None
                             }
@@ -300,9 +302,9 @@ impl LanguageServer for MdfxLanguageServer {
                                 let percent: u8 = pct.parse().unwrap_or(50);
                                 let size = get_param_u32(&params, "size", 40);
                                 let thickness = get_param_u32(&params, "thickness", 4);
-                                let fill = get_param(&params, "fill", "F472B6");
-                                let track = get_param(&params, "track", "4B5563");
-                                Some(donut_preview(percent, size, thickness, fill, track))
+                                let fill = resolve_color_hex(get_param(&params, "fill", "F472B6"), palette);
+                                let track = resolve_color_hex(get_param(&params, "track", "4B5563"), palette);
+                                Some(donut_preview(percent, size, thickness, &fill, &track))
                             } else {
                                 None
                             }
@@ -313,9 +315,9 @@ impl LanguageServer for MdfxLanguageServer {
                                 let percent: u8 = pct.parse().unwrap_or(50);
                                 let size = get_param_u32(&params, "size", 80);
                                 let thickness = get_param_u32(&params, "thickness", 8);
-                                let fill = get_param(&params, "fill", "F472B6");
-                                let track = get_param(&params, "track", "4B5563");
-                                Some(gauge_preview(percent, size, thickness, fill, track))
+                                let fill = resolve_color_hex(get_param(&params, "fill", "F472B6"), palette);
+                                let track = resolve_color_hex(get_param(&params, "track", "4B5563"), palette);
+                                Some(gauge_preview(percent, size, thickness, &fill, &track))
                             } else {
                                 None
                             }
@@ -326,9 +328,9 @@ impl LanguageServer for MdfxLanguageServer {
                                 let value: f32 = val.parse().unwrap_or(3.5);
                                 let max = get_param_u32(&params, "max", 5);
                                 let size = get_param_u32(&params, "size", 20);
-                                let fill = get_param(&params, "fill", "EAB308");
-                                let empty = get_param(&params, "empty", "4B5563");
-                                Some(rating_preview(value, max, size, fill, empty))
+                                let fill = resolve_color_hex(get_param(&params, "fill", "EAB308"), palette);
+                                let empty = resolve_color_hex(get_param(&params, "empty", "4B5563"), palette);
+                                Some(rating_preview(value, max, size, &fill, &empty))
                             } else {
                                 None
                             }

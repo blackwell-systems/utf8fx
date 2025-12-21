@@ -4,11 +4,17 @@
 
 use base64::{engine::general_purpose::STANDARD, Engine};
 use mdfx_icons::brand_color;
+use std::collections::HashMap;
 
 /// Generate a hover preview for a tech badge
 ///
 /// Returns markdown with an embedded SVG image via data URI
-pub fn tech_badge_preview(tech_name: &str, params: &[(String, String)]) -> String {
+/// The palette is used to resolve color names like "accent" to hex values
+pub fn tech_badge_preview(
+    tech_name: &str,
+    params: &[(String, String)],
+    palette: &HashMap<String, String>,
+) -> String {
     use badgefx::{render, BadgeBuilder, BadgeStyle, Chevron, Corners};
 
     // Build the badge
@@ -40,19 +46,19 @@ pub fn tech_badge_preview(tech_name: &str, params: &[(String, String)]) -> Strin
                 }
             }
             "bg" => {
-                builder = builder.bg_color(ensure_hash(value));
+                builder = builder.bg_color(resolve_color(value, palette));
             }
             "bg_left" => {
-                builder = builder.bg_left(ensure_hash(value));
+                builder = builder.bg_left(resolve_color(value, palette));
             }
             "bg_right" => {
-                builder = builder.bg_right(ensure_hash(value));
+                builder = builder.bg_right(resolve_color(value, palette));
             }
             "logo" | "logo_color" => {
-                builder = builder.logo_color(ensure_hash(value));
+                builder = builder.logo_color(resolve_color(value, palette));
             }
             "text" | "text_color" => {
-                builder = builder.text_color(ensure_hash(value));
+                builder = builder.text_color(resolve_color(value, palette));
             }
             "label" => {
                 builder = builder.label(value);
@@ -112,7 +118,7 @@ pub fn tech_badge_preview(tech_name: &str, params: &[(String, String)]) -> Strin
     // Apply border if specified
     if let Some(color) = border_color {
         let width = border_width.unwrap_or(if is_outline { 2 } else { 1 });
-        builder = builder.border(ensure_hash(color), width);
+        builder = builder.border(resolve_color(color, palette), width);
     } else if let Some(width) = border_width {
         builder = builder.border("#FFFFFF", width);
     }
@@ -140,13 +146,24 @@ pub fn tech_badge_preview(tech_name: &str, params: &[(String, String)]) -> Strin
     )
 }
 
-/// Ensure a hex color has a # prefix
-fn ensure_hash(color: &str) -> String {
+/// Resolve a color value - either a palette name or a hex color
+/// Returns the hex color with # prefix
+pub fn resolve_color(color: &str, palette: &HashMap<String, String>) -> String {
+    // Check if it's a palette color name
+    if let Some(hex) = palette.get(color) {
+        return format!("#{}", hex);
+    }
+    // Otherwise treat as hex color
     if color.starts_with('#') {
         color.to_string()
     } else {
         format!("#{}", color)
     }
+}
+
+/// Resolve a color and strip the # prefix (for SVG fill attributes)
+pub fn resolve_color_hex(color: &str, palette: &HashMap<String, String>) -> String {
+    resolve_color(color, palette).trim_start_matches('#').to_string()
 }
 
 /// Generate a hover preview for a color swatch
@@ -393,6 +410,8 @@ mod tests {
         // Test: {{ui:tech:rust:bg=1a0a0a:logo=DEA584:border=DEA584:border_width=2:rx=6/}}
         use badgefx::{render, BadgeBuilder, Corners};
 
+        let palette = HashMap::new();
+
         // What preview generates
         let params = vec![
             ("bg".to_string(), "1a0a0a".to_string()),
@@ -403,7 +422,7 @@ mod tests {
         ];
 
         // Get preview markdown (contains base64 SVG)
-        let preview_md = tech_badge_preview("rust", &params);
+        let preview_md = tech_badge_preview("rust", &params, &palette);
         assert!(preview_md.contains("data:image/svg+xml;base64,"));
 
         // Manually build what we expect - note: label preserves user's case
@@ -432,8 +451,10 @@ mod tests {
     fn test_preview_preserves_case() {
         use badgefx::{render, BadgeBuilder};
 
+        let palette = HashMap::new();
+
         // Test uppercase preserves case
-        let preview_upper = tech_badge_preview("RUST", &[]);
+        let preview_upper = tech_badge_preview("RUST", &[], &palette);
         let expected_upper = BadgeBuilder::new("RUST").label("RUST").build();
         let expected_upper_svg = render(&expected_upper);
 
@@ -446,7 +467,7 @@ mod tests {
         assert!(preview_svg.contains(">RUST<")); // Label text should be uppercase
 
         // Test mixed case preserves case
-        let preview_mixed = tech_badge_preview("Rust", &[]);
+        let preview_mixed = tech_badge_preview("Rust", &[], &palette);
         let expected_mixed = BadgeBuilder::new("Rust").label("Rust").build();
         let expected_mixed_svg = render(&expected_mixed);
 
@@ -457,6 +478,24 @@ mod tests {
 
         assert_eq!(preview_svg, expected_mixed_svg);
         assert!(preview_svg.contains(">Rust<")); // Label text should be mixed case
+    }
+
+    #[test]
+    fn test_resolve_color_with_palette() {
+        let mut palette = HashMap::new();
+        palette.insert("accent".to_string(), "FF5500".to_string());
+        palette.insert("primary".to_string(), "007BFF".to_string());
+
+        // Palette color resolves
+        assert_eq!(resolve_color("accent", &palette), "#FF5500");
+        assert_eq!(resolve_color("primary", &palette), "#007BFF");
+
+        // Hex colors pass through
+        assert_eq!(resolve_color("FF0000", &palette), "#FF0000");
+        assert_eq!(resolve_color("#00FF00", &palette), "#00FF00");
+
+        // Unknown names treated as hex
+        assert_eq!(resolve_color("unknown", &palette), "#unknown");
     }
 
     #[test]
