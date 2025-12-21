@@ -4,7 +4,10 @@
 
 use crate::lsp::code_actions::generate_code_actions;
 use crate::lsp::color::{create_color_presentation, find_document_colors};
-use crate::lsp::completions::{filter_completions, get_completion_context, CompletionContext};
+use crate::lsp::completions::{
+    build_visualization_param_completions, build_visualization_param_value_completions,
+    filter_completions, get_completion_context, CompletionContext,
+};
 use crate::lsp::diagnostics::generate_diagnostics;
 use crate::lsp::inlay_hints::generate_inlay_hints;
 use crate::lsp::parser::find_templates;
@@ -165,6 +168,17 @@ impl LanguageServer for MdfxLanguageServer {
             }
             CompletionContext::LiveMetric(source, prefix) => {
                 self.live_metric_completions(&source, &prefix)
+            }
+            CompletionContext::VisualizationParam(component, prefix) => {
+                build_visualization_param_completions(&component, &prefix)
+            }
+            CompletionContext::VisualizationParamValue(component, param, prefix) => {
+                build_visualization_param_value_completions(
+                    &component,
+                    &param,
+                    &prefix,
+                    &self.cached.palette,
+                )
             }
         };
 

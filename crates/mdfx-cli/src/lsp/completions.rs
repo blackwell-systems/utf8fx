@@ -2,7 +2,7 @@
 //!
 //! Provides cached completion items and context detection for autocompletion.
 
-use mdfx::components::params::{LIVE_SOURCES, TECH_PARAMS};
+use mdfx::components::params::{params_for_visualization, LIVE_SOURCES, TECH_PARAMS};
 use mdfx::Registry;
 use mdfx_icons::{brand_color, list_icons};
 use tower_lsp::lsp_types::*;
@@ -48,6 +48,8 @@ pub enum CompletionContext {
     TechParamValue(String, String), // After {{ui:tech:NAME:param= - show values for param
     LiveSource(String),  // After {{ui:live: - show live data sources (github, npm, etc.)
     LiveMetric(String, String), // After {{ui:live:SOURCE:QUERY: - show metrics for source
+    VisualizationParam(String, String), // After {{ui:gauge:VALUE: - (component_type, prefix)
+    VisualizationParamValue(String, String, String), // After {{ui:gauge:VALUE:param= - (component, param, prefix)
 }
 
 impl CachedCompletions {
@@ -779,6 +781,74 @@ pub fn filter_completions(items: &[CompletionItem], prefix: &str) -> Vec<Complet
     }
 }
 
+/// Build completion items for visualization component parameters
+pub fn build_visualization_param_completions(
+    component: &str,
+    prefix: &str,
+) -> Vec<CompletionItem> {
+    let params = match params_for_visualization(component) {
+        Some(p) => p,
+        None => return vec![],
+    };
+
+    params
+        .iter()
+        .filter(|p| prefix.is_empty() || p.name.starts_with(prefix))
+        .map(|param| CompletionItem {
+            label: param.name.to_string(),
+            kind: Some(CompletionItemKind::PROPERTY),
+            detail: Some(param.description.to_string()),
+            documentation: Some(Documentation::String(format!(
+                "{}\n\nExample: {}",
+                param.description, param.example
+            ))),
+            insert_text: Some(format!("{}=", param.name)),
+            insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+            ..Default::default()
+        })
+        .collect()
+}
+
+/// Build completion items for visualization parameter values
+pub fn build_visualization_param_value_completions(
+    component: &str,
+    param: &str,
+    prefix: &str,
+    palette: &[CompletionItem],
+) -> Vec<CompletionItem> {
+    let params = match params_for_visualization(component) {
+        Some(p) => p,
+        None => return vec![],
+    };
+
+    // Check if this is a color parameter
+    let color_params = ["fill", "track", "empty", "positive", "negative", "up", "down", "stroke", "thumb_color", "thumb_border"];
+    if color_params.contains(&param) {
+        return filter_completions(palette, prefix);
+    }
+
+    // Look up enumerated values for this parameter
+    let param_info = params.iter().find(|p| p.name == param);
+    if let Some(info) = param_info {
+        if let Some(values) = info.values {
+            return values
+                .iter()
+                .filter(|(val, _)| prefix.is_empty() || val.starts_with(prefix))
+                .map(|(val, desc)| CompletionItem {
+                    label: val.to_string(),
+                    kind: Some(CompletionItemKind::ENUM_MEMBER),
+                    detail: Some(desc.to_string()),
+                    insert_text: Some(val.to_string()),
+                    insert_text_format: Some(InsertTextFormat::PLAIN_TEXT),
+                    ..Default::default()
+                })
+                .collect();
+        }
+    }
+
+    vec![]
+}
+
 /// Analyze the text around the cursor to determine completion context
 pub fn get_completion_context(
     registry: &Registry,
@@ -816,21 +886,66 @@ pub fn get_completion_context(
 
         // Check for UI namespace: {{ui: (but not {{ui:tech: or {{ui:live: etc.)
         if let Some(rest) = after_open.strip_prefix("ui:") {
+            // Check for visualization components first: {{ui:gauge:55:, {{ui:progress:75:, etc.
+            for viz_type in &[
+                "progress:",
+                "donut:",
+                "gauge:",
+                "sparkline:",
+                "rating:",
+                "waveform:",
+            ] {
+                if let Some(viz_rest) = rest.strip_prefix(viz_type) {
+                    let component = viz_type.trim_end_matches(':');
+                    // Parse: VALUE:param=value:param2=...
+                    let parts: Vec<&str> = viz_rest.split(':').collect();
+
+                    // If we have a value and at least one colon after it
+                    if !parts.is_empty() && viz_rest.contains(':') {
+                        // Check if we're in a parameter value (after =)
+                        if let Some(eq_pos) = viz_rest.rfind('=') {
+                            let after_eq = &viz_rest[eq_pos + 1..];
+                            let before_eq = &viz_rest[..eq_pos];
+                            if let Some(colon_pos) = before_eq.rfind(':') {
+                                let param_name = &before_eq[colon_pos + 1..];
+                                return CompletionContext::VisualizationParamValue(
+                                    component.to_string(),
+                                    param_name.to_string(),
+                                    after_eq.to_string(),
+                                );
+                            }
+                        }
+
+                        // We're ready for parameter name completion
+                        let last_part = parts.last().unwrap_or(&"");
+                        if !last_part.contains('=') {
+                            return CompletionContext::VisualizationParam(
+                                component.to_string(),
+                                last_part.to_string(),
+                            );
+                        }
+                    }
+                }
+            }
+
             // If it's a more specific prefix, let those handlers deal with it
             if rest.starts_with("tech:")
                 || rest.starts_with("live:")
                 || rest.starts_with("version:")
                 || rest.starts_with("license:")
-                || rest.starts_with("progress:")
+                || rest.starts_with("row")
+                || rest.starts_with("tech-group")
+            {
+                // Fall through to more specific handlers below
+            } else if rest.starts_with("progress:")
                 || rest.starts_with("donut:")
                 || rest.starts_with("gauge:")
                 || rest.starts_with("sparkline:")
                 || rest.starts_with("rating:")
                 || rest.starts_with("waveform:")
-                || rest.starts_with("row")
-                || rest.starts_with("tech-group")
             {
-                // Fall through to more specific handlers below
+                // Already handled above, but might not have enough context yet
+                // Fall through
             } else {
                 // Just {{ui: or {{ui:partial - show UI namespace completions
                 return CompletionContext::UiNamespace(rest.to_string());

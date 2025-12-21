@@ -407,3 +407,367 @@ pub fn is_valid_tech_param(name: &str) -> bool {
 pub fn unknown_tech_params<'a>(params: impl Iterator<Item = &'a str>) -> Vec<&'a str> {
     params.filter(|name| !is_valid_tech_param(name)).collect()
 }
+
+/// Progress bar parameters
+pub static PROGRESS_PARAMS: &[ParamInfo] = &[
+    ParamInfo {
+        name: "width",
+        description: "Bar width in pixels",
+        example: "width=200",
+        values: None,
+    },
+    ParamInfo {
+        name: "height",
+        description: "Bar height in pixels",
+        example: "height=12",
+        values: None,
+    },
+    ParamInfo {
+        name: "fill",
+        description: "Fill/progress color",
+        example: "fill=accent",
+        values: None,
+    },
+    ParamInfo {
+        name: "track",
+        description: "Track/background color",
+        example: "track=333333",
+        values: None,
+    },
+    ParamInfo {
+        name: "rx",
+        description: "Corner radius",
+        example: "rx=5",
+        values: None,
+    },
+    ParamInfo {
+        name: "label",
+        description: "Show percentage label",
+        example: "label=true",
+        values: Some(&[("true", "Show label"), ("false", "Hide label (default)")]),
+    },
+    ParamInfo {
+        name: "thumb",
+        description: "Show thumb indicator",
+        example: "thumb=true",
+        values: Some(&[("true", "Show thumb"), ("false", "Hide thumb (default)")]),
+    },
+    ParamInfo {
+        name: "thumb_size",
+        description: "Thumb indicator size",
+        example: "thumb_size=14",
+        values: None,
+    },
+    ParamInfo {
+        name: "thumb_color",
+        description: "Thumb indicator color",
+        example: "thumb_color=FFFFFF",
+        values: None,
+    },
+    ParamInfo {
+        name: "thumb_shape",
+        description: "Thumb shape",
+        example: "thumb_shape=circle",
+        values: Some(&[
+            ("circle", "Round thumb (default)"),
+            ("square", "Square thumb"),
+            ("diamond", "Diamond thumb"),
+        ]),
+    },
+    ParamInfo {
+        name: "thumb_border",
+        description: "Thumb border color",
+        example: "thumb_border=000000",
+        values: None,
+    },
+    ParamInfo {
+        name: "thumb_border_width",
+        description: "Thumb border width",
+        example: "thumb_border_width=2",
+        values: None,
+    },
+];
+
+/// Donut chart parameters
+pub static DONUT_PARAMS: &[ParamInfo] = &[
+    ParamInfo {
+        name: "size",
+        description: "Diameter in pixels",
+        example: "size=60",
+        values: None,
+    },
+    ParamInfo {
+        name: "thickness",
+        description: "Ring thickness",
+        example: "thickness=6",
+        values: None,
+    },
+    ParamInfo {
+        name: "fill",
+        description: "Fill/progress color",
+        example: "fill=success",
+        values: None,
+    },
+    ParamInfo {
+        name: "track",
+        description: "Track/background color",
+        example: "track=333333",
+        values: None,
+    },
+    ParamInfo {
+        name: "label",
+        description: "Show percentage label",
+        example: "label=true",
+        values: Some(&[("true", "Show label"), ("false", "Hide label (default)")]),
+    },
+    ParamInfo {
+        name: "thumb",
+        description: "Show thumb indicator",
+        example: "thumb=true",
+        values: Some(&[("true", "Show thumb"), ("false", "Hide thumb (default)")]),
+    },
+    ParamInfo {
+        name: "thumb_size",
+        description: "Thumb indicator size",
+        example: "thumb_size=8",
+        values: None,
+    },
+    ParamInfo {
+        name: "thumb_color",
+        description: "Thumb indicator color",
+        example: "thumb_color=FFFFFF",
+        values: None,
+    },
+];
+
+/// Gauge meter parameters
+pub static GAUGE_PARAMS: &[ParamInfo] = &[
+    ParamInfo {
+        name: "size",
+        description: "Width in pixels",
+        example: "size=100",
+        values: None,
+    },
+    ParamInfo {
+        name: "thickness",
+        description: "Arc thickness",
+        example: "thickness=10",
+        values: None,
+    },
+    ParamInfo {
+        name: "fill",
+        description: "Fill/progress color",
+        example: "fill=warning",
+        values: None,
+    },
+    ParamInfo {
+        name: "track",
+        description: "Track/background color",
+        example: "track=333333",
+        values: None,
+    },
+    ParamInfo {
+        name: "label",
+        description: "Show percentage label",
+        example: "label=true",
+        values: Some(&[("true", "Show label"), ("false", "Hide label (default)")]),
+    },
+    ParamInfo {
+        name: "thumb",
+        description: "Show thumb indicator",
+        example: "thumb=true",
+        values: Some(&[("true", "Show thumb"), ("false", "Hide thumb (default)")]),
+    },
+    ParamInfo {
+        name: "thumb_size",
+        description: "Thumb indicator size",
+        example: "thumb_size=10",
+        values: None,
+    },
+    ParamInfo {
+        name: "thumb_color",
+        description: "Thumb indicator color",
+        example: "thumb_color=FFFFFF",
+        values: None,
+    },
+];
+
+/// Sparkline chart parameters
+pub static SPARKLINE_PARAMS: &[ParamInfo] = &[
+    ParamInfo {
+        name: "type",
+        description: "Chart type",
+        example: "type=bar",
+        values: Some(&[
+            ("line", "Line chart (default)"),
+            ("bar", "Bar chart"),
+            ("area", "Area chart"),
+        ]),
+    },
+    ParamInfo {
+        name: "width",
+        description: "Chart width in pixels",
+        example: "width=150",
+        values: None,
+    },
+    ParamInfo {
+        name: "height",
+        description: "Chart height in pixels",
+        example: "height=30",
+        values: None,
+    },
+    ParamInfo {
+        name: "fill",
+        description: "Line/bar/area fill color",
+        example: "fill=accent",
+        values: None,
+    },
+    ParamInfo {
+        name: "stroke",
+        description: "Line stroke color",
+        example: "stroke=accent",
+        values: None,
+    },
+    ParamInfo {
+        name: "stroke_width",
+        description: "Line stroke width",
+        example: "stroke_width=2",
+        values: None,
+    },
+    ParamInfo {
+        name: "dots",
+        description: "Show dots at data points",
+        example: "dots=true",
+        values: Some(&[("true", "Show dots"), ("false", "Hide dots (default)")]),
+    },
+    ParamInfo {
+        name: "dot_size",
+        description: "Dot radius",
+        example: "dot_size=3",
+        values: None,
+    },
+];
+
+/// Rating display parameters
+pub static RATING_PARAMS: &[ParamInfo] = &[
+    ParamInfo {
+        name: "max",
+        description: "Maximum rating value",
+        example: "max=5",
+        values: None,
+    },
+    ParamInfo {
+        name: "icon",
+        description: "Icon shape",
+        example: "icon=heart",
+        values: Some(&[
+            ("star", "Star icon (default)"),
+            ("heart", "Heart icon"),
+            ("circle", "Circle icon"),
+        ]),
+    },
+    ParamInfo {
+        name: "size",
+        description: "Icon size in pixels",
+        example: "size=24",
+        values: None,
+    },
+    ParamInfo {
+        name: "fill",
+        description: "Filled icon color",
+        example: "fill=warning",
+        values: None,
+    },
+    ParamInfo {
+        name: "empty",
+        description: "Empty icon color",
+        example: "empty=gray",
+        values: None,
+    },
+    ParamInfo {
+        name: "gap",
+        description: "Gap between icons",
+        example: "gap=4",
+        values: None,
+    },
+];
+
+/// Waveform visualization parameters
+pub static WAVEFORM_PARAMS: &[ParamInfo] = &[
+    ParamInfo {
+        name: "width",
+        description: "Total width in pixels",
+        example: "width=150",
+        values: None,
+    },
+    ParamInfo {
+        name: "height",
+        description: "Total height in pixels",
+        example: "height=50",
+        values: None,
+    },
+    ParamInfo {
+        name: "positive",
+        description: "Color for bars above zero",
+        example: "positive=success",
+        values: None,
+    },
+    ParamInfo {
+        name: "up",
+        description: "Alias for positive",
+        example: "up=accent",
+        values: None,
+    },
+    ParamInfo {
+        name: "negative",
+        description: "Color for bars below zero",
+        example: "negative=error",
+        values: None,
+    },
+    ParamInfo {
+        name: "down",
+        description: "Alias for negative",
+        example: "down=pink",
+        values: None,
+    },
+    ParamInfo {
+        name: "bar_width",
+        description: "Width of each bar",
+        example: "bar_width=4",
+        values: None,
+    },
+    ParamInfo {
+        name: "bar",
+        description: "Alias for bar_width",
+        example: "bar=3",
+        values: None,
+    },
+    ParamInfo {
+        name: "gap",
+        description: "Gap between bars",
+        example: "gap=2",
+        values: None,
+    },
+    ParamInfo {
+        name: "center",
+        description: "Show center line",
+        example: "center=true",
+        values: Some(&[
+            ("true", "Show center line"),
+            ("false", "Hide center line (default)"),
+        ]),
+    },
+];
+
+/// Get parameters for a visualization component type
+pub fn params_for_visualization(component: &str) -> Option<&'static [ParamInfo]> {
+    match component {
+        "progress" => Some(PROGRESS_PARAMS),
+        "donut" => Some(DONUT_PARAMS),
+        "gauge" => Some(GAUGE_PARAMS),
+        "sparkline" => Some(SPARKLINE_PARAMS),
+        "rating" => Some(RATING_PARAMS),
+        "waveform" => Some(WAVEFORM_PARAMS),
+        _ => None,
+    }
+}
