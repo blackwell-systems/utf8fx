@@ -1,0 +1,13 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="30" viewBox="0 0 120 30">
+  <rect x="3.0" y="26.0" width="13.0" height="1.0" fill="#4CAF50"/>
+  <rect x="19.3" y="19.8" width="13.0" height="7.2" fill="#4CAF50"/>
+  <rect x="35.6" y="10.2" width="13.0" height="16.8" fill="#4CAF50"/>
+  <rect x="51.9" y="17.4" width="13.0" height="9.6" fill="#4CAF50"/>
+  <rect x="68.1" y="5.4" width="13.0" height="21.6" fill="#4CAF50"/>
+  <rect x="84.4" y="12.6" width="13.0" height="14.4" fill="#4CAF50"/>
+  <rect x="100.7" y="3.0" width="13.0" height="24.0" fill="#4CAF50"/>
+</svg>

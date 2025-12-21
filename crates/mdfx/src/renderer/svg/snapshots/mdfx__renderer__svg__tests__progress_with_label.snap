@@ -1,0 +1,9 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="20" viewBox="0 0 120 20">
+<rect width="120" height="20" fill="#E0E0E0" rx="5"/>
+<rect x="0" y="0" width="90" height="20" fill="#4CAF50" rx="5"/>
+  <text x="60" y="14" text-anchor="middle" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="bold" letter-spacing="1">75%</text>
+</svg>

@@ -1,0 +1,9 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="76" viewBox="0 0 76 76">
+<circle cx="38.0" cy="38.0" r="32.0" fill="none" stroke="#E0E0E0" stroke-width="6"/>
+<circle cx="38.0" cy="38.0" r="32.0" fill="none" stroke="#FF5722" stroke-width="6" stroke-dasharray="90.48 110.58" transform="rotate(-90 38.0 38.0)"/>
+  <circle cx="47.9" cy="68.4" r="6.0" fill="#FF5722"/>
+</svg>

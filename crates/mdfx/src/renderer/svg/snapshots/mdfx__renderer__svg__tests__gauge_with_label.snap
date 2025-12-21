@@ -1,0 +1,9 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="92" viewBox="0 0 120 92">
+<path d="M 6.0 60.0 A 54.0 54.0 0 0 1 114.0 60.0" fill="none" stroke="#E0E0E0" stroke-width="12" stroke-linecap="round"/>
+<path d="M 6.0 60.0 A 54.0 54.0 0 0 1 114.0 60.0" fill="none" stroke="#2196F3" stroke-width="12" stroke-linecap="round" stroke-dasharray="93.31 76.34"/>
+  <text x="60" y="82.0" text-anchor="middle" fill="#333333" font-family="Arial, sans-serif" font-size="18" font-weight="bold">55%</text>
+</svg>

@@ -1,0 +1,8 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="84" viewBox="0 0 140 84">
+<path d="M 7.0 70.0 A 63.0 63.0 0 0 1 133.0 70.0" fill="none" stroke="#E0E0E0" stroke-width="14" stroke-linecap="round"/>
+<path d="M 7.0 70.0 A 63.0 63.0 0 0 1 133.0 70.0" fill="none" stroke="#F44336" stroke-width="14" stroke-linecap="round" stroke-dasharray="118.75 79.17"/>
+</svg>

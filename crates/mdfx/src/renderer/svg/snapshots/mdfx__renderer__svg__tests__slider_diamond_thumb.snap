@@ -1,0 +1,9 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="14" viewBox="0 0 120 14">
+<rect x="0" y="4" width="120" height="6" fill="#E0E0E0" rx="3"/>
+  <rect x="0" y="4" width="33" height="6" fill="#FF9800" rx="3"/>
+<polygon points="33,0 40,7 33,14 26,7" fill="#FF9800"/>
+</svg>

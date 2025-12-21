@@ -1,0 +1,7 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="30" viewBox="0 0 120 30">
+  <polyline points="3.0,27.0 22.0,19.8 41.0,10.2 60.0,17.4 79.0,5.4 98.0,12.6 117.0,3.0" fill="none" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

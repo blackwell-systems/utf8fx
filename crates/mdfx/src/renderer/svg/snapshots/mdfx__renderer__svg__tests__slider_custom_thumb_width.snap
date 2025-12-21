@@ -1,0 +1,9 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="12" viewBox="0 0 120 12">
+<rect x="0" y="3" width="120" height="6" fill="#E0E0E0" rx="3"/>
+  <rect x="0" y="3" width="50" height="6" fill="#F44336" rx="3"/>
+<ellipse cx="50" cy="6" rx="10.0" ry="6.0" fill="#F44336"/>
+</svg>

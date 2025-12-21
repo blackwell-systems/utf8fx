@@ -632,4 +632,608 @@ mod tests {
         let primitive = Primitive::simple_progress(percent, "E0E0E0", "4CAF50");
         assert_snapshot!(format!("{}_percent", name), render_inline_svg(&primitive));
     }
+
+    // ========================================================================
+    // Progress Bar - Extended Snapshot Tests
+    // ========================================================================
+
+    #[test]
+    fn snapshot_progress_with_label() {
+        let primitive = Primitive::Progress {
+            percent: 75,
+            width: 120,
+            height: 20,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "4CAF50".to_string(),
+            fill_height: 20,
+            rx: 5,
+            show_label: true,
+            label_color: Some("FFFFFF".to_string()),
+            border_color: None,
+            border_width: 0,
+            thumb: None,
+        };
+        assert_snapshot!("progress_with_label", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_progress_label_too_small() {
+        // Label should NOT render when dimensions are too small (< 50px wide or < 14px tall)
+        let primitive = Primitive::Progress {
+            percent: 50,
+            width: 40,
+            height: 10,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "4CAF50".to_string(),
+            fill_height: 10,
+            rx: 3,
+            show_label: true,
+            label_color: Some("FFFFFF".to_string()),
+            border_color: None,
+            border_width: 0,
+            thumb: None,
+        };
+        assert_snapshot!("progress_label_too_small", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_progress_centered_fill() {
+        // Fill height < track height creates a centered "floating" fill
+        let primitive = Primitive::Progress {
+            percent: 60,
+            width: 100,
+            height: 16,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "2196F3".to_string(),
+            fill_height: 8,
+            rx: 4,
+            show_label: false,
+            label_color: None,
+            border_color: None,
+            border_width: 0,
+            thumb: None,
+        };
+        assert_snapshot!("progress_centered_fill", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_progress_with_border() {
+        let primitive = Primitive::Progress {
+            percent: 50,
+            width: 100,
+            height: 12,
+            track_color: "F5F5F5".to_string(),
+            fill_color: "FF5722".to_string(),
+            fill_height: 12,
+            rx: 6,
+            show_label: false,
+            label_color: None,
+            border_color: Some("CCCCCC".to_string()),
+            border_width: 2,
+            thumb: None,
+        };
+        assert_snapshot!("progress_with_border", render_inline_svg(&primitive));
+    }
+
+    // ========================================================================
+    // Slider Mode - Snapshot Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("circle", 50u8, 16, "4CAF50", "slider_circle")]
+    #[case("square", 75u8, 14, "2196F3", "slider_square")]
+    #[case("diamond", 25u8, 14, "FF9800", "slider_diamond")]
+    fn snapshot_slider_thumb_shapes(
+        #[case] shape: &str,
+        #[case] percent: u8,
+        #[case] size: u32,
+        #[case] fill_color: &str,
+        #[case] name: &str,
+    ) {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Progress {
+            percent,
+            width: 120,
+            height: 6,
+            track_color: "E0E0E0".to_string(),
+            fill_color: fill_color.to_string(),
+            fill_height: 6,
+            rx: 3,
+            show_label: false,
+            label_color: None,
+            border_color: None,
+            border_width: 0,
+            thumb: Some(ThumbConfig {
+                size,
+                width: None,
+                color: None,
+                shape: shape.to_string(),
+                border: None,
+                border_width: 0,
+            }),
+        };
+        assert_snapshot!(format!("{}_thumb", name), render_inline_svg(&primitive));
+    }
+
+    #[rstest]
+    #[case(0u8, "slider_at_zero")]
+    #[case(100u8, "slider_at_hundred")]
+    fn snapshot_slider_extremes(#[case] percent: u8, #[case] name: &str) {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Progress {
+            percent,
+            width: 120,
+            height: 6,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "4CAF50".to_string(),
+            fill_height: 6,
+            rx: 3,
+            show_label: false,
+            label_color: None,
+            border_color: None,
+            border_width: 0,
+            thumb: Some(ThumbConfig {
+                size: 16,
+                width: None,
+                color: None,
+                shape: "circle".to_string(),
+                border: None,
+                border_width: 0,
+            }),
+        };
+        assert_snapshot!(name, render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_slider_with_thumb_border() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Progress {
+            percent: 60,
+            width: 120,
+            height: 8,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "9C27B0".to_string(),
+            fill_height: 8,
+            rx: 4,
+            show_label: false,
+            label_color: None,
+            border_color: None,
+            border_width: 0,
+            thumb: Some(ThumbConfig {
+                size: 18,
+                width: None,
+                color: Some("FFFFFF".to_string()),
+                shape: "circle".to_string(),
+                border: Some("9C27B0".to_string()),
+                border_width: 2,
+            }),
+        };
+        assert_snapshot!("slider_with_thumb_border", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_slider_custom_thumb_width() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Progress {
+            percent: 40,
+            width: 120,
+            height: 6,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "F44336".to_string(),
+            fill_height: 6,
+            rx: 3,
+            show_label: false,
+            label_color: None,
+            border_color: None,
+            border_width: 0,
+            thumb: Some(ThumbConfig {
+                size: 12,
+                width: Some(20),
+                color: None,
+                shape: "circle".to_string(),
+                border: None,
+                border_width: 0,
+            }),
+        };
+        assert_snapshot!("slider_custom_thumb_width", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_slider_with_track_border() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Progress {
+            percent: 50,
+            width: 120,
+            height: 8,
+            track_color: "F5F5F5".to_string(),
+            fill_color: "3F51B5".to_string(),
+            fill_height: 8,
+            rx: 4,
+            show_label: false,
+            label_color: None,
+            border_color: Some("BDBDBD".to_string()),
+            border_width: 1,
+            thumb: Some(ThumbConfig {
+                size: 16,
+                width: None,
+                color: None,
+                shape: "circle".to_string(),
+                border: None,
+                border_width: 0,
+            }),
+        };
+        assert_snapshot!("slider_with_track_border", render_inline_svg(&primitive));
+    }
+
+    // ========================================================================
+    // Sparkline - Extended Snapshot Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case("line", "sparkline_line_chart")]
+    #[case("bar", "sparkline_bar_chart")]
+    #[case("area", "sparkline_area_chart")]
+    fn snapshot_sparkline_chart_types(#[case] chart_type: &str, #[case] name: &str) {
+        let primitive = Primitive::Sparkline {
+            values: vec![10.0, 25.0, 45.0, 30.0, 55.0, 40.0, 60.0],
+            width: 120,
+            height: 30,
+            chart_type: chart_type.to_string(),
+            fill_color: "4CAF50".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+        assert_snapshot!(name, render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_sparkline_with_track() {
+        let primitive = Primitive::Sparkline {
+            values: vec![10.0, 25.0, 45.0, 30.0, 55.0],
+            width: 100,
+            height: 25,
+            chart_type: "line".to_string(),
+            fill_color: "2196F3".to_string(),
+            stroke_color: Some("1976D2".to_string()),
+            stroke_width: 2,
+            track_color: Some("F5F5F5".to_string()),
+            show_dots: false,
+            dot_radius: 2,
+        };
+        assert_snapshot!("sparkline_with_track", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_sparkline_with_dots() {
+        let primitive = Primitive::Sparkline {
+            values: vec![15.0, 35.0, 25.0, 50.0, 40.0],
+            width: 100,
+            height: 30,
+            chart_type: "line".to_string(),
+            fill_color: "FF5722".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: true,
+            dot_radius: 3,
+        };
+        assert_snapshot!("sparkline_with_dots", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_sparkline_area_with_dots() {
+        let primitive = Primitive::Sparkline {
+            values: vec![20.0, 40.0, 35.0, 55.0, 45.0, 60.0],
+            width: 120,
+            height: 35,
+            chart_type: "area".to_string(),
+            fill_color: "9C27B0".to_string(),
+            stroke_color: Some("7B1FA2".to_string()),
+            stroke_width: 2,
+            track_color: None,
+            show_dots: true,
+            dot_radius: 2,
+        };
+        assert_snapshot!("sparkline_area_with_dots", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_sparkline_empty() {
+        let primitive = Primitive::Sparkline {
+            values: vec![],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "4CAF50".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+        assert_snapshot!("sparkline_empty", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_sparkline_single_value() {
+        let primitive = Primitive::Sparkline {
+            values: vec![42.0],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "4CAF50".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: true,
+            dot_radius: 3,
+        };
+        assert_snapshot!("sparkline_single_value", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_sparkline_flat_data() {
+        // All same values: tests the flat data normalization path
+        let primitive = Primitive::Sparkline {
+            values: vec![50.0, 50.0, 50.0, 50.0, 50.0],
+            width: 100,
+            height: 20,
+            chart_type: "line".to_string(),
+            fill_color: "607D8B".to_string(),
+            stroke_color: None,
+            stroke_width: 2,
+            track_color: None,
+            show_dots: false,
+            dot_radius: 2,
+        };
+        assert_snapshot!("sparkline_flat_data", render_inline_svg(&primitive));
+    }
+
+    // ========================================================================
+    // Donut - Extended Snapshot Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(0u8, "donut_0")]
+    #[case(25u8, "donut_25")]
+    #[case(50u8, "donut_50")]
+    #[case(75u8, "donut_75")]
+    #[case(100u8, "donut_100")]
+    fn snapshot_donut_percentages(#[case] percent: u8, #[case] name: &str) {
+        let primitive = Primitive::Donut {
+            percent,
+            size: 60,
+            thickness: 6,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "4CAF50".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+        assert_snapshot!(format!("{}_percent", name), render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_donut_with_label() {
+        let primitive = Primitive::Donut {
+            percent: 65,
+            size: 80,
+            thickness: 8,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "2196F3".to_string(),
+            show_label: true,
+            label_color: Some("333333".to_string()),
+            thumb: None,
+        };
+        assert_snapshot!("donut_with_label", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_donut_label_too_small() {
+        // Label should NOT render when size < 30
+        let primitive = Primitive::Donut {
+            percent: 50,
+            size: 25,
+            thickness: 3,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "4CAF50".to_string(),
+            show_label: true,
+            label_color: Some("333333".to_string()),
+            thumb: None,
+        };
+        assert_snapshot!("donut_label_too_small", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_donut_with_thumb() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Donut {
+            percent: 45,
+            size: 70,
+            thickness: 6,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "FF5722".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: Some(ThumbConfig {
+                size: 12,
+                width: None,
+                color: None,
+                shape: "circle".to_string(),
+                border: None,
+                border_width: 0,
+            }),
+        };
+        assert_snapshot!("donut_with_thumb", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_donut_thumb_with_border() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Donut {
+            percent: 70,
+            size: 80,
+            thickness: 8,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "9C27B0".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: Some(ThumbConfig {
+                size: 14,
+                width: None,
+                color: Some("FFFFFF".to_string()),
+                shape: "circle".to_string(),
+                border: Some("9C27B0".to_string()),
+                border_width: 2,
+            }),
+        };
+        assert_snapshot!("donut_thumb_with_border", render_inline_svg(&primitive));
+    }
+
+    #[rstest]
+    #[case(40, 4, "donut_small")]
+    #[case(80, 8, "donut_medium")]
+    #[case(120, 12, "donut_large")]
+    fn snapshot_donut_sizes(#[case] size: u32, #[case] thickness: u32, #[case] name: &str) {
+        let primitive = Primitive::Donut {
+            percent: 60,
+            size,
+            thickness,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "3F51B5".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+        assert_snapshot!(name, render_inline_svg(&primitive));
+    }
+
+    // ========================================================================
+    // Gauge - Extended Snapshot Tests (Parameterized)
+    // ========================================================================
+
+    #[rstest]
+    #[case(0u8, "gauge_0")]
+    #[case(25u8, "gauge_25")]
+    #[case(50u8, "gauge_50")]
+    #[case(75u8, "gauge_75")]
+    #[case(100u8, "gauge_100")]
+    fn snapshot_gauge_percentages(#[case] percent: u8, #[case] name: &str) {
+        let primitive = Primitive::Gauge {
+            percent,
+            size: 100,
+            thickness: 10,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "4CAF50".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+        assert_snapshot!(format!("{}_percent", name), render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_gauge_with_label() {
+        let primitive = Primitive::Gauge {
+            percent: 55,
+            size: 120,
+            thickness: 12,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "2196F3".to_string(),
+            show_label: true,
+            label_color: Some("333333".to_string()),
+            thumb: None,
+        };
+        assert_snapshot!("gauge_with_label", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_gauge_with_thumb() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Gauge {
+            percent: 40,
+            size: 100,
+            thickness: 10,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "FF5722".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: Some(ThumbConfig {
+                size: 14,
+                width: None,
+                color: None,
+                shape: "circle".to_string(),
+                border: None,
+                border_width: 0,
+            }),
+        };
+        assert_snapshot!("gauge_with_thumb", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_gauge_thumb_with_border() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Gauge {
+            percent: 65,
+            size: 100,
+            thickness: 10,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "9C27B0".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: Some(ThumbConfig {
+                size: 16,
+                width: None,
+                color: Some("FFFFFF".to_string()),
+                shape: "circle".to_string(),
+                border: Some("9C27B0".to_string()),
+                border_width: 2,
+            }),
+        };
+        assert_snapshot!("gauge_thumb_with_border", render_inline_svg(&primitive));
+    }
+
+    #[test]
+    fn snapshot_gauge_label_and_thumb() {
+        use crate::primitive::ThumbConfig;
+        let primitive = Primitive::Gauge {
+            percent: 70,
+            size: 120,
+            thickness: 12,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "3F51B5".to_string(),
+            show_label: true,
+            label_color: Some("333333".to_string()),
+            thumb: Some(ThumbConfig {
+                size: 14,
+                width: None,
+                color: None,
+                shape: "circle".to_string(),
+                border: None,
+                border_width: 0,
+            }),
+        };
+        assert_snapshot!("gauge_label_and_thumb", render_inline_svg(&primitive));
+    }
+
+    #[rstest]
+    #[case(60, 6, "gauge_small")]
+    #[case(100, 10, "gauge_medium")]
+    #[case(140, 14, "gauge_large")]
+    fn snapshot_gauge_sizes(#[case] size: u32, #[case] thickness: u32, #[case] name: &str) {
+        let primitive = Primitive::Gauge {
+            percent: 60,
+            size,
+            thickness,
+            track_color: "E0E0E0".to_string(),
+            fill_color: "F44336".to_string(),
+            show_label: false,
+            label_color: None,
+            thumb: None,
+        };
+        assert_snapshot!(name, render_inline_svg(&primitive));
+    }
 }

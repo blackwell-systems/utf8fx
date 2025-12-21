@@ -1,0 +1,14 @@
+---
+source: crates/mdfx/src/renderer/svg/mod.rs
+expression: render_inline_svg(&primitive)
+---
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="35" viewBox="0 0 120 35">
+  <polygon points="3.0,32.0 25.8,17.5 48.6,21.1 71.4,6.6 94.2,13.9 117.0,3.0 117.0,32.0 3.0,32.0" fill="#9C27B0" fill-opacity="0.3"/>
+  <polyline points="3.0,32.0 25.8,17.5 48.6,21.1 71.4,6.6 94.2,13.9 117.0,3.0" fill="none" stroke="#7B1FA2" stroke-width="2"/>
+  <circle cx="3.0" cy="32.0" r="2" fill="#9C27B0"/>
+  <circle cx="25.8" cy="17.5" r="2" fill="#9C27B0"/>
+  <circle cx="48.6" cy="21.1" r="2" fill="#9C27B0"/>
+  <circle cx="71.4" cy="6.6" r="2" fill="#9C27B0"/>
+  <circle cx="94.2" cy="13.9" r="2" fill="#9C27B0"/>
+  <circle cx="117.0" cy="3.0" r="2" fill="#9C27B0"/>
+</svg>
