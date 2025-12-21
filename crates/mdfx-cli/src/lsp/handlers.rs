@@ -13,7 +13,7 @@ use crate::lsp::inlay_hints::generate_inlay_hints;
 use crate::lsp::parser::find_templates;
 use crate::lsp::semantic_tokens::tokenize_document;
 use crate::lsp::MdfxLanguageServer;
-use mdfx::components::params::{self, TECH_PARAMS};
+use mdfx::components::params::{self, params_for_visualization, TECH_PARAMS};
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
 use tower_lsp::LanguageServer;
@@ -33,6 +33,11 @@ impl LanguageServer for MdfxLanguageServer {
                         "=".to_string(),
                     ]),
                     resolve_provider: Some(false),
+                    ..Default::default()
+                }),
+                signature_help_provider: Some(SignatureHelpOptions {
+                    trigger_characters: Some(vec![":".to_string()]),
+                    retrigger_characters: Some(vec![":".to_string(), "=".to_string()]),
                     ..Default::default()
                 }),
                 hover_provider: Some(HoverProviderCapability::Simple(true)),
@@ -232,6 +237,74 @@ impl LanguageServer for MdfxLanguageServer {
 
         if let Some(open_pos) = before.rfind("{{") {
             let template_start = &before[open_pos + 2..];
+
+            // Check if cursor is over a parameter name (e.g., "fill=" or "size=")
+            // Look for param=value pattern around cursor
+            if let Some(eq_after) = after.find('=') {
+                // Check if there's a parameter name before the cursor
+                let param_end = col;
+                let full_line_before = &line[..param_end.min(line.len())];
+
+                // Find the start of the current word (parameter name)
+                if let Some(colon_pos) = full_line_before.rfind(':') {
+                    let potential_param = &full_line_before[colon_pos + 1..];
+                    // Only if we're right before = or on the param name
+                    if eq_after < 5 && !potential_param.contains('=') && !potential_param.is_empty() {
+                        // Extend to get full param name
+                        let param_name = if eq_after == 0 {
+                            potential_param.to_string()
+                        } else {
+                            format!("{}{}", potential_param, &after[..eq_after])
+                        };
+
+                        // Determine component type to look up params
+                        if let Some(ui_start) = template_start.find("ui:") {
+                            let ui_rest = &template_start[ui_start + 3..];
+
+                            // Check visualization components
+                            for viz_type in &["progress", "donut", "gauge", "sparkline", "rating", "waveform"] {
+                                if ui_rest.starts_with(&format!("{}:", viz_type)) {
+                                    if let Some(params) = params_for_visualization(viz_type) {
+                                        if let Some(param_info) = params.iter().find(|p| p.name == param_name) {
+                                            return Ok(Some(Hover {
+                                                contents: HoverContents::Markup(MarkupContent {
+                                                    kind: MarkupKind::Markdown,
+                                                    value: format!(
+                                                        "**{}** ({})\n\n{}\n\n**Example:** `{}`",
+                                                        param_info.name,
+                                                        viz_type,
+                                                        param_info.description,
+                                                        param_info.example
+                                                    ),
+                                                }),
+                                                range: None,
+                                            }));
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Check tech badge params
+                            if ui_rest.starts_with("tech:") {
+                                if let Some(param_info) = TECH_PARAMS.iter().find(|p| p.name == param_name) {
+                                    return Ok(Some(Hover {
+                                        contents: HoverContents::Markup(MarkupContent {
+                                            kind: MarkupKind::Markdown,
+                                            value: format!(
+                                                "**{}** (tech badge)\n\n{}\n\n**Example:** `{}`",
+                                                param_info.name,
+                                                param_info.description,
+                                                param_info.example
+                                            ),
+                                        }),
+                                        range: None,
+                                    }));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             // Check for glyph
             if let Some(glyph_name) = template_start.strip_prefix("glyph:") {
@@ -613,6 +686,118 @@ impl LanguageServer for MdfxLanguageServer {
         } else {
             Ok(Some(hints))
         }
+    }
+
+    async fn signature_help(&self, params: SignatureHelpParams) -> Result<Option<SignatureHelp>> {
+        let uri = params.text_document_position_params.text_document.uri;
+        let position = params.text_document_position_params.position;
+
+        let text = match self.get_document_content(&uri) {
+            Some(content) => content,
+            None => return Ok(None),
+        };
+
+        let lines: Vec<&str> = text.lines().collect();
+        let line_idx = position.line as usize;
+        if line_idx >= lines.len() {
+            return Ok(None);
+        }
+
+        let line = lines[line_idx];
+        let col = position.character as usize;
+        let before = &line[..col.min(line.len())];
+
+        // Look for opening {{ pattern
+        if let Some(open_pos) = before.rfind("{{") {
+            let after_open = &before[open_pos + 2..];
+
+            // Check for visualization components: {{ui:gauge:55:, {{ui:progress:75:, etc.
+            if let Some(rest) = after_open.strip_prefix("ui:") {
+                for viz_type in &["progress:", "donut:", "gauge:", "sparkline:", "rating:", "waveform:"] {
+                    if let Some(viz_rest) = rest.strip_prefix(viz_type) {
+                        let component = viz_type.trim_end_matches(':');
+
+                        // Only show signature help after value (after first colon)
+                        if viz_rest.contains(':') {
+                            if let Some(params) = params_for_visualization(component) {
+                                // Count colons to determine active parameter
+                                let param_index = viz_rest.matches(':').count().saturating_sub(1);
+
+                                // Build parameter info
+                                let parameters: Vec<ParameterInformation> = params
+                                    .iter()
+                                    .map(|p| ParameterInformation {
+                                        label: ParameterLabel::Simple(format!("{}=", p.name)),
+                                        documentation: Some(Documentation::String(format!(
+                                            "{}\nExample: {}",
+                                            p.description, p.example
+                                        ))),
+                                    })
+                                    .collect();
+
+                                let param_labels: Vec<String> = params
+                                    .iter()
+                                    .map(|p| format!("{}=...", p.name))
+                                    .collect();
+
+                                return Ok(Some(SignatureHelp {
+                                    signatures: vec![SignatureInformation {
+                                        label: format!(
+                                            "ui:{}:VALUE:{}",
+                                            component,
+                                            param_labels.join(":")
+                                        ),
+                                        documentation: Some(Documentation::String(format!(
+                                            "{} component parameters",
+                                            component
+                                        ))),
+                                        parameters: Some(parameters),
+                                        active_parameter: Some(param_index.min(params.len() - 1) as u32),
+                                    }],
+                                    active_signature: Some(0),
+                                    active_parameter: None,
+                                }));
+                            }
+                        }
+                    }
+                }
+
+                // Check for tech badge: {{ui:tech:NAME:
+                if let Some(tech_rest) = rest.strip_prefix("tech:") {
+                    // After tech name (has at least one colon after tech:)
+                    if tech_rest.contains(':') {
+                        let param_index = tech_rest.matches(':').count().saturating_sub(1);
+
+                        let parameters: Vec<ParameterInformation> = TECH_PARAMS
+                            .iter()
+                            .take(10) // Show first 10 most common params
+                            .map(|p| ParameterInformation {
+                                label: ParameterLabel::Simple(format!("{}=", p.name)),
+                                documentation: Some(Documentation::String(format!(
+                                    "{}\nExample: {}",
+                                    p.description, p.example
+                                ))),
+                            })
+                            .collect();
+
+                        return Ok(Some(SignatureHelp {
+                            signatures: vec![SignatureInformation {
+                                label: "ui:tech:NAME:style=...:bg=...:logo=...:label=...".to_string(),
+                                documentation: Some(Documentation::String(
+                                    "Tech badge parameters. Common: style, bg, logo, text, label, rx, border".to_string()
+                                )),
+                                parameters: Some(parameters),
+                                active_parameter: Some(param_index.min(9) as u32),
+                            }],
+                            active_signature: Some(0),
+                            active_parameter: None,
+                        }));
+                    }
+                }
+            }
+        }
+
+        Ok(None)
     }
 }
 
