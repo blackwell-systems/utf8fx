@@ -13,7 +13,7 @@ readme = "../../README.md"
 documentation = "https://docs.rs/mdfx-icons"
 
 [dependencies]
-mdfx-colors = { version = "1.0", path = "../mdfx-colors" }
+mdfx-colors = { version = "1.0.0-rc.1", path = "../mdfx-colors" }
 
 [dev-dependencies]
 rstest = "0.23"

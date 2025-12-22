@@ -17,10 +17,10 @@ default = []
 glyphs = []  # Include 500+ Unicode glyph mappings
 
 [dependencies]
-mdfx-colors = { version = "1.0", path = "../mdfx-colors" }
-mdfx-icons = { version = "1.0", path = "../mdfx-icons" }
+mdfx-colors = { version = "1.0.0-rc.1", path = "../mdfx-colors" }
+mdfx-icons = { version = "1.0.0-rc.1", path = "../mdfx-icons" }
 
 [dev-dependencies]
-mdfx = { version = "1.0", path = "../mdfx" }
+mdfx = { version = "1.0.0-rc.1", path = "../mdfx" }
 rstest = "0.23"
 insta = "1.40"

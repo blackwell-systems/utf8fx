@@ -127,7 +127,7 @@ checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 
 [[package]]
 name = "badgefx"
-version = "1.0.0"
+version = "1.0.0-rc.1"
 dependencies = [
  "insta",
  "mdfx",
@@ -1020,7 +1020,7 @@ dependencies = [
 
 [[package]]
 name = "mdfx"
-version = "1.0.0"
+version = "1.0.0-rc.1"
 dependencies = [
  "badgefx",
  "base64",
@@ -1044,7 +1044,7 @@ dependencies = [
 
 [[package]]
 name = "mdfx-cli"
-version = "1.0.0"
+version = "1.0.0-rc.1"
 dependencies = [
  "assert_cmd",
  "badgefx",
@@ -1070,14 +1070,14 @@ dependencies = [
 
 [[package]]
 name = "mdfx-colors"
-version = "1.0.0"
+version = "1.0.0-rc.1"
 dependencies = [
  "rstest",
 ]
 
 [[package]]
 name = "mdfx-fetch"
-version = "1.0.0"
+version = "1.0.0-rc.1"
 dependencies = [
  "rstest",
  "serde",
@@ -1089,7 +1089,7 @@ dependencies = [
 
 [[package]]
 name = "mdfx-icons"
-version = "1.0.0"
+version = "1.0.0-rc.1"
 dependencies = [
  "mdfx-colors",
  "rstest",

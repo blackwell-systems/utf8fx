@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+---
+
+## [1.0.0-rc.1] - 2025-12-22
+
 ### Added
 - **LSP inlay hints**: Live inline color swatches that update as you type. Color parameters in templates display a colored square (■) with the resolved hex color in a tooltip. Works with both hex colors and palette color names
 - **LSP hover previews**: Real-time SVG previews in hover popups for badges and visualizations. Hover over `{{ui:tech:rust/}}` to see the actual badge rendered inline - no disk I/O required. Supports all tech badge parameters (`style`, `bg`, `logo`, `border`, `rx`, `corners`, `chevron`, `raised`, etc.), swatches, progress bars, donut charts, gauges, and ratings. Palette colors are resolved automatically

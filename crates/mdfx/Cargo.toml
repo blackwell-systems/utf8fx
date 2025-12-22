@@ -27,10 +27,10 @@ chrono = { version = "0.4", features = ["serde"] }
 base64 = "0.22"
 regex = "1.10"
 xxhash-rust = { version = "0.8", features = ["xxh3"] }
-badgefx = { path = "../badgefx" }
-mdfx-icons = { path = "../mdfx-icons" }
-mdfx-colors = { path = "../mdfx-colors" }
-mdfx-fetch = { path = "../mdfx-fetch", optional = true }
+badgefx = { version = "1.0.0-rc.1", path = "../badgefx" }
+mdfx-icons = { version = "1.0.0-rc.1", path = "../mdfx-icons" }
+mdfx-colors = { version = "1.0.0-rc.1", path = "../mdfx-colors" }
+mdfx-fetch = { version = "1.0.0-rc.1", path = "../mdfx-fetch", optional = true }
 
 [dev-dependencies]
 criterion = "0.5"

@@ -18,10 +18,10 @@ lsp = ["tower-lsp", "tokio", "once_cell", "base64", "badgefx"]
 fetch = ["mdfx/fetch", "mdfx-fetch"]
 
 [dependencies]
-mdfx = { version = "1.0.0", path = "../mdfx" }
-mdfx-fetch = { version = "1.0.0", path = "../mdfx-fetch", optional = true }
-mdfx-icons = { version = "1.0.0", path = "../mdfx-icons" }
-badgefx = { version = "1.0.0", path = "../badgefx", optional = true }
+mdfx = { version = "1.0.0-rc.1", path = "../mdfx" }
+mdfx-fetch = { version = "1.0.0-rc.1", path = "../mdfx-fetch", optional = true }
+mdfx-icons = { version = "1.0.0-rc.1", path = "../mdfx-icons" }
+badgefx = { version = "1.0.0-rc.1", path = "../badgefx", optional = true }
 clap = { version = "4.4", features = ["derive", "cargo"] }
 clap_complete = "4.4"
 colored = "2.1"
